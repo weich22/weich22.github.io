@@ -4,5 +4,6 @@
     "avatarUrl":"https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644",
     "indexStyle":"<style>a.blogTitle {display: inline-block !important;}.d-flex {display: inline-block !important;}span.Label.LabelName {line-height: 12px !important;}span.Label.LabelTime {display: inline-block !important;}</style>",
     "script":"<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>",
+    "singlePage":["link"],
     "GMEEK_VERSION":"last"
 }
