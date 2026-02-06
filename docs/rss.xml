@@ -1,2 +1,23 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无神论者</title><link>https://weich22.github.io</link><description>QQ:858171725</description><copyright>无神论者</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://weich22.github.io</link></image><lastBuildDate>Fri, 06 Feb 2026 16:21:46 +0000</lastBuildDate><managingEditor>无神论者</managingEditor><ttl>60</ttl><webMaster>无神论者</webMaster><item><title>我的第一篇Gmeek</title><link>https://weich22.github.io/post/wo-de-di-yi-pian-Gmeek.html</link><description>这仅为测试Gmeek是否安装成功。</description><guid isPermaLink="true">https://weich22.github.io/post/wo-de-di-yi-pian-Gmeek.html</guid><pubDate>Fri, 06 Feb 2026 13:42:55 +0000</pubDate></item><item><title>网址</title><link>https://weich22.github.io/link.html</link><description>[极客日志](http://weich.ee)。</description><guid isPermaLink="true">https://weich22.github.io/link.html</guid><pubDate>Fri, 06 Feb 2026 16:02:13 +0000</pubDate></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无神论者</title><link>https://weich22.github.io</link><description>QQ:858171725</description><copyright>无神论者</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://weich22.github.io</link></image><lastBuildDate>Fri, 06 Feb 2026 17:11:54 +0000</lastBuildDate><managingEditor>无神论者</managingEditor><ttl>60</ttl><webMaster>无神论者</webMaster><item><title>我的第一篇Gmeek</title><link>https://weich22.github.io/post/wo-de-di-yi-pian-Gmeek.html</link><description>##自定义优化首页CSS##，添加代码到config.json，请删除我写的中文和括号
+```css
+'indexStyle':'&lt;style&gt;a.blogTitle {display: inline-block !important;}【优化手机端不显示博客顶部LOGO文字】.d-flex {display: inline-block !important;}【调节文章标签到文章下】.Label, .label {line-height: 12px !important;}【文章标签背景颜色框缩小一点】.LabelTime {display: inline-block !important;}【调节文章标签到手机显示不全或者不显示后面的日期】&lt;/style&gt;',
+```
+
+
+##添加友情链接##，添加代码到config.json
+[参考地址](https://blog.meekdai.com/post/%E3%80%90Gmeek-jin-jie-%E3%80%91-you-shang-jiao-yuan-an-niu-pei-zhi.html#%E7%AB%99%E5%86%85%E9%93%BE%E6%8E%A5)
+```
+'singlePage':['link'],
+```
+上面菜单占到`Issues`点开——新建一个文章`New issue`在靠近右边屏幕，添加标签必须为`link`，然后发布保存，再去全局生成.
+
+
+
+##Gmeek在GITHUB全局生成##，修改或者添加页面都需要做一次，发表文章除外，不过发生错误的时候也可以去全局生成试试.
+在顶部菜单找到：`Actions`点开——左边的菜单找到【手机需要横屏】`build Gmeek`点开——右边找到`Run workflow`点开下拉找到`Run workflow`点击，然后继续在Actions页面刷新等待查看处理好了没.
+
+
+
+##Gmeek修改文章##
+上面菜单占到`Issues`点开，找到要修改的文章标题点开，文章顶部有3个...点开找到`Edit`附近还有一个笔🖊一样的图标点开就可以修改文章了，修改完成后，文章底部有 Cancel 和 Save 的文字分别为 取消 和 保存.。</description><guid isPermaLink="true">https://weich22.github.io/post/wo-de-di-yi-pian-Gmeek.html</guid><pubDate>Fri, 06 Feb 2026 13:42:55 +0000</pubDate></item><item><title>网址</title><link>https://weich22.github.io/link.html</link><description>[极客日志](http://weich.ee)。</description><guid isPermaLink="true">https://weich22.github.io/link.html</guid><pubDate>Fri, 06 Feb 2026 16:02:13 +0000</pubDate></item></channel></rss>
