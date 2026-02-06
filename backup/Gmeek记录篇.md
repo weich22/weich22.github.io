@@ -55,7 +55,7 @@ body {max-width: initial !important;}
 
 
 禁止自动播放方法很简单，就是在视频 url 链接最后加上 `&autoplay=0`，例如：
-```
+```html
 <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=1305790042&bvid=BV1GM4m1m7ZD&cid=1588230883&p=1&autoplay=0"
 ```
 后面还有一段原复制的嵌入代码，那个不算视频url链接，应该是说属于参数而已吧。
