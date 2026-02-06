@@ -28,4 +28,13 @@
 ##Gmeek安装##
 【仅需一个Github账号，让文字在互联网中永生 超轻量级个人博客框架Gmeek-哔哩哔哩】 [https://b23.tv/LI3hM7E](https://b23.tv/LI3hM7E)
 
-`Gmeek-html<iframe src="//player.bilibili.com/video/BV1GM4m1m7ZD?buvid=XUD3794D5CDC03ABC34466C3CAD7DF6E83071&from_spmid=main.my-history.0.0&is_story_h5=false&mid=gjLnfsZ8h7NDanyvv1XEs38FTQ/SZMtL1rElX6M3iMo=&p=1&plat_id=116&share_from=ugc&share_medium=android&share_plat=android&share_session_id=d1c4d298-5de7-412b-9021-6062ed3b9cc9&share_source=COPY&share_tag=s_i&spmid=united.player-video-detail.0.0&timestamp=1770372133&unique_k=LI3hM7E&up_id=316183842" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="100%" height="460px"></iframe>`
+`Gmeek-html<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=1305790042&bvid=BV1GM4m1m7ZD&cid=1588230883&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>`
+
+
+##Gmeek嵌入外部网站视频##，比如b站
+主要代码：
+```html
+`Gmeek-htmlxxx`
+```
+其中的xxx是改成if的嵌入代码，比如b站的嵌入代码，又在哪找呢？
+用电脑网页打开一个b站视频，找到视频下面的分享就有`嵌入代码`了，如果是手机编写文章的话，也可以用浏览器请求打开电脑页面也是一样，具体看你用的是哪个浏览器，有的手机电脑浏览好了直接有电脑模式什么的。
