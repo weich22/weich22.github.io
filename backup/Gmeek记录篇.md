@@ -14,7 +14,7 @@
 
 
 ##Gmeek在GITHUB全局生成##，修改或者添加页面都需要做一次，发表文章除外，不过发生错误的时候也可以去全局生成试试.
-在顶部菜单找到：`Actions`点开——左边的菜单找到【手机需要横屏】`build Gmeek`点开——右边找到`Run workflow`点开下拉找到`Run workflow`点击，然后继续在Actions页面刷新等待查看处理好了没.
+在顶部菜单找到：`Actions`点开——左边的菜单找到【手机需要横屏或者也是在Actions页面找到`All workflows`下拉才能看到】`build Gmeek`点开——右边找到`Run workflow`点开下拉找到`Run workflow`点击，然后继续在Actions页面刷新等待查看处理好了没.
 
 
 
