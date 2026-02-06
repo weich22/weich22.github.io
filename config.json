@@ -4,6 +4,7 @@
     "avatarUrl":"https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644",
     "indexStyle":"<style>a.blogTitle {display: inline-block !important;}.d-flex {display: inline-block !important;}.Label, .label {line-height: 12px !important;}.LabelTime {display: inline-block !important;}body {max-width: initial !important;}</style>",
     "style":"<style>body {max-width: initial !important;}</style>",
+    "tagstyle":"<style>body {max-width: initial !important;}</style>",
     "script":"<script src='https://blog.meekdai.com/Gmeek/plugins/articletoc.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>",
     "singlePage":["link"],
     "startSite":"02/6/2026",
