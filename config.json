@@ -4,5 +4,6 @@
     "avatarUrl":"https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644",
     "indexStyle":"<style>a.blogTitle {display: inline-block !important;}</style>",
     "indexStyle":"<style>.d-flex.flex-items-center {display: inline-block !important;}</style>",
+    "indexStyle":"<style>.Label {line-height: 12px;}</style>",
     "GMEEK_VERSION":"last"
 }
