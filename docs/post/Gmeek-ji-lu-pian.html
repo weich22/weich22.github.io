@@ -40,7 +40,7 @@
 ##Gmeek安装##
 【仅需一个Github账号，让文字在互联网中永生 超轻量级个人博客框架Gmeek-哔哩哔哩】 [https://b23.tv/LI3hM7E](https://b23.tv/LI3hM7E)
 
-`Gmeek-html<iframe src='//player.bilibili.com/player.html?isOutside=true&aid=1305790042&bvid=BV1GM4m1m7ZD&cid=1588230883&p=1' scrolling='no' border='0' frameborder='no' framespacing='0' allowfullscreen='true'></iframe>`
+`Gmeek-html<iframe src='//player.bilibili.com/player.html?isOutside=true&aid=1305790042&bvid=BV1GM4m1m7ZD&cid=1588230883&p=1&autoplay=0' scrolling='no' border='0' frameborder='no' framespacing='0' allowfullscreen='true'></iframe>`
 
 
 ##Gmeek嵌入外部网站视频##，比如b站
@@ -81,7 +81,7 @@
 ##Gmeek安装##
 【仅需一个Github账号，让文字在互联网中永生 超轻量级个人博客框架Gmeek-哔哩哔哩】 [https://b23.tv/LI3hM7E](https://b23.tv/LI3hM7E)
 
-`Gmeek-html<iframe src='//player.bilibili.com/player.html?isOutside=true&aid=1305790042&bvid=BV1GM4m1m7ZD&cid=1588230883&p=1' scrolling='no' border='0' frameborder='no' framespacing='0' allowfullscreen='true'></iframe>`
+`Gmeek-html<iframe src='//player.bilibili.com/player.html?isOutside=true&aid=1305790042&bvid=BV1GM4m1m7ZD&cid=1588230883&p=1&autoplay=0' scrolling='no' border='0' frameborder='no' framespacing='0' allowfullscreen='true'></iframe>`
 
 
 ##Gmeek嵌入外部网站视频##，比如b站
@@ -175,12 +175,16 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>##修改文件##，比如经常修改<code class="notranslate">config.json</code> 点开文件后找到文件上方的一个笔🖊型图标点开文字是： <code class="notranslate">Edit this file</code>修改完成了，在文件顶部找到 <code class="notranslate">GmeekCommit changes...</code>点开再找到<code class="notranslate">GmeekCommit changes</code>点击一次，修改Code里面的文件要去全部生成一次才会生效的.</p>
 <p>##Gmeek安装##<br>
 【仅需一个Github账号，让文字在互联网中永生 超轻量级个人博客框架Gmeek-哔哩哔哩】 <a href="https://b23.tv/LI3hM7E" rel="nofollow">https://b23.tv/LI3hM7E</a></p>
-<p><iframe src="//player.bilibili.com/player.html?isOutside=true&aid=1305790042&bvid=BV1GM4m1m7ZD&cid=1588230883&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></p>
+<p><iframe src="//player.bilibili.com/player.html?isOutside=true&aid=1305790042&bvid=BV1GM4m1m7ZD&cid=1588230883&p=1&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></p>
 <p>##Gmeek嵌入外部网站视频##，比如b站<br>
 主要代码：</p>
 <div class="highlight highlight-text-html-basic"><pre class="notranslate">`Gmeek-htmlxxx`</pre></div>
 <p>其中的xxx是改成if的嵌入代码，比如b站的嵌入代码，又在哪找呢？<br>
-用电脑网页打开一个b站视频，找到视频下面的分享就有<code class="notranslate">嵌入代码</code>了，如果是手机编写文章的话，也可以用浏览器请求打开电脑页面也是一样，具体看你用的是哪个浏览器，有的手机电脑浏览好了直接有电脑模式什么的。</p></div>
+用电脑网页打开一个b站视频，找到视频下面的分享就有<code class="notranslate">嵌入代码</code>了，如果是手机编写文章的话，也可以用浏览器请求打开电脑页面也是一样，具体看你用的是哪个浏览器，有的手机电脑浏览好了直接有电脑模式什么的。</p>
+<p>禁止自动播放方法很简单，就是在视频 url 链接最后加上 autoplay=0。例如：</p>
+<pre class="notranslate"><code class="notranslate">&lt;iframe src="//player.bilibili.com/player.html?isOutside=true&amp;aid=1305790042&amp;bvid=BV1GM4m1m7ZD&amp;cid=1588230883&amp;p=1&amp;autoplay=0"
+</code></pre>
+<p>后面还有一段原复制的嵌入代码，那个不算视频url链接，应该是说属于参数而已吧。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

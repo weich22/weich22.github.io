@@ -28,7 +28,7 @@
 ##Gmeek安装##
 【仅需一个Github账号，让文字在互联网中永生 超轻量级个人博客框架Gmeek-哔哩哔哩】 [https://b23.tv/LI3hM7E](https://b23.tv/LI3hM7E)
 
-`Gmeek-html<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=1305790042&bvid=BV1GM4m1m7ZD&cid=1588230883&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>`
+`Gmeek-html<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=1305790042&bvid=BV1GM4m1m7ZD&cid=1588230883&p=1&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>`
 
 
 ##Gmeek嵌入外部网站视频##，比如b站
@@ -38,3 +38,10 @@
 ```
 其中的xxx是改成if的嵌入代码，比如b站的嵌入代码，又在哪找呢？
 用电脑网页打开一个b站视频，找到视频下面的分享就有`嵌入代码`了，如果是手机编写文章的话，也可以用浏览器请求打开电脑页面也是一样，具体看你用的是哪个浏览器，有的手机电脑浏览好了直接有电脑模式什么的。
+
+
+禁止自动播放方法很简单，就是在视频 url 链接最后加上 autoplay=0。例如：
+```
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=1305790042&bvid=BV1GM4m1m7ZD&cid=1588230883&p=1&autoplay=0"
+```
+后面还有一段原复制的嵌入代码，那个不算视频url链接，应该是说属于参数而已吧。
