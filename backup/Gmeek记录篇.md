@@ -28,4 +28,4 @@
 ##Gmeek安装##
 【仅需一个Github账号，让文字在互联网中永生 超轻量级个人博客框架Gmeek-哔哩哔哩】 [https://b23.tv/LI3hM7E](https://b23.tv/LI3hM7E)
 
-`Gmeek-html<iframe src="https://b23.tv/LI3hM7E" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="100%" height="460px"></iframe>`
+`Gmeek-html<iframe src="https://upos-hz-mirrorakam.akamaized.net/upgcxcode/83/08/1588230883/1588230883-1-16.mp4?e=ig8euxZM2rNcNbRVhwdVhwdlhWdVhwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&os=akam&og=hw&deadline=1770408538&nbs=1&platform=html5&trid=4760d7ff0d2c46d69e1130645115d9fh&oi=2490437902&uipk=5&mid=0&gen=playurlv3&upsig=785b44846e78dfcaf98491bf3109c52f&uparams=e,os,og,deadline,nbs,platform,trid,oi,uipk,mid,gen&hdnts=exp=1770408538~hmac=5192f8360f9d7129649d1c229056fd1ba3d71f513582e7ee6c9c374393c6d6e4&bvc=vod&nettype=0&bw=140100&agrr=1&buvid=&build=0&dl=0&f=h_0_0&orderid=0,1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="100%" height="460px"></iframe>`
