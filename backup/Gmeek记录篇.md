@@ -27,3 +27,5 @@
 
 ##Gmeek安装##
 【仅需一个Github账号，让文字在互联网中永生 超轻量级个人博客框架Gmeek-哔哩哔哩】 [https://b23.tv/LI3hM7E](https://b23.tv/LI3hM7E)
+
+`Gmeek-html<iframe src="https://b23.tv/LI3hM7E" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="100%" height="460px"></iframe>`
