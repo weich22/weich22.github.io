@@ -4,7 +4,15 @@
 "indexStyle":"<style>a.blogTitle {display: inline-block !important;}【优化手机端不显示博客顶部LOGO文字】.d-flex {display: inline-block !important;}【调节文章标签到文章下】.Label, .label {line-height: 12px !important;}【文章标签背景颜色框缩小一点】.LabelTime {display: inline-block !important;}【调节文章标签到手机显示不全或者不显示后面的日期】</style>",
 ```
 又修改添加了一个，不限制博客最大宽度
-`body {max-width: initial !important;}`
+```css
+body {max-width: initial !important;}
+```
+
+不限制文章页面最大宽度
+```css
+"style":"<style>body {max-width: initial !important;}</style>",
+```
+
 
 ### 添加友情链接
 添加代码到config.json
