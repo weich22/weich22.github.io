@@ -8,5 +8,8 @@
     "script":"<script src='https://blog.meekdai.com/Gmeek/plugins/articletoc.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>",
     "singlePage":["link"],
     "startSite":"02/6/2026",
+    "i18n":"CN", 
+    "UTC":8,
+    "allHead":"<link rel=\"preconnect\" href=\"https://code.buxiantang.top\"><link rel=\"preconnect\" href=\"https://blog.meekdai.com\"><link rel=\"stylesheet\" href=\"https://code.buxiantang.top/assets/GmeekBaseTheme.css\"><script src=\"https://code.buxiantang.top/assets/GmeekCustomizeCss.js\"></script>",
     "GMEEK_VERSION":"last"
 }
