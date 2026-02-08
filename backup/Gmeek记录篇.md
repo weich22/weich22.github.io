@@ -34,7 +34,7 @@ body {max-width: initial !important;}
 上面菜单占到`Issues`点开，找到要修改的文章标题点开，文章顶部有3个...点开找到`Edit`附近还有一个笔🖊一样的图标点开就可以修改文章了，修改完成后，文章底部有 Cancel 和 Save 的文字分别为 取消 和 保存.
 
 
-###修改文件
+### 修改文件
 比如经常修改`config.json` 点开文件后找到文件上方的一个笔🖊型图标点开文字是： `Edit this file`修改完成了，在文件顶部找到 `GmeekCommit changes...`点开再找到`GmeekCommit changes`点击一次，修改Code里面的文件要去全部生成一次才会生效的.
 
 
