@@ -12,6 +12,6 @@
     "UTC":8,
     "showPostSource":0,
     "bottomText":"随意转载但希望能注明出处",
-    "allHead":"<link rel=\"stylesheet\" href=\"https://weich22.github.io/assets/GmeekBaseTheme.css\"><script src=\"https://weich22.github.io/assets/GmeekCustomizeCss.js\"></script>",
+    "allHead":"<link rel=\"stylesheet\" href=\"https://weich22.github.io/assets/GmeekBaseTheme.css\"><script src=\"https://weich22.github.io/assets/GmeekCustomizeCss.js\"></script><script src='https://weich22.github.io/assets/GmeekVercount.js'></script>",
     "GMEEK_VERSION":"last"
 }
