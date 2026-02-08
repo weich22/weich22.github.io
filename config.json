@@ -10,6 +10,8 @@
     "startSite":"02/6/2026",
     "i18n":"CN", 
     "UTC":8,
+    "showPostSource":0,
+    "bottomText":"随意转载但希望能注明出处，以备更新后更多人能看到",
     "allHead":"<link rel=\"stylesheet\" href=\"https://weich22.github.io/assets/GmeekBaseTheme.css\"><script src=\"https://weich22.github.io/assets/GmeekCustomizeCss.js\"></script>",
     "GMEEK_VERSION":"last"
 }
