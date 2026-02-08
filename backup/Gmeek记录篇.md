@@ -64,10 +64,22 @@ body {max-width: initial !important;}
 后面还有一段原复制的嵌入代码，那个不算视频url链接，应该是说属于参数而已吧。
 
 ### Gmeek UI增强插件
-[Gmeek UI 增强插件](https://code.buxiantang.top/post/🍎 Gmeek UI -zeng-qiang-cha-jian-shi-yong-jiao-cheng.html)
+[参考：Gmeek UI 增强插件](https://code.buxiantang.top/post/🍎 Gmeek UI -zeng-qiang-cha-jian-shi-yong-jiao-cheng.html)
 也就是添加一个css和一个js文件引用并到：`Code`的`config.json`文件内
-```
+
+```html
 "allHead":"<link rel=\"stylesheet\" href=\"https://weich22.github.io/assets/GmeekBaseTheme.css\"><script src=\"https://weich22.github.io/assets/GmeekCustomizeCss.js\"></script><script src='https://weich22.github.io/assets/GmeekVercount.js'></script>",
 ```
-GmeekBaseTheme.css和GmeekCustomizeCss.js文件，也可以自己本地化两个文件保存下来上传到项目的static/assets文件夹内，没有这个文件夹的自己创建，创建static文件夹的时候在后面加个斜杠就是文件夹了，assets也是一样的，static/assets/斜杠最后随便创建个文件比如123.txt也可以，创建好了再去删除那个不用的TXT文件就好了，其实我也不知道有多大用，先加了再说…
+`GmeekBaseTheme.css`和`GmeekCustomizeCss.js`文件，也可以自己本地化两个文件保存下来上传到项目的`static/assets`文件夹内，没有这个文件夹的自己创建，创建`static`文件夹的时候在后面加个斜杠就是文件夹了，`assets`也是一样的，`static/assets/`斜杠最后随便创建个文件比如`123.txt`也可以，创建好了再去删除那个不用的TXT文件就好了，引用的地址是你的 `主链接` 加 `忽略static文件夹` 之后的 `assets文件夹` `加文件名` 作为地址就好了，其实我也不知道有多大用，先加了再说…
 
+
+### 添加文章目录和文章图片灯箱
+
+[参考：文件目录和文章图片灯箱插件](https://blog.meekdai.com/post/【Gmeek-jin-jie-】-cha-jian-gong-neng-de-shi-yong.html#articletoc)
+
+我用的文章目录是 `articletoc` 的，因为我觉得这个在文章右下角只有一个图标需要的时候点开好点。
+也是可以本地化，如上面的上转到一个文件夹可以引用，我的也是本地化了，预防别人项目不在了或者改变了，自己的还在，但是别人更新了，只能自己再去下载上传。
+
+```html
+"script":"<script src='https://weich22.github.io/assets/articletoc.js'></script><script src='https://weich22.github.io/assets/lightbox.js'></script>",
+```
