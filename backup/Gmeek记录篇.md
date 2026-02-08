@@ -62,3 +62,8 @@ body {max-width: initial !important;}
 <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=1305790042&bvid=BV1GM4m1m7ZD&cid=1588230883&p=1&autoplay=0"
 ```
 后面还有一段原复制的嵌入代码，那个不算视频url链接，应该是说属于参数而已吧。
+
+### Gmeek UI增强插件
+[Gmeek UI 增强插件](https://code.buxiantang.top/post/🍎 Gmeek UI -zeng-qiang-cha-jian-shi-yong-jiao-cheng.html)
+也就是添加一个css和一个js文件引用到：
+GmeekBaseTheme.css和GmeekCustomizeCss.js文件，也可以自己本地化两个文件保存下来上传到项目的static/assets文件夹内，没有这个文件夹的自己创建，创建static文件夹的时候在后面加个斜杠就是文件夹了，assets也是一样的，static/assets/斜杠最后随便创建个文件比如123.txt也可以，创建好了再去删除那个不用的TXT文件就好了。
