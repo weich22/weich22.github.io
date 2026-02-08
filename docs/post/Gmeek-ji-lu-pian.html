@@ -225,8 +225,10 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>后面还有一段原复制的嵌入代码，那个不算视频url链接，应该是说属于参数而已吧。</p>
 <h3>Gmeek UI增强插件</h3>
 <p>[Gmeek UI 增强插件](<a href="https://code.buxiantang.top/post/%F0%9F%8D%8E" rel="nofollow">https://code.buxiantang.top/post/🍎</a> Gmeek UI -zeng-qiang-cha-jian-shi-yong-jiao-cheng.html)<br>
-也就是添加一个css和一个js文件引用到：<br>
-GmeekBaseTheme.css和GmeekCustomizeCss.js文件，也可以自己本地化两个文件保存下来上传到项目的static/assets文件夹内，没有这个文件夹的自己创建，创建static文件夹的时候在后面加个斜杠就是文件夹了，assets也是一样的，static/assets/斜杠最后随便创建个文件比如123.txt也可以，创建好了再去删除那个不用的TXT文件就好了。</p></div>
+也就是添加一个css和一个js文件引用并到：<code class="notranslate">Code</code>的<code class="notranslate">config.json</code>文件内</p>
+<pre class="notranslate"><code class="notranslate">"allHead":"&lt;link rel=\"stylesheet\" href=\"https://weich22.github.io/assets/GmeekBaseTheme.css\"&gt;&lt;script src=\"https://weich22.github.io/assets/GmeekCustomizeCss.js\"&gt;&lt;/script&gt;&lt;script src='https://weich22.github.io/assets/GmeekVercount.js'&gt;&lt;/script&gt;",
+</code></pre>
+<p>GmeekBaseTheme.css和GmeekCustomizeCss.js文件，也可以自己本地化两个文件保存下来上传到项目的static/assets文件夹内，没有这个文件夹的自己创建，创建static文件夹的时候在后面加个斜杠就是文件夹了，assets也是一样的，static/assets/斜杠最后随便创建个文件比如123.txt也可以，创建好了再去删除那个不用的TXT文件就好了，其实我也不知道有多大用，先加了再说…</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
