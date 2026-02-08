@@ -65,7 +65,7 @@ body {max-width: initial !important;}
 
 ### Gmeek UI增强插件
 [参考：Gmeek UI 增强插件](https://code.buxiantang.top/post/🍎 Gmeek UI -zeng-qiang-cha-jian-shi-yong-jiao-cheng.html)
-也就是添加一个css和一个js文件引用并到：`Code`的`config.json`文件内
+也就是添加一个css和一个js文件并引用到：`Code`的`config.json`文件内
 
 ```html
 "allHead":"<link rel=\"stylesheet\" href=\"https://weich22.github.io/assets/GmeekBaseTheme.css\"><script src=\"https://weich22.github.io/assets/GmeekCustomizeCss.js\"></script><script src='https://weich22.github.io/assets/GmeekVercount.js'></script>",
@@ -77,6 +77,7 @@ body {max-width: initial !important;}
 
 [参考：文件目录和文章图片灯箱插件](https://blog.meekdai.com/post/【Gmeek-jin-jie-】-cha-jian-gong-neng-de-shi-yong.html#articletoc)
 
+文章目录是articletoc.js和文章图片灯箱lightbox.js两个文件
 我用的文章目录是 `articletoc` 的，因为我觉得这个在文章右下角只有一个图标需要的时候点开好点。
 也是可以本地化，如上面的上转到一个文件夹可以引用，我的也是本地化了，预防别人项目不在了或者改变了，自己的还在，但是别人更新了，只能自己再去下载上传。
 
