@@ -5,11 +5,11 @@
     "indexStyle":"<style>a.blogTitle {display: inline-block !important;}.d-flex {display: inline-block !important;}.Label, .label {line-height: 12px !important;}.LabelTime {display: inline-block !important;}body {max-width: initial !important;}</style>",
     "style":"<style>body {max-width: initial !important;}</style>",
     "tagstyle":"<style>body {max-width: initial !important;}</style>",
-    "script":"<script src='https://blog.meekdai.com/Gmeek/plugins/articletoc.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>",
+    "script":"<script src='https://weich22.github.io/assets/articletoc.js'></script><script src='https://weich22.github.io/assets/lightbox.js'></script>",
     "singlePage":["link"],
     "startSite":"02/6/2026",
     "i18n":"CN", 
     "UTC":8,
-    "allHead":"<link rel=\"preconnect\" href=\"https://code.buxiantang.top\"><link rel=\"preconnect\" href=\"https://blog.meekdai.com\"><link rel=\"stylesheet\" href=\"https://code.buxiantang.top/assets/GmeekBaseTheme.css\"><script src=\"https://code.buxiantang.top/assets/GmeekCustomizeCss.js\"></script>",
+    "allHead":"<link rel=\"stylesheet\" href=\"https://weich22.github.io/assets/GmeekBaseTheme.css\"><script src=\"https://weich22.github.io/assets/GmeekCustomizeCss.js\"></script>",
     "GMEEK_VERSION":"last"
 }
