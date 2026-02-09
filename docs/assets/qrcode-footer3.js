@@ -16,12 +16,12 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     
     <div style="margin-bottom:12px;">
-      <img src="https://weich22.github.io/img/wxzym.webp" style="width:160px; height:160px; object-fit:cover;">
+      <img src="/img/wxzym.webp" style="width:160px; height:160px; object-fit:cover;">
       <div style="font-size:14px; margin-top:6px;">↑微信打赏↑</div>
     </div>
     
     <div>
-      <img src="https://weich22.github.io/img/zfbskn.jpg" style="width:160px; height:160px; object-fit:cover;">
+      <img src="/img/zfbskn.jpg" style="width:160px; height:160px; object-fit:cover;">
       <div style="font-size:14px; margin-top:6px;">↑支付宝打赏↑</div>
     </div>
     
