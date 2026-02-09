@@ -1,3 +1,4 @@
+//by：weich
 // Gmeek全局底部插入扫码打开二维码 - 自动适配所有页面
 document.addEventListener('DOMContentLoaded', function() {
   // 1. 动态创建扫码模块的HTML结构
