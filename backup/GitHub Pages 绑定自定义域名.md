@@ -6,3 +6,5 @@
 
 ### 勾选开启https
 勾选后github默认帮你申请免费的3个月的https，到时候自动帮你续https。
+
+[参考：域名 DNS 解析到自己的 Github Page 页面（github page 绑定自己的域名）](https://www.cnblogs.com/xieqk/p/Github-Page-DNS.html)
