@@ -4,11 +4,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var html = `
 <div class="qrcode-root" style="position:fixed; bottom:58px; right:2px; z-index:9999;">
-  <div class="qrcode-btn" style="background:#f74023;/* border:1px solid #eee;*/ border-radius:8px;/* padding:10px 14px;*/ box-shadow:0 2px 10px rgba(0,0,0,0.1);cursor:pointer;">
+  <div class="qrcode-btn" style="background:#f74023;/* border:1px solid #eee;*/ border-radius:4px;/* padding:10px 14px;*/ box-shadow:0 2px 10px rgba(0,0,0,0.1);cursor:pointer;">
     扫码打开/赏
   </div>
 
-  <div class="qrcode-popup" style="display:none; position:absolute; bottom:60px; right:0; background:#f74023;/* border:1px solid #eee;*/ border-radius:8px; padding:15px; width:180px; text-align:center; box-shadow:0 2px 15px rgba(0,0,0,0.1);">
+  <div class="qrcode-popup" style="display:none; position:absolute; bottom:60px; right:0; background:#f74023;/* border:1px solid #eee;*/ border-radius:10px; padding:8px; width:180px; text-align:center; box-shadow:0 2px 15px rgba(0,0,0,0.1);">
     
     <div style="margin-bottom:12px;">
       <img src="${pageQr}" style="width:160px; height:160px; object-fit:cover;">
