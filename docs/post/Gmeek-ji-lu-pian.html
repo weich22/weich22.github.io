@@ -141,8 +141,10 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 .<span class="pl-c1">Label</span><span class="pl-kos">,</span> .<span class="pl-c1">label</span> {<span class="pl-c1">line-height</span><span class="pl-kos">:</span> <span class="pl-c1">12<span class="pl-smi">px</span></span> <span class="pl-k">!important</span>;}<span class="pl-c">/*文章标签背景颜色框缩小一点*/</span>
 .<span class="pl-c1">LabelTime</span> {<span class="pl-c1">display</span><span class="pl-kos">:</span> inline-block <span class="pl-k">!important</span>;}<span class="pl-c">/*调节文章标签到手机显示不全或者不显示后面的日期*/</span></pre></div>
 <p>然后上传到<code class="notranslate">static/assets/</code>文件夹内再添加代码到config.json引用就好了。</p>
-<pre class="notranslate"><code class="notranslate">"allHead":"&lt;link rel=\"stylesheet\" href='https://weich22.github.io/assets/zdy.css'&gt;",
-</code></pre>
+<div class="highlight highlight-text-html-basic"><pre class="notranslate">"allHead":"<span class="pl-kos">&lt;</span><span class="pl-ent">link</span> <span class="pl-c1">rel</span>=<span class="pl-s">\</span>"stylesheet\" href='https://weich22.github.io/assets/zdy.css'<span class="pl-kos">&gt;</span>",</pre></div>
+<h3>资源链接引用方式推荐</h3>
+<p>推荐如下这样引用，为了预防以后更换域名，https问题很多现代浏览器不给你加载会发生错误，就是不要前面的域名以根目录斜杠 <code class="notranslate">/</code> 顶替，会自动帮你解析访问的本站绑定的域名上去。</p>
+<div class="highlight highlight-text-html-basic"><pre class="notranslate">"allHead":"<span class="pl-kos">&lt;</span><span class="pl-ent">link</span> <span class="pl-c1">rel</span>=<span class="pl-s">\</span>"stylesheet\" href='/assets/zdy.css'<span class="pl-kos">&gt;</span>",</pre></div>
 <h3>添加友情链接</h3>
 <p>添加代码到config.json<br>
 <a href="https://blog.meekdai.com/post/%E3%80%90Gmeek-jin-jie-%E3%80%91-you-shang-jiao-yuan-an-niu-pei-zhi.html#%E7%AB%99%E5%86%85%E9%93%BE%E6%8E%A5" rel="nofollow">参考地址</a></p>

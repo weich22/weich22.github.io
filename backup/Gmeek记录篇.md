@@ -24,8 +24,14 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 ```
 
 然后上传到`static/assets/`文件夹内再添加代码到config.json引用就好了。
-```
+```html
 "allHead":"<link rel=\"stylesheet\" href='https://weich22.github.io/assets/zdy.css'>",
+```
+### 资源链接引用方式推荐
+推荐如下这样引用，为了预防以后更换域名，https问题很多现代浏览器不给你加载会发生错误，就是不要前面的域名以根目录斜杠 `/` 顶替，会自动帮你解析访问的本站绑定的域名上去。
+```html
+"allHead":"<link rel=\"stylesheet\" href='/assets/zdy.css'>",
+
 ```
 
 ### 添加友情链接
