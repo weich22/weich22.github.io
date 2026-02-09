@@ -1,1 +1,5 @@
-购买域名的地方，子域名或者主域名（你用哪个就解析那个）解析做CNAME记录到你原来的Github Pages域名，再到Github Pages里面输入你刚刚CNAME到Github Pages的域名绑定，等待几分钟才可以勾选开启https，勾选后github默认帮你申请免费的3个月的https，到时候自动帮你续https。
+购买域名的地方，子域名或者主域名（你用哪个就解析那个）解析做CNAME记录到你原来的Github Pages域名（一般都是你github用户名加.github.io，比如：xxx.github.io，xxx是你的github用户要求，除非你之前申请的是后面有仓库名，是哪个就绑定那个）。
+
+再到github page 仓库处进入设置 ”settings“的Pages输入你刚刚CNAME到Github Pages的域名绑定，点击Save保存，等待几分钟才可以勾选开启https。
+
+勾选后github默认帮你申请免费的3个月的https，到时候自动帮你续https。
