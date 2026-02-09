@@ -11,7 +11,7 @@ var html = `
 
 <div class="qrcode-btn" style="background:#ed482d; border:1px solid #eee; border-radius:8px; /*padding:10px 14px; */box-shadow:0 2px 10px rgba(0,0,0,0.1);cursor:pointer;">
 
-扫码打开/赏
+扫码打开 / 赏
 
 </div>
 
