@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://weich22.github.io</link><description>日常折腾于生活记录</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://weich22.github.io</link></image><lastBuildDate>Mon, 09 Feb 2026 14:43:45 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek记录篇</title><link>https://weich22.github.io/post/Gmeek-ji-lu-pian.html</link><description>### 自定义优化首页CSS
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://weich22.github.io</link><description>日常折腾于生活记录</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://weich22.github.io</link></image><lastBuildDate>Mon, 09 Feb 2026 14:45:12 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek记录篇</title><link>https://weich22.github.io/post/Gmeek-ji-lu-pian.html</link><description>### 自定义优化首页CSS
 添加代码到config.json，请删除我写的中文和括号
 ```css
 'indexStyle':'&lt;style&gt;a.blogTitle {display: inline-block !important;}【优化手机端不显示博客顶部LOGO文字】.d-flex {display: inline-block !important;}【调节文章标签到文章下】.Label, .label {line-height: 12px !important;}【文章标签背景颜色框缩小一点】.LabelTime {display: inline-block !important;}【调节文章标签到手机显示不全或者不显示后面的日期】&lt;/style&gt;',
@@ -29,4 +29,28 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 
 &lt;a href='https://github.com' target='_blank' target='_top' rel='noopener noreferrer'&gt;GitHub（新窗口）&lt;/a&gt;
 
-&lt;a href='https://baidu.com' onclick='window.open(this.href);return false;' rel='noopener noreferrer'&gt;百度（新窗口）&lt;/a&gt;。</description><guid isPermaLink="true">https://weich22.github.io/link.html</guid><pubDate>Fri, 06 Feb 2026 16:02:13 +0000</pubDate></item></channel></rss>
+&lt;a href='https://baidu.com' onclick='window.open(this.href);return false;' rel='noopener noreferrer'&gt;百度（新窗口）&lt;/a&gt;
+
+
+
+# 我的博客文章
+这里是正文内容，下面是自定义新窗口链接：
+
+&lt;a href='https://github.com' id='github-link'&gt;我的GitHub&lt;/a&gt;
+&lt;a href='https://baidu.com' id='baidu-link'&gt;百度&lt;/a&gt;
+
+&lt;!-- JS直接写在链接下方，前后空行，GitHub会正常解析 --&gt;
+&lt;script&gt;
+const linkIds = ['github-link', 'baidu-link'];
+linkIds.forEach(id =&gt; {
+  const link = document.getElementById(id);
+  if (link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.open(this.href, '_blank');
+    });
+  }
+});
+&lt;/script&gt;
+
+这里是文章后续内容...。</description><guid isPermaLink="true">https://weich22.github.io/link.html</guid><pubDate>Fri, 06 Feb 2026 16:02:13 +0000</pubDate></item></channel></rss>
