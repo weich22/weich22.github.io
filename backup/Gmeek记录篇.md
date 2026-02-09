@@ -103,3 +103,10 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 ```js
 "script":"<script>document.getElementById('cmButton').click();</script>",
 ```
+
+### 添加返回顶部按钮
+这个是ArticleTOC文章目录集成返回顶部一起的
+[ArticleTOC](https://cdn.jsdelivr.net/gh/EchoZap/echozap.github.io/static/plugins/ArticleTOC.js)
+
+还发现一个返回顶部的独立版本
+[backtop](https://github.com/tiengming/tiengming.github.io/blob/main/static/assets/backtop.js)
