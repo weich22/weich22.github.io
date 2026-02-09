@@ -1,51 +1,35 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const pageUrl = window.location.href;
-  const qqQrcode = "https://qun.qq.com/qrcode/index?data=" + encodeURIComponent(pageUrl) + "&size=160";
+  // 当前页面链接二维码（自动生成）
+  var pageUrl = window.location.href;
+  var pageQr = "https://qun.qq.com/qrcode/index?data=" + encodeURIComponent(pageUrl) + "&size=160";
 
-  const wrapper = document.createElement('div');
-  wrapper.innerHTML = `
+  var html = `
 <div style="position:fixed; bottom:20px; right:20px; z-index:9999;">
-  <div style="background:#fff; border:1px solid #eee; border-radius:8px; padding:10px 14px; box-shadow:0 2px 10px rgba(0,0,0,0.1); cursor:pointer;"
-       onclick="toggleQrcode()">
+  <div style="background:#fff; border:1px solid #eee; border-radius:8px; padding:10px 14px; box-shadow:0 2px 10px rgba(0,0,0,0.1);cursor:pointer;"
+       onclick="var p=document.getElementById('qrcode-panel');p.style.display=p.style.display=='none'?'block':'none';">
     扫码 / 打赏
   </div>
 
-  <div id="qrcodeBox" style="display:none; position:absolute; bottom:60px; right:0; background:#fff; border:1px solid #eee; border-radius:8px; padding:15px; width:220px; text-align:center; box-shadow:0 2px 15px rgba(0,0,0,0.1);">
-    <div style="display:flex; gap:8px; margin-bottom:12px;">
-      <div onclick="showTab('page')" style="flex:1; padding:6px; background:#009688; color:#fff; border-radius:4px; cursor:pointer;">页面</div>
-      <div onclick="showTab('wx')" style="flex:1; padding:6px; background:#07c160; color:#fff; border-radius:4px; cursor:pointer;">微信</div>
-      <div onclick="showTab('zfb')" style="flex:1; padding:6px; background:#1677ff; color:#fff; border-radius:4px; cursor:pointer;">支付宝</div>
+  <div id="qrcode-panel" style="display:none; position:absolute; bottom:60px; right:0; background:#fff; border:1px solid #eee; border-radius:8px; padding:15px; width:180px; text-align:center; box-shadow:0 2px 15px rgba(0,0,0,0.1);">
+    
+    <div style="margin-bottom:12px;">
+      <img src="${pageQr}" style="width:160px; height:160px; object-fit:cover;">
+      <div style="font-size:14px; margin-top:6px;">扫码打开本页面</div>
     </div>
-
-    <div id="tab-page" style="display:block;">
-      <img src="${qqQrcode}" style="width:160px; height:160px; object-fit:cover;">
-      <div style="margin-top:6px; font-size:14px; color:#333;">扫码打开本页面</div>
-    </div>
-
-    <div id="tab-wx" style="display:none;">
+    
+    <div style="margin-bottom:12px;">
       <img src="https://weich22.github.io/img/wxzym.webp" style="width:160px; height:160px; object-fit:cover;">
-      <div style="margin-top:6px; font-size:14px; color:#333;">微信收款码</div>
+      <div style="font-size:14px; margin-top:6px;">微信收款码</div>
     </div>
-
-    <div id="tab-zfb" style="display:none;">
+    
+    <div>
       <img src="https://weich22.github.io/img/zfbskn.jpg" style="width:160px; height:160px; object-fit:cover;">
-      <div style="margin-top:6px; font-size:14px; color:#333;">支付宝收款码</div>
+      <div style="font-size:14px; margin-top:6px;">支付宝收款码</div>
     </div>
+    
   </div>
 </div>
+`;
 
-<script>
-function toggleQrcode(){
-  const box=document.getElementById('qrcodeBox');
-  box.style.display = box.style.display === 'none' ? 'block' : 'none';
-}
-function showTab(type){
-  document.getElementById('tab-page').style.display='none';
-  document.getElementById('tab-wx').style.display='none';
-  document.getElementById('tab-zfb').style.display='none';
-  document.getElementById('tab-'+type).style.display='block';
-}
-</script>
-  `;
-  document.body.appendChild(wrapper);
+  document.body.insertAdjacentHTML('beforeend', html);
 });
