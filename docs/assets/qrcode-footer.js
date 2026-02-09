@@ -2,8 +2,8 @@
 document.addEventListener('DOMContentLoaded', function() {
   // 1. 动态创建扫码模块的HTML结构
   const qrcodeHtml = `
-    <div class="gmeek-qrcode-footer" style="position:fixed;bottom:20px;right:20px;z-index:9999;cursor:pointer;">
-      <a href="javascript:;" style="display:inline-block;text-align:center;text-decoration:none;color:#333;padding:8px 16px;border:1px solid #eee;border-radius:6px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.08);">
+    <div class="gmeek-qrcode-footer" style="position:fixed;bottom:60px;right:2px;z-index:9999;cursor:pointer;">
+      <a href="javascript:;" style="display:inline-block;text-align:center;text-decoration:none;color:#333;padding:0px 0px;border:1px solid #eee;border-radius:6px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.08);">
         『扫码打开』
         <span style="position:absolute;bottom:100%;right:0;margin-bottom:10px;padding:10px;background:#fff;border:1px solid #eee;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,0.1);display:none;">
           <img src="" alt="本页二维码" style="width:160px;height:160px;border:0;">
