@@ -1,12 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // 当前页面链接二维码（自动生成）
   var pageUrl = window.location.href;
   var pageQr = "https://qun.qq.com/qrcode/index?data=" + encodeURIComponent(pageUrl) + "&size=160";
 
   var html = `
 <div style="position:fixed; bottom:20px; right:20px; z-index:9999;">
-  <div style="background:#fff; border:1px solid #eee; border-radius:8px; padding:10px 14px; box-shadow:0 2px 10px rgba(0,0,0,0.1);cursor:pointer;"
-       onclick="var p=document.getElementById('qrcode-panel');p.style.display=p.style.display=='none'?'block':'none';">
+  <div style="background:#fff; border:1px solid #eee; border-radius:8px; padding:10px 14px; box-shadow:0 2px 10px rgba(0,0,0,0.1);cursor:pointer;">
     扫码 / 打赏
   </div>
 
@@ -32,4 +30,15 @@ document.addEventListener('DOMContentLoaded', function() {
 `;
 
   document.body.insertAdjacentHTML('beforeend', html);
+
+  // 鼠标悬浮显示
+  var box = document.getElementById('qrcode-panel');
+  var parent = box.parentElement;
+
+  parent.onmouseover = function(){
+    box.style.display = 'block';
+  }
+  parent.onmouseout = function(){
+    box.style.display = 'none';
+  }
 });
