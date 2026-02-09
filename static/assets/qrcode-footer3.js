@@ -3,12 +3,12 @@ document.addEventListener('DOMContentLoaded', function() {
   var pageQr = "https://qun.qq.com/qrcode/index?data=" + encodeURIComponent(pageUrl) + "&size=160";
 
   var html = `
-<div class="qrcode-root" style="position:fixed; bottom:20px; right:20px; z-index:9999;">
-  <div class="qrcode-btn" style="background:#fff; border:1px solid #eee; border-radius:8px; padding:10px 14px; box-shadow:0 2px 10px rgba(0,0,0,0.1);cursor:pointer;">
+<div class="qrcode-root" style="position:fixed; bottom:58px; right:2px; z-index:9999;">
+  <div class="qrcode-btn" style="background:#fff; border:1px solid #eee; border-radius:8px;/* padding:10px 14px;*/ box-shadow:0 2px 10px rgba(0,0,0,0.1);cursor:pointer;">
     扫码 / 打赏
   </div>
 
-  <div class="qrcode-popup" style="display:none; position:absolute; bottom:60px; right:0; background:#fff; border:1px solid #eee; border-radius:8px; padding:15px; width:180px; text-align:center; box-shadow:0 2px 15px rgba(0,0,0,0.1);">
+  <div class="qrcode-popup" style="display:none; position:absolute; bottom:60px; right:0; background:#f74023;/* border:1px solid #eee;*/ border-radius:8px; padding:15px; width:180px; text-align:center; box-shadow:0 2px 15px rgba(0,0,0,0.1);">
     
     <div style="margin-bottom:12px;">
       <img src="${pageQr}" style="width:160px; height:160px; object-fit:cover;">
