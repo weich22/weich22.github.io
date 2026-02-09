@@ -26,7 +26,16 @@ body {max-width: initial !important;}
 'style':'<style>body {max-width: initial !important;}</style>',
 ```
 
-更新：后面我发现我需要是全局修改，于是我直接代码统一写的到一个css文件里面去然后上传到`static/assets/`文件夹内再引用就好了。">
+更新：后面我发现我需要是全局修改，于是我直接把代码统一整合写的到一个css文件里面去
+```css
+body {max-width: initial !important;}
+a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客顶部LOGO文字*/
+.d-flex {display: inline-block !important;}/*调节文章标签到文章下*/
+.Label, .label {line-height: 12px !important;}/*文章标签背景颜色框缩小一点*/
+.LabelTime {display: inline-block !important;}/*调节文章标签到手机显示不全或者不显示后面的日期*/
+```
+
+然后上传到`static/assets/`文件夹内再添加代码到config.json引用就好了。">
 <meta property="og:title" content="Gmeek记录篇">
 <meta property="og:description" content="### 自定义优化首页CSS
 添加代码到config.json，请删除我写的中文和括号
@@ -44,7 +53,16 @@ body {max-width: initial !important;}
 'style':'<style>body {max-width: initial !important;}</style>',
 ```
 
-更新：后面我发现我需要是全局修改，于是我直接代码统一写的到一个css文件里面去然后上传到`static/assets/`文件夹内再引用就好了。">
+更新：后面我发现我需要是全局修改，于是我直接把代码统一整合写的到一个css文件里面去
+```css
+body {max-width: initial !important;}
+a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客顶部LOGO文字*/
+.d-flex {display: inline-block !important;}/*调节文章标签到文章下*/
+.Label, .label {line-height: 12px !important;}/*文章标签背景颜色框缩小一点*/
+.LabelTime {display: inline-block !important;}/*调节文章标签到手机显示不全或者不显示后面的日期*/
+```
+
+然后上传到`static/assets/`文件夹内再添加代码到config.json引用就好了。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://weich22.github.io/post/Gmeek-ji-lu-pian.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
@@ -116,7 +134,15 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <div class="highlight highlight-source-css"><pre class="notranslate"><span class="pl-ent">body</span> {<span class="pl-c1">max-width</span><span class="pl-kos">:</span> initial <span class="pl-k">!important</span>;}</pre></div>
 <p>不限制文章页面最大宽度</p>
 <div class="highlight highlight-source-css"><pre class="notranslate"><span class="pl-s">"style"</span><span class="pl-kos">:</span><span class="pl-s">"&lt;style&gt;body {max-width: initial !important;}&lt;/style&gt;"</span><span class="pl-kos">,</span></pre></div>
-<p>更新：后面我发现我需要是全局修改，于是我直接代码统一写的到一个css文件里面去然后上传到<code class="notranslate">static/assets/</code>文件夹内再引用就好了。</p>
+<p>更新：后面我发现我需要是全局修改，于是我直接把代码统一整合写的到一个css文件里面去</p>
+<div class="highlight highlight-source-css"><pre class="notranslate"><span class="pl-ent">body</span> {<span class="pl-c1">max-width</span><span class="pl-kos">:</span> initial <span class="pl-k">!important</span>;}
+<span class="pl-ent">a</span>.<span class="pl-c1">blogTitle</span> {<span class="pl-c1">display</span><span class="pl-kos">:</span> inline-block <span class="pl-k">!important</span>;}<span class="pl-c">/*优化手机端不显示博客顶部LOGO文字*/</span>
+.<span class="pl-c1">d-flex</span> {<span class="pl-c1">display</span><span class="pl-kos">:</span> inline-block <span class="pl-k">!important</span>;}<span class="pl-c">/*调节文章标签到文章下*/</span>
+.<span class="pl-c1">Label</span><span class="pl-kos">,</span> .<span class="pl-c1">label</span> {<span class="pl-c1">line-height</span><span class="pl-kos">:</span> <span class="pl-c1">12<span class="pl-smi">px</span></span> <span class="pl-k">!important</span>;}<span class="pl-c">/*文章标签背景颜色框缩小一点*/</span>
+.<span class="pl-c1">LabelTime</span> {<span class="pl-c1">display</span><span class="pl-kos">:</span> inline-block <span class="pl-k">!important</span>;}<span class="pl-c">/*调节文章标签到手机显示不全或者不显示后面的日期*/</span></pre></div>
+<p>然后上传到<code class="notranslate">static/assets/</code>文件夹内再添加代码到config.json引用就好了。</p>
+<pre class="notranslate"><code class="notranslate">"allHead":"&lt;link rel=\"stylesheet\" href='https://weich22.github.io/assets/zdy.css'&gt;",
+</code></pre>
 <h3>添加友情链接</h3>
 <p>添加代码到config.json<br>
 <a href="https://blog.meekdai.com/post/%E3%80%90Gmeek-jin-jie-%E3%80%91-you-shang-jiao-yuan-an-niu-pei-zhi.html#%E7%AB%99%E5%86%85%E9%93%BE%E6%8E%A5" rel="nofollow">参考地址</a></p>

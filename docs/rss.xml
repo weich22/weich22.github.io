@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://weich22.github.io</link><description>日常折腾于生活记录</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://weich22.github.io</link></image><lastBuildDate>Mon, 09 Feb 2026 00:13:27 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek记录篇</title><link>https://weich22.github.io/post/Gmeek-ji-lu-pian.html</link><description>### 自定义优化首页CSS
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://weich22.github.io</link><description>日常折腾于生活记录</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://weich22.github.io</link></image><lastBuildDate>Mon, 09 Feb 2026 00:17:51 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek记录篇</title><link>https://weich22.github.io/post/Gmeek-ji-lu-pian.html</link><description>### 自定义优化首页CSS
 添加代码到config.json，请删除我写的中文和括号
 ```css
 'indexStyle':'&lt;style&gt;a.blogTitle {display: inline-block !important;}【优化手机端不显示博客顶部LOGO文字】.d-flex {display: inline-block !important;}【调节文章标签到文章下】.Label, .label {line-height: 12px !important;}【文章标签背景颜色框缩小一点】.LabelTime {display: inline-block !important;}【调节文章标签到手机显示不全或者不显示后面的日期】&lt;/style&gt;',
@@ -15,5 +15,14 @@ body {max-width: initial !important;}
 'style':'&lt;style&gt;body {max-width: initial !important;}&lt;/style&gt;',
 ```
 
-更新：后面我发现我需要是全局修改，于是我直接代码统一写的到一个css文件里面去然后上传到`static/assets/`文件夹内再引用就好了。</description><guid isPermaLink="true">https://weich22.github.io/post/Gmeek-ji-lu-pian.html</guid><pubDate>Fri, 06 Feb 2026 13:42:55 +0000</pubDate></item><item><title>网址</title><link>https://weich22.github.io/link.html</link><description>### 博客
+更新：后面我发现我需要是全局修改，于是我直接把代码统一整合写的到一个css文件里面去
+```css
+body {max-width: initial !important;}
+a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客顶部LOGO文字*/
+.d-flex {display: inline-block !important;}/*调节文章标签到文章下*/
+.Label, .label {line-height: 12px !important;}/*文章标签背景颜色框缩小一点*/
+.LabelTime {display: inline-block !important;}/*调节文章标签到手机显示不全或者不显示后面的日期*/
+```
+
+然后上传到`static/assets/`文件夹内再添加代码到config.json引用就好了。</description><guid isPermaLink="true">https://weich22.github.io/post/Gmeek-ji-lu-pian.html</guid><pubDate>Fri, 06 Feb 2026 13:42:55 +0000</pubDate></item><item><title>网址</title><link>https://weich22.github.io/link.html</link><description>### 博客
 [极客日志](http://weich.ee) [LIYIFAN的备忘录](https://blog.154451.xyz/) [Gmeek](https://blog.meekdai.com/tag.html#Gmeek)。</description><guid isPermaLink="true">https://weich22.github.io/link.html</guid><pubDate>Fri, 06 Feb 2026 16:02:13 +0000</pubDate></item></channel></rss>

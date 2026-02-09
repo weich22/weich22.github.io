@@ -14,8 +14,19 @@ body {max-width: initial !important;}
 "style":"<style>body {max-width: initial !important;}</style>",
 ```
 
-更新：后面我发现我需要是全局修改，于是我直接代码统一写的到一个css文件里面去然后上传到`static/assets/`文件夹内再引用就好了。
+更新：后面我发现我需要是全局修改，于是我直接把代码统一整合写的到一个css文件里面去
+```css
+body {max-width: initial !important;}
+a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客顶部LOGO文字*/
+.d-flex {display: inline-block !important;}/*调节文章标签到文章下*/
+.Label, .label {line-height: 12px !important;}/*文章标签背景颜色框缩小一点*/
+.LabelTime {display: inline-block !important;}/*调节文章标签到手机显示不全或者不显示后面的日期*/
+```
 
+然后上传到`static/assets/`文件夹内再添加代码到config.json引用就好了。
+```
+"allHead":"<link rel=\"stylesheet\" href='https://weich22.github.io/assets/zdy.css'>",
+```
 
 ### 添加友情链接
 添加代码到config.json
