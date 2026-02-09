@@ -1,0 +1,1 @@
+购买域名的地方，域名解析做CNAME记录到你原来的Github Pages域名，
