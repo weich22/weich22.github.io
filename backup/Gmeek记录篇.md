@@ -97,7 +97,7 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 ```html
 "script":"<script src='https://weich22.github.io/assets/articletoc.js'></script><script src='https://weich22.github.io/assets/lightbox.js'></script>",
 ```
-＃＃＃ 评论区自动展开
+### 评论区自动展开
 添加代码到config.json
 
 ```js
