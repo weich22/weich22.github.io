@@ -22,7 +22,7 @@ var html = `
 
 <img src="${pageQr}" style="width:160px; height:160px; object-fit:cover;">
 
-<div style="font-size:14px; margin-top:6px;">扫码打开本页面</div>
+<div style="font-size:14px; margin-top:6px;">↑扫码打开本页面↑</div>
 
 </div>
 
@@ -30,7 +30,7 @@ var html = `
 
 <img src="https://weich22.github.io/img/wxzym.webp" style="width:160px; height:160px; object-fit:cover;">
 
-<div style="font-size:14px; margin-top:6px;">微信打赏</div>
+<div style="font-size:14px; margin-top:6px;">↑微信打赏↑</div>
 
 </div>
 
@@ -38,7 +38,7 @@ var html = `
 
 <img src="https://weich22.github.io/img/zfbskn.jpg" style="width:160px; height:160px; object-fit:cover;">
 
-<div style="font-size:14px; margin-top:6px;">支付宝打赏</div>
+<div style="font-size:14px; margin-top:6px;">↑支付宝打赏↑</div>
 
 </div>
 
