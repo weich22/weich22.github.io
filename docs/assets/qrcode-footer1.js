@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // 生成当前页面二维码
   const pageUrl = window.location.href;
-  const pageQr = `https://qun.qq.com/qrcode/index?data=${encodeURIComponent(pageUrl)}&size=160`;
+  const qqQrcode = "https://qun.qq.com/qrcode/index?data=" + encodeURIComponent(pageUrl) + "&size=160";
 
-  const qrcodeHtml = `
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = `
 <div style="position:fixed; bottom:20px; right:20px; z-index:9999;">
   <div style="background:#fff; border:1px solid #eee; border-radius:8px; padding:10px 14px; box-shadow:0 2px 10px rgba(0,0,0,0.1); cursor:pointer;"
        onclick="toggleQrcode()">
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <div id="tab-page" style="display:block;">
-      <img src="${pageQr}" style="width:160px; height:160px; object-fit:cover;">
+      <img src="${qqQrcode}" style="width:160px; height:160px; object-fit:cover;">
       <div style="margin-top:6px; font-size:14px; color:#333;">扫码打开本页面</div>
     </div>
 
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 function toggleQrcode(){
   const box=document.getElementById('qrcodeBox');
-  box.style.display = box.style.display=='none'?'block':'none';
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
 }
 function showTab(type){
   document.getElementById('tab-page').style.display='none';
@@ -47,6 +47,5 @@ function showTab(type){
 }
 </script>
   `;
-
-  document.body.insertAdjacentHTML('beforeend', qrcodeHtml);
+  document.body.appendChild(wrapper);
 });
