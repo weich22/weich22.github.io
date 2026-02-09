@@ -23,12 +23,12 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <div id="tab-wx" style="display:none;">
-      <img src="/assets/img/wx.png" style="width:160px; height:160px; object-fit:cover;">
+      <img src="https://weich22.github.io/img/wxzym.webp" style="width:160px; height:160px; object-fit:cover;">
       <div style="margin-top:6px; font-size:14px; color:#333;">微信收款码</div>
     </div>
 
     <div id="tab-zfb" style="display:none;">
-      <img src="/assets/img/zfb.png" style="width:160px; height:160px; object-fit:cover;">
+      <img src="https://weich22.github.io/img/zfbskn.jpg" style="width:160px; height:160px; object-fit:cover;">
       <div style="margin-top:6px; font-size:14px; color:#333;">支付宝收款码</div>
     </div>
   </div>
