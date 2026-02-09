@@ -1,3 +1,4 @@
+//BY：weich
 document.addEventListener('DOMContentLoaded', function() {
   var pageUrl = window.location.href;
   var pageQr = "https://qun.qq.com/qrcode/index?data=" + encodeURIComponent(pageUrl) + "&size=160";
