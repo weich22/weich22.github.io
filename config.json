@@ -2,13 +2,13 @@
     "title":"无用功",
     "subTitle":"日常折腾于生活记录",
     "avatarUrl":"https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644",
-    "script":"<script src='https://weich22.github.io/assets/articletoc.js'></script><script src='https://weich22.github.io/assets/backtop.js'></script><script src='https://weich22.github.io/assets/lightbox.js'></script>",
+    "script":"<script src='/assets/articletoc.js'></script><script src='/assets/backtop.js'></script><script src='/assets/lightbox.js'></script>",
     "singlePage":["link"],
     "startSite":"02/6/2026",
     "i18n":"CN", 
     "UTC":8,
     "showPostSource":0,
     "bottomText":"→转载请注明出处←",
-    "allHead":"<link rel=\"stylesheet\" href='https://weich22.github.io/assets/zdy.css'><script src='https://weich22.github.io/assets/qrcode-footer3.js'></script>",
+    "allHead":"<link rel=\"stylesheet\" href='/assets/zdy.css'><script src='/assets/qrcode-footer3.js'></script>",
     "GMEEK_VERSION":"last"
 }
