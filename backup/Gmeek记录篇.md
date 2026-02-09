@@ -98,7 +98,7 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 "script":"<script src='https://weich22.github.io/assets/articletoc.js'></script><script src='https://weich22.github.io/assets/lightbox.js'></script>",
 ```
 ### 评论区自动展开
-添加代码到config.json
+添加代码到config.json，实测会影响到文章目录和返回顶部这两个功能。
 
 ```js
 "script":"<script>document.getElementById('cmButton').click();</script>",
