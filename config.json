@@ -2,7 +2,7 @@
     "title":"无用功",
     "subTitle":"日常折腾于生活记录",
     "avatarUrl":"https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644",
-    "script":"<script src='https://weich22.github.io/assets/articletoc.js'></script><script src='https://weich22.github.io/assets/backtop.js'></script><script src='https://weich22.github.io/assets/lightbox.js'></script>",
+    "script":"<script src='https://weich22.github.io/assets/articletoc.js'></script><script src='https://weich22.github.io/assets/backtop.js'></script><script src='https://weich22.github.io/assets/link-blank.js'></script><script src='https://weich22.github.io/assets/lightbox.js'></script>",
     "singlePage":["link"],
     "startSite":"02/6/2026",
     "i18n":"CN", 
