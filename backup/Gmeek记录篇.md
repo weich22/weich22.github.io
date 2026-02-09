@@ -14,6 +14,8 @@ body {max-width: initial !important;}
 "style":"<style>body {max-width: initial !important;}</style>",
 ```
 
+更新：后面我发现我需要是全局修改，于是我直接代码统一写的到一个css文件里面去然后上传到`static/assets/`文件夹内再引用就好了。
+
 
 ### 添加友情链接
 添加代码到config.json
@@ -71,7 +73,7 @@ body {max-width: initial !important;}
 "allHead":"<link rel=\"stylesheet\" href=\"https://weich22.github.io/assets/GmeekBaseTheme.css\"><script src=\"https://weich22.github.io/assets/GmeekCustomizeCss.js\"></script><script src='https://weich22.github.io/assets/GmeekVercount.js'></script>",
 ```
 `GmeekBaseTheme.css`和`GmeekCustomizeCss.js`文件，也可以自己本地化两个文件保存下来上传到项目的`static/assets`文件夹内，没有这个文件夹的自己创建，创建`static`文件夹的时候在后面加个斜杠就是文件夹了，`assets`也是一样的，`static/assets/`斜杠最后随便创建个文件比如`123.txt`也可以，创建好了再去删除那个不用的TXT文件就好了，引用的地址是你的 `主链接` 加 `忽略static文件夹` 之后的 `assets文件夹` `加文件名` 作为地址就好了，其实我也不知道有多大用，先加了再说…
-
+更新：已经去除，但是保留文件。
 
 ### 添加文章目录和文章图片灯箱
 
@@ -83,4 +85,10 @@ body {max-width: initial !important;}
 
 ```html
 "script":"<script src='https://weich22.github.io/assets/articletoc.js'></script><script src='https://weich22.github.io/assets/lightbox.js'></script>",
+```
+＃＃＃ 评论区自动展开
+添加代码到config.json
+
+```js
+"script":"<script>document.getElementById('cmButton').click();</script>",
 ```

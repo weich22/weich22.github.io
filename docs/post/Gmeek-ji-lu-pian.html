@@ -26,47 +26,7 @@ body {max-width: initial !important;}
 'style':'<style>body {max-width: initial !important;}</style>',
 ```
 
-
-### 添加友情链接
-添加代码到config.json
-[参考地址](https://blog.meekdai.com/post/%E3%80%90Gmeek-jin-jie-%E3%80%91-you-shang-jiao-yuan-an-niu-pei-zhi.html#%E7%AB%99%E5%86%85%E9%93%BE%E6%8E%A5)
-```
-'singlePage':['link'],
-```
-上面菜单找到`Issues`点开——新建一个文章`New issue`在靠近右边屏幕，添加标签必须为`link`，然后发布保存，再去全局生成.
-
-
-
-### Gmeek在GITHUB全局生成
-修改或者添加页面都需要做一次，发表文章除外，不过发生错误的时候也可以去全局生成试试.
-在顶部菜单找到：`Actions`点开——左边的菜单找到【手机需要横屏或者也是在Actions页面找到`All workflows`下拉才能看到】`build Gmeek`点开——右边找到`Run workflow`点开下拉找到`Run workflow`点击，然后继续在Actions页面刷新等待查看处理好了没.
-
-
-
-### Gmeek修改文章
-上面菜单占到`Issues`点开，找到要修改的文章标题点开，文章顶部有3个...点开找到`Edit`附近还有一个笔🖊一样的图标点开就可以修改文章了，修改完成后，文章底部有 Cancel 和 Save 的文字分别为 取消 和 保存.
-
-
-### 修改文件
-比如经常修改`config.json` 点开文件后找到文件上方的一个笔🖊型图标点开文字是： `Edit this file`修改完成了，在文件顶部找到 `GmeekCommit changes...`点开再找到`GmeekCommit changes`点击一次，修改Code里面的文件要去全部生成一次才会生效的.
-
-
-### Gmeek安装
-【仅需一个Github账号，让文字在互联网中永生 超轻量级个人博客框架Gmeek-哔哩哔哩】 
-视频：[https://b23.tv/LI3hM7E](https://b23.tv/LI3hM7E)
-图文：[https://b23.tv/ikbKm1j](https://b23.tv/ikbKm1j)
-
-`Gmeek-html<iframe src='//player.bilibili.com/player.html?isOutside=true&aid=1305790042&bvid=BV1GM4m1m7ZD&cid=1588230883&p=1&autoplay=0' scrolling='no' border='0' frameborder='no' framespacing='0' allowfullscreen='true'></iframe>`
-
-
-### Gmeek嵌入外部网站视频
-比如b站
-主要代码：
-```html
-`Gmeek-htmlxxx`
-```
-其中的xxx是改成if的嵌入代码，比如b站的嵌入代码，又在哪找呢？
-用电脑网页打开一个b站视频，找到视频下面的分享就有`嵌入代码`了，如果是手机编写文章的话，也可以用浏览器请求打开电脑页面也是一样，具体看你用的是哪个浏览器，有的手机电脑浏览好了直接有电脑模式什么的。">
+更新：后面我发现我需要是全局修改，于是我直接代码统一写的到一个css文件里面去然后上传到`static/assets/`文件夹内再引用就好了。">
 <meta property="og:title" content="Gmeek记录篇">
 <meta property="og:description" content="### 自定义优化首页CSS
 添加代码到config.json，请删除我写的中文和括号
@@ -84,47 +44,7 @@ body {max-width: initial !important;}
 'style':'<style>body {max-width: initial !important;}</style>',
 ```
 
-
-### 添加友情链接
-添加代码到config.json
-[参考地址](https://blog.meekdai.com/post/%E3%80%90Gmeek-jin-jie-%E3%80%91-you-shang-jiao-yuan-an-niu-pei-zhi.html#%E7%AB%99%E5%86%85%E9%93%BE%E6%8E%A5)
-```
-'singlePage':['link'],
-```
-上面菜单找到`Issues`点开——新建一个文章`New issue`在靠近右边屏幕，添加标签必须为`link`，然后发布保存，再去全局生成.
-
-
-
-### Gmeek在GITHUB全局生成
-修改或者添加页面都需要做一次，发表文章除外，不过发生错误的时候也可以去全局生成试试.
-在顶部菜单找到：`Actions`点开——左边的菜单找到【手机需要横屏或者也是在Actions页面找到`All workflows`下拉才能看到】`build Gmeek`点开——右边找到`Run workflow`点开下拉找到`Run workflow`点击，然后继续在Actions页面刷新等待查看处理好了没.
-
-
-
-### Gmeek修改文章
-上面菜单占到`Issues`点开，找到要修改的文章标题点开，文章顶部有3个...点开找到`Edit`附近还有一个笔🖊一样的图标点开就可以修改文章了，修改完成后，文章底部有 Cancel 和 Save 的文字分别为 取消 和 保存.
-
-
-### 修改文件
-比如经常修改`config.json` 点开文件后找到文件上方的一个笔🖊型图标点开文字是： `Edit this file`修改完成了，在文件顶部找到 `GmeekCommit changes...`点开再找到`GmeekCommit changes`点击一次，修改Code里面的文件要去全部生成一次才会生效的.
-
-
-### Gmeek安装
-【仅需一个Github账号，让文字在互联网中永生 超轻量级个人博客框架Gmeek-哔哩哔哩】 
-视频：[https://b23.tv/LI3hM7E](https://b23.tv/LI3hM7E)
-图文：[https://b23.tv/ikbKm1j](https://b23.tv/ikbKm1j)
-
-`Gmeek-html<iframe src='//player.bilibili.com/player.html?isOutside=true&aid=1305790042&bvid=BV1GM4m1m7ZD&cid=1588230883&p=1&autoplay=0' scrolling='no' border='0' frameborder='no' framespacing='0' allowfullscreen='true'></iframe>`
-
-
-### Gmeek嵌入外部网站视频
-比如b站
-主要代码：
-```html
-`Gmeek-htmlxxx`
-```
-其中的xxx是改成if的嵌入代码，比如b站的嵌入代码，又在哪找呢？
-用电脑网页打开一个b站视频，找到视频下面的分享就有`嵌入代码`了，如果是手机编写文章的话，也可以用浏览器请求打开电脑页面也是一样，具体看你用的是哪个浏览器，有的手机电脑浏览好了直接有电脑模式什么的。">
+更新：后面我发现我需要是全局修改，于是我直接代码统一写的到一个css文件里面去然后上传到`static/assets/`文件夹内再引用就好了。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://weich22.github.io/post/Gmeek-ji-lu-pian.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
@@ -196,6 +116,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <div class="highlight highlight-source-css"><pre class="notranslate"><span class="pl-ent">body</span> {<span class="pl-c1">max-width</span><span class="pl-kos">:</span> initial <span class="pl-k">!important</span>;}</pre></div>
 <p>不限制文章页面最大宽度</p>
 <div class="highlight highlight-source-css"><pre class="notranslate"><span class="pl-s">"style"</span><span class="pl-kos">:</span><span class="pl-s">"&lt;style&gt;body {max-width: initial !important;}&lt;/style&gt;"</span><span class="pl-kos">,</span></pre></div>
+<p>更新：后面我发现我需要是全局修改，于是我直接代码统一写的到一个css文件里面去然后上传到<code class="notranslate">static/assets/</code>文件夹内再引用就好了。</p>
 <h3>添加友情链接</h3>
 <p>添加代码到config.json<br>
 <a href="https://blog.meekdai.com/post/%E3%80%90Gmeek-jin-jie-%E3%80%91-you-shang-jiao-yuan-an-niu-pei-zhi.html#%E7%AB%99%E5%86%85%E9%93%BE%E6%8E%A5" rel="nofollow">参考地址</a></p>
@@ -227,13 +148,17 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>[参考：Gmeek UI 增强插件](<a href="https://code.buxiantang.top/post/%F0%9F%8D%8E" rel="nofollow">https://code.buxiantang.top/post/🍎</a> Gmeek UI -zeng-qiang-cha-jian-shi-yong-jiao-cheng.html)<br>
 也就是添加一个css和一个js文件并引用到：<code class="notranslate">Code</code>的<code class="notranslate">config.json</code>文件内</p>
 <div class="highlight highlight-text-html-basic"><pre class="notranslate">"allHead":"<span class="pl-kos">&lt;</span><span class="pl-ent">link</span> <span class="pl-c1">rel</span>=<span class="pl-s">\</span>"stylesheet\" href=\"https://weich22.github.io/assets/GmeekBaseTheme.css\"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>=<span class="pl-s">\</span>"https://weich22.github.io/assets/GmeekCustomizeCss.js\"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>='<span class="pl-s">https://weich22.github.io/assets/GmeekVercount.js</span>'<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>",</pre></div>
-<p><code class="notranslate">GmeekBaseTheme.css</code>和<code class="notranslate">GmeekCustomizeCss.js</code>文件，也可以自己本地化两个文件保存下来上传到项目的<code class="notranslate">static/assets</code>文件夹内，没有这个文件夹的自己创建，创建<code class="notranslate">static</code>文件夹的时候在后面加个斜杠就是文件夹了，<code class="notranslate">assets</code>也是一样的，<code class="notranslate">static/assets/</code>斜杠最后随便创建个文件比如<code class="notranslate">123.txt</code>也可以，创建好了再去删除那个不用的TXT文件就好了，引用的地址是你的 <code class="notranslate">主链接</code> 加 <code class="notranslate">忽略static文件夹</code> 之后的 <code class="notranslate">assets文件夹</code> <code class="notranslate">加文件名</code> 作为地址就好了，其实我也不知道有多大用，先加了再说…</p>
+<p><code class="notranslate">GmeekBaseTheme.css</code>和<code class="notranslate">GmeekCustomizeCss.js</code>文件，也可以自己本地化两个文件保存下来上传到项目的<code class="notranslate">static/assets</code>文件夹内，没有这个文件夹的自己创建，创建<code class="notranslate">static</code>文件夹的时候在后面加个斜杠就是文件夹了，<code class="notranslate">assets</code>也是一样的，<code class="notranslate">static/assets/</code>斜杠最后随便创建个文件比如<code class="notranslate">123.txt</code>也可以，创建好了再去删除那个不用的TXT文件就好了，引用的地址是你的 <code class="notranslate">主链接</code> 加 <code class="notranslate">忽略static文件夹</code> 之后的 <code class="notranslate">assets文件夹</code> <code class="notranslate">加文件名</code> 作为地址就好了，其实我也不知道有多大用，先加了再说…<br>
+更新：已经去除，但是保留文件。</p>
 <h3>添加文章目录和文章图片灯箱</h3>
 <p><a href="https://blog.meekdai.com/post/%E3%80%90Gmeek-jin-jie-%E3%80%91-cha-jian-gong-neng-de-shi-yong.html#articletoc" rel="nofollow">参考：文件目录和文章图片灯箱插件</a></p>
 <p>文章目录是articletoc.js和文章图片灯箱lightbox.js两个文件<br>
 我用的文章目录是 <code class="notranslate">articletoc</code> 的，因为我觉得这个在文章右下角只有一个图标需要的时候点开好点。<br>
 也是可以本地化，如上面的上转到一个文件夹可以引用，我的也是本地化了，预防别人项目不在了或者改变了，自己的还在，但是别人更新了，只能自己再去下载上传。</p>
-<div class="highlight highlight-text-html-basic"><pre class="notranslate">"script":"<span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>='<span class="pl-s">https://weich22.github.io/assets/articletoc.js</span>'<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>='<span class="pl-s">https://weich22.github.io/assets/lightbox.js</span>'<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>",</pre></div></div>
+<div class="highlight highlight-text-html-basic"><pre class="notranslate">"script":"<span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>='<span class="pl-s">https://weich22.github.io/assets/articletoc.js</span>'<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>='<span class="pl-s">https://weich22.github.io/assets/lightbox.js</span>'<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>",</pre></div>
+<p>＃＃＃ 评论区自动展开<br>
+添加代码到config.json</p>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-s">"script"</span>:<span class="pl-s">"&lt;script&gt;document.getElementById('cmButton').click();&lt;/script&gt;"</span><span class="pl-kos">,</span></pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
