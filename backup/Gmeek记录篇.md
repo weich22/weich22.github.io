@@ -105,8 +105,8 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 ```
 
 ### 添加返回顶部按钮
-这个是ArticleTOC文章目录集成返回顶部一起的,注意文件名大小写。
+这个是ArticleTOC文章目录集成返回顶部一起的,注意文件名大小写，我改名文件后面加top：ArticleTOCtop，为了方便记住多加了一个返回顶部功能用的，这个打开文章的文章目录默认是打开状态的，然后返回顶部按钮在文章目录表下面的。
 [ArticleTOC](https://cdn.jsdelivr.net/gh/EchoZap/echozap.github.io/static/plugins/ArticleTOC.js)
 
-还发现一个返回顶部的独立版本
+还发现一个返回顶部的独立版本，这个版本的话独立再文章目录上面的。
 [backtop](https://github.com/tiengming/tiengming.github.io/blob/main/static/assets/backtop.js)
