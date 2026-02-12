@@ -1,23 +1,126 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>404 - 页面未找到</title>
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#f6f8fa;color:#24292e;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:2rem}
-    .container{text-align:center;max-width:500px}
-    h1{font-size:6rem;font-weight:900;color:#0366d6;margin-bottom:1rem}
-    p{font-size:1.2rem;color:#586069;margin-bottom:2rem}
-    a{display:inline-block;padding:0.8rem 1.6rem;background:#0366d6;color:#fff;border-radius:6px;text-decoration:none;font-weight:500}
-    a:hover{background:#0256b3}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>404 - 下盘五子棋吧</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#f7f8fa;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.container{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100%;padding:10px}
+.title{font-size:50px;font-weight:700;color:#4a79e2;margin-bottom:8px}
+.desc{font-size:15px;color:#666;margin-bottom:12px;text-align:center;line-height:1.4}
+#game{border:2px solid #4a79e2;border-radius:8px;background:#fff;max-width:100%}
+.back{margin-top:16px;padding:10px 22px;background:#4a79e2;color:#fff;border-radius:6px;text-decoration:none}
+#restart{margin-top:8px;padding:6px 16px;background:#666;color:#fff;border-radius:6px;border:none;cursor:pointer}
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>404</h1>
-    <p>你访问的页面不存在或已被删除</p>
-    <a href="/">返回首页</a>
-  </div>
+<div class="container">
+  <div class="title">404</div>
+  <div class="desc">页面走丢啦<br>来下一盘五子棋再走吧</div>
+  <canvas id="game" width="320" height="320"></canvas>
+  <button id="restart">重新开始</button>
+  <a class="back" href="/">返回首页</a>
+</div>
+
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const size = 15;
+const grid = 21.333;
+let board = Array(size).fill().map(()=>Array(size).fill(0));
+let current = 1;
+let over = false;
+
+function drawBoard(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.strokeStyle='#ccc';
+  for(let i=0;i<=size;i++){
+    ctx.beginPath();
+    ctx.moveTo(i*grid,0);
+    ctx.lineTo(i*grid,canvas.height);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(0,i*grid);
+    ctx.lineTo(canvas.width,i*grid);
+    ctx.stroke();
+  }
+}
+
+function drawPiece(x,y,color){
+  let cx = (x+0.5)*grid;
+  let cy = (y+0.5)*grid;
+  ctx.beginPath();
+  ctx.arc(cx,cy,grid*0.4,0,Math.PI*2);
+  ctx.fillStyle=color?'#000':'#fff';
+  ctx.fill();
+  ctx.strokeStyle='#333';
+  ctx.stroke();
+}
+
+function render(){
+  drawBoard();
+  for(let i=0;i<size;i++){
+    for(let j=0;j<size;j++){
+      if(board[i][j]==1) drawPiece(i,j,1);
+      if(board[i][j]==2) drawPiece(i,j,0);
+    }
+  }
+}
+
+function checkWin(x,y,player){
+  const dirs=[[1,0],[0,1],[1,1],[1,-1]];
+  for(let [dx,dy] of dirs){
+    let count=1;
+    for(let i=1;i<5;i++){
+      let nx=x+dx*i, ny=y+dy*i;
+      if(nx>=0&&nx<size&&ny>=0&&ny<size&&board[nx][ny]==player)count++;
+      else break;
+    }
+    for(let i=1;i<5;i++){
+      let nx=x-dx*i, ny=y-dy*i;
+      if(nx>=0&&nx<size&&ny>=0&&ny<size&&board[nx][ny]==player)count++;
+      else break;
+    }
+    if(count>=5) return true;
+  }
+  return false;
+}
+
+function place(x,y){
+  if(over||board[x][y]!==0)return;
+  board[x][y]=current;
+  render();
+  if(checkWin(x,y,current)){
+    alert((current==1?'黑':'白')+'棋胜！');
+    over=true;
+    return;
+  }
+  current=current==1?2:1;
+}
+
+canvas.addEventListener('click',e=>{
+  const rect=canvas.getBoundingClientRect();
+  const x=Math.floor((e.clientX-rect.left)/grid);
+  const y=Math.floor((e.clientY-rect.top)/grid);
+  if(x>=0&&x<size&&y>=0&&y<size) place(x,y);
+});
+
+canvas.addEventListener('touchstart',e=>{
+  e.preventDefault();
+  const rect=canvas.getBoundingClientRect();
+  const x=Math.floor((e.touches[0].clientX-rect.left)/grid);
+  const y=Math.floor((e.touches[0].clientY-rect.top)/grid);
+  if(x>=0&&x<size&&y>=0&&y<size) place(x,y);
+});
+
+document.getElementById('restart').onclick=()=>{
+  board=Array(size).fill().map(()=>Array(size).fill(0));
+  current=1;over=false;render();
+};
+
+render();
+</script>
 </body>
 </html>
