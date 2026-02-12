@@ -1,17 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://weich22.github.io</link><description>没有用功努力，不做没用的功！</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://weich22.github.io</link></image><lastBuildDate>Thu, 12 Feb 2026 16:26:00 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>notepad++如何更改光标模式</title><link>https://weich22.github.io/post/notepad%2B%2B-ru-he-geng-gai-guang-biao-mo-shi.html</link><description>Notepad++有两种光标模式,切换和自定义都很简单
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://weich22.github.io</link><description>没有用功努力，不做没用的功！</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://weich22.github.io</link></image><lastBuildDate>Thu, 12 Feb 2026 16:28:15 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>notepad++如何更改光标模式</title><link>https://weich22.github.io/post/notepad%2B%2B-ru-he-geng-gai-guang-biao-mo-shi.html</link><description>Notepad++有两种光标模式,切换和自定义都很简单
 
 快速切换插入/改写模式(最常用)
 键盘Insert键(Ins)：一键切换
 
 ### 光标是竖线
-插入模式(INS):光标是竖线|,输
-入文字会向后挤，不覆盖原有内容
-
-### 光标是下划线
-改写模式(OVR)：光标是下划线_，输入会直接覆盖后面文字
-
-底部状态栏会显示INS或 OVR,一眼就能看当前模式，或者直接鼠标点击底部状态栏右下角更改切换模式也可以。</description><guid isPermaLink="true">https://weich22.github.io/post/notepad%2B%2B-ru-he-geng-gai-guang-biao-mo-shi.html</guid><pubDate>Thu, 12 Feb 2026 16:17:17 +0000</pubDate></item><item><title>GitHub Pages 绑定自定义域名</title><link>https://weich22.github.io/post/GitHub%20Pages%20-bang-ding-zi-ding-yi-yu-ming.html</link><description>### 域名CNAME解析
+插入模式(INS)：光标是竖线 | 输入文字会向后挤，不覆盖原有内容。</description><guid isPermaLink="true">https://weich22.github.io/post/notepad%2B%2B-ru-he-geng-gai-guang-biao-mo-shi.html</guid><pubDate>Thu, 12 Feb 2026 16:17:17 +0000</pubDate></item><item><title>GitHub Pages 绑定自定义域名</title><link>https://weich22.github.io/post/GitHub%20Pages%20-bang-ding-zi-ding-yi-yu-ming.html</link><description>### 域名CNAME解析
 在你购买域名的地方（运营商），子域名或者主域名（你用哪个就解析那个）解析做CNAME记录到你原来的Github Pages域名（一般都是你github用户名加.github.io，比如：xxx.github.io，xxx是你的github用户，除非你之前申请的是后面有仓库名，是哪个就绑定那个）。</description><guid isPermaLink="true">https://weich22.github.io/post/GitHub%20Pages%20-bang-ding-zi-ding-yi-yu-ming.html</guid><pubDate>Mon, 09 Feb 2026 20:46:06 +0000</pubDate></item><item><title>Gmeek记录篇</title><link>https://weich22.github.io/post/Gmeek-ji-lu-pian.html</link><description>### 自定义优化首页CSS
 添加代码到config.json，请删除我写的中文和括号
 ```css
