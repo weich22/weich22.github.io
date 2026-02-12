@@ -5,27 +5,77 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>404 - 人机五子棋</title>
 <style>
-*{margin:0;padding:0;border:0;box-sizing:border-box}
-html,body{width:100%;height:100%;background:#f7f8fa;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
-body{display:flex;align-items:center;justify-content:center;padding:10px}
-#game{position:fixed;inset:0;margin:auto;width:90vmin;height:90vmin;background:#fff;border:2px solid #4a79e2;border-radius:10px}
-.ui{position:fixed;top:10px;left:0;right:0;text-align:center}
-.title{font-size:48px;font-weight:700;color:#4a79e2}
-.desc{font-size:15px;color:#666;margin-top:4px}
-.buttons{position:fixed;bottom:12px;left:0;right:0;display:flex;gap:10px;justify-content:center}
-.btn{padding:10px 18px;background:#4a79e2;color:#fff;border-radius:6px;text-decoration:none;font-size:14px}
-.gray{background:#666}
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: #f7f8fa;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    overflow: hidden;
+  }
+  .page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    gap: 12px;
+    padding: 10px;
+  }
+  .title {
+    font-size: 42px;
+    font-weight: 700;
+    color: #4a79e2;
+    flex-shrink: 0;
+  }
+  .desc {
+    font-size: 14px;
+    color: #666;
+    flex-shrink: 0;
+    text-align: center;
+  }
+  #game {
+    width: min(90vw, 70vh);
+    height: min(90vw, 70vh);
+    background: #fff;
+    border: 2px solid #4a79e2;
+    border-radius: 10px;
+    display: block;
+    flex-shrink: 0;
+  }
+  .buttons {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  button, .back {
+    padding: 8px 16px;
+    background: #4a79e2;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+  }
+  button {
+    background: #666;
+  }
 </style>
 </head>
 <body>
-<canvas id="game"></canvas>
-<div class="ui">
+<div class="page">
   <div class="title">404</div>
-  <div class="desc">页面走丢啦，和AI下盘五子棋</div>
-</div>
-<div class="buttons">
-  <button id="restart" class="btn gray">重新开始</button>
-  <a class="btn" href="/">返回首页</a>
+  <div class="desc">页面走丢啦，和AI下一盘五子棋</div>
+  <canvas id="game"></canvas>
+  <div class="buttons">
+    <button id="restart">重新开始</button>
+    <a class="back" href="/">返回首页</a>
+  </div>
 </div>
 
 <script>
@@ -33,118 +83,175 @@ const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 const size = 15;
 let board, current, over;
-const USER = 1, AI = 2;
+const USER = 1;
+const AI = 2;
 
-function init(){
-  board = Array.from({length:size},()=>Array(size).fill(0));
-  current = USER; over = false;
-  resize(); render();
+init();
+
+function init() {
+  board = Array.from({ length: size }, () => Array(size).fill(0));
+  current = USER;
+  over = false;
+  resize();
+  render();
 }
 
-function resize(){
-  const d = Math.floor(Math.min(canvas.offsetWidth,canvas.offsetHeight));
-  canvas.width = d; canvas.height = d;
+function resize() {
+  const w = canvas.clientWidth;
+  const h = canvas.clientHeight;
+  const d = Math.min(w, h);
+  canvas.width = d;
+  canvas.height = d;
 }
 
-function g(){return canvas.width/size}
-function drawBoard(){
-  const gs = g(); ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.strokeStyle='#ccc';
-  for(let i=0;i<=size;i++){
-    ctx.beginPath(); ctx.moveTo(i*gs,0); ctx.lineTo(i*gs,canvas.height); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(0,i*gs); ctx.lineTo(canvas.width,i*gs); ctx.stroke();
+function g() {
+  return canvas.width / size;
+}
+
+function render() {
+  const gs = g();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.strokeStyle = '#ccc';
+  for (let i = 0; i <= size; i++) {
+    ctx.beginPath();
+    ctx.moveTo(i * gs, 0);
+    ctx.lineTo(i * gs, canvas.height);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(0, i * gs);
+    ctx.lineTo(canvas.width, i * gs);
+    ctx.stroke();
+  }
+
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
+      if (board[i][j] === USER) drawPiece(i, j, '#000');
+      if (board[i][j] === AI) drawPiece(i, j, '#fff');
+    }
   }
 }
 
-function drawPiece(x,y,c){
-  const gs=g(); const cx=(x+0.5)*gs, cy=(y+0.5)*gs;
-  ctx.beginPath(); ctx.arc(cx,cy,gs*0.4,0,Math.PI*2);
-  ctx.fillStyle=c===USER?'#000':'#fff'; ctx.fill();
-  ctx.strokeStyle='#333'; ctx.stroke();
+function drawPiece(x, y, color) {
+  const gs = g();
+  const cx = (x + 0.5) * gs;
+  const cy = (y + 0.5) * gs;
+  ctx.beginPath();
+  ctx.arc(cx, cy, gs * 0.4, 0, Math.PI * 2);
+  ctx.fillStyle = color;
+  ctx.fill();
+  ctx.strokeStyle = '#333';
+  ctx.stroke();
 }
 
-function render(){
-  drawBoard();
-  for(let i=0;i<size;i++) for(let j=0;j<size;j++){
-    if(board[i][j]===USER) drawPiece(i,j,USER);
-    if(board[i][j]===AI) drawPiece(i,j,AI);
+function checkWin(x, y, p) {
+  const dirs = [[1,0],[0,1],[1,1],[1,-1]];
+  for (let [dx, dy] of dirs) {
+    let cnt = 1;
+    for (let i = 1; i < 5; i++) {
+      const nx = x + dx * i;
+      const ny = y + dy * i;
+      if (nx >= 0 && nx < size && ny >= 0 && ny < size && board[nx][ny] === p) cnt++;
+      else break;
+    }
+    for (let i = 1; i < 5; i++) {
+      const nx = x - dx * i;
+      const ny = y - dy * i;
+      if (nx >= 0 && nx < size && ny >= 0 && ny < size && board[nx][ny] === p) cnt++;
+      else break;
+    }
+    if (cnt >= 5) return true;
+  }
+  return false;
+}
+
+function place(x, y) {
+  if (over || board[x][y] !== 0) return;
+  board[x][y] = current;
+  render();
+  if (checkWin(x, y, current)) {
+    setTimeout(() => alert(current === USER ? '你赢了！' : 'AI 赢了'), 100);
+    over = true;
+    return;
+  }
+  current = current === USER ? AI : USER;
+  if (current === AI && !over) {
+    setTimeout(aiPlay, 300);
   }
 }
 
-function checkWin(x,y,p){
-  const dir=[[1,0],[0,1],[1,1],[1,-1]];
-  for(let [dx,dy] of dir){
-    let cnt=1;
-    for(let i=1;i<5;i++){const nx=x+dx*i,ny=y+dy*i; if(nx>=0&&nx<size&&ny>=0&&ny<size&&board[nx][ny]===p)cnt++;else break}
-    for(let i=1;i<5;i++){const nx=x-dx*i,ny=y-dy*i; if(nx>=0&&nx<size&&ny>=0&&ny<size&&board[nx][ny]===p)cnt++;else break}
-    if(cnt>=5)return 1;
+function aiPlay() {
+  let maxScore = -1;
+  let best = { x: 7, y: 7 };
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
+      if (board[i][j] !== 0) continue;
+      const score = evalPoint(i, j);
+      if (score > maxScore) {
+        maxScore = score;
+        best = { x: i, y: j };
+      }
+    }
   }
-  return 0;
+  place(best.x, best.y);
 }
 
-function place(x,y){
-  if(over||board[x][y]!==0)return;
-  board[x][y]=current; render();
-  if(checkWin(x,y,current)){
-    setTimeout(()=>alert(current===USER?'你赢了！':'AI赢了'),100);
-    over=1; return;
-  }
-  current=current===USER?AI:USER;
-  if(current===AI&&!over) setTimeout(aiGo,300);
-}
+function evalPoint(x, y) {
+  let s = 0;
+  board[x][y] = AI;
+  if (checkWin(x, y, AI)) s += 10000;
+  board[x][y] = 0;
 
-function evalLine(x,y,dx,dy,p){
-  let c=0;
-  for(let i=1;i<5;i++){const nx=x+dx*i,ny=y+dy*i; if(nx>=0&&nx<size&&ny>=0&&ny<size&&board[nx][ny]===p)c++;else break}
-  for(let i=1;i<5;i++){const nx=x-dx*i,ny=y-dy*i; if(nx>=0&&nx<size&&ny>=0&&ny<size&&board[nx][ny]===p)c++;else break}
-  return c;
-}
+  board[x][y] = USER;
+  if (checkWin(x, y, USER)) s += 5000;
+  board[x][y] = 0;
 
-function evalPos(x,y){
-  let s=0;
-  board[x][y]=AI; if(checkWin(x,y,AI))s+=10000; board[x][y]=0;
-  board[x][y]=USER; if(checkWin(x,y,USER))s+=5000; board[x][y]=0;
-  const dir=[[1,0],[0,1],[1,1],[1,-1]];
-  for(let [dx,dy] of dir){
-    s+=evalLine(x,y,dx,dy,AI)*10;
-    s+=evalLine(x,y,dx,dy,USER)*8;
+  const dirs = [[1,0],[0,1],[1,1],[1,-1]];
+  for (let [dx, dy] of dirs) {
+    s += countLine(x, y, dx, dy, AI) * 10;
+    s += countLine(x, y, dx, dy, USER) * 8;
   }
   return s;
 }
 
-function aiGo(){
-  let mx=-1, bx=0, by=0;
-  for(let i=0;i<size;i++)for(let j=0;j<size;j++){
-    if(board[i][j]!==0)continue;
-    const sc=evalPos(i,j);
-    if(sc>mx)mx=sc,bx=i,by=j;
+function countLine(x, y, dx, dy, p) {
+  let c = 0;
+  for (let i = 1; i < 5; i++) {
+    const nx = x + dx * i;
+    const ny = y + dy * i;
+    if (nx >= 0 && nx < size && ny >= 0 && ny < size && board[nx][ny] === p) c++;
+    else break;
   }
-  place(bx,by);
+  for (let i = 1; i < 5; i++) {
+    const nx = x - dx * i;
+    const ny = y - dy * i;
+    if (nx >= 0 && nx < size && ny >= 0 && ny < size && board[nx][ny] === p) c++;
+    else break;
+  }
+  return c;
 }
 
-function pos(e){
-  const r=canvas.getBoundingClientRect();
-  const x=Math.floor((e.clientX-r.left)/g());
-  const y=Math.floor((e.clientY-r.top)/g());
-  return [x,y];
+function getPos(e) {
+  const rect = canvas.getBoundingClientRect();
+  const x = Math.floor((e.clientX - rect.left) / g());
+  const y = Math.floor((e.clientY - rect.top) / g());
+  return [x, y];
 }
 
-canvas.addEventListener('click',e=>{
-  if(current!==USER)return;
-  const [x,y]=pos(e);
-  if(x>=0&&x<size&&y>=0&&y<size)place(x,y);
+canvas.addEventListener('click', e => {
+  if (current !== USER) return;
+  const [x, y] = getPos(e);
+  if (x >= 0 && x < size && y >= 0 && y < size) place(x, y);
 });
 
-canvas.addEventListener('touchstart',e=>{
+canvas.addEventListener('touchstart', e => {
   e.preventDefault();
-  if(current!==USER)return;
-  const [x,y]=pos(e.touches[0]);
-  if(x>=0&&x<size&&y>=0&&y<size)place(x,y);
+  if (current !== USER) return;
+  const [x, y] = getPos(e.touches[0]);
+  if (x >= 0 && x < size && y >= 0 && y < size) place(x, y);
 });
 
-document.getElementById('restart').onclick=init;
-window.addEventListener('resize',()=>{resize();render()});
-init();
+document.getElementById('restart').onclick = init;
+window.addEventListener('resize', () => { resize(); render(); });
 </script>
 </body>
 </html>
