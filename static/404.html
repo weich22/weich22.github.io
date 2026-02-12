@@ -3,23 +3,71 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>404 - 下盘五子棋吧</title>
+<title>404 - 人机对战五子棋</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;background:#f7f8fa;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
-.container{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100%;padding:10px}
-.title{font-size:50px;font-weight:700;color:#4a79e2;margin-bottom:8px}
-.desc{font-size:15px;color:#666;margin-bottom:12px;text-align:center;line-height:1.4}
-#game{border:2px solid #4a79e2;border-radius:8px;background:#fff;max-width:100%}
-.back{margin-top:16px;padding:10px 22px;background:#4a79e2;color:#fff;border-radius:6px;text-decoration:none}
-#restart{margin-top:8px;padding:6px 16px;background:#666;color:#fff;border-radius:6px;border:none;cursor:pointer}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #f7f8fa;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+}
+.wrap {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+}
+.title {
+  font-size: 46px;
+  font-weight: 700;
+  color: #4a79e2;
+}
+.desc {
+  font-size: 15px;
+  color: #666;
+  text-align: center;
+}
+#game {
+  width: min(92vw, 78vh);
+  height: min(92vw, 78vh);
+  background: #fff;
+  border: 2px solid #4a79e2;
+  border-radius: 10px;
+  display: block;
+}
+#restart {
+  padding: 8px 18px;
+  background: #666;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.back {
+  padding: 9px 20px;
+  background: #4a79e2;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 15px;
+}
 </style>
 </head>
 <body>
-<div class="container">
+<div class="wrap">
   <div class="title">404</div>
-  <div class="desc">页面走丢啦<br>来下一盘五子棋再走吧</div>
-  <canvas id="game" width="320" height="320"></canvas>
+  <div class="desc">页面走丢啦<br>来和AI下一盘五子棋</div>
+  <canvas id="game"></canvas>
   <button id="restart">重新开始</button>
   <a class="back" href="/">返回首页</a>
 </div>
@@ -28,99 +76,178 @@ html,body{height:100%;background:#f7f8fa;font-family:-apple-system,BlinkMacSyste
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 const size = 15;
-const grid = 21.333;
-let board = Array(size).fill().map(()=>Array(size).fill(0));
-let current = 1;
-let over = false;
 
-function drawBoard(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.strokeStyle='#ccc';
-  for(let i=0;i<=size;i++){
+let board, current, over;
+const USER = 1;
+const AI = 2;
+
+init();
+
+function init() {
+  board = Array(size).fill().map(() => Array(size).fill(0));
+  current = USER;
+  over = false;
+  resize();
+  render();
+}
+
+function resize() {
+  const s = Math.min(canvas.clientWidth, canvas.clientHeight);
+  canvas.width = s;
+  canvas.height = s;
+}
+
+function grid() {
+  return canvas.width / size;
+}
+
+function render() {
+  const g = grid();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.strokeStyle = '#ccc';
+  for (let i = 0; i <= size; i++) {
     ctx.beginPath();
-    ctx.moveTo(i*grid,0);
-    ctx.lineTo(i*grid,canvas.height);
+    ctx.moveTo(i * g, 0);
+    ctx.lineTo(i * g, canvas.height);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(0,i*grid);
-    ctx.lineTo(canvas.width,i*grid);
+    ctx.moveTo(0, i * g);
+    ctx.lineTo(canvas.width, i * g);
     ctx.stroke();
+  }
+
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
+      if (board[i][j] === USER) drawPiece(i, j, '#000');
+      if (board[i][j] === AI) drawPiece(i, j, '#fff');
+    }
   }
 }
 
-function drawPiece(x,y,color){
-  let cx = (x+0.5)*grid;
-  let cy = (y+0.5)*grid;
+function drawPiece(x, y, color) {
+  const g = grid();
+  const cx = (x + 0.5) * g;
+  const cy = (y + 0.5) * g;
   ctx.beginPath();
-  ctx.arc(cx,cy,grid*0.4,0,Math.PI*2);
-  ctx.fillStyle=color?'#000':'#fff';
+  ctx.arc(cx, cy, g * 0.4, 0, Math.PI * 2);
+  ctx.fillStyle = color;
   ctx.fill();
-  ctx.strokeStyle='#333';
+  ctx.strokeStyle = '#333';
   ctx.stroke();
 }
 
-function render(){
-  drawBoard();
-  for(let i=0;i<size;i++){
-    for(let j=0;j<size;j++){
-      if(board[i][j]==1) drawPiece(i,j,1);
-      if(board[i][j]==2) drawPiece(i,j,0);
-    }
-  }
-}
-
-function checkWin(x,y,player){
-  const dirs=[[1,0],[0,1],[1,1],[1,-1]];
-  for(let [dx,dy] of dirs){
-    let count=1;
-    for(let i=1;i<5;i++){
-      let nx=x+dx*i, ny=y+dy*i;
-      if(nx>=0&&nx<size&&ny>=0&&ny<size&&board[nx][ny]==player)count++;
+function checkWin(x, y, p) {
+  const dirs = [[1,0],[0,1],[1,1],[1,-1]];
+  for (let [dx, dy] of dirs) {
+    let c = 1;
+    for (let i = 1; i < 5; i++) {
+      const nx = x + dx * i, ny = y + dy * i;
+      if (nx >=0 && nx < size && ny >=0 && ny < size && board[nx][ny] === p) c++;
       else break;
     }
-    for(let i=1;i<5;i++){
-      let nx=x-dx*i, ny=y-dy*i;
-      if(nx>=0&&nx<size&&ny>=0&&ny<size&&board[nx][ny]==player)count++;
+    for (let i = 1; i < 5; i++) {
+      const nx = x - dx * i, ny = y - dy * i;
+      if (nx >=0 && nx < size && ny >=0 && ny < size && board[nx][ny] === p) c++;
       else break;
     }
-    if(count>=5) return true;
+    if (c >=5) return true;
   }
   return false;
 }
 
-function place(x,y){
-  if(over||board[x][y]!==0)return;
-  board[x][y]=current;
+function place(x, y) {
+  if (over || board[x][y] !== 0) return;
+  board[x][y] = current;
   render();
-  if(checkWin(x,y,current)){
-    alert((current==1?'黑':'白')+'棋胜！');
-    over=true;
+  if (checkWin(x, y, current)) {
+    setTimeout(() => alert(current === USER ? '你赢了！' : 'AI 赢了'), 100);
+    over = true;
     return;
   }
-  current=current==1?2:1;
+  current = current === USER ? AI : USER;
+  if (current === AI && !over) {
+    setTimeout(aiPlay, 300);
+  }
 }
 
-canvas.addEventListener('click',e=>{
-  const rect=canvas.getBoundingClientRect();
-  const x=Math.floor((e.clientX-rect.left)/grid);
-  const y=Math.floor((e.clientY-rect.top)/grid);
-  if(x>=0&&x<size&&y>=0&&y<size) place(x,y);
+function aiPlay() {
+  let best = evalBestMove();
+  if (best) {
+    place(best.x, best.y);
+  }
+}
+
+function evalBestMove() {
+  let maxScore = -1;
+  let best = null;
+  for (let x = 0; x < size; x++) {
+    for (let y = 0; y < size; y++) {
+      if (board[x][y] !== 0) continue;
+      let s = evalPoint(x, y);
+      if (s > maxScore) {
+        maxScore = s;
+        best = {x,y};
+      }
+    }
+  }
+  return best;
+}
+
+function evalPoint(x, y) {
+  let s = 0;
+  board[x][y] = AI;
+  if (checkWin(x,y,AI)) s += 10000;
+  board[x][y] = 0;
+
+  board[x][y] = USER;
+  if (checkWin(x,y,USER)) s += 5000;
+  board[x][y] = 0;
+
+  const dirs = [[1,0],[0,1],[1,1],[1,-1]];
+  for (let [dx,dy] of dirs) {
+    s += countLine(x,y,dx,dy,AI) * 10;
+    s += countLine(x,y,dx,dy,USER) * 8;
+  }
+  return s;
+}
+
+function countLine(x,y,dx,dy,p) {
+  let c = 0;
+  for(let i=1;i<5;i++){
+    let nx=x+dx*i, ny=y+dy*i;
+    if(nx>=0&&nx<size&&ny>=0&&ny<size&&board[nx][ny]===p)c++;
+    else break;
+  }
+  for(let i=1;i<5;i++){
+    let nx=x-dx*i, ny=y-dy*i;
+    if(nx>=0&&nx<size&&ny>=0&&ny<size&&board[nx][ny]===p)c++;
+    else break;
+  }
+  return c;
+}
+
+function getPos(e) {
+  const rect = canvas.getBoundingClientRect();
+  const x = Math.floor((e.clientX - rect.left) / grid());
+  const y = Math.floor((e.clientY - rect.top) / grid());
+  return [x, y];
+}
+
+canvas.addEventListener('click', e => {
+  if (current !== USER) return;
+  const [x, y] = getPos(e);
+  if (x >=0 && x < size && y >=0 && y < size) place(x, y);
 });
 
-canvas.addEventListener('touchstart',e=>{
+canvas.addEventListener('touchstart', e => {
+  if (current !== USER) return;
   e.preventDefault();
-  const rect=canvas.getBoundingClientRect();
-  const x=Math.floor((e.touches[0].clientX-rect.left)/grid);
-  const y=Math.floor((e.touches[0].clientY-rect.top)/grid);
-  if(x>=0&&x<size&&y>=0&&y<size) place(x,y);
+  const [x, y] = getPos(e.touches[0]);
+  if (x >=0 && x < size && y >=0 && y < size) place(x, y);
 });
 
-document.getElementById('restart').onclick=()=>{
-  board=Array(size).fill().map(()=>Array(size).fill(0));
-  current=1;over=false;render();
-};
-
-render();
+document.getElementById('restart').onclick = init;
+window.addEventListener('resize', () => { resize(); render(); });
 </script>
 </body>
 </html>
