@@ -5,7 +5,6 @@
     "script":"<script src='/assets/articletoc.js'></script><script src='/assets/backtop.js'></script><script src='/assets/lightbox.js'></script>",
     "singlePage":["link"],
     "homeUrl":"https://g.weich.ee",
-    "homePage": "https://你的用户名.github.io",
     "urlMode":"issue",
     "startSite":"02/6/2026",
     "i18n":"CN", 
