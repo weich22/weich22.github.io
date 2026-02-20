@@ -6,7 +6,11 @@ Notepad++有两种光标模式,切换和自定义都很简单
 ### 光标是竖线
 插入模式(INS)：光标是竖线 | 输入文字会向后挤，不覆盖原有内容。
 
+![插入模式(INS)光标是竖线 | ](https://github.com/user-attachments/assets/57b28ec7-d7a3-4e52-b7fb-98a970f7be76)
+
 ### 光标是下划线
 改写模式(OVR)：光标是下划线_，输入会直接覆盖后面文字，个人觉得这个好难用，可能是不习惯吧。
+
+![改写模式(OVR)光标是下划线_](https://github.com/user-attachments/assets/7f9db8bc-ea31-4f48-9b84-0c93758056ce)
 
 底部状态栏会显示INS或 OVR,一眼就能看当前模式，或者直接鼠标点击底部状态栏右下角更改切换模式也可以。
