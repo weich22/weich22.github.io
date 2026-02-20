@@ -58,7 +58,7 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 ![Gmeek在Issues直接修改文章](https://github.com/user-attachments/assets/9a8d9b2c-0f20-49e2-a052-712a79030ef1)
 
 ### 修改文件
-比如经常修改`config.json` 点开文件后找到文件上方的一个笔🖊型图标点开文字是： `Edit this file`修改完成了，在文件顶部找到 `GmeekCommit changes...`点开再找到`GmeekCommit changes`点击一次，修改Code里面的文件要去全部生成一次才会生效的.
+比如经常修改`config.json` 点开文件后找到文件上方的一个笔🖊型图标点开文字是： `Edit this file`（手机页面显示是：In placee ，后面有个e字）修改完成了，在文件顶部找到 `GmeekCommit changes...`点开再找到`GmeekCommit changes`点击一次，修改Code里面的文件要去全部生成一次才会生效的.
 
 
 ### Gmeek安装
