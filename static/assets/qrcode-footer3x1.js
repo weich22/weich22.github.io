@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // ====================== 自由配置 ======================
   // 1=页面码  2=微信打赏  3=支付宝打赏
   // 想显示哪个就写哪个数字，任意组合
-  var showCodes = [1,2];
+  var showCodes = [1,2,3];
   // ======================================================
 
   var codeMap = {
