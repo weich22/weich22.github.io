@@ -74,3 +74,26 @@ ${content}
   });
 
 });
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const currentHost = window.location.host;
+  const path = window.location.pathname;
+
+  // 只在文章页、友情页生效
+  const needPage = path.startsWith('/post/') || path === '/link.html';
+
+  if (needPage) {
+    document.querySelectorAll('a').forEach(link => {
+      if (!link.href || link.href.startsWith('javascript:')) return;
+      try {
+        const url = new URL(link.href);
+        if (url.host !== currentHost) {
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+        }
+      } catch (e) {}
+    });
+  }
+});
