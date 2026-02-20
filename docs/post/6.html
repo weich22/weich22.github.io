@@ -11,7 +11,7 @@
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
 <meta name="description" content="### 没有排除链接
-```
+```js
 // ======================================================
 // 外部链接新窗口打开（文章页 post/ + 友情页 link.html）
 // ======================================================
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 ### 带排除链接
 
-```
+```js
 // ======================================================
 // 文章页+友情页：外部链接新窗口打开（排除自己主页）
 // ======================================================
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
 直接放到你的博客已经引用的一个js文件里面去，打开js文件编写，放到最后面去，js文件不用script标签，多个js放到一个js文件里面去会少请求一个链接，网站性能会优化好一点，你可以单独另外创建一个JS文件直接放进去，然后引用链接到Gmeek的config.json配置文件里面去，比如：[Gmeek博客资源文件引用](https://g.weich.ee/post/1.html#资源链接引用方式推荐)。">
 <meta property="og:title" content="Gmeek文章页和友情页外部链接新窗口打开">
 <meta property="og:description" content="### 没有排除链接
-```
+```js
 // ======================================================
 // 外部链接新窗口打开（文章页 post/ + 友情页 link.html）
 // ======================================================
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 ### 带排除链接
 
-```
+```js
 // ======================================================
 // 文章页+友情页：外部链接新窗口打开（排除自己主页）
 // ======================================================
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <meta property="og:url" content="https://g.weich.ee/post/6.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
 <title>Gmeek文章页和友情页外部链接新窗口打开</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -202,63 +202,59 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
     <div id="content">
 <div class="markdown-body" id="postBody"><h3>没有排除链接</h3>
-<pre class="notranslate"><code class="notranslate">// ======================================================
-// 外部链接新窗口打开（文章页 post/ + 友情页 link.html）
-// ======================================================
-document.addEventListener('DOMContentLoaded', function () {
-  const currentHost = window.location.host;
-  const path = window.location.pathname;
-  const needPage = path.startsWith('/post/') || path === '/link.html';
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-c">// ======================================================</span>
+<span class="pl-c">// 外部链接新窗口打开（文章页 post/ + 友情页 link.html）</span>
+<span class="pl-c">// ======================================================</span>
+<span class="pl-smi">document</span><span class="pl-kos">.</span><span class="pl-en">addEventListener</span><span class="pl-kos">(</span><span class="pl-s">'DOMContentLoaded'</span><span class="pl-kos">,</span> <span class="pl-k">function</span> <span class="pl-kos">(</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+  <span class="pl-k">const</span> <span class="pl-s1">currentHost</span> <span class="pl-c1">=</span> <span class="pl-smi">window</span><span class="pl-kos">.</span><span class="pl-c1">location</span><span class="pl-kos">.</span><span class="pl-c1">host</span><span class="pl-kos">;</span>
+  <span class="pl-k">const</span> <span class="pl-s1">path</span> <span class="pl-c1">=</span> <span class="pl-smi">window</span><span class="pl-kos">.</span><span class="pl-c1">location</span><span class="pl-kos">.</span><span class="pl-c1">pathname</span><span class="pl-kos">;</span>
+  <span class="pl-k">const</span> <span class="pl-s1">needPage</span> <span class="pl-c1">=</span> <span class="pl-s1">path</span><span class="pl-kos">.</span><span class="pl-en">startsWith</span><span class="pl-kos">(</span><span class="pl-s">'/post/'</span><span class="pl-kos">)</span> <span class="pl-c1">||</span> <span class="pl-s1">path</span> <span class="pl-c1">===</span> <span class="pl-s">'/link.html'</span><span class="pl-kos">;</span>
 
-  if (needPage) {
-    document.querySelectorAll('a').forEach(link =&gt; {
-      if (!link.href || link.href.startsWith('javascript:')) return;
-      try {
-        const url = new URL(link.href);
-        if (url.host !== currentHost) {
-          link.target = '_blank';
-          link.rel = 'noopener noreferrer';
-        }
-      } catch (e) {}
-    });
-  }
-});
-// ====================== 结束 ==========================
-
-</code></pre>
+  <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">needPage</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+    <span class="pl-smi">document</span><span class="pl-kos">.</span><span class="pl-en">querySelectorAll</span><span class="pl-kos">(</span><span class="pl-s">'a'</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">forEach</span><span class="pl-kos">(</span><span class="pl-s1">link</span> <span class="pl-c1">=&gt;</span> <span class="pl-kos">{</span>
+      <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-c1">!</span><span class="pl-s1">link</span><span class="pl-kos">.</span><span class="pl-c1">href</span> <span class="pl-c1">||</span> <span class="pl-s1">link</span><span class="pl-kos">.</span><span class="pl-c1">href</span><span class="pl-kos">.</span><span class="pl-en">startsWith</span><span class="pl-kos">(</span><span class="pl-s">'javascript:'</span><span class="pl-kos">)</span><span class="pl-kos">)</span> <span class="pl-k">return</span><span class="pl-kos">;</span>
+      <span class="pl-k">try</span> <span class="pl-kos">{</span>
+        <span class="pl-k">const</span> <span class="pl-s1">url</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-c1">URL</span><span class="pl-kos">(</span><span class="pl-s1">link</span><span class="pl-kos">.</span><span class="pl-c1">href</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+        <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">url</span><span class="pl-kos">.</span><span class="pl-c1">host</span> <span class="pl-c1">!==</span> <span class="pl-s1">currentHost</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+          <span class="pl-s1">link</span><span class="pl-kos">.</span><span class="pl-c1">target</span> <span class="pl-c1">=</span> <span class="pl-s">'_blank'</span><span class="pl-kos">;</span>
+          <span class="pl-s1">link</span><span class="pl-kos">.</span><span class="pl-c1">rel</span> <span class="pl-c1">=</span> <span class="pl-s">'noopener noreferrer'</span><span class="pl-kos">;</span>
+        <span class="pl-kos">}</span>
+      <span class="pl-kos">}</span> <span class="pl-k">catch</span> <span class="pl-kos">(</span><span class="pl-s1">e</span><span class="pl-kos">)</span> <span class="pl-kos">{</span><span class="pl-kos">}</span>
+    <span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+  <span class="pl-kos">}</span>
+<span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-c">// ====================== 结束 ==========================</span></pre></div>
 <h3>带排除链接</h3>
-<pre class="notranslate"><code class="notranslate">// ======================================================
-// 文章页+友情页：外部链接新窗口打开（排除自己主页）
-// ======================================================
-document.addEventListener('DOMContentLoaded', function () {
-  const currentHost = window.location.host;
-  const path = window.location.pathname;
-  const needPage = path.startsWith('/post/') || path === '/link.html';
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-c">// ======================================================</span>
+<span class="pl-c">// 文章页+友情页：外部链接新窗口打开（排除自己主页）</span>
+<span class="pl-c">// ======================================================</span>
+<span class="pl-smi">document</span><span class="pl-kos">.</span><span class="pl-en">addEventListener</span><span class="pl-kos">(</span><span class="pl-s">'DOMContentLoaded'</span><span class="pl-kos">,</span> <span class="pl-k">function</span> <span class="pl-kos">(</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+  <span class="pl-k">const</span> <span class="pl-s1">currentHost</span> <span class="pl-c1">=</span> <span class="pl-smi">window</span><span class="pl-kos">.</span><span class="pl-c1">location</span><span class="pl-kos">.</span><span class="pl-c1">host</span><span class="pl-kos">;</span>
+  <span class="pl-k">const</span> <span class="pl-s1">path</span> <span class="pl-c1">=</span> <span class="pl-smi">window</span><span class="pl-kos">.</span><span class="pl-c1">location</span><span class="pl-kos">.</span><span class="pl-c1">pathname</span><span class="pl-kos">;</span>
+  <span class="pl-k">const</span> <span class="pl-s1">needPage</span> <span class="pl-c1">=</span> <span class="pl-s1">path</span><span class="pl-kos">.</span><span class="pl-en">startsWith</span><span class="pl-kos">(</span><span class="pl-s">'/post/'</span><span class="pl-kos">)</span> <span class="pl-c1">||</span> <span class="pl-s1">path</span> <span class="pl-c1">===</span> <span class="pl-s">'/link.html'</span><span class="pl-kos">;</span>
 
-  // 只排除【旧GitHub域名】，其他都正常判断
-  const excludeHosts = [
-    'xxxx.github.io'  // 这里只写你原来的 github 域名
-  ];
+  <span class="pl-c">// 只排除【旧GitHub域名】，其他都正常判断</span>
+  <span class="pl-k">const</span> <span class="pl-s1">excludeHosts</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span>
+    <span class="pl-s">'xxxx.github.io'</span>  <span class="pl-c">// 这里只写你原来的 github 域名</span>
+  <span class="pl-kos">]</span><span class="pl-kos">;</span>
 
-  if (needPage) {
-    document.querySelectorAll('a').forEach(link =&gt; {
-      if (!link.href || link.href.startsWith('javascript:')) return;
-      try {
-        const url = new URL(link.href);
-        const isExternal = url.host !== currentHost;
-        const isExcluded = excludeHosts.some(h =&gt; url.host.includes(h));
+  <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">needPage</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+    <span class="pl-smi">document</span><span class="pl-kos">.</span><span class="pl-en">querySelectorAll</span><span class="pl-kos">(</span><span class="pl-s">'a'</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">forEach</span><span class="pl-kos">(</span><span class="pl-s1">link</span> <span class="pl-c1">=&gt;</span> <span class="pl-kos">{</span>
+      <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-c1">!</span><span class="pl-s1">link</span><span class="pl-kos">.</span><span class="pl-c1">href</span> <span class="pl-c1">||</span> <span class="pl-s1">link</span><span class="pl-kos">.</span><span class="pl-c1">href</span><span class="pl-kos">.</span><span class="pl-en">startsWith</span><span class="pl-kos">(</span><span class="pl-s">'javascript:'</span><span class="pl-kos">)</span><span class="pl-kos">)</span> <span class="pl-k">return</span><span class="pl-kos">;</span>
+      <span class="pl-k">try</span> <span class="pl-kos">{</span>
+        <span class="pl-k">const</span> <span class="pl-s1">url</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-c1">URL</span><span class="pl-kos">(</span><span class="pl-s1">link</span><span class="pl-kos">.</span><span class="pl-c1">href</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+        <span class="pl-k">const</span> <span class="pl-s1">isExternal</span> <span class="pl-c1">=</span> <span class="pl-s1">url</span><span class="pl-kos">.</span><span class="pl-c1">host</span> <span class="pl-c1">!==</span> <span class="pl-s1">currentHost</span><span class="pl-kos">;</span>
+        <span class="pl-k">const</span> <span class="pl-s1">isExcluded</span> <span class="pl-c1">=</span> <span class="pl-s1">excludeHosts</span><span class="pl-kos">.</span><span class="pl-en">some</span><span class="pl-kos">(</span><span class="pl-s1">h</span> <span class="pl-c1">=&gt;</span> <span class="pl-s1">url</span><span class="pl-kos">.</span><span class="pl-c1">host</span><span class="pl-kos">.</span><span class="pl-en">includes</span><span class="pl-kos">(</span><span class="pl-s1">h</span><span class="pl-kos">)</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
 
-        if (isExternal &amp;&amp; !isExcluded) {
-          link.target = '_blank';
-          link.rel = 'noopener noreferrer';
-        }
-      } catch (e) {}
-    });
-  }
-});
-// ====================== 结束 ==========================
-
-</code></pre>
+        <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">isExternal</span> <span class="pl-c1">&amp;&amp;</span> <span class="pl-c1">!</span><span class="pl-s1">isExcluded</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+          <span class="pl-s1">link</span><span class="pl-kos">.</span><span class="pl-c1">target</span> <span class="pl-c1">=</span> <span class="pl-s">'_blank'</span><span class="pl-kos">;</span>
+          <span class="pl-s1">link</span><span class="pl-kos">.</span><span class="pl-c1">rel</span> <span class="pl-c1">=</span> <span class="pl-s">'noopener noreferrer'</span><span class="pl-kos">;</span>
+        <span class="pl-kos">}</span>
+      <span class="pl-kos">}</span> <span class="pl-k">catch</span> <span class="pl-kos">(</span><span class="pl-s1">e</span><span class="pl-kos">)</span> <span class="pl-kos">{</span><span class="pl-kos">}</span>
+    <span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+  <span class="pl-kos">}</span>
+<span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-c">// ====================== 结束 ==========================</span></pre></div>
 <p>直接放到你的博客已经引用的一个js文件里面去，打开js文件编写，放到最后面去，js文件不用script标签，多个js放到一个js文件里面去会少请求一个链接，网站性能会优化好一点，你可以单独另外创建一个JS文件直接放进去，然后引用链接到Gmeek的config.json配置文件里面去，比如：<a href="https://g.weich.ee/post/1.html#%E8%B5%84%E6%BA%90%E9%93%BE%E6%8E%A5%E5%BC%95%E7%94%A8%E6%96%B9%E5%BC%8F%E6%8E%A8%E8%8D%90" rel="nofollow">Gmeek博客资源文件引用</a></p></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
