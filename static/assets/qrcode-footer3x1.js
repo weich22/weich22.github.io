@@ -77,11 +77,12 @@ ${content}
 
 
 
+// ======================================================
+// 外部链接新窗口打开（文章页 post/ + 友情页 link.html）
+// ======================================================
 document.addEventListener('DOMContentLoaded', function () {
   const currentHost = window.location.host;
   const path = window.location.pathname;
-
-  // 只在文章页、友情页生效
   const needPage = path.startsWith('/post/') || path === '/link.html';
 
   if (needPage) {
@@ -97,3 +98,4 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+// ====================== 结束 ==========================
