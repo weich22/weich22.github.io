@@ -1,5 +1,67 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力，不做没用的功！</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Fri, 20 Feb 2026 21:09:56 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>p40显卡在win系统用amd核显输出游戏卡屏</title><link>https://g.weich.ee/post/5.html</link><description>p40显卡在win系统用amd核显输出游戏卡屏，比如玩LOL一半突然卡屏切换出去别的软件或者桌面，马上切换回来又好了，通过cmd命令限制功耗到160w改善不明显，最后去设置amd显卡面板里面的输入延时关闭后好了很多，但还是没有完全好，LOL游戏无边框模式我也开了。</description><guid isPermaLink="true">https://g.weich.ee/post/5.html</guid><pubDate>Tue, 17 Feb 2026 21:42:47 +0000</pubDate></item><item><title>notepad++如何更改光标模式</title><link>https://g.weich.ee/post/4.html</link><description>Notepad++有两种光标模式,切换和自定义都很简单
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力，不做没用的功！</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Fri, 20 Feb 2026 21:46:22 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek文章页和友情页外部链接新窗口打开</title><link>https://g.weich.ee/post/6.html</link><description>### 没有排除链接
+```
+// ======================================================
+// 外部链接新窗口打开（文章页 post/ + 友情页 link.html）
+// ======================================================
+document.addEventListener('DOMContentLoaded', function () {
+  const currentHost = window.location.host;
+  const path = window.location.pathname;
+  const needPage = path.startsWith('/post/') || path === '/link.html';
+
+  if (needPage) {
+    document.querySelectorAll('a').forEach(link =&gt; {
+      if (!link.href || link.href.startsWith('javascript:')) return;
+      try {
+        const url = new URL(link.href);
+        if (url.host !== currentHost) {
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+        }
+      } catch (e) {}
+    });
+  }
+});
+// ====================== 结束 ==========================
+
+```
+
+### 带排除链接
+
+```
+// ======================================================
+// 文章页+友情页：外部链接新窗口打开（排除自己主页）
+// ======================================================
+document.addEventListener('DOMContentLoaded', function () {
+  const currentHost = window.location.host;
+  const path = window.location.pathname;
+  const needPage = path.startsWith('/post/') || path === '/link.html';
+
+  // 只排除【旧GitHub域名】，其他都正常判断
+  const excludeHosts = [
+    'xxxx.github.io'  // 这里只写你原来的 github 域名
+  ];
+
+  if (needPage) {
+    document.querySelectorAll('a').forEach(link =&gt; {
+      if (!link.href || link.href.startsWith('javascript:')) return;
+      try {
+        const url = new URL(link.href);
+        const isExternal = url.host !== currentHost;
+        const isExcluded = excludeHosts.some(h =&gt; url.host.includes(h));
+
+        if (isExternal &amp;&amp; !isExcluded) {
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+        }
+      } catch (e) {}
+    });
+  }
+});
+// ====================== 结束 ==========================
+
+```
+直接放到你的博客已经引用的一个js文件里面去，打开js文件编写，放到最后面去，js文件不用script标签，多个js放到一个js文件里面去会少请求一个链接，网站性能会优化好一点，你可以单独另外创建一个JS文件直接放进去，然后引用链接到Gmeek的config.json配置文件里面去，比如：[Gmeek博客资源文件引用](https://g.weich.ee/post/1.html#资源链接引用方式推荐)。</description><guid isPermaLink="true">https://g.weich.ee/post/6.html</guid><pubDate>Fri, 20 Feb 2026 21:45:57 +0000</pubDate></item><item><title>p40显卡在win系统用amd核显输出游戏卡屏</title><link>https://g.weich.ee/post/5.html</link><description>p40显卡在win系统用amd核显输出游戏卡屏，比如玩LOL一半突然卡屏切换出去别的软件或者桌面，马上切换回来又好了，通过cmd命令限制功耗到160w改善不明显，最后去设置amd显卡面板里面的输入延时关闭后好了很多，但还是没有完全好，LOL游戏无边框模式我也开了。</description><guid isPermaLink="true">https://g.weich.ee/post/5.html</guid><pubDate>Tue, 17 Feb 2026 21:42:47 +0000</pubDate></item><item><title>notepad++如何更改光标模式</title><link>https://g.weich.ee/post/4.html</link><description>Notepad++有两种光标模式,切换和自定义都很简单
 
 快速切换插入/改写模式(最常用)
 键盘Insert键(Ins)：一键切换
