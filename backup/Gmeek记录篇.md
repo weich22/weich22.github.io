@@ -47,10 +47,10 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 ### Gmeek在GITHUB全局生成
 修改或者添加页面都需要做一次，发表文章除外，不过发生错误的时候也可以去全局生成试试.
 在顶部菜单找到：`Actions`点开——左边的菜单找到【手机需要横屏或者也是在Actions页面找到`All workflows`下拉才能看到】`build Gmeek`点开——右边找到`Run workflow`点开下拉找到`Run workflow`点击，然后继续在Actions页面刷新等待查看处理好了没。
-
 特别是：修改了config.json后，
 通过Actions->build Gmeek->Run workflow->里面的按钮全局重新生成一次，不然配置不生效。
 
+![Gmeek修改配置之后需要全局生成](https://github.com/user-attachments/assets/7b38e795-b4a5-4483-a084-d99b04ee71a1)
 
 ### Gmeek修改文章
 上面菜单占到`Issues`点开，找到要修改的文章标题点开，文章顶部有3个...点开找到`Edit`附近还有一个笔🖊一样的图标点开就可以修改文章了，修改完成后，文章底部有 Cancel 和 Save 的文字分别为 取消 和 保存.
