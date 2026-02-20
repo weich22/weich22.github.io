@@ -132,3 +132,10 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 "urlMode":"issue",
 ```
 添加到Gmeek里面的配置文件：config.json里面去。
+
+### 添加主页链接
+不添加的话你绑定自定义域名后，博客上面菜单栏的主页家园图标链接会是原来github新建时候的链接，里面的链接改成你的链接，然后添加到Gmeek的配置文件config.json里面去。
+
+```
+"homeUrl":"https://g.weich.ee",
+```
