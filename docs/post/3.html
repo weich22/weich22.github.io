@@ -10,25 +10,15 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="Notepad++有两种光标模式,切换和自定义都很简单
-
-快速切换插入/改写模式(最常用)
-键盘Insert键(Ins)：一键切换
-
-### 光标是竖线
-插入模式(INS)：光标是竖线 | 输入文字会向后挤，不覆盖原有内容。">
-<meta property="og:title" content="notepad++如何更改光标模式">
-<meta property="og:description" content="Notepad++有两种光标模式,切换和自定义都很简单
-
-快速切换插入/改写模式(最常用)
-键盘Insert键(Ins)：一键切换
-
-### 光标是竖线
-插入模式(INS)：光标是竖线 | 输入文字会向后挤，不覆盖原有内容。">
+<meta name="description" content="### 域名CNAME解析
+在你购买域名的地方（运营商），子域名或者主域名（你用哪个就解析那个）解析做CNAME记录到你原来的Github Pages域名（一般都是你github用户名加.github.io，比如：xxx.github.io，xxx是你的github用户，除非你之前申请的是后面有仓库名，是哪个就绑定那个）。">
+<meta property="og:title" content="GitHub Pages 绑定自定义域名">
+<meta property="og:description" content="### 域名CNAME解析
+在你购买域名的地方（运营商），子域名或者主域名（你用哪个就解析那个）解析做CNAME记录到你原来的Github Pages域名（一般都是你github用户名加.github.io，比如：xxx.github.io，xxx是你的github用户，除非你之前申请的是后面有仓库名，是哪个就绑定那个）。">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://weich22.github.io/post/notepad%2B%2B-ru-he-geng-gai-guang-biao-mo-shi.html">
+<meta property="og:url" content="https://weich22.github.io/post/3.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
-<title>notepad++如何更改光标模式</title>
+<title>GitHub Pages 绑定自定义域名</title>
 
 
 
@@ -61,7 +51,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">notepad++如何更改光标模式</h1>
+<h1 class="postTitle">GitHub Pages 绑定自定义域名</h1>
 <div class="title-right">
     <a href="https://weich22.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -79,14 +69,13 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>Notepad++有两种光标模式,切换和自定义都很简单</p>
-<p>快速切换插入/改写模式(最常用)<br>
-键盘Insert键(Ins)：一键切换</p>
-<h3>光标是竖线</h3>
-<p>插入模式(INS)：光标是竖线 | 输入文字会向后挤，不覆盖原有内容。</p>
-<h3>光标是下划线</h3>
-<p>改写模式(OVR)：光标是下划线_，输入会直接覆盖后面文字，个人觉得这个好难用，可能是不习惯吧。</p>
-<p>底部状态栏会显示INS或 OVR,一眼就能看当前模式，或者直接鼠标点击底部状态栏右下角更改切换模式也可以。</p></div>
+<div class="markdown-body" id="postBody"><h3>域名CNAME解析</h3>
+<p>在你购买域名的地方（运营商），子域名或者主域名（你用哪个就解析那个）解析做CNAME记录到你原来的Github Pages域名（一般都是你github用户名加.github.io，比如：xxx.github.io，xxx是你的github用户，除非你之前申请的是后面有仓库名，是哪个就绑定那个）。</p>
+<h3>绑定域名</h3>
+<p>再到github page 仓库处进入设置 ”settings“的Pages输入你刚刚CNAME到Github Pages的域名绑定，点击Save保存，后面Remove是删除，绑定错了可以删除再次绑定，或者以后你的域名到期了换域名也是可以删除再次绑定的，删除后就可以用原来的Github Pages域名访问，原来的Github Pages域名也是一直还在的，只不过是等GITHUB自动帮你把原来的原来的Github Pages域名301到了你绑定的域名，待几分钟才可以勾选开启https。</p>
+<h3>勾选开启https</h3>
+<p>勾选后github默认帮你申请免费的3个月的https，到时候自动帮你续https。</p>
+<p><a href="https://www.cnblogs.com/xieqk/p/Github-Page-DNS.html" rel="nofollow">参考：域名 DNS 解析到自己的 Github Page 页面（github page 绑定自己的域名）</a></p></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
