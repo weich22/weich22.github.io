@@ -65,7 +65,7 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 【仅需一个Github账号，让文字在互联网中永生 超轻量级个人博客框架Gmeek-哔哩哔哩】 
 视频：[https://b23.tv/LI3hM7E](https://b23.tv/LI3hM7E)
 图文：[https://b23.tv/ikbKm1j](https://b23.tv/ikbKm1j)
-[Gmeek在github的项目和说明](https://github.com/Meekdai/meekdai.github.io/issues/39)
+github：[Gmeek项目和说明](https://github.com/Meekdai/meekdai.github.io/issues/39)
 
 `Gmeek-html<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=1305790042&bvid=BV1GM4m1m7ZD&cid=1588230883&p=1&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>`
 
