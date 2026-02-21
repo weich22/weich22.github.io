@@ -53,7 +53,7 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 ![Gmeek修改配置之后需要全局生成](https://github.com/user-attachments/assets/7b38e795-b4a5-4483-a084-d99b04ee71a1)
 
 ### Gmeek修改文章
-上面菜单占到`Issues`点开，找到要修改的文章标题点开，文章顶部有3个...点开找到`Edit`附近还有一个笔🖊一样的图标点开就可以修改文章了，修改完成后，文章底部有 Cancel 和 Save 的文字分别为 取消 和 保存.
+上面菜单占到`Issues`点开，找到要修改的文章标题点开，文章顶部有3个...点开找到`Edit`附近还有一个笔🖊一样的图标点开就可以修改文章了，修改完成后，文章底部有 Cancel 和 Save 的文字分别为 取消 和 保存，查看Issues写的文章历史修改，点开文章顶部有文字是： `Edits` ，能看到下面图片的话，就是图片标准的下方往左边一点。
 
 ![Gmeek在Issues直接修改文章](https://github.com/user-attachments/assets/9a8d9b2c-0f20-49e2-a052-712a79030ef1)
 
