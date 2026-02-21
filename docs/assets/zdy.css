@@ -38,16 +38,33 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 .copy-to-clipboard:hover { opacity: 1; }
  
 */
-/* 修复：代码不盖行号 + 不换行 + 横向滚动（标准代码块格式） */
+
+/* 核心修复：代码块不撑大页面，超长横向滚动 */
 .article pre.line-numbers {
-  padding-left: 3.8em !important;
   position: relative !important;
-  overflow: auto !important;
-  white-space: pre !important;       /* 关键：不换行 */
-  word-wrap: normal !important;      /* 关键：不自动折行 */
+  padding-left: 3.8em !important; /* 给行号预留固定空间 */
+  margin: 1em 0 !important;
+  overflow: auto !important;     /* 关键：让代码块自己滚动，不撑大页面 */
+  white-space: pre !important;    /* 关键：代码不换行，保留原始格式 */
+  word-wrap: normal !important;   /* 禁止自动折行 */
+  max-width: 100% !important;     /* 限制最大宽度为父容器宽度 */
 }
+
+/* 行号区域固定，不被代码覆盖 */
+.article pre.line-numbers::before {
+  width: 3em !important;
+  left: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  position: absolute !important;
+  border-right: 1px solid rgba(0,0,0,0.1) !important;
+}
+
+/* 代码内容区域，确保在滚动容器内 */
 .article pre.line-numbers code {
+  display: block !important;
   white-space: pre !important;
   overflow-x: visible !important;
+  padding: 0 !important;
 }
 
