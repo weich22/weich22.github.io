@@ -38,3 +38,16 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 .copy-to-clipboard:hover { opacity: 1; }
  
 */
+/* 修复：代码不盖行号 + 不换行 + 横向滚动（标准代码块格式） */
+.article pre.line-numbers {
+  padding-left: 3.8em !important;
+  position: relative !important;
+  overflow: auto !important;
+  white-space: pre !important;       /* 关键：不换行 */
+  word-wrap: normal !important;      /* 关键：不自动折行 */
+}
+.article pre.line-numbers code {
+  white-space: pre !important;
+  overflow-x: visible !important;
+}
+
