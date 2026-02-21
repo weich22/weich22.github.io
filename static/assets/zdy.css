@@ -27,7 +27,7 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 }
 
 
-/*覆盖Gmeek原来的代码高亮移植用Typecho的插件CodeHighlighter基于prismjs的代码高亮，高亮主题风格coy.csS*/
+/* 1. 先清空 Gmeek 自带代码高亮（必须） */
 .article pre code {
   background: transparent !important;
   border: none !important;
@@ -41,3 +41,5 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
   border: none !important;
   padding: 0 !important;
 }
+
+/* 2. 把从 Typecho 拷出来的 prism-coy.css 全部贴在下面 */
