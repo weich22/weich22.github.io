@@ -8,7 +8,7 @@ Notepad++有两种光标模式,切换和自定义都很简单
 
 ![插入模式(INS)光标是竖线 | ](https://weich22.github.io/imagesw/np11.webp)
 
-↓下本图片是对比上图测试稳定性，上图是在github仓库里面，本图是Issues写文章底部直接上传的，好像开了科学上面图片无法打开不稳定，没开科学下面（github的Issues写文章底部直接上传的）这个无法打开不稳定↓
+↓下本图片是对比上图测试稳定性与本文章标题内容无关，上图是在github仓库里面，本图是Issues写文章底部直接上传的，好像开了科学上面图片无法打开不稳定，没开科学下面（github的Issues写文章底部直接上传的）这个无法打开不稳定↓
 
 ![本图片是对比上图测试稳定性，上图是在仓库里面，本图是Issues写文章底部直接上传的](https://github.com/user-attachments/assets/57b28ec7-d7a3-4e52-b7fb-98a970f7be76)
 
