@@ -11,6 +11,6 @@
     "UTC":8,
     "showPostSource":0,
     "bottomText":"→转载请注明出处←",
-    "allHead":"<link rel=\"stylesheet\" href='/assets/zdy.css'><link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-coy.min.css\"><script src='/assets/qrcode-footer3x1.js'></script><meta http-equiv=\"Cache-Control\" content=\"public, max-age=2592000\"><script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>",
+    "allHead":"<link rel=\"stylesheet\" href='/assets/zdy.css'><script src='/assets/qrcode-footer3x1.js'></script><meta http-equiv=\"Cache-Control\" content=\"public, max-age=2592000\"><script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>",
     "GMEEK_VERSION":"last"
 }
