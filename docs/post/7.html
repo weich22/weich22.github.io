@@ -17,7 +17,7 @@
 <meta property="og:url" content="https://g.weich.ee/post/7.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
 <title>Gmeek图片缓存</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -81,28 +81,29 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>我就想通过js给用户在浏览器打开后缓存图片，但是好像无效，因为图片链接好像是有失效性的一样，没法缓存还是什么的，给图片链接加版本号都没用，后来我就想到实在不行把文章图片上传到仓库里面去也可以，就是到时候写文章是麻烦了点，然后我就把仓库里面的图片引用<br>
 （<code class="notranslate">https://weich22.github.io/imagesw/np11.webp</code>）到文章里面去，但是浏览器前端又解析成一个代理的图片地址，牛掰哈，链接是以camo.githubbusercontent.com开头的，没办法了只能这样先试试一段时间看那个稳定了。</p>
 <p>为了预防把一些不必要的图片给缓存了，我就在后面又加了可以排除链接有关键词的就不缓存。</p>
-<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-c">// ======================================================</span>
-<span class="pl-c">// github（Gmeek）图片缓存</span>
-<span class="pl-c">// 作用：给 Issues （Gmeek）写文章在文章底部上传的图片自动加版本号，让浏览器永久缓存</span>
-<span class="pl-c">// 排除规则：图片链接里包含以下关键词，就不处理、不缓存</span>
-<span class="pl-c">// ======================================================</span>
-<span class="pl-smi">document</span><span class="pl-kos">.</span><span class="pl-en">addEventListener</span><span class="pl-kos">(</span><span class="pl-s">'DOMContentLoaded'</span><span class="pl-kos">,</span> <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
-  <span class="pl-en">setTimeout</span><span class="pl-kos">(</span><span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
-    <span class="pl-smi">document</span><span class="pl-kos">.</span><span class="pl-en">querySelectorAll</span><span class="pl-kos">(</span><span class="pl-s">'img[src*="github"],img[src*="https://camo"]'</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">forEach</span><span class="pl-kos">(</span><span class="pl-s1">img</span> <span class="pl-c1">=&gt;</span> <span class="pl-kos">{</span>
-      <span class="pl-c">// 排除链接包含这些关键词的图片：qr、qrcode、code、api（二维码、动态API图等）</span>
-      <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">img</span><span class="pl-kos">.</span><span class="pl-c1">src</span><span class="pl-kos">.</span><span class="pl-en">includes</span><span class="pl-kos">(</span><span class="pl-s">'11qr11'</span><span class="pl-kos">)</span> <span class="pl-c1">||</span> 
-          <span class="pl-s1">img</span><span class="pl-kos">.</span><span class="pl-c1">src</span><span class="pl-kos">.</span><span class="pl-en">includes</span><span class="pl-kos">(</span><span class="pl-s">'qrcode'</span><span class="pl-kos">)</span> <span class="pl-c1">||</span> 
-          <span class="pl-s1">img</span><span class="pl-kos">.</span><span class="pl-c1">src</span><span class="pl-kos">.</span><span class="pl-en">includes</span><span class="pl-kos">(</span><span class="pl-s">'11code11'</span><span class="pl-kos">)</span> <span class="pl-c1">||</span> 
-          <span class="pl-s1">img</span><span class="pl-kos">.</span><span class="pl-c1">src</span><span class="pl-kos">.</span><span class="pl-en">includes</span><span class="pl-kos">(</span><span class="pl-s">'11api11'</span><span class="pl-kos">)</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
-        <span class="pl-k">return</span><span class="pl-kos">;</span>
-      <span class="pl-kos">}</span>
+<pre class="notranslate"><code class="notranslate">// ======================================================
+// github（Gmeek）图片缓存
+// 作用：给 Issues （Gmeek）写文章在文章底部上传的图片自动加版本号，让浏览器永久缓存
+// 排除规则：图片链接里包含以下关键词，就不处理、不缓存
+// ======================================================
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(function() {
+    document.querySelectorAll('img[src*="github"],img[src*="https://camo"]').forEach(img =&gt; {
+      // 排除链接包含这些关键词的图片：qr、qrcode、code、api（二维码、动态API图等）
+      if (img.src.includes('11qr11') || 
+          img.src.includes('qrcode') || 
+          img.src.includes('11code11') || 
+          img.src.includes('11api11')) {
+        return;
+      }
 
-      <span class="pl-k">const</span> <span class="pl-s1">url</span> <span class="pl-c1">=</span> <span class="pl-k">new</span> <span class="pl-c1">URL</span><span class="pl-kos">(</span><span class="pl-s1">img</span><span class="pl-kos">.</span><span class="pl-c1">src</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
-      <span class="pl-s1">url</span><span class="pl-kos">.</span><span class="pl-c1">searchParams</span><span class="pl-kos">.</span><span class="pl-en">set</span><span class="pl-kos">(</span><span class="pl-s">'v'</span><span class="pl-kos">,</span> <span class="pl-s">'202602'</span><span class="pl-kos">)</span><span class="pl-kos">;</span> <span class="pl-c">// 缓存版本号，修改这里即可刷新所有图片</span>
-      <span class="pl-s1">img</span><span class="pl-kos">.</span><span class="pl-c1">src</span> <span class="pl-c1">=</span> <span class="pl-s1">url</span><span class="pl-kos">.</span><span class="pl-en">toString</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
-    <span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
-  <span class="pl-kos">}</span><span class="pl-kos">,</span> <span class="pl-c1">500</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
-<span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre></div></div>
+      const url = new URL(img.src);
+      url.searchParams.set('v', '202602'); // 缓存版本号，修改这里即可刷新所有图片
+      img.src = url.toString();
+    });
+  }, 500);
+});
+</code></pre></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
