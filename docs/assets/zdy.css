@@ -3,3 +3,4 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 .d-flex {display: inline-block !important;}/*调节文章标签到文章下*/
 .Label, .label {line-height: 12px !important;}/*文章标签背景颜色框缩小一点*/
 .LabelTime {display: inline-block !important;}/*调节文章标签到手机显示不全或者不显示后面的日期*/
+.markdown-body img { height: auto;  width: 260px;}/*文章图片限制大小*/
