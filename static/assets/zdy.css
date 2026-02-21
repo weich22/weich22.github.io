@@ -25,3 +25,19 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
   -webkit-animation: tada 1s .2s ease both;
   -moz-animation: tada 1s .2s ease both;
 }
+
+
+/*覆盖Gmeek原来的代码高亮移植用Typecho的插件CodeHighlighter基于prismjs的代码高亮，高亮主题风格coy.csS*/
+.article pre code {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  color: inherit !important;
+  font-size: inherit !important;
+  box-shadow: none !important;
+}
+.article pre {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
