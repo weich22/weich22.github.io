@@ -122,3 +122,9 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 500);
 });
 
+// Gmeek 页面渲染完后自动高亮代码移植Typecho插件CodeHighlighter基于prismjs代码语法高亮，高亮主题风格coy.csS
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(() => {
+    if (window.Prism) Prism.highlightAll();
+  }, 600);
+});
