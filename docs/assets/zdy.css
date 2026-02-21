@@ -28,7 +28,7 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 
 
 /* 强行清空 Gmeek 自带样式 */
- 
+/* 
 .copy-to-clipboard {
   position: absolute; top: 6px; right: 8px;
   background: rgba(0,0,0,0.2); border: none; color: #fff;
@@ -37,3 +37,4 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 }
 .copy-to-clipboard:hover { opacity: 1; }
  
+*/
