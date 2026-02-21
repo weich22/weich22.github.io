@@ -11,6 +11,6 @@
     "UTC":8,
     "showPostSource":0,
     "bottomText":"→转载请注明出处←",
-    "allHead":"<link rel=\"stylesheet\" href='/assets/zdy.css'><script src='/assets/qrcode-footer3x1.js'></script><meta http-equiv=\"Cache-Control\" content=\"public, max-age=2592000\">",
+    "allHead":"<link rel=\"stylesheet\" href='/assets/zdy.css'><script src='/assets/qrcode-footer3x1.js'></script><meta http-equiv=\"Cache-Control\" content=\"public, max-age=2592000\">\n<script>document.addEventListener('DOMContentLoaded',function(){setTimeout(()=>{document.querySelectorAll('img').forEach(img=>{if(img.src.includes('github')){const u=new URL(img.src);u.searchParams.set('v','202602');img.src=u.toString();}});},500);});</script>",
     "GMEEK_VERSION":"last"
 }
