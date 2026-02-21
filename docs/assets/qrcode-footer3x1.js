@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // ======================================================
 document.addEventListener('DOMContentLoaded', function() {
   setTimeout(function() {
-    document.querySelectorAll('img[src*="github"]').forEach(img => {
+    document.querySelectorAll('img[src*="github"],img[src*="/imagesw/"]').forEach(img => {
       // 排除链接包含这些关键词的图片：qr、qrcode、code、api（二维码、动态API图等）
       if (img.src.includes('11qr11') || 
           img.src.includes('qrcode') || 
