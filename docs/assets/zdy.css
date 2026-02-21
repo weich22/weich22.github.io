@@ -28,27 +28,12 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 
 
 /* 强行清空 Gmeek 自带样式 */
-.article pre.notranslate,
-.article code.notranslate {
-  all: unset !important;
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  color: inherit !important;
-  font-size: inherit !important;
-  line-height: 1.6 !important;
+ 
+.copy-to-clipboard {
+  position: absolute; top: 6px; right: 8px;
+  background: rgba(0,0,0,0.2); border: none; color: #fff;
+  padding: 2px 6px; border-radius: 4px; cursor: pointer;
+  font-size: 12px; opacity: 0.7;
 }
-
-/* 让 Prism 样式能显示出来 */
-.article pre.notranslate {
-  display: block !important;
-  position: relative !important;
-  padding: 1em !important;
-  margin: 1em 0 !important;
-  overflow: auto !important;
-}
-.article code.notranslate {
-  display: block !important;
-}
+.copy-to-clipboard:hover { opacity: 1; }
+ 
