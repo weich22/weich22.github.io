@@ -27,24 +27,28 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 }
 
 
-/* 强制、暴力、彻底覆盖 Gmeek 代码高亮 */
+/* 彻底清空 Gmeek 原有代码样式，让 Prism 能生效 */
 .article pre,
 .article pre code {
   all: unset !important;
-  background: none !important;
-  background-color: transparent !important;
+  background: transparent !important;
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
   margin: 0 !important;
   color: inherit !important;
   font-size: inherit !important;
-  line-height: inherit !important;
+  line-height: 1.6 !important;
 }
 
-/* 让 Prism 重新正常显示 */
-.article pre[class*="language-"] {
+/* 让 coy.css 能正常匹配到 Gmeek 代码块 */
+.article pre {
   display: block !important;
+  position: relative !important;
   padding: 1em !important;
   margin: 1em 0 !important;
+  overflow: auto !important;
+}
+.article pre code {
+  display: block !important;
 }
