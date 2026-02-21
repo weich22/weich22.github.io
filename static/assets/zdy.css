@@ -27,19 +27,19 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 }
 
 
-/* 1. 先清空 Gmeek 自带代码高亮（必须） */
+/* 强制覆盖 Gmeek 自带代码高亮 */
 .article pre code {
   background: transparent !important;
-  border: none !important;
+  border: 0 !important;
   padding: 0 !important;
   color: inherit !important;
   font-size: inherit !important;
   box-shadow: none !important;
+  background-color: transparent !important;
 }
 .article pre {
   background: transparent !important;
-  border: none !important;
+  border: 0 !important;
   padding: 0 !important;
+  background-color: transparent !important;
 }
-
-/* 2. 把从 Typecho 拷出来的 prism-coy.css 全部贴在下面 */
