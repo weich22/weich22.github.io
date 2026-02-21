@@ -122,3 +122,18 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 500);
 });
 
+
+// 1. 搭配 clipboard.min.js 全部内容
+
+// 2. 搭配 prism.full.js 全部内容
+
+// 3. 最后加这段 Gmeek 适配（必须），代码高亮
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(() => {
+    document.querySelectorAll('.article pre code').forEach(el => {
+      el.classList.add('language-none');
+      el.parentNode.classList.add('line-numbers');
+    });
+    Prism.highlightAll();
+  }, 700);
+});
