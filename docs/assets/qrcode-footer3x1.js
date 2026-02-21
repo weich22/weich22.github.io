@@ -98,3 +98,15 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 // ====================== 结束 ==========================
+
+// 给 GitHub（Gmeek） 图片自动加版本号，实现浏览器本地缓存
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(function() {
+    document.querySelectorAll('img[src*="github"]').forEach(img => {
+      const url = new URL(img.src);
+      // 想更新缓存只改这个版本号
+      url.searchParams.set('v', '202602');
+      img.src = url.toString();
+    });
+  }, 500);
+});
