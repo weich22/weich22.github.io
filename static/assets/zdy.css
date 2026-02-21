@@ -4,3 +4,24 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 .Label, .label {line-height: 12px !important;}/*文章标签背景颜色框缩小一点*/
 .LabelTime {display: inline-block !important;}/*调节文章标签到手机显示不全或者不显示后面的日期*/
 .markdown-body img { height: auto;  width: 260px;}/*文章图片限制大小*/
+
+/*图片获取焦点抖动*/
+@-moz-keyframes tada{
+    0%{-moz-transform:scale(1);}
+    10%,20%{-moz-transform:scale(0.9) rotate(-3deg);}
+    30%,50%,70%,90%{-moz-transform:scale(1.2) rotate(3deg);}
+    40%,60%,80%{-moz-transform:scale(1.2) rotate(-3deg);}
+    100%{-moz-transform:scale(1) rotate(0);}
+   }
+
+  @-webkit-keyframes tada{
+    0%{-webkit-transform:scale(1);}
+    10%,20%{-webkit-transform:scale(0.9) rotate(-3deg);}
+    30%,50%,70%,90%{-webkit-transform:scale(1.2) rotate(3deg);}
+    40%,60%,80%{-webkit-transform:scale(1.2) rotate(-3deg);}
+    100%{-webkit-transform:scale(1) rotate(0);}}
+
+.markdown-body img:hover{
+  -webkit-animation: tada 1s .2s ease both;
+  -moz-animation: tada 1s .2s ease both;
+}
