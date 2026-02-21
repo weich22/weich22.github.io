@@ -27,19 +27,24 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 }
 
 
-/* 强制覆盖 Gmeek 自带代码高亮 */
+/* 强制、暴力、彻底覆盖 Gmeek 代码高亮 */
+.article pre,
 .article pre code {
-  background: transparent !important;
-  border: 0 !important;
+  all: unset !important;
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
   padding: 0 !important;
+  margin: 0 !important;
   color: inherit !important;
   font-size: inherit !important;
-  box-shadow: none !important;
-  background-color: transparent !important;
+  line-height: inherit !important;
 }
-.article pre {
-  background: transparent !important;
-  border: 0 !important;
-  padding: 0 !important;
-  background-color: transparent !important;
+
+/* 让 Prism 重新正常显示 */
+.article pre[class*="language-"] {
+  display: block !important;
+  padding: 1em !important;
+  margin: 1em 0 !important;
 }
