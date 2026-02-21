@@ -128,13 +128,22 @@ document.addEventListener('DOMContentLoaded', function() {
 // 2. 搭配 prism.full.js 全部内容
 
 // 3. 最后加这段 Gmeek 适配（必须），代码高亮
-// 让 Prism 在 Gmeek 上生效
 document.addEventListener('DOMContentLoaded', function() {
   setTimeout(() => {
     document.querySelectorAll('.article pre code').forEach(block => {
-      // 给 Prism 加上识别标记
+      const pre = block.parentElement;
+
+      // 给 Gmeek 强行套上 Prism 结构
+      pre.classList.add('line-numbers');
       block.classList.add('language-javascript');
+
+      // 清空 Gmeek 自带属性
+      block.removeAttribute('style');
+      pre.removeAttribute('style');
     });
-    if (window.Prism) Prism.highlightAll();
+
+    if (window.Prism) {
+      Prism.highlightAll();
+    }
   }, 800);
 });
