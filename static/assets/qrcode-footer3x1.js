@@ -131,11 +131,14 @@ document.addEventListener('DOMContentLoaded', function() {
 // 给 Gmeek 代码块强行加上 Prism 需要的 class
 document.addEventListener('DOMContentLoaded', function() {
   setTimeout(() => {
-    document.querySelectorAll('.article pre code').forEach(block => {
+    document.querySelectorAll('.article pre.notranslate code.notranslate').forEach(block => {
       const pre = block.parentElement;
+
+      // 强行加上 Prism 能识别的 class
       pre.classList.add('language-javascript', 'line-numbers');
       block.classList.add('language-javascript');
     });
-    Prism.highlightAll();
+
+    if (window.Prism) Prism.highlightAll();
   }, 800);
 });
