@@ -2,7 +2,7 @@
 
 ### 添加自定义修复js
 
-```+ css
+``` css
  
 // prism-init.js —— 自动识别并标记 Gmeek 的代码块
 document.addEventListener('DOMContentLoaded', () => {
