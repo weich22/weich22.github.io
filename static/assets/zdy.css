@@ -97,45 +97,40 @@ pre[class*="language-"] code * {
 /*使用dark和twilight点css主题不显示行号数字修复*/
 /* 强制显示行号数字 */
  
- 
-/* ====== 强制显示行号！深色主题专用 ====== */
-/* 1. 确保行号容器永远可见 */
+  
+/* ===== 修复行号位置 + 深色主题适配 ===== */
 .line-numbers {
-  position: relative !important;
-  padding-left: 3.8em !important; /* 为行号留足空间 */
-  border-left: 3px solid #4a4a4a !important; /* 左侧分隔线 */
-  background: #1e1e1e !important; /* 比twilight背景稍亮的底色 */
+  position: relative; /* 父容器必须相对定位！ */
+  padding-left: 3.8em; /* 左侧留出行号宽度 */
 }
 
-/* 2. 行号核心样式（关键！解决看不见问题） */
+/* 行号列表 - 关键定位在这里！ */
 .line-numbers-rows {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 3.2em !important; /* 行号宽度 */
-  padding: 0.5em 0 !important;
-  border-right: 1px solid #333 !important; /* 右侧分隔线 */
-  background: #252526 !important; /* 深灰底色（比代码背景亮10%） */
-  color: #858585 !important; /* 默认行号颜色（中灰） */
-  text-align: right !important;
-  pointer-events: none !important;
+  position: absolute; /* 绝对定位！钉死在左侧 */
+  top: 0;             /* 顶部对齐 */
+  left: 0;            /* 左侧对齐 */
+  width: 3em;         /* 行号宽度 */
+  padding: 0 0.5em 0 0; /* 内边距微调 */
+  border-right: 1px solid #444; /* 细边框分隔 */
+  background: #1e1e1e; /* 深灰背景（适配twilight） */
+  color: #888;        /* 行号颜色 */
+  text-align: right;
+  pointer-events: none; /* 点击穿透，不干扰代码复制 */
+  line-height: 1.5;   /* 行高匹配代码 */
 }
 
-/* 3. 重点！让行号在深色主题上清晰可见 */
+/* 每行行号 */
+.line-numbers-rows > span {
+  display: block;
+  counter-increment: linenumber;
+}
+
+/* 行号数字（重点调色！） */
 .line-numbers-rows > span::before {
-  color: #b5b5b5 !important; /* 浅灰色行号（关键！比默认亮30%） */
-  font-weight: 500 !important; /* 加粗更醒目 */
-  width: 2.2em !important;
-  display: inline-block !important;
-  text-align: right !important;
-  padding-right: 8px !important;
-  opacity: 0.9 !important; /* 避免太刺眼 */
-}
-
-/* 4. 鼠标悬停时高亮当前行（超实用！） */
-.line-numbers-rows > span:hover::before {
-  color: #fff !important; /* 悬停时变白色 */
-  background: rgba(255,255,255,0.1) !important;
-  border-radius: 2px !important;
+  content: counter(linenumber);
+  color: #aaa;        /* 浅灰色 - 深色背景最清晰！ */
+  font-size: 0.85em;
+  display: block;
+  padding-right: 0.5em;
 }
  
