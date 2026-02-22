@@ -96,3 +96,10 @@ pre[class*="language-"] code * {
    
 /*使用dark和twilight点css主题不显示行号数字修复*/
 /* 强制显示行号数字写在下面，还没写好*/
+
+
+ 
+/* 只改颜色，不动定位和计数 */
+.line-numbers-rows span::before { color: #aaa !important; }
+.line-numbers-rows { border-right-color: #444 !important; }
+ 
