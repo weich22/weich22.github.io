@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
     Prism.highlightAll();
   }
 });
- ```
 
+```
 ### 添加自定义css
 
 ``` 
@@ -80,7 +80,8 @@ pre[class*="language-"] code * {
     content: none !important;
   }
 }
- ```
+
+```
 
 ### 移植js和css源文件
 去Typecho插件目录直接把文件拿过来上传并引用到Gmeek的config.json配置文件。
