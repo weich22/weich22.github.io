@@ -1,6 +1,6 @@
 Typecho的CodeHighlighter基于 prismjs 的代码语法高亮插件如何移植到基于github用Gmeek做的博客。
 
-### 添加自定义js
+### 添加自定义修复js
 
 ```
  
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 ```
-### 添加自定义css
+### 添加自定义修复css
 
 ``` 
 /* =============== Prism 高亮终极兼容补丁（适配 Gmeek + zdy.css） =============== */
@@ -88,8 +88,20 @@ pre[class*="language-"] code * {
 只需要prism.full.js（也可以是prism.js，只不过prism.full.js的更完整）和clipboard.min.js和你想要的主题文件coy.css也可以是别的主题文件css。
 这样做可以和Gmeek自带的代码高亮共存，在代码高亮块开始三个点后面加代码是什么标识语言（随便添加比如：js或者JS或者html都可以，只要是你自己认识的或者需求的）就会是Gmeek自带的代码高亮，不加就是prism.js的代码高亮。
 
-我添加的自定义js文件名是：qrcode-footer3x1.js ，直接整合到原来已有并且已经引用的js文件里面的。
-我添加的自定义css文件名是：zdy.css ，这个也是直接整合到原来已经的文件里面的。
+
+CodeHighlighter插件的相关文件位于Typecho安装目录的/usr/plugins/CodeHighlighter/下：
+
+### 核心js文件目录：
+/usr/plugins/CodeHighlighter/static/prism.js或prism.ful1.js（完整版功能更全）
+
+### 主题CSS文件目录：
+/usr/plugins/CodeHighlighter/static/styles/coy.css
+
+### 复制插件目录：
+/usr/plugins/CodeHighlighter/static/clipboard.min.js
+
+我添加的自定义修复js文件名是：qrcode-footer3x1.js ，直接整合到原来已有并且已经引用的js文件里面的。
+我添加的自定义修复css文件名是：zdy.css ，这个也是直接整合到原来已经的文件里面的。
 
 移植后,打开博客首页和一篇文章页,检查代码块是否已正确着色,并且左侧显示行号。在手机上查看时,横向滚动条应正常工作。
 
