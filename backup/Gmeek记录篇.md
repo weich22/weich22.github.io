@@ -1,6 +1,6 @@
 ### 自定义优化首页CSS
 添加代码到config.json，请删除我写的中文和括号
-```css
+```
 "indexStyle":"<style>a.blogTitle {display: inline-block !important;}【优化手机端不显示博客顶部LOGO文字】.d-flex {display: inline-block !important;}【调节文章标签到文章下】.Label, .label {line-height: 12px !important;}【文章标签背景颜色框缩小一点】.LabelTime {display: inline-block !important;}【调节文章标签到手机显示不全或者不显示后面的日期】</style>",
 ```
 不限制博客首页最大宽度，直接添加在上面的</style>标签内
