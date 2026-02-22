@@ -98,39 +98,45 @@ pre[class*="language-"] code * {
 /* 强制显示行号数字 */
  
   
-/* ===== 修复行号位置 + 深色主题适配 ===== */
-.line-numbers {
-  position: relative; /* 父容器必须相对定位！ */
-  padding-left: 3.8em; /* 左侧留出行号宽度 */
+ 
+/* ===== Gmeek行号终极修复补丁 ===== */
+/* 1. 强制父容器定位（关键！解决顶部错位） */
+pre.line-numbers {
+  position: relative !important;
+  padding-left: 3.8em !important; /* 为行号留出足够空间 */
 }
 
-/* 行号列表 - 关键定位在这里！ */
+/* 2. 重置行号容器（解决消失问题） */
 .line-numbers-rows {
-  position: absolute; /* 绝对定位！钉死在左侧 */
-  top: 0;             /* 顶部对齐 */
-  left: 0;            /* 左侧对齐 */
-  width: 3em;         /* 行号宽度 */
-  padding: 0 0.5em 0 0; /* 内边距微调 */
-  border-right: 1px solid #444; /* 细边框分隔 */
-  background: #1e1e1e; /* 深灰背景（适配twilight） */
-  color: #888;        /* 行号颜色 */
-  text-align: right;
-  pointer-events: none; /* 点击穿透，不干扰代码复制 */
-  line-height: 1.5;   /* 行高匹配代码 */
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 3.5em !important; /* 行号宽度 */
+  padding: 0 !important;
+  text-align: right !important;
+  border-right: 1px solid #333 !important;
+  background: #1e1e1e !important; /* 深灰背景，适配所有暗色主题 */
+  color: #888 !important; /* 浅灰色数字，确保可见 */
+  line-height: 1.5 !important;
 }
 
-/* 每行行号 */
+/* 3. 修复行高（解决高度为0问题） */
 .line-numbers-rows > span {
-  display: block;
-  counter-increment: linenumber;
+  display: block !important;
+  height: 1.5em !important; /* 必须显式设置行高 */
+  padding: 0 8px 0 0 !important;
 }
 
-/* 行号数字（重点调色！） */
+/* 4. 强制显示行号数字（防透明覆盖） */
 .line-numbers-rows > span::before {
-  content: counter(linenumber);
-  color: #aaa;        /* 浅灰色 - 深色背景最清晰！ */
-  font-size: 0.85em;
-  display: block;
-  padding-right: 0.5em;
+  content: counter(linenumber) !important;
+  color: #aaa !important; /* 比背景亮20%，绝对可见 */
+  font-weight: normal !important;
+  text-shadow: none !important;
+}
+
+/* 5. 适配滚动条（防遮挡） */
+pre.line-numbers::-webkit-scrollbar {
+  width: 12px !important;
 }
  
