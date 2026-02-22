@@ -98,31 +98,3 @@ pre[class*="language-"] code * {
 /* 强制显示行号数字写在下面，还没写好，暂时放弃治疗不写了，下面是别的有注释说明*/
 
  
- 
-/* === coy.css 深色模式自动适配（基于 prefers-color-scheme）=== */
-@media (prefers-color-scheme: dark) {
-  /* 覆盖 coy.css 的浅色背景，改为深色系 */
-  code[class*="language-"],
-  pre[class*="language-"] {
-    background: #1e1e1e !important;
-    color: #d4d4d4 !important;
-  }
-
-  /* 保留 coy 的行号结构，仅调色 */
-  .line-numbers-rows {
-    background: #121212 !important;
-    border-right-color: #333 !important;
-  }
-  .line-numbers-rows span::before {
-    color: #777 !important;
-  }
-
-  /* 语法高亮关键词微调（更清晰） */
-  .token.comment { color: #6a9955 !important; }
-  .token.string { color: #ce9178 !important; }
-  .token.keyword { color: #569cd6 !important; }
-  .token.operator { color: #d4d4d4 !important; }
-  .token.punctuation { color: #d4d4d4 !important; }
-  .token.regex { color: #9cdcfe !important; }
-}
- 
