@@ -87,3 +87,6 @@ pre[class*="language-"] code * {
 去Typecho插件目录直接把文件拿过来上传并引用到Gmeek的config.json配置文件。
 只需要prism.full.js（也可以是prism.js，只不过prism.full.js的更完整）和clipboard.min.js和你想要的主题文件coy.css也可以是别的主题文件css。
 这样做可以和Gmeek自带的代码高亮共存，在代码高亮块开始三个点后面加代码是什么标识语言（随便添加比如：js或者JS或者html都可以，只要是你自己认识的或者需求的）就会是Gmeek自带的代码高亮，不加就是prism.js的代码高亮。
+
+我添加的自定义js文件名是：qrcode-footer3x1.js ，直接整合到原来已有并且已经引用的js文件里面的。
+我添加的自定义css文件名是：zdy.css ，这个也是直接整合到原来已经的文件里面的。
