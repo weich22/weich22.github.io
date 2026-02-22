@@ -51,54 +51,46 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 }
 
  
-/* ✅ 修复 Prism 行号与代码错位（关键）*/
+ 
+/* =============== Prism 高亮终极兼容补丁（适配 Gmeek + zdy.css） =============== */
+/* 👇 强制容器行为 */
 pre[class*="language-"] {
-  position: relative;
-  padding-left: 3.5em; /* 为行号预留空间 */
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  padding-left: 3.5em !important;
+  margin: 0 !important;
+  word-break: normal !important;
 }
 
-/* ✅ 确保行号固定在左侧，不随代码滚动偏移 */
-.line-numbers .line-numbers-rows {
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 3em; /* 行号栏宽度 */
-  text-align: right;
-  padding-right: 0.8em;
-  line-height: 1.5;
-  color: #999;
-  z-index: 1;
+/* 👇 强制代码内容不撑宽 */
+pre[class*="language-"] code {
+  display: block !important;
+  white-space: pre !important;
+  overflow-x: auto !important;
+  text-align: left !important;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace !important;
 }
 
-/* ✅ 手机端强制代码水平滚动，不撑宽页面 */
+/* 👇 清除 Prism 内联 span 的干扰 */
+pre[class*="language-"] code * {
+  white-space: inherit !important;
+  display: inline !important;
+}
+
+/* 👇 移动端防缩放 & 字体加固 */
 @media (max-width: 768px) {
   pre[class*="language-"] {
-    font-size: 0.85rem;
+    font-size: 0.875rem !important;
   }
   pre[class*="language-"] code {
-    white-space: pre;
-    word-break: normal;
+    font-size: 0.95em !important;
   }
-  pre[class*="language-"] > code {
-    display: block;
-    min-width: 100%;
+  pre[class*="language-"] code::before,
+  pre[class*="language-"] code::after {
+    content: none !important;
   }
 }
- 
-/* 🔑 核心修复：强制代码块内联内容不换行但可横向滚动 */
-pre[class*="language-"] code {
-  white-space: pre;
-  overflow-x: auto;
-  display: block;
-  -webkit-overflow-scrolling: touch; /* iOS 流畅滚动 */
-}
-
-/* 📱 额外加固：防止父容器被 inline-code 撑开（关键！）*/
-pre[class*="language-"] {
-  max-width: 100%;
-  word-break: normal; /* 防止长单词/URL 撑破 */
-}
-  
+   
