@@ -110,3 +110,6 @@ CodeHighlighter插件的相关文件位于Typecho安装目录的/usr/plugins/Cod
 2.下载文件:将这三个文件下载到本地
 3.上传到Gmeek: 将文件上传到GitHub仓库的/assets/js/和 /assets/css/目录
 4.配置引入:在 config. json 中通过allHead 或footer 字段引入
+
+
+[参考地址对比看下是不是完美1比1复刻了](http://weich.ee/archives/69.html)
