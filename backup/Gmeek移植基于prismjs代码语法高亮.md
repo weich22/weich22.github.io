@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ### 添加自定义修复css
 
-``` css
+```css
 /* =============== Prism 高亮终极兼容补丁（适配 Gmeek + zdy.css） =============== */
 /* 👇 强制容器行为 */
 pre[class*="language-"] {
