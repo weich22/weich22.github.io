@@ -100,31 +100,44 @@ pre[class*="language-"] code * {
   
  
  
-/* === 修复行号位置错乱的黄金三步 === */
-/* 1. 确保代码块成为行号的定位基准 */
-pre[class*="language-"].line-numbers {
-  position: relative !important; /* 关键！让行号认准这个"家" */
-  padding-left: 3.8em !important; /* 预留行号空间（原空白位） */
+ 
+/* === Gmeek × Prism 行号精准修复版 === */
+pre.line-numbers {
+  position: relative !important;
+  padding-left: 3.8em !important;
+  overflow: visible !important; /* 关键！防止行号被裁剪 */
 }
 
-/* 2. 精准定位行号到左侧空白处 */
 .line-numbers-rows {
   position: absolute !important;
   top: 0 !important;
   left: 0 !important;
-  width: 3.5em !important; /* 严格匹配预留空间 */
+  width: 3.5em !important;
+  height: 100% !important;
   padding: 0.5em 0 !important;
+  background: #1a1a1a !important;
   border-right: 1px solid #333 !important;
-  background: #1a1a1a !important; /* 与twilight背景融合 */
   text-align: right !important;
+  z-index: 2 !important; /* 🔥 最关键一行！让行号浮在代码上方 */
+  pointer-events: none !important; /* 防止干扰复制 */
 }
 
-/* 3. 修复行号与代码重叠 */
 .line-numbers-rows > span {
-  padding: 0 0.8em !important; /* 给数字留呼吸空间 */
-  color: #888 !important;
+  display: block !important;
+  counter-increment: linenumber !important;
+  padding: 0 0.8em !important;
 }
+
 .line-numbers-rows > span::before {
-  color: #aaa !important; /* 让数字更清晰 */
+  content: counter(linenumber) !important;
+  color: #888 !important;
+  font-size: 0.85em !important;
+}
+
+/* 强制 code 区域不覆盖行号 */
+pre.line-numbers > code {
+  position: relative !important;
+  z-index: 1 !important; /* 让代码乖乖待在行号下面 */
+  padding-left: 0 !important; /* 避免双重内边距 */
 }
  
