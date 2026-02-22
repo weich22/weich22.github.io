@@ -1,6 +1,7 @@
 Typecho的CodeHighlighter基于 prismjs 的代码语法高亮插件如何移植到基于github用Gmeek做的博客。
 
 ### 添加自定义js
+
 ```
  
 // prism-init.js —— 自动识别并标记 Gmeek 的代码块
@@ -34,7 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
  ```
+
 ### 添加自定义css
+
 ``` 
 /* =============== Prism 高亮终极兼容补丁（适配 Gmeek + zdy.css） =============== */
 /* 👇 强制容器行为 */
@@ -78,6 +81,8 @@ pre[class*="language-"] code * {
   }
 }
  ```
+
 ### 移植js和css源文件
 去Typecho插件目录直接把文件拿过来上传并引用到Gmeek的config.json配置文件。
 只需要prism.full.js（也可以是prism.js，只不过prism.full.js的更完整）和clipboard.min.js和你想要的主题文件coy.css也可以是别的主题文件css。
+这样做可以和Gmeek自带的代码高亮共存，在代码高亮块开始三个点后面加代码是什么标识语言（随便添加比如：js或者JS或者html都可以，只要是你自己认识的或者需求的）就会是Gmeek自带的代码高亮，不加就是prism.js的代码高亮。
