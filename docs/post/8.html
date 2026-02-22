@@ -79,37 +79,39 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="content">
 <div class="markdown-body" id="postBody"><p>Typecho的CodeHighlighter基于 prismjs 的代码语法高亮插件如何移植到基于github用Gmeek做的博客。</p>
 <h3>添加自定义修复js</h3>
-<div class="highlight highlight-source-css"><pre class="notranslate"><span class="pl-ent"> </span>
+<pre lang="[+] css" class="notranslate"><code class="notranslate"> 
 // prism-init.js —— 自动识别并标记 Gmeek 的代码块
-<span class="pl-ent">document</span>.<span class="pl-c1">addEventListener</span>(<span class="pl-s">'DOMContentLoaded'</span><span class="pl-kos">,</span> () <span class="pl-c1">=</span><span class="pl-c1">&gt;</span> {
+document.addEventListener('DOMContentLoaded', () =&gt; {
   // 遍历所有 &lt;pre&gt;&lt;code class="notranslate"&gt;
-  <span class="pl-ent">document</span>.<span class="pl-c1">querySelectorAll</span>(<span class="pl-s">'pre.notranslate &gt; code.notranslate'</span>).<span class="pl-c1">forEach</span>((codeEl) <span class="pl-c1">=</span><span class="pl-c1">&gt;</span> {
+  document.querySelectorAll('pre.notranslate &gt; code.notranslate').forEach((codeEl) =&gt; {
     // 尝试从父级 pre 的 title、data-lang 或内容特征推测语言（简单版）
-    <span class="pl-ent">let</span> <span class="pl-ent">lang</span> <span class="pl-c1">=</span> <span class="pl-s">'plaintext'</span>;
-    const pre <span class="pl-c1">=</span> codeEl.<span class="pl-c1">parentElement</span>;
+    let lang = 'plaintext';
+    const pre = codeEl.parentElement;
     
-    <span class="pl-c1">/</span><span class="pl-c1">/</span> 优先看 pre 的 title 属性（常见于 Gmeek 的手动标注，如 &lt;pre title<span class="pl-c1">=</span><span class="pl-s">"php"</span><span class="pl-c1">&gt;</span>）
-    if (pre.<span class="pl-c1">title</span>) lang <span class="pl-c1">=</span> pre.<span class="pl-c1">title</span>.<span class="pl-c1">trim</span>().<span class="pl-c1">toLowerCase</span>();
+    // 优先看 pre 的 title 属性（常见于 Gmeek 的手动标注，如 &lt;pre title="php"&gt;）
+    if (pre.title) lang = pre.title.trim().toLowerCase();
     
-    <span class="pl-c1">/</span><span class="pl-c1">/</span> 或看 data<span class="pl-c1">-</span>lang（如果你能在 Markdown 里写 `{.<span class="pl-c1">python</span>}` 之类，Gmeek 可能转成 data<span class="pl-c1">-</span>lang）
-    else if (pre.<span class="pl-c1">dataset</span>.<span class="pl-c1">lang</span>) lang <span class="pl-c1">=</span> pre.<span class="pl-c1">dataset</span>.<span class="pl-c1">lang</span>.<span class="pl-c1">trim</span>().<span class="pl-c1">toLowerCase</span>();
+    // 或看 data-lang（如果你能在 Markdown 里写 `{.python}` 之类，Gmeek 可能转成 data-lang）
+    else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
     
-    <span class="pl-c1">/</span><span class="pl-c1">/</span> 简单关键词 fallback（可选，谨慎使用）
-    else if (codeEl.<span class="pl-c1">textContent</span>.<span class="pl-c1">includes</span>('&lt;?php<span class="pl-s">')) lang = '</span>php<span class="pl-s">';</span>
-<span class="pl-s">    else if (codeEl.textContent.startsWith('</span>def <span class="pl-s">') || codeEl.textContent.includes('</span>import <span class="pl-s">')) lang = '</span>python<span class="pl-s">';</span>
-<span class="pl-s">    else if (codeEl.textContent.includes('</span>function <span class="pl-s">') || codeEl.textContent.includes('</span><span class="pl-c1">=</span><span class="pl-c1">&gt;</span><span class="pl-s">')) lang = '</span>javascript<span class="pl-s">';</span>
-<span class="pl-s"></span>
-<span class="pl-s">    // 添加 Prism 所需的 class</span>
-<span class="pl-s">    codeEl.classList.remove('</span>notranslate<span class="pl-s">');</span>
-<span class="pl-s">    codeEl.classList.add(`language-${lang}`);</span>
-<span class="pl-s">    pre.classList.add('</span>line-numbers<span class="pl-s">'); // 启用行号（需 coy.css 支持）</span>
-<span class="pl-s">  });</span>
-<span class="pl-s"></span>
-<span class="pl-s">  // ✨ 最后手动触发 Prism 高亮（关键！）</span>
-<span class="pl-s">  if (typeof Prism !== '</span>undefined') {
+    // 简单关键词 fallback（可选，谨慎使用）
+    else if (codeEl.textContent.includes('&lt;?php')) lang = 'php';
+    else if (codeEl.textContent.startsWith('def ') || codeEl.textContent.includes('import ')) lang = 'python';
+    else if (codeEl.textContent.includes('function ') || codeEl.textContent.includes('=&gt;')) lang = 'javascript';
+
+    // 添加 Prism 所需的 class
+    codeEl.classList.remove('notranslate');
+    codeEl.classList.add(`language-${lang}`);
+    pre.classList.add('line-numbers'); // 启用行号（需 coy.css 支持）
+  });
+
+  // ✨ 最后手动触发 Prism 高亮（关键！）
+  if (typeof Prism !== 'undefined') {
     Prism.highlightAll();
   }
-});</pre></div>
+});
+
+</code></pre>
 <h3>添加自定义修复css</h3>
 <div class="highlight highlight-source-css"><pre class="notranslate"><span class="pl-c">/* =============== Prism 高亮终极兼容补丁（适配 Gmeek + zdy.css） =============== */</span>
 <span class="pl-c">/* 👇 强制容器行为 */</span>

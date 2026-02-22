@@ -2,7 +2,7 @@ Typecho的CodeHighlighter基于 prismjs 的代码语法高亮插件如何移植�
 
 ### 添加自定义修复js
 
-``` css
+```[+] css
  
 // prism-init.js —— 自动识别并标记 Gmeek 的代码块
 document.addEventListener('DOMContentLoaded', () => {
