@@ -96,24 +96,36 @@ pre[class*="language-"] code * {
    
 /*使用dark和twilight点css主题不显示行号数字修复*/
 /* 强制显示行号数字 */
+/* ===== 从coy.css提取的行号样式（确保所有主题都显示行号）===== */
+pre[class*="language-"].line-numbers {
+  position: relative;
+  padding-left: 3.8em;
+  counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+  position: relative;
+  white-space: inherit;
+}
+
 .line-numbers .line-numbers-rows {
   position: absolute;
   pointer-events: none;
   top: 0;
-  left: -3.5em;
+  font-size: 100%;
+  left: -3.8em;
   width: 3em;
   letter-spacing: -1px;
   border-right: 1px solid #999;
   user-select: none;
-  counter-reset: linenumber;
 }
 
-.line-numbers .line-numbers-rows > span {
+.line-numbers-rows > span {
   display: block;
   counter-increment: linenumber;
 }
 
-.line-numbers .line-numbers-rows > span::before {
+.line-numbers-rows > span:before {
   content: counter(linenumber);
   color: #999;
   display: block;
