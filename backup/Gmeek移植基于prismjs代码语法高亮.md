@@ -1,4 +1,4 @@
-[Typecho的CodeHighlighter基于](url)Typecho的CodeHighlighter基于 prismjs 的代码语法高亮插件如何移植到基于github用Gmeek做的博客。
+Typecho的CodeHighlighter基于Typecho的CodeHighlighter基于 prismjs 的代码语法高亮插件如何移植到基于github用Gmeek做的博客用。
 
 ### 添加自定义修复js
 
