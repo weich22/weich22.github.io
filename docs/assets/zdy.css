@@ -88,3 +88,17 @@ pre[class*="language-"] {
   }
 }
  
+/* 🔑 核心修复：强制代码块内联内容不换行但可横向滚动 */
+pre[class*="language-"] code {
+  white-space: pre;
+  overflow-x: auto;
+  display: block;
+  -webkit-overflow-scrolling: touch; /* iOS 流畅滚动 */
+}
+
+/* 📱 额外加固：防止父容器被 inline-code 撑开（关键！）*/
+pre[class*="language-"] {
+  max-width: 100%;
+  word-break: normal; /* 防止长单词/URL 撑破 */
+}
+  
