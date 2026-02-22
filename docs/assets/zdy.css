@@ -99,44 +99,32 @@ pre[class*="language-"] code * {
  
   
  
-/* ===== Gmeek行号终极修复补丁 ===== */
-/* 1. 强制父容器定位（关键！解决顶部错位） */
-pre.line-numbers {
-  position: relative !important;
-  padding-left: 3.8em !important; /* 为行号留出足够空间 */
+ 
+/* === 修复行号位置错乱的黄金三步 === */
+/* 1. 确保代码块成为行号的定位基准 */
+pre[class*="language-"].line-numbers {
+  position: relative !important; /* 关键！让行号认准这个"家" */
+  padding-left: 3.8em !important; /* 预留行号空间（原空白位） */
 }
 
-/* 2. 重置行号容器（解决消失问题） */
+/* 2. 精准定位行号到左侧空白处 */
 .line-numbers-rows {
   position: absolute !important;
   top: 0 !important;
   left: 0 !important;
-  width: 3.5em !important; /* 行号宽度 */
-  padding: 0 !important;
-  text-align: right !important;
+  width: 3.5em !important; /* 严格匹配预留空间 */
+  padding: 0.5em 0 !important;
   border-right: 1px solid #333 !important;
-  background: #1e1e1e !important; /* 深灰背景，适配所有暗色主题 */
-  color: #888 !important; /* 浅灰色数字，确保可见 */
-  line-height: 1.5 !important;
+  background: #1a1a1a !important; /* 与twilight背景融合 */
+  text-align: right !important;
 }
 
-/* 3. 修复行高（解决高度为0问题） */
+/* 3. 修复行号与代码重叠 */
 .line-numbers-rows > span {
-  display: block !important;
-  height: 1.5em !important; /* 必须显式设置行高 */
-  padding: 0 8px 0 0 !important;
+  padding: 0 0.8em !important; /* 给数字留呼吸空间 */
+  color: #888 !important;
 }
-
-/* 4. 强制显示行号数字（防透明覆盖） */
 .line-numbers-rows > span::before {
-  content: counter(linenumber) !important;
-  color: #aaa !important; /* 比背景亮20%，绝对可见 */
-  font-weight: normal !important;
-  text-shadow: none !important;
-}
-
-/* 5. 适配滚动条（防遮挡） */
-pre.line-numbers::-webkit-scrollbar {
-  width: 12px !important;
+  color: #aaa !important; /* 让数字更清晰 */
 }
  
