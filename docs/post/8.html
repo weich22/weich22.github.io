@@ -113,48 +113,47 @@ document.addEventListener('DOMContentLoaded', () =&gt; {
 
 </code></pre>
 <p>别的参考版本：</p>
-<pre lang="css " class="notranslate"><code class="notranslate">  
-document.addEventListener('DOMContentLoaded', () =&gt; {
-  // ✅ 保持原选择器不变！因为之前这样高亮是正常的
-  document.querySelectorAll('pre.notranslate &gt; code.notranslate').forEach((codeEl) =&gt; {
-    let lang = 'plaintext';
-    const pre = codeEl.parentElement;
+<div class="highlight highlight-source-js"><pre class="notranslate">  
+<span class="pl-smi">document</span><span class="pl-kos">.</span><span class="pl-en">addEventListener</span><span class="pl-kos">(</span><span class="pl-s">'DOMContentLoaded'</span><span class="pl-kos">,</span> <span class="pl-kos">(</span><span class="pl-kos">)</span> <span class="pl-c1">=&gt;</span> <span class="pl-kos">{</span>
+  <span class="pl-c">// ✅ 保持原选择器不变！因为之前这样高亮是正常的</span>
+  <span class="pl-smi">document</span><span class="pl-kos">.</span><span class="pl-en">querySelectorAll</span><span class="pl-kos">(</span><span class="pl-s">'pre.notranslate &gt; code.notranslate'</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">forEach</span><span class="pl-kos">(</span><span class="pl-kos">(</span><span class="pl-s1">codeEl</span><span class="pl-kos">)</span> <span class="pl-c1">=&gt;</span> <span class="pl-kos">{</span>
+    <span class="pl-k">let</span> <span class="pl-s1">lang</span> <span class="pl-c1">=</span> <span class="pl-s">'plaintext'</span><span class="pl-kos">;</span>
+    <span class="pl-k">const</span> <span class="pl-s1">pre</span> <span class="pl-c1">=</span> <span class="pl-s1">codeEl</span><span class="pl-kos">.</span><span class="pl-c1">parentElement</span><span class="pl-kos">;</span>
     
-    // ✨ 新增：从Gmeek父级div提取语言（这才是关键！）
-    const gmeekDiv = pre.parentElement; // 获取父级div
-    if (gmeekDiv &amp;&amp; gmeekDiv.classList) {
-      for (const cls of gmeekDiv.classList) {
-        // 匹配 highlight-source-xxx 格式
-        const match = cls.match(/highlight-source-(\w+)/);
-        if (match) {
-          lang = match[1].toLowerCase();
-          break; // 找到就停止
-        }
-      }
-    }
+    <span class="pl-c">// ✨ 新增：从Gmeek父级div提取语言（这才是关键！）</span>
+    <span class="pl-k">const</span> <span class="pl-s1">gmeekDiv</span> <span class="pl-c1">=</span> <span class="pl-s1">pre</span><span class="pl-kos">.</span><span class="pl-c1">parentElement</span><span class="pl-kos">;</span> <span class="pl-c">// 获取父级div</span>
+    <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">gmeekDiv</span> <span class="pl-c1">&amp;&amp;</span> <span class="pl-s1">gmeekDiv</span><span class="pl-kos">.</span><span class="pl-c1">classList</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+      <span class="pl-k">for</span> <span class="pl-kos">(</span><span class="pl-k">const</span> <span class="pl-s1">cls</span> <span class="pl-k">of</span> <span class="pl-s1">gmeekDiv</span><span class="pl-kos">.</span><span class="pl-c1">classList</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+        <span class="pl-c">// 匹配 highlight-source-xxx 格式</span>
+        <span class="pl-k">const</span> <span class="pl-s1">match</span> <span class="pl-c1">=</span> <span class="pl-s1">cls</span><span class="pl-kos">.</span><span class="pl-en">match</span><span class="pl-kos">(</span><span class="pl-pds"><span class="pl-c1">/</span><span class="pl-s">h</span><span class="pl-s">i</span><span class="pl-s">g</span><span class="pl-s">h</span><span class="pl-s">l</span><span class="pl-s">i</span><span class="pl-s">g</span><span class="pl-s">h</span><span class="pl-s">t</span><span class="pl-s">-</span><span class="pl-s">s</span><span class="pl-s">o</span><span class="pl-s">u</span><span class="pl-s">r</span><span class="pl-s">c</span><span class="pl-s">e</span><span class="pl-s">-</span><span class="pl-kos">(</span><span class="pl-cce">\w</span><span class="pl-c1">+</span><span class="pl-kos">)</span><span class="pl-c1">/</span></span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+        <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">match</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+          <span class="pl-s1">lang</span> <span class="pl-c1">=</span> <span class="pl-s1">match</span><span class="pl-kos">[</span><span class="pl-c1">1</span><span class="pl-kos">]</span><span class="pl-kos">.</span><span class="pl-en">toLowerCase</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+          <span class="pl-k">break</span><span class="pl-kos">;</span> <span class="pl-c">// 找到就停止</span>
+        <span class="pl-kos">}</span>
+      <span class="pl-kos">}</span>
+    <span class="pl-kos">}</span>
     
-    // ❌ 保留原逻辑但降级为备选（避免冲突）
-    if (lang === 'plaintext') {
-      if (pre.title) lang = pre.title.trim().toLowerCase();
-      else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
-      else if (codeEl.textContent.includes('&lt;?php')) lang = 'php';
-      else if (codeEl.textContent.startsWith('def ') || codeEl.textContent.includes('import ')) lang = 'python';
-      else if (codeEl.textContent.includes('function ') || codeEl.textContent.includes('=&gt;')) lang = 'javascript';
-    }
+    <span class="pl-c">// ❌ 保留原逻辑但降级为备选（避免冲突）</span>
+    <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">lang</span> <span class="pl-c1">===</span> <span class="pl-s">'plaintext'</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+      <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">pre</span><span class="pl-kos">.</span><span class="pl-c1">title</span><span class="pl-kos">)</span> <span class="pl-s1">lang</span> <span class="pl-c1">=</span> <span class="pl-s1">pre</span><span class="pl-kos">.</span><span class="pl-c1">title</span><span class="pl-kos">.</span><span class="pl-en">trim</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">toLowerCase</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+      <span class="pl-k">else</span> <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">pre</span><span class="pl-kos">.</span><span class="pl-c1">dataset</span><span class="pl-kos">.</span><span class="pl-c1">lang</span><span class="pl-kos">)</span> <span class="pl-s1">lang</span> <span class="pl-c1">=</span> <span class="pl-s1">pre</span><span class="pl-kos">.</span><span class="pl-c1">dataset</span><span class="pl-kos">.</span><span class="pl-c1">lang</span><span class="pl-kos">.</span><span class="pl-en">trim</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">toLowerCase</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+      <span class="pl-k">else</span> <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">codeEl</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span><span class="pl-kos">.</span><span class="pl-en">includes</span><span class="pl-kos">(</span><span class="pl-s">'&lt;?php'</span><span class="pl-kos">)</span><span class="pl-kos">)</span> <span class="pl-s1">lang</span> <span class="pl-c1">=</span> <span class="pl-s">'php'</span><span class="pl-kos">;</span>
+      <span class="pl-k">else</span> <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">codeEl</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span><span class="pl-kos">.</span><span class="pl-en">startsWith</span><span class="pl-kos">(</span><span class="pl-s">'def '</span><span class="pl-kos">)</span> <span class="pl-c1">||</span> <span class="pl-s1">codeEl</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span><span class="pl-kos">.</span><span class="pl-en">includes</span><span class="pl-kos">(</span><span class="pl-s">'import '</span><span class="pl-kos">)</span><span class="pl-kos">)</span> <span class="pl-s1">lang</span> <span class="pl-c1">=</span> <span class="pl-s">'python'</span><span class="pl-kos">;</span>
+      <span class="pl-k">else</span> <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">codeEl</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span><span class="pl-kos">.</span><span class="pl-en">includes</span><span class="pl-kos">(</span><span class="pl-s">'function '</span><span class="pl-kos">)</span> <span class="pl-c1">||</span> <span class="pl-s1">codeEl</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span><span class="pl-kos">.</span><span class="pl-en">includes</span><span class="pl-kos">(</span><span class="pl-s">'=&gt;'</span><span class="pl-kos">)</span><span class="pl-kos">)</span> <span class="pl-s1">lang</span> <span class="pl-c1">=</span> <span class="pl-s">'javascript'</span><span class="pl-kos">;</span>
+    <span class="pl-kos">}</span>
 
-    // ✅ 保持原class操作不变（这是高亮生效的关键！）
-    codeEl.classList.remove('notranslate');
-    codeEl.classList.add(`language-${lang}`);
-    pre.classList.add('line-numbers');
-  });
+    <span class="pl-c">// ✅ 保持原class操作不变（这是高亮生效的关键！）</span>
+    <span class="pl-s1">codeEl</span><span class="pl-kos">.</span><span class="pl-c1">classList</span><span class="pl-kos">.</span><span class="pl-en">remove</span><span class="pl-kos">(</span><span class="pl-s">'notranslate'</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+    <span class="pl-s1">codeEl</span><span class="pl-kos">.</span><span class="pl-c1">classList</span><span class="pl-kos">.</span><span class="pl-en">add</span><span class="pl-kos">(</span><span class="pl-s">`language-<span class="pl-s1"><span class="pl-kos">${</span><span class="pl-s1">lang</span><span class="pl-kos">}</span></span>`</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+    <span class="pl-s1">pre</span><span class="pl-kos">.</span><span class="pl-c1">classList</span><span class="pl-kos">.</span><span class="pl-en">add</span><span class="pl-kos">(</span><span class="pl-s">'line-numbers'</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+  <span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
 
-  // ✅ 保持原高亮触发不变！
-  if (typeof Prism !== 'undefined') {
-    Prism.highlightAll();
-  }
-});
-  
-</code></pre>
+  <span class="pl-c">// ✅ 保持原高亮触发不变！</span>
+  <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-k">typeof</span> <span class="pl-v">Prism</span> <span class="pl-c1">!==</span> <span class="pl-s">'undefined'</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+    <span class="pl-v">Prism</span><span class="pl-kos">.</span><span class="pl-en">highlightAll</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+  <span class="pl-kos">}</span>
+<span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+  </pre></div>
 <p>另外一个参考：</p>
 <pre lang=" " class="notranslate"><code class="notranslate">document.addEventListener('DOMContentLoaded', () =&gt; {
   // ✅ 保持原有选择器：只处理 Gmeek 生成的 notranslate 结构
