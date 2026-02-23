@@ -17,7 +17,7 @@
 <meta property="og:url" content="https://g.weich.ee/post/8.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
 <title>Gmeek移植基于prismjs代码语法高亮</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -156,8 +156,7 @@ document.addEventListener('DOMContentLoaded', () =&gt; {
   
 </code></pre>
 <p>另外一个参考：</p>
-<pre class="notranslate"><code class="notranslate"> 
-document.addEventListener('DOMContentLoaded', () =&gt; {
+<pre lang=" " class="notranslate"><code class="notranslate">document.addEventListener('DOMContentLoaded', () =&gt; {
   // ✅ 保持原有选择器：只处理 Gmeek 生成的 notranslate 结构
   document.querySelectorAll('pre.notranslate &gt; code.notranslate').forEach((codeEl) =&gt; {
     let lang = 'plaintext';
@@ -193,54 +192,50 @@ document.addEventListener('DOMContentLoaded', () =&gt; {
     Prism.highlightAll();
   }
 });
- ```
-
-### 添加自定义修复css
-
-```css
-/* =============== Prism 高亮终极兼容补丁（适配 Gmeek + zdy.css） =============== */
-/* 👇 强制容器行为 */
-pre[class*="language-"] {
-  display: block !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow-x: auto !important;
-  -webkit-overflow-scrolling: touch !important;
-  padding-left: 3.5em !important;
-  margin: 0 !important;
-  word-break: normal !important;
-}
-
-/* 👇 强制代码内容不撑宽 */
-pre[class*="language-"] code {
-  display: block !important;
-  white-space: pre !important;
-  overflow-x: auto !important;
-  text-align: left !important;
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace !important;
-}
-
-/* 👇 清除 Prism 内联 span 的干扰 */
-pre[class*="language-"] code * {
-  white-space: inherit !important;
-  display: inline !important;
-}
-
-/* 👇 移动端防缩放 &amp; 字体加固 */
-@media (max-width: 768px) {
-  pre[class*="language-"] {
-    font-size: 0.875rem !important;
-  }
-  pre[class*="language-"] code {
-    font-size: 0.95em !important;
-  }
-  pre[class*="language-"] code::before,
-  pre[class*="language-"] code::after {
-    content: none !important;
-  }
-}
 
 </code></pre>
+<h3>添加自定义修复css</h3>
+<div class="highlight highlight-source-css"><pre class="notranslate"><span class="pl-c">/* =============== Prism 高亮终极兼容补丁（适配 Gmeek + zdy.css） =============== */</span>
+<span class="pl-c">/* 👇 强制容器行为 */</span>
+<span class="pl-ent">pre</span>[<span class="pl-c1">class</span><span class="pl-c1">*=</span><span class="pl-s">"language-"</span>] {
+  <span class="pl-c1">display</span><span class="pl-kos">:</span> block <span class="pl-k">!important</span>;
+  <span class="pl-c1">width</span><span class="pl-kos">:</span> <span class="pl-c1">100<span class="pl-smi">%</span></span> <span class="pl-k">!important</span>;
+  <span class="pl-c1">max-width</span><span class="pl-kos">:</span> <span class="pl-c1">100<span class="pl-smi">%</span></span> <span class="pl-k">!important</span>;
+  <span class="pl-c1">overflow-x</span><span class="pl-kos">:</span> auto <span class="pl-k">!important</span>;
+  <span class="pl-c1">-webkit-overflow-scrolling</span><span class="pl-kos">:</span> touch <span class="pl-k">!important</span>;
+  <span class="pl-c1">padding-left</span><span class="pl-kos">:</span> <span class="pl-c1">3.5<span class="pl-smi">em</span></span> <span class="pl-k">!important</span>;
+  <span class="pl-c1">margin</span><span class="pl-kos">:</span> <span class="pl-c1">0</span> <span class="pl-k">!important</span>;
+  <span class="pl-c1">word-break</span><span class="pl-kos">:</span> normal <span class="pl-k">!important</span>;
+}
+
+<span class="pl-c">/* 👇 强制代码内容不撑宽 */</span>
+<span class="pl-ent">pre</span>[<span class="pl-c1">class</span><span class="pl-c1">*=</span><span class="pl-s">"language-"</span>] <span class="pl-ent">code</span> {
+  <span class="pl-c1">display</span><span class="pl-kos">:</span> block <span class="pl-k">!important</span>;
+  <span class="pl-c1">white-space</span><span class="pl-kos">:</span> pre <span class="pl-k">!important</span>;
+  <span class="pl-c1">overflow-x</span><span class="pl-kos">:</span> auto <span class="pl-k">!important</span>;
+  <span class="pl-c1">text-align</span><span class="pl-kos">:</span> left <span class="pl-k">!important</span>;
+  <span class="pl-c1">font-family</span><span class="pl-kos">:</span> <span class="pl-s">'SFMono-Regular'</span><span class="pl-kos">,</span> Consolas<span class="pl-kos">,</span> <span class="pl-s">'Liberation Mono'</span><span class="pl-kos">,</span> Menlo<span class="pl-kos">,</span> monospace <span class="pl-k">!important</span>;
+}
+
+<span class="pl-c">/* 👇 清除 Prism 内联 span 的干扰 */</span>
+<span class="pl-ent">pre</span>[<span class="pl-c1">class</span><span class="pl-c1">*=</span><span class="pl-s">"language-"</span>] <span class="pl-ent">code</span> <span class="pl-ent"><span class="pl-c1">*</span></span> {
+  <span class="pl-c1">white-space</span><span class="pl-kos">:</span> inherit <span class="pl-k">!important</span>;
+  <span class="pl-c1">display</span><span class="pl-kos">:</span> inline <span class="pl-k">!important</span>;
+}
+
+<span class="pl-c">/* 👇 移动端防缩放 &amp; 字体加固 */</span>
+<span class="pl-k">@media</span> (<span class="pl-c1">max-width</span><span class="pl-kos">:</span> <span class="pl-c1">768<span class="pl-smi">px</span></span>) {
+  <span class="pl-ent">pre</span>[<span class="pl-c1">class</span><span class="pl-c1">*=</span><span class="pl-s">"language-"</span>] {
+    <span class="pl-c1">font-size</span><span class="pl-kos">:</span> <span class="pl-c1">0.875<span class="pl-smi">rem</span></span> <span class="pl-k">!important</span>;
+  }
+  <span class="pl-ent">pre</span>[<span class="pl-c1">class</span><span class="pl-c1">*=</span><span class="pl-s">"language-"</span>] <span class="pl-ent">code</span> {
+    <span class="pl-c1">font-size</span><span class="pl-kos">:</span> <span class="pl-c1">0.95<span class="pl-smi">em</span></span> <span class="pl-k">!important</span>;
+  }
+  <span class="pl-ent">pre</span>[<span class="pl-c1">class</span><span class="pl-c1">*=</span><span class="pl-s">"language-"</span>] <span class="pl-ent">code</span>::<span class="pl-c1">before</span><span class="pl-kos">,</span>
+  <span class="pl-ent">pre</span>[<span class="pl-c1">class</span><span class="pl-c1">*=</span><span class="pl-s">"language-"</span>] <span class="pl-ent">code</span>::<span class="pl-c1">after</span> {
+    <span class="pl-c1">content</span><span class="pl-kos">:</span> none <span class="pl-k">!important</span>;
+  }
+}</pre></div>
 <h3>移植js和css源文件</h3>
 <p>去Typecho插件目录直接把文件拿过来上传并引用到Gmeek的config.json配置文件。<br>
 只需要prism.full.js（也可以是prism.js，只不过prism.full.js的更完整）和clipboard.min.js和你想要的主题文件coy.css也可以是别的主题文件css。</p>

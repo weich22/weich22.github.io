@@ -84,8 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
 ```
 另外一个参考：
 
-```
- 
+``` 
 document.addEventListener('DOMContentLoaded', () => {
   // ✅ 保持原有选择器：只处理 Gmeek 生成的 notranslate 结构
   document.querySelectorAll('pre.notranslate > code.notranslate').forEach((codeEl) => {
@@ -122,7 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
     Prism.highlightAll();
   }
 });
- ```
+
+```
 
 ### 添加自定义修复css
 
