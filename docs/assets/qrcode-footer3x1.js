@@ -130,50 +130,38 @@ document.addEventListener('DOMContentLoaded', function() {
 // 3. 最后加这段 Gmeek 适配（必须），代码高亮
 
  
-// prism-init.js —— 安全适配 Gmeek + Prism（不破坏原生高亮！）
-document.addEventListener('DOMContentLoaded', () => {
-  // ✅ 关键修复：不再移除 notranslate！保留 Gmeek 原生高亮基础
-  document.querySelectorAll('pre > code').forEach((codeEl) => {
-    const pre = codeEl.parentElement;
-    
-    // 🔍 智能语言检测（优先级：父级div类 > title > 内容特征）
-    let lang = 'plaintext';
-    
-    // 1️⃣ 优先读取 Gmeek 的父级div特征（最可靠！）
-    const parentDiv = pre.closest('div.highlight');
-    if (parentDiv) {
-      const sourceClass = Array.from(parentDiv.classList).find(cls => 
-        cls.startsWith('highlight-source-')
-      );
-      if (sourceClass) {
-        lang = sourceClass.replace('highlight-source-', '').toLowerCase();
-      }
+ 
+// ✅ 安全初始化：确保 DOM 加载完成 & Prism 已定义
+if (typeof Prism !== 'undefined' && document.readyState !== 'loading') {
+  initPrismForGmeek();
+} else {
+  document.addEventListener('DOMContentLoaded', initPrismForGmeek);
+}
+
+function initPrismForGmeek() {
+  // 🔍 优先匹配 Gmeek 原生 class：如 <div class="highlight highlight-source-css"> → lang=css
+  document.querySelectorAll('div.highlight').forEach(div => {
+    const match = div.className.match(/highlight-source-(\w+)/);
+    if (!match) return;
+
+    const lang = match[1].toLowerCase();
+    const pre = div.querySelector('pre:not(.language-*)');
+    const code = pre && pre.querySelector('code:not(.language-*)');
+
+    if (pre && code) {
+      // 移除 Gmeek 冗余 class，注入 Prism 所需 class
+      code.classList.remove('notranslate');
+      code.classList.add(`language-${lang}`);
+      pre.classList.add('line-numbers'); // 启用行号（需 line-numbers.css）
+      pre.classList.add('language-' + lang); // 部分 Prism 主题依赖 pre 的 language-* 类
     }
-    
-    // 2️⃣ 备用方案：title/data-lang
-    if (lang === 'plaintext' && pre.title) {
-      lang = pre.title.trim().toLowerCase();
-    } else if (lang === 'plaintext' && pre.dataset.lang) {
-      lang = pre.dataset.lang.trim().toLowerCase();
-    }
-    
-    // 3️⃣ 终极fallback（谨慎使用）
-    if (lang === 'plaintext') {
-      const codeText = codeEl.textContent;
-      if (codeText.includes('<?php')) lang = 'php';
-      else if (/^\s*def\s+|import\s+\w+/.test(codeText)) lang = 'python';
-      else if (/function\s*\(|=>/.test(codeText)) lang = 'javascript';
-      else if (codeText.includes('class=')) lang = 'markup';
-    }
-    
-    // ✅ 只添加不删除！安全叠加 Prism 所需 class
-    codeEl.classList.add(`language-${lang}`); // 保留原有 notranslate
-    if (lang !== 'plaintext') pre.classList.add('line-numbers');
   });
 
-  // ✨ 安全触发高亮（防重复/防未加载）
-  if (typeof Prism !== 'undefined' && typeof Prism.highlightAllUnder === 'function') {
-    // 只高亮未处理过的区域，避免冲突
-    Prism.highlightAllUnder(document.body);
-  }
-});
+  // 🌟 最后统一触发高亮（安全兜底：延迟 1 帧避免竞态）
+  requestAnimationFrame(() => {
+    if (typeof Prism.highlightAll === 'function') {
+      Prism.highlightAll();
+    }
+  });
+}
+ 
