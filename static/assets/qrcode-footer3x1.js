@@ -130,42 +130,35 @@ document.addEventListener('DOMContentLoaded', function() {
 // 3. 最后加这段 Gmeek 适配（必须），代码高亮
 
  
-  
- 
- 
+// prism-init.js —— 自动识别并标记 Gmeek 的代码块
 document.addEventListener('DOMContentLoaded', () => {
-  // ✅ 第一步：先找所有 pre.notranslate > code.notranslate（保留你原有逻辑）
-  document.querySelectorAll('pre.notranslate > code.notranslate').forEach(codeEl => {
+  // 遍历所有 <pre><code class="notranslate">
+  document.querySelectorAll('pre.notranslate > code.notranslate').forEach((codeEl) => {
+    // 尝试从父级 pre 的 title、data-lang 或内容特征推测语言（简单版）
     let lang = 'plaintext';
     const pre = codeEl.parentElement;
+    
+    // 优先看 pre 的 title 属性（常见于 Gmeek 的手动标注，如 <pre title="php">）
+    if (pre.title) lang = pre.title.trim().toLowerCase();
+    
+    // 或看 data-lang（如果你能在 Markdown 里写 `{.python}` 之类，Gmeek 可能转成 data-lang）
+    else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
+    
+    // 简单关键词 fallback（可选，谨慎使用）
+    else if (codeEl.textContent.includes('<?php')) lang = 'php';
+    else if (codeEl.textContent.startsWith('def ') || codeEl.textContent.includes('import ')) lang = 'python';
+    else if (codeEl.textContent.includes('function ') || codeEl.textContent.includes('=>')) lang = 'javascript';
 
-    // 🔑 优先从 pre 的父级 div.highlight 中提取 language（Gmeek 真实来源！）
-    const highlightDiv = pre.closest('div.highlight');
-    if (highlightDiv) {
-      const sourceMatch = highlightDiv.className.match(/highlight-source-(\w+)/);
-      if (sourceMatch) {
-        lang = sourceMatch[1].toLowerCase();
-      }
-    }
-
-    // 🔄 仍保留你原有的 fallback：title / data-lang / 内容关键词（兼容手动写法）
-    if (!lang || lang === 'plaintext') {
-      if (pre.title) lang = pre.title.trim().toLowerCase();
-      else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
-      else if (codeEl.textContent.includes('<?php')) lang = 'php';
-      else if (codeEl.textContent.startsWith('def ') || codeEl.textContent.includes('import ')) lang = 'python';
-      else if (codeEl.textContent.includes('function ') || codeEl.textContent.includes('=>')) lang = 'javascript';
-    }
-
-    // ✅ 安全移除 & 添加 class（避免重复添加）
+    // 添加 Prism 所需的 class
     codeEl.classList.remove('notranslate');
     codeEl.classList.add(`language-${lang}`);
-    pre.classList.add('line-numbers');
+    pre.classList.add('line-numbers'); // 启用行号（需 coy.css 支持）
   });
 
-  // ✅ 第二步：确保 Prism.highlightAll() 在 DOM 和 Prism 都就绪后执行
-  if (typeof Prism !== 'undefined' && typeof Prism.highlightAll === 'function') {
+  // ✨ 最后手动触发 Prism 高亮（关键！）
+  if (typeof Prism !== 'undefined') {
     Prism.highlightAll();
   }
 });
+
  
