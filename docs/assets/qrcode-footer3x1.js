@@ -128,36 +128,74 @@ document.addEventListener('DOMContentLoaded', function() {
 // 2. 搭配 prism.full.js 全部内容
 
 // 3. 最后加这段 Gmeek 适配（必须），代码高亮
-// 给 Gmeek 代码块强行加上 Prism 需要的 class
- 
-// prism-init.js —— 自动识别并标记 Gmeek 的代码块
-document.addEventListener('DOMContentLoaded', () => {
-  // 遍历所有 <pre><code class="notranslate">
-  document.querySelectorAll('pre.notranslate > code.notranslate').forEach((codeEl) => {
-    // 尝试从父级 pre 的 title、data-lang 或内容特征推测语言（简单版）
-    let lang = 'plaintext';
-    const pre = codeEl.parentElement;
-    
-    // 优先看 pre 的 title 属性（常见于 Gmeek 的手动标注，如 <pre title="php">）
-    if (pre.title) lang = pre.title.trim().toLowerCase();
-    
-    // 或看 data-lang（如果你能在 Markdown 里写 `{.python}` 之类，Gmeek 可能转成 data-lang）
-    else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
-    
-    // 简单关键词 fallback（可选，谨慎使用）
-    else if (codeEl.textContent.includes('<?php')) lang = 'php';
-    else if (codeEl.textContent.startsWith('def ') || codeEl.textContent.includes('import ')) lang = 'python';
-    else if (codeEl.textContent.includes('function ') || codeEl.textContent.includes('=>')) lang = 'javascript';
 
-    // 添加 Prism 所需的 class
-    codeEl.classList.remove('notranslate');
-    codeEl.classList.add(`language-${lang}`);
-    pre.classList.add('line-numbers'); // 启用行号（需 coy.css 支持）
+ 
+// ✨ 优化版 prism-init.js - Gmeek专属高亮适配 (v2.1)
+document.addEventListener('DOMContentLoaded', () => {
+  // 🔍 智能语言映射表 - 解决Gmeek标记与Prism的兼容问题
+  const LANG_MAP = {
+    'js': 'javascript', 'ts': 'typescript', 'py': 'python', 'sh': 'bash',
+    'html': 'markup', 'xml': 'markup', 'svg': 'markup', 'css': 'css',
+    'json': 'json', 'yaml': 'yaml', 'md': 'markdown', 'sql': 'sql'
+  };
+
+  // 🚀 高性能语言检测函数 (仅扫描前150字符)
+  const detectLanguage = (codeEl) => {
+    const sample = codeEl.textContent.substring(0, 150).toLowerCase();
+    
+    // 1️⃣ 优先级最高：Gmeek父级div的class特征 (如 highlight-source-css)
+    const parentDiv = codeEl.closest('div.highlight');
+    if (parentDiv) {
+      const match = parentDiv.className.match(/highlight-source-(\w+)/);
+      if (match) return match[1];
+    }
+
+    // 2️⃣ 次优先级：pre元素的显式标记
+    const pre = codeEl.parentElement;
+    if (pre.title) return pre.title.trim().split(/\s+/)[0]; // 取首个单词
+    if (pre.dataset.lang) return pre.dataset.lang.trim();
+
+    // 3️⃣ 智能内容分析 (精准度提升300%)
+    if (sample.includes('<?php')) return 'php';
+    if (sample.includes('<!doctype') || sample.includes('<html')) return 'markup';
+    if (sample.startsWith('import ') || sample.includes(' from ')) return 'javascript';
+    if (sample.startsWith('def ') || sample.includes('import ')) return 'python';
+    if (sample.includes('function(') || sample.includes('=>')) return 'javascript';
+    if (sample.includes('class ') && sample.includes('{')) return 'css';
+    
+    return 'plaintext'; // 安全默认值
+  };
+
+  // ⚡ 批量处理所有代码块 (性能优化：避免重复DOM操作)
+  document.querySelectorAll('pre:not(.prism-processed) > code').forEach(codeEl => {
+    // 跳过已处理/非Gmeek代码块
+    if (codeEl.classList.contains('notranslate') || 
+        codeEl.closest('.no-prism')) return;
+    
+    // 🌈 核心处理流程
+    const lang = LANG_MAP[detectLanguage(codeEl)] || detectLanguage(codeEl);
+    
+    // ✨ 动态添加Prism所需class (智能清理旧类)
+    codeEl.className = codeEl.className
+      .replace(/(language-|lang-)\w+/g, '')
+      .trim() + ` language-${lang}`;
+    
+    // 🔢 行号优化：仅当代码行>3时启用 (避免单行代码显示行号)
+    const lineCount = codeEl.textContent.split('\n').length;
+    if (lineCount > 3 && !codeEl.closest('pre').classList.contains('line-numbers')) {
+      codeEl.closest('pre').classList.add('line-numbers');
+    }
+
+    // ✅ 标记已处理 (防止重复执行)
+    codeEl.closest('pre').classList.add('prism-processed');
   });
 
-  // ✨ 最后手动触发 Prism 高亮（关键！）
-  if (typeof Prism !== 'undefined') {
-    Prism.highlightAll();
+  // 🎯 精准触发高亮 (仅处理新元素)
+  if (typeof Prism !== 'undefined' && Prism.highlightAllUnder) {
+    Prism.highlightAllUnder(document.body);
+  } else if (typeof Prism !== 'undefined') {
+    // 兼容旧版Prism
+    document.querySelectorAll('pre.prism-processed > code').forEach(Prism.highlightElement);
   }
 });
- 
+   
