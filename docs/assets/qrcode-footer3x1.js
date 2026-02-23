@@ -132,43 +132,36 @@ document.addEventListener('DOMContentLoaded', function() {
  
   
  
+ 
 document.addEventListener('DOMContentLoaded', () => {
-  // ✅ 保持原选择器不变！因为你说之前这样高亮是正常的
-  document.querySelectorAll('pre.notranslate > code.notranslate').forEach((codeEl) => {
-    let lang = 'plaintext';
-    const pre = codeEl.parentElement;
-    
-    // ✨ 新增：从Gmeek父级div提取语言（这才是关键！）
-    const gmeekDiv = pre.parentElement; // 获取父级div
-    if (gmeekDiv && gmeekDiv.classList) {
-      for (const cls of gmeekDiv.classList) {
-        // 匹配 highlight-source-xxx 格式
-        const match = cls.match(/highlight-source-(\w+)/);
-        if (match) {
-          lang = match[1].toLowerCase();
-          break; // 找到就停止
-        }
-      }
+  // 遍历所有具有 highlight 类的 div
+  document.querySelectorAll('div.highlight').forEach(div => {
+    // 从 div 的 class 中提取语言，例如：highlight-source-css -> css
+    const match = div.className.match(/highlight-source-(\w+)/);
+    if (!match) {
+      // 如果没有匹配到，尝试其他可能的 class 命名方式？或者跳过
+      return;
     }
-    
-    // ❌ 保留原逻辑但降级为备选（避免冲突）
-    if (lang === 'plaintext') {
-      if (pre.title) lang = pre.title.trim().toLowerCase();
-      else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
-      else if (codeEl.textContent.includes('<?php')) lang = 'php';
-      else if (codeEl.textContent.startsWith('def ') || codeEl.textContent.includes('import ')) lang = 'python';
-      else if (codeEl.textContent.includes('function ') || codeEl.textContent.includes('=>')) lang = 'javascript';
+    const lang = match[1].toLowerCase();
+
+    // 在 div 内查找 pre.notranslate > code.notranslate
+    const pre = div.querySelector('pre.notranslate');
+    const code = pre && pre.querySelector('code.notranslate');
+    if (!code) {
+      return;
     }
 
-    // ✅ 保持原class操作不变（这是高亮生效的关键！）
-    codeEl.classList.remove('notranslate');
-    codeEl.classList.add(`language-${lang}`);
-    pre.classList.add('line-numbers');
+    // 移除 notranslate 类，并添加 Prism 所需的语言类
+    code.classList.remove('notranslate');
+    code.classList.add(`language-${lang}`);
+    pre.classList.add('line-numbers'); // 如果需要行号
+
+    // 注意：这里我们不再设置 pre 的 title 或 data-lang，因为 Prism 主要看 code 的类
   });
 
-  // ✅ 保持原高亮触发不变！
-  if (typeof Prism !== 'undefined') {
+  // 确保 Prism 已加载，再调用高亮
+  if (typeof Prism !== 'undefined' && typeof Prism.highlightAll === 'function') {
     Prism.highlightAll();
   }
 });
- 
+  
