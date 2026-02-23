@@ -37,6 +37,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ```
 
+别的参考版本：
+
+``` 
+  
+document.addEventListener('DOMContentLoaded', () => {
+  // ✅ 保持原选择器不变！因为之前这样高亮是正常的
+  document.querySelectorAll('pre.notranslate > code.notranslate').forEach((codeEl) => {
+    let lang = 'plaintext';
+    const pre = codeEl.parentElement;
+    
+    // ✨ 新增：从Gmeek父级div提取语言（这才是关键！）
+    const gmeekDiv = pre.parentElement; // 获取父级div
+    if (gmeekDiv && gmeekDiv.classList) {
+      for (const cls of gmeekDiv.classList) {
+        // 匹配 highlight-source-xxx 格式
+        const match = cls.match(/highlight-source-(\w+)/);
+        if (match) {
+          lang = match[1].toLowerCase();
+          break; // 找到就停止
+        }
+      }
+    }
+    
+    // ❌ 保留原逻辑但降级为备选（避免冲突）
+    if (lang === 'plaintext') {
+      if (pre.title) lang = pre.title.trim().toLowerCase();
+      else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
+      else if (codeEl.textContent.includes('<?php')) lang = 'php';
+      else if (codeEl.textContent.startsWith('def ') || codeEl.textContent.includes('import ')) lang = 'python';
+      else if (codeEl.textContent.includes('function ') || codeEl.textContent.includes('=>')) lang = 'javascript';
+    }
+
+    // ✅ 保持原class操作不变（这是高亮生效的关键！）
+    codeEl.classList.remove('notranslate');
+    codeEl.classList.add(`language-${lang}`);
+    pre.classList.add('line-numbers');
+  });
+
+  // ✅ 保持原高亮触发不变！
+  if (typeof Prism !== 'undefined') {
+    Prism.highlightAll();
+  }
+});
+  
+```
 
 
 
