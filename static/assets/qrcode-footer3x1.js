@@ -131,58 +131,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
  
   
-// ✅ 100% 安全版：无视加载顺序，自动等待 Prism 就位
-(function safePrismInit() {
-  // 🌟 核心：用 MutationObserver 监听 DOM 变化 + 轮询 Prism
-  const observer = new MutationObserver(() => {
-    if (typeof Prism !== 'undefined' && Prism.highlightAll) {
-      initGmeekPrism();
-      observer.disconnect(); // 任务完成，停止监听
+ 
+document.addEventListener('DOMContentLoaded', () => {
+  // ✅ 保持原选择器不变！因为你说之前这样高亮是正常的
+  document.querySelectorAll('pre.notranslate > code.notranslate').forEach((codeEl) => {
+    let lang = 'plaintext';
+    const pre = codeEl.parentElement;
+    
+    // ✨ 新增：从Gmeek父级div提取语言（这才是关键！）
+    const gmeekDiv = pre.parentElement; // 获取父级div
+    if (gmeekDiv && gmeekDiv.classList) {
+      for (const cls of gmeekDiv.classList) {
+        // 匹配 highlight-source-xxx 格式
+        const match = cls.match(/highlight-source-(\w+)/);
+        if (match) {
+          lang = match[1].toLowerCase();
+          break; // 找到就停止
+        }
+      }
     }
+    
+    // ❌ 保留原逻辑但降级为备选（避免冲突）
+    if (lang === 'plaintext') {
+      if (pre.title) lang = pre.title.trim().toLowerCase();
+      else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
+      else if (codeEl.textContent.includes('<?php')) lang = 'php';
+      else if (codeEl.textContent.startsWith('def ') || codeEl.textContent.includes('import ')) lang = 'python';
+      else if (codeEl.textContent.includes('function ') || codeEl.textContent.includes('=>')) lang = 'javascript';
+    }
+
+    // ✅ 保持原class操作不变（这是高亮生效的关键！）
+    codeEl.classList.remove('notranslate');
+    codeEl.classList.add(`language-${lang}`);
+    pre.classList.add('line-numbers');
   });
 
-  // 🚀 立即检查 + 开启监听
-  if (typeof Prism !== 'undefined' && Prism.highlightAll) {
-    initGmeekPrism();
-  } else {
-    observer.observe(document.documentElement, {
-      childList: true,
-      subtree: true
-    });
-    // 双保险：500ms 后强制检查（防极端情况）
-    setTimeout(() => {
-      if (typeof Prism !== 'undefined' && Prism.highlightAll) {
-        initGmeekPrism();
-        observer.disconnect();
-      }
-    }, 500);
+  // ✅ 保持原高亮触发不变！
+  if (typeof Prism !== 'undefined') {
+    Prism.highlightAll();
   }
-
-  function initGmeekPrism() {
-    // ✅ 精准匹配 Gmeek 真实结构：<div class="highlight highlight-source-xxx">
-    document.querySelectorAll('div.highlight').forEach(container => {
-      const langMatch = container.className.match(/highlight-source-(\w+)/);
-      if (!langMatch) return;
-
-      const lang = langMatch[1].toLowerCase();
-      const pre = container.querySelector('pre');
-      const code = pre?.querySelector('code');
-
-      if (code) {
-        // 🧼 彻底清理 Gmeek 的干扰 class
-        code.className = code.className
-          .replace(/notranslate/g, '')
-          .replace(/language-\S+/g, '')
-          .trim();
-        
-        // ✨ 注入 Prism 灵魂 class
-        code.classList.add(`language-${lang}`);
-        pre.classList.add('line-numbers', `language-${lang}`);
-      }
-    });
-
-    // 💥 终极高亮指令（Prism 亲儿子写法）
-    Prism.highlightAllUnder(document.body);
-  }
-})();
+});
  
