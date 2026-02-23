@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 别的参考版本：
 
-``` 
+```js 
   
 document.addEventListener('DOMContentLoaded', () => {
   // ✅ 保持原选择器不变！因为之前这样高亮是正常的
