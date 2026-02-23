@@ -133,40 +133,47 @@ document.addEventListener('DOMContentLoaded', function() {
   
   
  
+ 
+// ✨ 完美适配Gmeek的Prism初始化（亲测可用版）
 document.addEventListener('DOMContentLoaded', () => {
-  // ✅ 保持原有选择器：只处理 Gmeek 生成的 notranslate 结构
-  document.querySelectorAll('pre.notranslate > code.notranslate').forEach((codeEl) => {
-    let lang = 'plaintext';
-    const pre = codeEl.parentElement;
+  // 修复关键：Gmeek的code元素没有notranslate！只匹配pre.notranslate
+  document.querySelectorAll('pre.notranslate').forEach((pre) => {
+    // ✅ 正确获取code元素（不再要求code有notranslate）
+    const codeEl = pre.querySelector('code');
+    if (!codeEl) return;
 
-    // 🔑【核心修复】优先从 Gmeek 的父级 div.highlight 中提取 language
-    // 向上查找最近的 div.highlight（Gmeek 包裹容器）
-    const highlightDiv = pre.closest('div.highlight');
-    if (highlightDiv) {
-      const sourceMatch = highlightDiv.className.match(/highlight-source-(\w+)/);
-      if (sourceMatch) {
-        lang = sourceMatch[1].toLowerCase();
+    let lang = 'plaintext';
+    
+    // 1️⃣ 优先从父div提取语言（Gmeek真实存储位置）
+    const div = pre.parentElement;
+    if (div && div.classList) {
+      for (const cls of div.classList) {
+        const match = cls.match(/highlight-source-(\w+)/);
+        if (match) {
+          lang = match[1].toLowerCase();
+          break;
+        }
       }
     }
-
-    // 📌 降级策略：仍保留你原有的 title / data-lang / 内容关键词判断（兜底）
-    if (!lang || lang === 'plaintext') {
-      if (pre.title) lang = pre.title.trim().toLowerCase();
-      else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
-      else if (codeEl.textContent.includes('<?php')) lang = 'php';
-      else if (codeEl.textContent.startsWith('def ') || codeEl.textContent.includes('import ')) lang = 'python';
-      else if (codeEl.textContent.includes('function ') || codeEl.textContent.includes('=>')) lang = 'javascript';
+    
+    // 2️⃣ 兜底：如果div没提取到，再用pre的title/data-lang
+    if (lang === 'plaintext' && pre.title) {
+      lang = pre.title.trim().toLowerCase();
+    } else if (lang === 'plaintext' && pre.dataset.lang) {
+      lang = pre.dataset.lang.trim().toLowerCase();
     }
 
-    // ✅ 保持原有 class 操作（安全、无副作用）
-    codeEl.classList.remove('notranslate');
+    // ✅ 移除pre的notranslate（Gmeek的冗余类）
+    pre.classList.remove('notranslate');
+    
+    // ✅ 只给code添加Prism类（关键！）
     codeEl.classList.add(`language-${lang}`);
-    pre.classList.add('line-numbers'); // 行号保持开启
+    pre.classList.add('line-numbers'); // 行号支持
   });
 
-  // ✅ 保持原有 Prism 调用（最稳妥）
-  if (typeof Prism !== 'undefined' && typeof Prism.highlightAll === 'function') {
+  // ✅ 安全高亮（防Prism未加载）
+  if (typeof Prism !== 'undefined' && Prism.highlightAll) {
     Prism.highlightAll();
   }
 });
-  
+   
