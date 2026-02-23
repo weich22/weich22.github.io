@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 3. 最后加这段 Gmeek 适配（必须），代码高亮
 
- 
+/* 
 // prism-init.js —— 自动识别并标记 Gmeek 的代码块
 document.addEventListener('DOMContentLoaded', () => {
   // 遍历所有 <pre><code class="notranslate">
@@ -160,5 +160,5 @@ document.addEventListener('DOMContentLoaded', () => {
     Prism.highlightAll();
   }
 });
-
+*/
  
