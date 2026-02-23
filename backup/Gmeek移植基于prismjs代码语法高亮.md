@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
 ```
 
 别的参考版本：
-
 ```css 
   
 document.addEventListener('DOMContentLoaded', () => {
