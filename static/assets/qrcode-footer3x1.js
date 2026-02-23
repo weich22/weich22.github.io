@@ -133,35 +133,62 @@ document.addEventListener('DOMContentLoaded', function() {
   
  
  
+// 安全初始化：兼容 DOM 加载时机 & Prism 依赖
 document.addEventListener('DOMContentLoaded', () => {
-  // 遍历所有具有 highlight 类的 div
+  // 1️⃣ 优先匹配 Gmeek 的 div.highlight 结构（最精准！）
   document.querySelectorAll('div.highlight').forEach(div => {
-    // 从 div 的 class 中提取语言，例如：highlight-source-css -> css
-    const match = div.className.match(/highlight-source-(\w+)/);
-    if (!match) {
-      // 如果没有匹配到，尝试其他可能的 class 命名方式？或者跳过
-      return;
-    }
-    const lang = match[1].toLowerCase();
+    const langMatch = div.className.match(/highlight-source-(\w+)/i);
+    if (!langMatch) return;
+    
+    const userLang = langMatch[1].toLowerCase(); // 直接获取用户标注（如 "css"）
+    const codeEl = div.querySelector('code.notranslate');
+    if (!codeEl) return;
 
-    // 在 div 内查找 pre.notranslate > code.notranslate
-    const pre = div.querySelector('pre.notranslate');
-    const code = pre && pre.querySelector('code.notranslate');
-    if (!code) {
-      return;
-    }
-
-    // 移除 notranslate 类，并添加 Prism 所需的语言类
-    code.classList.remove('notranslate');
-    code.classList.add(`language-${lang}`);
-    pre.classList.add('line-numbers'); // 如果需要行号
-
-    // 注意：这里我们不再设置 pre 的 title 或 data-lang，因为 Prism 主要看 code 的类
+    // 2️⃣ 关键修复：保留用户原始标注格式（不转成 Prism 标准名）
+    codeEl.dataset.userLang = userLang; // 存储用户标注到 data 属性
+    codeEl.classList.add(`language-${userLang}`); // 保留小写格式（如 language-css）
+    codeEl.classList.remove('notranslate');
+    
+    // 3️⃣ 同步给 pre 元素（兼容 Prism 主题）
+    const pre = codeEl.parentElement;
+    pre.classList.add(`language-${userLang}`, 'line-numbers');
+    pre.classList.remove('notranslate');
   });
 
-  // 确保 Prism 已加载，再调用高亮
-  if (typeof Prism !== 'undefined' && typeof Prism.highlightAll === 'function') {
-    Prism.highlightAll();
+  // 4️⃣ ✨ 最后一步：覆盖 Prism 默认语言标签显示
+  if (typeof Prism !== 'undefined') {
+    // 自定义语言显示逻辑（核心！）
+    Prism.hooks.add('complete', env => {
+      const code = env.element;
+      const userLang = code.dataset.userLang;
+      
+      if (userLang && env.highlightedCode) {
+        // 在代码块右上角插入用户标注（替换默认的 "CSS"）
+        const langSpan = document.createElement('span');
+        langSpan.className = 'language-label';
+        langSpan.textContent = userLang; // 直接显示用户标注（如 "css"）
+        
+        // 清理旧标签（避免重复）
+        const oldLabel = code.parentElement.querySelector('.language-label');
+        if (oldLabel) oldLabel.remove();
+        
+        // 插入新标签（右上角定位）
+        code.parentElement.style.position = 'relative';
+        langSpan.style.cssText = `
+          position: absolute; top: 0.5em; right: 0.5em;
+          background: rgba(0,0,0,0.5); color: #fff; 
+          padding: 0.1em 0.4em; border-radius: 3px;
+          font-size: 0.8em; pointer-events: none;
+        `;
+        code.parentElement.appendChild(langSpan);
+      }
+    });
+    
+    // 5️⃣ 安全触发高亮（防重复）
+    if (!window.__prism_init_done) {
+      Prism.highlightAll();
+      window.__prism_init_done = true;
+    }
   }
 });
-  
+ 
