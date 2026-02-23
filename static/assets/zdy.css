@@ -26,8 +26,8 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
   -moz-animation: tada 1s .2s ease both;
 }
 
-
-/* 强行清空 Gmeek 自带样式 */
+/*
+/*代码高亮 强行清空 Gmeek 自带样式 */
 /* 
 .copy-to-clipboard {
   position: absolute; top: 6px; right: 8px;
@@ -93,7 +93,7 @@ pre[class*="language-"] code * {
     content: none !important;
   }
 }
-   
+   */
 /*使用dark和twilight点css主题不显示行号数字修复*/
 /* 强制显示行号数字写在下面，还没写好，暂时放弃治疗不写了，下面是别的有注释说明*/
 
