@@ -131,49 +131,55 @@ document.addEventListener('DOMContentLoaded', function() {
 
  
   
-  
  
- 
-// ✨ 完美适配Gmeek的Prism初始化（亲测可用版）
 document.addEventListener('DOMContentLoaded', () => {
-  // 修复关键：Gmeek的code元素没有notranslate！只匹配pre.notranslate
-  document.querySelectorAll('pre.notranslate').forEach((pre) => {
-    // ✅ 正确获取code元素（不再要求code有notranslate）
-    const codeEl = pre.querySelector('code');
-    if (!codeEl) return;
+  // ✅ 第一步：确保 Prism 已就绪（防错）
+  if (typeof Prism === 'undefined') {
+    console.warn('[Aicy] Prism not found. Skip init.');
+    return;
+  }
 
+  // ✅ 第二步：精准查找 Gmeek 的 notranslate 代码块（保持你原来的选择器！）
+  document.querySelectorAll('pre.notranslate > code.notranslate').forEach(codeEl => {
+    const pre = codeEl.parentElement;
     let lang = 'plaintext';
-    
-    // 1️⃣ 优先从父div提取语言（Gmeek真实存储位置）
-    const div = pre.parentElement;
-    if (div && div.classList) {
-      for (const cls of div.classList) {
-        const match = cls.match(/highlight-source-(\w+)/);
-        if (match) {
-          lang = match[1].toLowerCase();
-          break;
-        }
-      }
-    }
-    
-    // 2️⃣ 兜底：如果div没提取到，再用pre的title/data-lang
-    if (lang === 'plaintext' && pre.title) {
-      lang = pre.title.trim().toLowerCase();
-    } else if (lang === 'plaintext' && pre.dataset.lang) {
-      lang = pre.dataset.lang.trim().toLowerCase();
+
+    // 🌟 优先从 Gmeek 的父级 div 提取语言（最可靠！）
+    const highlightDiv = pre.closest('div.highlight');
+    if (highlightDiv) {
+      const m = highlightDiv.className.match(/highlight-source-(\w+)/);
+      if (m && m[1]) lang = m[1].toLowerCase();
     }
 
-    // ✅ 移除pre的notranslate（Gmeek的冗余类）
-    pre.classList.remove('notranslate');
-    
-    // ✅ 只给code添加Prism类（关键！）
+    // 🌟 兜底：再检查 pre.title / data-lang（兼容你原有逻辑）
+    if (!lang || lang === 'plaintext') {
+      if (pre.title) lang = pre.title.trim().toLowerCase();
+      else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
+    }
+
+    // 🌟 再兜底：简单内容检测（仅当 lang 仍为空时启用，避免误判）
+    if (lang === 'plaintext') {
+      const txt = codeEl.textContent;
+      if (txt.includes('<?php')) lang = 'php';
+      else if (txt.startsWith('def ') || txt.includes('import ')) lang = 'python';
+      else if (txt.includes('function ') || txt.includes('=>') || txt.includes('const ')) lang = 'javascript';
+      else if (txt.includes('{') && txt.includes('}')) lang = 'css'; // 简单 css 特征
+    }
+
+    // ✅ 第三步：干净打标（移除 notranslate，加 language-xxx）
+    codeEl.classList.remove('notranslate');
     codeEl.classList.add(`language-${lang}`);
-    pre.classList.add('line-numbers'); // 行号支持
+    pre.classList.add('line-numbers');
+
+    console.log(`[Aicy] ✔️ Set language: ${lang} for`, codeEl);
   });
 
-  // ✅ 安全高亮（防Prism未加载）
-  if (typeof Prism !== 'undefined' && Prism.highlightAll) {
-    Prism.highlightAll();
-  }
+  // ✅ 第四步：强制、延迟、安全地触发高亮（关键！）
+  setTimeout(() => {
+    if (typeof Prism.highlightAll === 'function') {
+      Prism.highlightAll();
+      console.log('[Aicy] ✨ Prism.highlightAll() executed.');
+    }
+  }, 10); // 10ms 延迟，确保 class 已写入 DOM
 });
-   
+    
