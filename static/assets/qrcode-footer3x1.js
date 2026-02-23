@@ -131,8 +131,56 @@ document.addEventListener('DOMContentLoaded', function() {
 
  
   
- 
- 
- 
- 
   
+// ✅ 完美适配 Gmeek 的终极方案 (直接替换你原来的 prism-init.js)
+document.addEventListener('DOMContentLoaded', () => {
+  // 核心逻辑：只修改标注，不破坏原有高亮流程！
+  document.querySelectorAll('pre.notranslate').forEach(pre => {
+    let lang = 'plaintext';
+    
+    // 🔥 优先从 Gmeek 的 div 父容器提取语言 (这才是关键！)
+    const divHighlight = pre.parentElement;
+    if (divHighlight?.classList.contains('highlight')) {
+      const match = divHighlight.className.match(/highlight-source-(\w+)/);
+      if (match) lang = match[1].toLowerCase();
+    }
+    
+    // 备用方案：如果 div 没标注，再看 pre 的 title/data-lang
+    if (lang === 'plaintext' && pre.title) {
+      lang = pre.title.trim().toLowerCase();
+    }
+    if (lang === 'plaintext' && pre.dataset.lang) {
+      lang = pre.dataset.lang.trim().toLowerCase();
+    }
+
+    // ✨ 重点来了！只修改标注，不碰高亮类！
+    const codeEl = pre.querySelector('code.notranslate');
+    if (codeEl) {
+      // 1. 保留 Prism 的高亮类 (不动它！)
+      const hasPrismClass = [...codeEl.classList].some(c => c.startsWith('language-'));
+      
+      // 2. 只添加/更新标注类 (用于显示语言名称)
+      if (!hasPrismClass) {
+        codeEl.classList.add(`language-${lang}`);
+      } else {
+        // 如果已有高亮类，只更新标注部分 (避免重复)
+        codeEl.classList.forEach(c => {
+          if (c.startsWith('language-')) {
+            codeEl.classList.replace(c, `language-${lang}`);
+          }
+        });
+      }
+      
+      // 3. 保留 notranslate 类 (Gmeek 需要)
+      codeEl.classList.add('notranslate');
+      pre.classList.add('notranslate');
+    }
+  });
+
+  // ✅ 安全触发高亮 (Prism 已加载时才执行)
+  if (typeof Prism !== 'undefined' && Prism.highlightAll) {
+    // 延迟 1 帧确保 DOM 更新完成
+    requestAnimationFrame(Prism.highlightAll);
+  }
+});
+ 
