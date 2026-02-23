@@ -130,72 +130,50 @@ document.addEventListener('DOMContentLoaded', function() {
 // 3. 最后加这段 Gmeek 适配（必须），代码高亮
 
  
-// ✨ 优化版 prism-init.js - Gmeek专属高亮适配 (v2.1)
+// prism-init.js —— 安全适配 Gmeek + Prism（不破坏原生高亮！）
 document.addEventListener('DOMContentLoaded', () => {
-  // 🔍 智能语言映射表 - 解决Gmeek标记与Prism的兼容问题
-  const LANG_MAP = {
-    'js': 'javascript', 'ts': 'typescript', 'py': 'python', 'sh': 'bash',
-    'html': 'markup', 'xml': 'markup', 'svg': 'markup', 'css': 'css',
-    'json': 'json', 'yaml': 'yaml', 'md': 'markdown', 'sql': 'sql'
-  };
-
-  // 🚀 高性能语言检测函数 (仅扫描前150字符)
-  const detectLanguage = (codeEl) => {
-    const sample = codeEl.textContent.substring(0, 150).toLowerCase();
-    
-    // 1️⃣ 优先级最高：Gmeek父级div的class特征 (如 highlight-source-css)
-    const parentDiv = codeEl.closest('div.highlight');
-    if (parentDiv) {
-      const match = parentDiv.className.match(/highlight-source-(\w+)/);
-      if (match) return match[1];
-    }
-
-    // 2️⃣ 次优先级：pre元素的显式标记
+  // ✅ 关键修复：不再移除 notranslate！保留 Gmeek 原生高亮基础
+  document.querySelectorAll('pre > code').forEach((codeEl) => {
     const pre = codeEl.parentElement;
-    if (pre.title) return pre.title.trim().split(/\s+/)[0]; // 取首个单词
-    if (pre.dataset.lang) return pre.dataset.lang.trim();
-
-    // 3️⃣ 智能内容分析 (精准度提升300%)
-    if (sample.includes('<?php')) return 'php';
-    if (sample.includes('<!doctype') || sample.includes('<html')) return 'markup';
-    if (sample.startsWith('import ') || sample.includes(' from ')) return 'javascript';
-    if (sample.startsWith('def ') || sample.includes('import ')) return 'python';
-    if (sample.includes('function(') || sample.includes('=>')) return 'javascript';
-    if (sample.includes('class ') && sample.includes('{')) return 'css';
     
-    return 'plaintext'; // 安全默认值
-  };
-
-  // ⚡ 批量处理所有代码块 (性能优化：避免重复DOM操作)
-  document.querySelectorAll('pre:not(.prism-processed) > code').forEach(codeEl => {
-    // 跳过已处理/非Gmeek代码块
-    if (codeEl.classList.contains('notranslate') || 
-        codeEl.closest('.no-prism')) return;
+    // 🔍 智能语言检测（优先级：父级div类 > title > 内容特征）
+    let lang = 'plaintext';
     
-    // 🌈 核心处理流程
-    const lang = LANG_MAP[detectLanguage(codeEl)] || detectLanguage(codeEl);
-    
-    // ✨ 动态添加Prism所需class (智能清理旧类)
-    codeEl.className = codeEl.className
-      .replace(/(language-|lang-)\w+/g, '')
-      .trim() + ` language-${lang}`;
-    
-    // 🔢 行号优化：仅当代码行>3时启用 (避免单行代码显示行号)
-    const lineCount = codeEl.textContent.split('\n').length;
-    if (lineCount > 3 && !codeEl.closest('pre').classList.contains('line-numbers')) {
-      codeEl.closest('pre').classList.add('line-numbers');
+    // 1️⃣ 优先读取 Gmeek 的父级div特征（最可靠！）
+    const parentDiv = pre.closest('div.highlight');
+    if (parentDiv) {
+      const sourceClass = Array.from(parentDiv.classList).find(cls => 
+        cls.startsWith('highlight-source-')
+      );
+      if (sourceClass) {
+        lang = sourceClass.replace('highlight-source-', '').toLowerCase();
+      }
     }
-
-    // ✅ 标记已处理 (防止重复执行)
-    codeEl.closest('pre').classList.add('prism-processed');
+    
+    // 2️⃣ 备用方案：title/data-lang
+    if (lang === 'plaintext' && pre.title) {
+      lang = pre.title.trim().toLowerCase();
+    } else if (lang === 'plaintext' && pre.dataset.lang) {
+      lang = pre.dataset.lang.trim().toLowerCase();
+    }
+    
+    // 3️⃣ 终极fallback（谨慎使用）
+    if (lang === 'plaintext') {
+      const codeText = codeEl.textContent;
+      if (codeText.includes('<?php')) lang = 'php';
+      else if (/^\s*def\s+|import\s+\w+/.test(codeText)) lang = 'python';
+      else if (/function\s*\(|=>/.test(codeText)) lang = 'javascript';
+      else if (codeText.includes('class=')) lang = 'markup';
+    }
+    
+    // ✅ 只添加不删除！安全叠加 Prism 所需 class
+    codeEl.classList.add(`language-${lang}`); // 保留原有 notranslate
+    if (lang !== 'plaintext') pre.classList.add('line-numbers');
   });
 
-  // 🎯 精准触发高亮 (仅处理新元素)
-  if (typeof Prism !== 'undefined' && Prism.highlightAllUnder) {
+  // ✨ 安全触发高亮（防重复/防未加载）
+  if (typeof Prism !== 'undefined' && typeof Prism.highlightAllUnder === 'function') {
+    // 只高亮未处理过的区域，避免冲突
     Prism.highlightAllUnder(document.body);
-  } else if (typeof Prism !== 'undefined') {
-    // 兼容旧版Prism
-    document.querySelectorAll('pre.prism-processed > code').forEach(Prism.highlightElement);
   }
 });
-   

@@ -67,7 +67,7 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 <meta property="og:url" content="https://g.weich.ee/post/1.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
 <title>Gmeek记录篇</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -129,29 +129,22 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="content">
 <div class="markdown-body" id="postBody"><h3>自定义优化首页CSS</h3>
 <p>添加代码到config.json，请删除我写的中文和括号</p>
-<pre lang="css" class="notranslate"><code class="notranslate">"indexStyle":"&lt;style&gt;a.blogTitle {display: inline-block !important;}【优化手机端不显示博客顶部LOGO文字】.d-flex {display: inline-block !important;}【调节文章标签到文章下】.Label, .label {line-height: 12px !important;}【文章标签背景颜色框缩小一点】.LabelTime {display: inline-block !important;}【调节文章标签到手机显示不全或者不显示后面的日期】&lt;/style&gt;",
-</code></pre>
+<div class="highlight highlight-source-css"><pre class="notranslate"><span class="pl-s">"indexStyle"</span><span class="pl-kos">:</span><span class="pl-s">"&lt;style&gt;a.blogTitle {display: inline-block !important;}【优化手机端不显示博客顶部LOGO文字】.d-flex {display: inline-block !important;}【调节文章标签到文章下】.Label, .label {line-height: 12px !important;}【文章标签背景颜色框缩小一点】.LabelTime {display: inline-block !important;}【调节文章标签到手机显示不全或者不显示后面的日期】&lt;/style&gt;"</span><span class="pl-kos">,</span></pre></div>
 <p>不限制博客首页最大宽度，直接添加在上面的&lt;/style&gt;标签内</p>
-<pre lang="css" class="notranslate"><code class="notranslate">body {max-width: initial !important;}
-</code></pre>
+<div class="highlight highlight-source-css"><pre class="notranslate"><span class="pl-ent">body</span> {<span class="pl-c1">max-width</span><span class="pl-kos">:</span> initial <span class="pl-k">!important</span>;}</pre></div>
 <p>不限制文章页面最大宽度</p>
-<pre lang="css" class="notranslate"><code class="notranslate">"style":"&lt;style&gt;body {max-width: initial !important;}&lt;/style&gt;",
-</code></pre>
+<div class="highlight highlight-source-css"><pre class="notranslate"><span class="pl-s">"style"</span><span class="pl-kos">:</span><span class="pl-s">"&lt;style&gt;body {max-width: initial !important;}&lt;/style&gt;"</span><span class="pl-kos">,</span></pre></div>
 <p>更新：后面我发现我需要是全局修改，于是我直接把代码统一整合写的到一个css文件里面去</p>
-<pre lang="css" class="notranslate"><code class="notranslate">body {max-width: initial !important;}
-a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客顶部LOGO文字*/
-.d-flex {display: inline-block !important;}/*调节文章标签到文章下*/
-.Label, .label {line-height: 12px !important;}/*文章标签背景颜色框缩小一点*/
-.LabelTime {display: inline-block !important;}/*调节文章标签到手机显示不全或者不显示后面的日期*/
-</code></pre>
+<div class="highlight highlight-source-css"><pre class="notranslate"><span class="pl-ent">body</span> {<span class="pl-c1">max-width</span><span class="pl-kos">:</span> initial <span class="pl-k">!important</span>;}
+<span class="pl-ent">a</span>.<span class="pl-c1">blogTitle</span> {<span class="pl-c1">display</span><span class="pl-kos">:</span> inline-block <span class="pl-k">!important</span>;}<span class="pl-c">/*优化手机端不显示博客顶部LOGO文字*/</span>
+.<span class="pl-c1">d-flex</span> {<span class="pl-c1">display</span><span class="pl-kos">:</span> inline-block <span class="pl-k">!important</span>;}<span class="pl-c">/*调节文章标签到文章下*/</span>
+.<span class="pl-c1">Label</span><span class="pl-kos">,</span> .<span class="pl-c1">label</span> {<span class="pl-c1">line-height</span><span class="pl-kos">:</span> <span class="pl-c1">12<span class="pl-smi">px</span></span> <span class="pl-k">!important</span>;}<span class="pl-c">/*文章标签背景颜色框缩小一点*/</span>
+.<span class="pl-c1">LabelTime</span> {<span class="pl-c1">display</span><span class="pl-kos">:</span> inline-block <span class="pl-k">!important</span>;}<span class="pl-c">/*调节文章标签到手机显示不全或者不显示后面的日期*/</span></pre></div>
 <p>然后上传到<code class="notranslate">static/assets/</code>文件夹内再添加代码到config.json引用就好了。</p>
-<pre lang="html" class="notranslate"><code class="notranslate">"allHead":"&lt;link rel=\"stylesheet\" href='https://weich22.github.io/assets/zdy.css'&gt;",
-</code></pre>
+<div class="highlight highlight-text-html-basic"><pre class="notranslate">"allHead":"<span class="pl-kos">&lt;</span><span class="pl-ent">link</span> <span class="pl-c1">rel</span>=<span class="pl-s">\</span>"stylesheet\" href='https://weich22.github.io/assets/zdy.css'<span class="pl-kos">&gt;</span>",</pre></div>
 <h3>资源链接引用方式推荐</h3>
 <p>推荐如下这样引用，为了预防以后更换域名，https问题很多现代浏览器不给你加载会发生错误，就是不要前面的域名以根目录斜杠 <code class="notranslate">/</code> 顶替你的域名，会自动帮你解析访问的本站绑定的域名上去。</p>
-<pre lang="html" class="notranslate"><code class="notranslate">"allHead":"&lt;link rel=\"stylesheet\" href='/assets/zdy.css'&gt;",
-
-</code></pre>
+<div class="highlight highlight-text-html-basic"><pre class="notranslate">"allHead":"<span class="pl-kos">&lt;</span><span class="pl-ent">link</span> <span class="pl-c1">rel</span>=<span class="pl-s">\</span>"stylesheet\" href='/assets/zdy.css'<span class="pl-kos">&gt;</span>",</pre></div>
 <h3>添加友情链接</h3>
 <p>添加代码到config.json<br>
 <a href="https://blog.meekdai.com/post/%E3%80%90Gmeek-jin-jie-%E3%80%91-you-shang-jiao-yuan-an-niu-pei-zhi.html#%E7%AB%99%E5%86%85%E9%93%BE%E6%8E%A5" rel="nofollow">参考地址</a></p>
@@ -178,19 +171,16 @@ github：<a href="https://github.com/Meekdai/meekdai.github.io/issues/39" data-h
 <h3>Gmeek嵌入外部网站视频</h3>
 <p>比如b站<br>
 主要代码：</p>
-<pre lang="html" class="notranslate"><code class="notranslate">`Gmeek-htmlxxx`
-</code></pre>
+<div class="highlight highlight-text-html-basic"><pre class="notranslate">`Gmeek-htmlxxx`</pre></div>
 <p>其中的xxx是改成if的嵌入代码，比如b站的嵌入代码，又在哪找呢？<br>
 用电脑网页打开一个b站视频，找到视频下面的分享就有<code class="notranslate">嵌入代码</code>了，如果是手机编写文章的话，也可以用浏览器请求打开电脑页面也是一样，具体看你用的是哪个浏览器，有的手机电脑浏览好了直接有电脑模式什么的。</p>
 <p>禁止自动播放方法很简单，就是在视频 url 链接最后加上 <code class="notranslate">&amp;autoplay=0</code>，例如：</p>
-<pre lang="html" class="notranslate"><code class="notranslate">&lt;iframe src="//player.bilibili.com/player.html?isOutside=true&amp;aid=1305790042&amp;bvid=BV1GM4m1m7ZD&amp;cid=1588230883&amp;p=1&amp;autoplay=0"
-</code></pre>
+<div class="highlight highlight-text-html-basic"><pre class="notranslate"><span class="pl-kos">&lt;</span><span class="pl-ent">iframe</span> <span class="pl-c1">src</span>="<span class="pl-s">//player.bilibili.com/player.html?isOutside=true&amp;aid=1305790042&amp;bvid=BV1GM4m1m7ZD&amp;cid=1588230883&amp;p=1&amp;autoplay=0</span>"<span class="pl-kos"></span></pre></div>
 <p>后面还有一段原复制的嵌入代码，那个不算视频url链接，应该是说属于参数而已吧。</p>
 <h3>Gmeek UI增强插件</h3>
 <p>[参考：Gmeek UI 增强插件](<a href="https://code.buxiantang.top/post/%F0%9F%8D%8E" rel="nofollow">https://code.buxiantang.top/post/🍎</a> Gmeek UI -zeng-qiang-cha-jian-shi-yong-jiao-cheng.html)<br>
 也就是添加一个css和一个js文件并引用到：<code class="notranslate">Code</code>的<code class="notranslate">config.json</code>文件内</p>
-<pre lang="html" class="notranslate"><code class="notranslate">"allHead":"&lt;link rel=\"stylesheet\" href=\"https://weich22.github.io/assets/GmeekBaseTheme.css\"&gt;&lt;script src=\"https://weich22.github.io/assets/GmeekCustomizeCss.js\"&gt;&lt;/script&gt;&lt;script src='https://weich22.github.io/assets/GmeekVercount.js'&gt;&lt;/script&gt;",
-</code></pre>
+<div class="highlight highlight-text-html-basic"><pre class="notranslate">"allHead":"<span class="pl-kos">&lt;</span><span class="pl-ent">link</span> <span class="pl-c1">rel</span>=<span class="pl-s">\</span>"stylesheet\" href=\"https://weich22.github.io/assets/GmeekBaseTheme.css\"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>=<span class="pl-s">\</span>"https://weich22.github.io/assets/GmeekCustomizeCss.js\"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>='<span class="pl-s">https://weich22.github.io/assets/GmeekVercount.js</span>'<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>",</pre></div>
 <p><code class="notranslate">GmeekBaseTheme.css</code>和<code class="notranslate">GmeekCustomizeCss.js</code>文件，也可以自己本地化两个文件保存下来上传到项目的<code class="notranslate">static/assets</code>文件夹内，没有这个文件夹的自己创建，创建<code class="notranslate">static</code>文件夹的时候在后面加个斜杠就是文件夹了，<code class="notranslate">assets</code>也是一样的，<code class="notranslate">static/assets/</code>斜杠最后随便创建个文件比如<code class="notranslate">123.txt</code>也可以，创建好了再去删除那个不用的TXT文件就好了，引用的地址是你的 <code class="notranslate">主链接</code> 加 <code class="notranslate">忽略static文件夹</code> 之后的 <code class="notranslate">assets文件夹</code> <code class="notranslate">加文件名</code> 作为地址就好了，其实我也不知道有多大用，先加了再说…<br>
 更新：已经去除，但是保留文件。</p>
 <h3>添加文章目录和文章图片灯箱</h3>
@@ -198,12 +188,10 @@ github：<a href="https://github.com/Meekdai/meekdai.github.io/issues/39" data-h
 <p>文章目录是articletoc.js和文章图片灯箱lightbox.js两个文件<br>
 我用的文章目录是 <code class="notranslate">articletoc</code> 的，因为我觉得这个在文章右下角只有一个图标需要的时候点开好点。<br>
 也是可以本地化，如上面的上转到一个文件夹可以引用，我的也是本地化了，预防别人项目不在了或者改变了，自己的还在，但是别人更新了，只能自己再去下载上传。</p>
-<pre lang="html" class="notranslate"><code class="notranslate">"script":"&lt;script src='https://weich22.github.io/assets/articletoc.js'&gt;&lt;/script&gt;&lt;script src='https://weich22.github.io/assets/lightbox.js'&gt;&lt;/script&gt;",
-</code></pre>
+<div class="highlight highlight-text-html-basic"><pre class="notranslate">"script":"<span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>='<span class="pl-s">https://weich22.github.io/assets/articletoc.js</span>'<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>='<span class="pl-s">https://weich22.github.io/assets/lightbox.js</span>'<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>",</pre></div>
 <h3>评论区自动展开</h3>
 <p>添加代码到config.json，实测会影响到文章目录和返回顶部这两个功能。</p>
-<pre lang="js" class="notranslate"><code class="notranslate">"script":"&lt;script&gt;document.getElementById('cmButton').click();&lt;/script&gt;",
-</code></pre>
+<div class="highlight highlight-source-js"><pre class="notranslate"><span class="pl-s">"script"</span>:<span class="pl-s">"&lt;script&gt;document.getElementById('cmButton').click();&lt;/script&gt;"</span><span class="pl-kos">,</span></pre></div>
 <h3>添加返回顶部按钮</h3>
 <p>这个是ArticleTOC文章目录集成返回顶部一起的,注意文件名大小写，我改名文件后面加top：ArticleTOCtop，为了方便记住多加了一个返回顶部功能用的，这个打开文章的文章目录默认是打开状态的，然后返回顶部按钮在文章目录表下面的。<br>
 <a href="https://cdn.jsdelivr.net/gh/EchoZap/echozap.github.io/static/plugins/ArticleTOC.js" rel="nofollow">ArticleTOC</a></p>
