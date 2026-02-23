@@ -134,31 +134,45 @@ document.addEventListener('DOMContentLoaded', function() {
  
  
  
+ 
+// ✅ 安全、轻量、只修 language 标注，不碰高亮逻辑
 document.addEventListener('DOMContentLoaded', () => {
-  // 🔍 只找 Gmeek 的 div.highlight，并提取 language
+  // 🔁 第一步：先让 Prism 自己完成首次高亮（它会找 .language-xx，但可能没找到 → 显示 plaintext）
+  // 我们不阻止它，而是「之后立刻补标 + 重高亮关键块」
+  
+  // 🔍 第二步：扫描 Gmeek 原生结构，提取真实语言
   document.querySelectorAll('div.highlight').forEach(div => {
-    const match = div.className.match(/highlight-source-(\w+)/);
-    if (!match) return;
-
-    const lang = match[1].toLowerCase();
     const pre = div.querySelector('pre.notranslate');
     const code = pre?.querySelector('code.notranslate');
+    if (!code) return;
 
-    if (code) {
-      // ✅ 关键：仅添加 language-xxx，不删任何已有 class（避免覆盖 Prism 自动加的）
+    // ✅ 优先从 div class 提取：highlight-source-css → css
+    let lang = 'plaintext';
+    const sourceMatch = div.className.match(/highlight-source-(\w+)/);
+    if (sourceMatch) lang = sourceMatch[1].toLowerCase();
+
+    // ✅ 兜底：也检查 pre 的 title 或 data-lang（兼容你旧习惯）
+    else if (pre.title) lang = pre.title.trim().toLowerCase();
+    else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
+
+    // ✅ 关键：只加 class，不删任何已有 class（避免破坏 Prism 已添加的）
+    if (!code.classList.contains(`language-${lang}`)) {
       code.classList.add(`language-${lang}`);
-      // ✅ 可选：给 pre 加 class，部分 Prism 主题需要（如 line-numbers）
-      pre.classList.add('line-numbers');
+      pre.classList.add(`language-${lang}`); // 部分 Prism 主题依赖 pre 的 language-xx
+      pre.setAttribute('lang', lang); // 确保 pre[lang] 存在（复制按钮/屏幕阅读器需要）
     }
   });
 
-  // ✅ 安全触发：确保 Prism 存在，且只调用一次（原生 Prism 通常已监听 DOMContentLoaded，但显式调用更稳）
-  if (typeof Prism !== 'undefined' && typeof Prism.highlightAll === 'function') {
-    // 🛑 不要重复调用！先清空 Prism 缓存（防重复高亮异常）
-    if (Prism.plugins.NormalizeWhitespace) {
-      Prism.plugins.NormalizeWhitespace = null;
+  // ✅ 第三步：仅对「刚打上 language-xx 标签的 code 块」手动重高亮（安全！不影响其他）
+  // （避免 highlightAll() 重复处理已高亮块，引发样式错乱或性能问题）
+  document.querySelectorAll('code[class*="language-"]:not(.language-plaintext)').forEach(code => {
+    if (typeof Prism.highlightElement === 'function') {
+      try {
+        Prism.highlightElement(code);
+      } catch (e) {
+        console.warn('Prism re-highlight failed on:', code, e);
+      }
     }
-    Prism.highlightAll();
-  }
+  });
 });
- 
+  
