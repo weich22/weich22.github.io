@@ -130,38 +130,59 @@ document.addEventListener('DOMContentLoaded', function() {
 // 3. 最后加这段 Gmeek 适配（必须），代码高亮
 
  
- 
-// ✅ 安全初始化：确保 DOM 加载完成 & Prism 已定义
-if (typeof Prism !== 'undefined' && document.readyState !== 'loading') {
-  initPrismForGmeek();
-} else {
-  document.addEventListener('DOMContentLoaded', initPrismForGmeek);
-}
-
-function initPrismForGmeek() {
-  // 🔍 优先匹配 Gmeek 原生 class：如 <div class="highlight highlight-source-css"> → lang=css
-  document.querySelectorAll('div.highlight').forEach(div => {
-    const match = div.className.match(/highlight-source-(\w+)/);
-    if (!match) return;
-
-    const lang = match[1].toLowerCase();
-    const pre = div.querySelector('pre:not(.language-*)');
-    const code = pre && pre.querySelector('code:not(.language-*)');
-
-    if (pre && code) {
-      // 移除 Gmeek 冗余 class，注入 Prism 所需 class
-      code.classList.remove('notranslate');
-      code.classList.add(`language-${lang}`);
-      pre.classList.add('line-numbers'); // 启用行号（需 line-numbers.css）
-      pre.classList.add('language-' + lang); // 部分 Prism 主题依赖 pre 的 language-* 类
+  
+// ✅ 100% 安全版：无视加载顺序，自动等待 Prism 就位
+(function safePrismInit() {
+  // 🌟 核心：用 MutationObserver 监听 DOM 变化 + 轮询 Prism
+  const observer = new MutationObserver(() => {
+    if (typeof Prism !== 'undefined' && Prism.highlightAll) {
+      initGmeekPrism();
+      observer.disconnect(); // 任务完成，停止监听
     }
   });
 
-  // 🌟 最后统一触发高亮（安全兜底：延迟 1 帧避免竞态）
-  requestAnimationFrame(() => {
-    if (typeof Prism.highlightAll === 'function') {
-      Prism.highlightAll();
-    }
-  });
-}
+  // 🚀 立即检查 + 开启监听
+  if (typeof Prism !== 'undefined' && Prism.highlightAll) {
+    initGmeekPrism();
+  } else {
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true
+    });
+    // 双保险：500ms 后强制检查（防极端情况）
+    setTimeout(() => {
+      if (typeof Prism !== 'undefined' && Prism.highlightAll) {
+        initGmeekPrism();
+        observer.disconnect();
+      }
+    }, 500);
+  }
+
+  function initGmeekPrism() {
+    // ✅ 精准匹配 Gmeek 真实结构：<div class="highlight highlight-source-xxx">
+    document.querySelectorAll('div.highlight').forEach(container => {
+      const langMatch = container.className.match(/highlight-source-(\w+)/);
+      if (!langMatch) return;
+
+      const lang = langMatch[1].toLowerCase();
+      const pre = container.querySelector('pre');
+      const code = pre?.querySelector('code');
+
+      if (code) {
+        // 🧼 彻底清理 Gmeek 的干扰 class
+        code.className = code.className
+          .replace(/notranslate/g, '')
+          .replace(/language-\S+/g, '')
+          .trim();
+        
+        // ✨ 注入 Prism 灵魂 class
+        code.classList.add(`language-${lang}`);
+        pre.classList.add('line-numbers', `language-${lang}`);
+      }
+    });
+
+    // 💥 终极高亮指令（Prism 亲儿子写法）
+    Prism.highlightAllUnder(document.body);
+  }
+})();
  
