@@ -153,7 +153,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
   </pre></div>
 <p>另外一个参考：</p>
-<pre lang=" " class="notranslate"><code class="notranslate">document.addEventListener('DOMContentLoaded', () =&gt; {
+<pre lang="js " class="notranslate"><code class="notranslate">document.addEventListener('DOMContentLoaded', () =&gt; {
   // ✅ 保持原有选择器：只处理 Gmeek 生成的 notranslate 结构
   document.querySelectorAll('pre.notranslate &gt; code.notranslate').forEach((codeEl) =&gt; {
     let lang = 'plaintext';
@@ -267,7 +267,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>/usr/plugins/CodeHighlighter/static/styles/coy.css</p>
 <h3>复制插件目录：</h3>
 <p>/usr/plugins/CodeHighlighter/static/clipboard.min.js</p>
-<p>上面三个文件下载回来再上传然后再引用到配置文件</p>
+<p>上面三个文件下载回来再上传然后再引用到Gmeek配置文件，引用标签为：allHead</p>
 <pre class="notranslate"><code class="notranslate">&lt;link rel=\"stylesheet\" href='/assets/coy.css'&gt;
 &lt;script src='/assets/clipboard.min.js'&gt;&lt;/script&gt;
 &lt;script src='/assets/prism.full.js'&gt;&lt;/script&gt;

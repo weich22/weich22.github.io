@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 ```
 另外一个参考：
 
-``` 
+```js 
 document.addEventListener('DOMContentLoaded', () => {
   // ✅ 保持原有选择器：只处理 Gmeek 生成的 notranslate 结构
   document.querySelectorAll('pre.notranslate > code.notranslate').forEach((codeEl) => {
@@ -216,7 +216,7 @@ CodeHighlighter插件的相关文件位于Typecho安装目录的/usr/plugins/Cod
 /usr/plugins/CodeHighlighter/static/clipboard.min.js
 
 
-上面三个文件下载回来再上传然后再引用到配置文件
+上面三个文件下载回来再上传然后再引用到Gmeek配置文件，引用标签为：allHead
 ```
 <link rel=\"stylesheet\" href='/assets/coy.css'>
 <script src='/assets/clipboard.min.js'></script>
