@@ -123,55 +123,19 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /*链接获取焦点显示标题*/
+
+// 只在 https://g.weich.ee/link.html 页面生效
 document.addEventListener('DOMContentLoaded', function () {
   const path = window.location.pathname;
-  const isLinkPage = path === '/link.html';
+  const targetPage = path === '/link.html';
 
-  if (!isLinkPage) return;
-
-  const postBody = document.getElementById('postBody');
-  if (!postBody) return;
-
-  const links = postBody.querySelectorAll('a[title]');
-
-  links.forEach(link => {
-    link.dataset.title = link.title;
-    link.removeAttribute('title'); // 关掉原生丑提示
-  });
-
-  // 全局显示隐藏
-  postBody.addEventListener('mouseover', function (e) {
-    const a = e.target.closest('a[data-title]');
-    if (a) showTip(a);
-  });
-  postBody.addEventListener('mouseout', function (e) {
-    const a = e.target.closest('a[data-title]');
-    if (a) hideTip();
-  });
-  postBody.addEventListener('focus', function (e) {
-    const a = e.target.closest('a[data-title]');
-    if (a) showTip(a);
-  }, true);
-  postBody.addEventListener('blur', function (e) {
-    const a = e.target.closest('a[data-title]');
-    if (a) hideTip();
-  }, true);
-
-  function showTip(el) {
-    hideTip();
-    const tip = document.createElement('div');
-    tip.className = 'custom-hover-title';
-    tip.textContent = el.dataset.title;
-    document.body.appendChild(tip);
-
-    const rect = el.getBoundingClientRect();
-    tip.style.left = rect.left + window.scrollX + 'px';
-    tip.style.top = rect.bottom + window.scrollY + 6 + 'px';
-  }
-
-  function hideTip() {
-    const old = document.querySelector('.custom-hover-title');
-    if (old) old.remove();
+  if (targetPage) {
+    // 只给 #postBody 里的 a 标签加上你能用的效果
+    const links = document.querySelectorAll('#postBody a[title]');
+    links.forEach(link => {
+      link.classList.add('tooltip-link');
+      link.dataset.title = link.title;
+      link.removeAttribute('title');
+    });
   }
 });
-
