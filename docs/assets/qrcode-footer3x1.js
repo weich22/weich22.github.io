@@ -124,18 +124,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /*链接获取焦点显示标题*/
 
-// 只在 https://g.weich.ee/link.html 页面生效
 document.addEventListener('DOMContentLoaded', function () {
-  const path = window.location.pathname;
-  const targetPage = path === '/link.html';
+  // 只在链接页面生效
+  if (window.location.pathname !== '/link.html') return;
 
-  if (targetPage) {
-    // 只给 #postBody 里的 a 标签加上你能用的效果
-    const links = document.querySelectorAll('#postBody a[title]');
-    links.forEach(link => {
-      link.classList.add('tooltip-link');
-      link.dataset.title = link.title;
-      link.removeAttribute('title');
-    });
-  }
+  const postBody = document.getElementById('postBody');
+  if (!postBody) return;
+
+  // 只给 #postBody 里带 title 的链接生效
+  postBody.querySelectorAll('a[title]').forEach(link => {
+    link.classList.add('tooltip-link');
+    link.dataset.title = link.title;
+    link.removeAttribute('title');
+    // 让手机 a 标签能真正获得焦点（关键！）
+    link.setAttribute('tabindex', '0');
+  });
 });
