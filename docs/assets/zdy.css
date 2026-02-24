@@ -98,49 +98,40 @@ pre[class*="language-"] code * {
 /* 强制显示行号数字写在下面，还没写好，暂时放弃治疗不写了，下面是别的有注释说明*/
 
  
-/* 模仿 Gmeek 原版代码块样式 */
+/* 全局禁止代码块撑宽页面 —— 关键修复 */
 pre {
   background: #1d1f21 !important;
-  padding: 1em !important;
   border-radius: 6px !important;
-  overflow: auto !important;
+  padding: 1rem 1rem 1rem 3.2rem !important;
+  margin: 1.2rem 0 !important;
+  overflow-x: auto !important;
+  white-space: pre !important;
+  word-wrap: normal !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  border: none !important;
   position: relative !important;
-  margin: 1.5rem 0 !important;
 }
 
+/* 代码内容 */
 pre code {
+  color: #c5c8c6 !important;
   font-family: Consolas, Monaco, monospace !important;
   font-size: 14px !important;
   line-height: 1.6 !important;
-  color: #c5c8c6 !important;
   background: transparent !important;
   padding: 0 !important;
   display: block !important;
-  counter-reset: line-number !important;
 }
 
-/* 行号样式（和它一模一样） */
-pre code .line {
-  display: block !important;
-  position: relative !important;
-  padding-left: 2.8em !important;
-  min-height: 1.6em !important;
+/* 行号样式（仿 Gmeek 原版） */
+pre::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2.8rem;
+  background: #2b2b2b;
+  border-right: 1px solid #444;
 }
-
-pre code .line::before {
-  content: counter(line-number) !important;
-  counter-increment: line-number !important;
-  position: absolute !important;
-  left: 0 !important;
-  width: 2.5em !important;
-  text-align: right !important;
-  color: #757575 !important;
-  user-select: none !important;
-}
-
-/* 语法高亮颜色（和它网站完全一致） */
-pre code .comment { color: #969896 !important; }
-pre code .string { color: #b5bd68 !important; }
-pre code .keyword { color: #cc99cc !important; }
-pre code .function { color: #81a2be !important; }
-pre code .literal { color: #de935f !important; }
