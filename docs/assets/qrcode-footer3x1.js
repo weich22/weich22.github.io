@@ -125,47 +125,52 @@ document.addEventListener('DOMContentLoaded', function() {
 /*链接获取焦点显示标题*/
 document.addEventListener('DOMContentLoaded', function () {
   const path = window.location.pathname;
-  // 只在链接页生效
-  const needPage = path === '/link.html';
+  const isLinkPage = path === '/link.html';
 
-  if (needPage) {
-    // 只给 #postBody 里面的 a[title] 生效
-    const links = document.querySelectorAll('#postBody a[title]');
-    links.forEach(link => {
-      link.dataset.title = link.title;
-      link.removeAttribute('title');
+  if (!isLinkPage) return;
 
-      // 聚焦显示
-      link.addEventListener('focus', function () {
-        showTip(this);
-      });
-      // 失焦隐藏
-      link.addEventListener('blur', hideTip);
-      // 手机点击显示
-      link.addEventListener('click', function () {
-        showTip(this);
-      });
-    });
-  }
+  const postBody = document.getElementById('postBody');
+  if (!postBody) return;
 
-  // 显示提示（在下方）
+  const links = postBody.querySelectorAll('a[title]');
+
+  links.forEach(link => {
+    link.dataset.title = link.title;
+    link.removeAttribute('title'); // 关掉原生丑提示
+  });
+
+  // 全局显示隐藏
+  postBody.addEventListener('mouseover', function (e) {
+    const a = e.target.closest('a[data-title]');
+    if (a) showTip(a);
+  });
+  postBody.addEventListener('mouseout', function (e) {
+    const a = e.target.closest('a[data-title]');
+    if (a) hideTip();
+  });
+  postBody.addEventListener('focus', function (e) {
+    const a = e.target.closest('a[data-title]');
+    if (a) showTip(a);
+  }, true);
+  postBody.addEventListener('blur', function (e) {
+    const a = e.target.closest('a[data-title]');
+    if (a) hideTip();
+  }, true);
+
   function showTip(el) {
     hideTip();
-    if (!el || !el.dataset.title) return;
-
     const tip = document.createElement('div');
-    tip.className = 'custom-tip';
+    tip.className = 'custom-hover-title';
     tip.textContent = el.dataset.title;
     document.body.appendChild(tip);
 
     const rect = el.getBoundingClientRect();
-    tip.style.left = rect.left + 'px';
-    tip.style.top = (rect.bottom + 6 + window.scrollY) + 'px';
+    tip.style.left = rect.left + window.scrollX + 'px';
+    tip.style.top = rect.bottom + window.scrollY + 6 + 'px';
   }
 
-  // 隐藏提示
   function hideTip() {
-    const old = document.querySelector('.custom-tip');
+    const old = document.querySelector('.custom-hover-title');
     if (old) old.remove();
   }
 });
