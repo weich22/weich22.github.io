@@ -19,7 +19,7 @@
 <meta property="og:url" content="https://g.weich.ee/post/9.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
 <title>Gmeek友情链接显示备注标题</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -82,8 +82,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <div class="markdown-body" id="postBody"><p>也就是Markdown超链接的title标题拿来当备注显示…<br>
 链接title是当鼠标悬停在链接上时会出现的文字，这个title是可选的，它放在圆括号中链接地址后面，跟链接地址之间以空格分隔。</p>
 <p>既然原生自带的就有了还要折腾啥玩意？因为我觉得手机端浏览默认不显示，不方便，所以才有的这个文章。</p>
-<pre class="notranslate"><code class="notranslate">[无用功](https://weich22.github.io "没有用功努力，不做没用的功")。
-</code></pre>
+<div class="highlight highlight-text-md"><pre class="notranslate"><span class="pl-s">[</span>无用功<span class="pl-s">]</span><span class="pl-s">(</span><span class="pl-corl">https://weich22.github.io</span> <span class="pl-s">"</span><span class="pl-s">没有用功努力，不做没用的功</span><span class="pl-s">")</span>。</pre></div>
 <p>1.手机长按一下就显示,拿开不会消失<br>
 靠的是:focus,只要焦点还在(下划线<br>
 还在),就一直显示<br>
@@ -93,58 +92,57 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 不用点、不用右键<br>
 4.只在 #postBody（文章内容部分） + link.html页面生效<br>
 按住→显示→拿开还显示→点别处才消失和原生焦点状态完全同步。</p>
-<pre class="notranslate"><code class="notranslate">&lt;style&gt;
-/* 手机/电脑通用：只有焦点/hover 才显示，手指拿开依然保持显示 */
-#postBody a.tooltip-link {
-  position: relative;
-  /* 下划线！保持原样 */
+<div class="highlight highlight-source-css"><pre class="notranslate">&lt;style<span class="pl-c1">&gt;</span>
+<span class="pl-c">/* 手机/电脑通用：只有焦点/hover 才显示，手指拿开依然保持显示 */</span>
+<span class="pl-kos">#</span><span class="pl-c1">postBody</span> <span class="pl-ent">a</span>.<span class="pl-c1">tooltip-link</span> {
+  <span class="pl-c1">position</span><span class="pl-kos">:</span> relative;
+  <span class="pl-c">/* 下划线！保持原样 */</span>
 }
 
-#postBody a.tooltip-link::after {
-  content: attr(data-title);
-  position: absolute;
-  top: 100%;
-  left: 0;
-  margin-top: 4px;
-  background: #333;
-  color: #fff;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 14px;
-  white-space: nowrap;
-  z-index: 999;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s;
+<span class="pl-kos">#</span><span class="pl-c1">postBody</span> <span class="pl-ent">a</span>.<span class="pl-c1">tooltip-link</span>::<span class="pl-c1">after</span> {
+  <span class="pl-c1">content</span><span class="pl-kos">:</span> <span class="pl-en">attr</span>(data-title);
+  <span class="pl-c1">position</span><span class="pl-kos">:</span> absolute;
+  <span class="pl-c1">top</span><span class="pl-kos">:</span> <span class="pl-c1">100<span class="pl-smi">%</span></span>;
+  <span class="pl-c1">left</span><span class="pl-kos">:</span> <span class="pl-c1">0</span>;
+  <span class="pl-c1">margin-top</span><span class="pl-kos">:</span> <span class="pl-c1">4<span class="pl-smi">px</span></span>;
+  <span class="pl-c1">background</span><span class="pl-kos">:</span> <span class="pl-pds"><span class="pl-kos">#</span>333</span>;
+  <span class="pl-c1">color</span><span class="pl-kos">:</span> <span class="pl-pds"><span class="pl-kos">#</span>fff</span>;
+  <span class="pl-c1">padding</span><span class="pl-kos">:</span> <span class="pl-c1">4<span class="pl-smi">px</span></span> <span class="pl-c1">8<span class="pl-smi">px</span></span>;
+  <span class="pl-c1">border-radius</span><span class="pl-kos">:</span> <span class="pl-c1">4<span class="pl-smi">px</span></span>;
+  <span class="pl-c1">font-size</span><span class="pl-kos">:</span> <span class="pl-c1">14<span class="pl-smi">px</span></span>;
+  <span class="pl-c1">white-space</span><span class="pl-kos">:</span> nowrap;
+  <span class="pl-c1">z-index</span><span class="pl-kos">:</span> <span class="pl-c1">999</span>;
+  <span class="pl-c1">opacity</span><span class="pl-kos">:</span> <span class="pl-c1">0</span>;
+  <span class="pl-c1">visibility</span><span class="pl-kos">:</span> hidden;
+  <span class="pl-c1">transition</span><span class="pl-kos">:</span> opacity <span class="pl-c1">0.2<span class="pl-smi">s</span></span>;
 }
 
-/* 核心：hover 电脑可用 + focus 保持显示（手机点完不消失） */
-#postBody a.tooltip-link:hover::after,
-#postBody a.tooltip-link:focus::after {
-  opacity: 1;
-  visibility: visible;
+<span class="pl-c">/* 核心：hover 电脑可用 + focus 保持显示（手机点完不消失） */</span>
+<span class="pl-kos">#</span><span class="pl-c1">postBody</span> <span class="pl-ent">a</span>.<span class="pl-c1">tooltip-link</span><span class="pl-kos">:</span><span class="pl-c1">hover</span>::<span class="pl-c1">after</span><span class="pl-kos">,</span>
+<span class="pl-kos">#</span><span class="pl-c1">postBody</span> <span class="pl-ent">a</span>.<span class="pl-c1">tooltip-link</span><span class="pl-kos">:</span><span class="pl-c1">focus</span>::<span class="pl-c1">after</span> {
+  <span class="pl-c1">opacity</span><span class="pl-kos">:</span> <span class="pl-c1">1</span>;
+  <span class="pl-c1">visibility</span><span class="pl-kos">:</span> visible;
 }
-&lt;/style&gt;
+&lt;<span class="pl-c1">/</span>style<span class="pl-c1">&gt;</span>
 
-&lt;script&gt;
-document.addEventListener('DOMContentLoaded', function () {
+&lt;script<span class="pl-c1">&gt;</span>
+document.<span class="pl-c1">addEventListener</span>(<span class="pl-s">'DOMContentLoaded'</span><span class="pl-kos">,</span> <span class="pl-ent">function</span> () {
   // 只在链接页面生效
-  if (window.location.pathname !== '/link.html') return;
+  <span class="pl-ent">if</span> (window.<span class="pl-c1">location</span>.<span class="pl-c1">pathname</span> !<span class="pl-c1">=</span><span class="pl-c1">=</span> <span class="pl-s">'/link.html'</span>) return;
 
-  const postBody = document.getElementById('postBody');
+  const postBody <span class="pl-c1">=</span> document.<span class="pl-c1">getElementById</span>(<span class="pl-s">'postBody'</span>);
   if (!postBody) return;
 
-  // 只给 #postBody 里带 title 的链接生效
-  postBody.querySelectorAll('a[title]').forEach(link =&gt; {
-    link.classList.add('tooltip-link');
-    link.dataset.title = link.title;
-    link.removeAttribute('title');
-    // 让手机 a 标签能真正获得焦点（关键！）
-    link.setAttribute('tabindex', '0');
+  <span class="pl-c1">/</span><span class="pl-c1">/</span> 只给 <span class="pl-kos">#</span><span class="pl-c1">postBody</span> 里带 title 的链接生效
+  postBody.<span class="pl-c1">querySelectorAll</span>(<span class="pl-s">'a[title]'</span>).<span class="pl-c1">forEach</span>(link <span class="pl-c1">=</span><span class="pl-c1">&gt;</span> {
+    <span class="pl-ent">link</span>.<span class="pl-c1">classList</span>.<span class="pl-c1">add</span>(<span class="pl-s">'tooltip-link'</span>);
+    link.<span class="pl-c1">dataset</span>.<span class="pl-c1">title</span> <span class="pl-c1">=</span> link.<span class="pl-c1">title</span>;
+    link.<span class="pl-c1">removeAttribute</span>(<span class="pl-s">'title'</span>);
+    <span class="pl-c1">/</span><span class="pl-c1">/</span> 让手机 a 标签能真正获得焦点（关键！）
+    link.<span class="pl-c1">setAttribute</span>(<span class="pl-s">'tabindex'</span><span class="pl-kos">,</span> <span class="pl-s">'0'</span>);
   });
 });
-&lt;/script&gt;
-</code></pre></div>
+&lt;<span class="pl-c1">/</span>script<span class="pl-c1">&gt;</span></pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
