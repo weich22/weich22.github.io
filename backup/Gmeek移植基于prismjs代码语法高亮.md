@@ -215,6 +215,14 @@ CodeHighlighter插件的相关文件位于Typecho安装目录的/usr/plugins/Cod
 ### 复制插件目录：
 /usr/plugins/CodeHighlighter/static/clipboard.min.js
 
+
+上面三个文件下载回来再上传然后再引用到配置文件
+```
+<link rel=\"stylesheet\" href='/assets/coy.css'>
+<script src='/assets/clipboard.min.js'></script>
+<script src='/assets/prism.full.js'></script>
+```
+
 我添加的自定义修复js文件名是：qrcode-footer3x1.js ，直接整合到原来已有并且已经引用的js文件里面的。
 我添加的自定义修复css文件名是：zdy.css ，这个也是直接整合到原来已经的文件里面的。
 

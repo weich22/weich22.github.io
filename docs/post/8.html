@@ -267,6 +267,11 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>/usr/plugins/CodeHighlighter/static/styles/coy.css</p>
 <h3>复制插件目录：</h3>
 <p>/usr/plugins/CodeHighlighter/static/clipboard.min.js</p>
+<p>上面三个文件下载回来再上传然后再引用到配置文件</p>
+<pre class="notranslate"><code class="notranslate">&lt;link rel=\"stylesheet\" href='/assets/coy.css'&gt;
+&lt;script src='/assets/clipboard.min.js'&gt;&lt;/script&gt;
+&lt;script src='/assets/prism.full.js'&gt;&lt;/script&gt;
+</code></pre>
 <p>我添加的自定义修复js文件名是：qrcode-footer3x1.js ，直接整合到原来已有并且已经引用的js文件里面的。<br>
 我添加的自定义修复css文件名是：zdy.css ，这个也是直接整合到原来已经的文件里面的。</p>
 <p>移植后,打开博客首页和一篇文章页,检查代码块是否已正确着色,并且左侧显示行号。在手机上查看时,横向滚动条应正常工作。</p>
