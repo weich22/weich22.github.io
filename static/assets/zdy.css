@@ -98,82 +98,45 @@ pre[class*="language-"] code * {
 /* 强制显示行号数字写在下面，还没写好，暂时放弃治疗不写了，下面是别的有注释说明*/
 
  
-/* 只对 Gmeek 代码块生效 · 绝对不会乱套 */
-#article-container .highlight pre {
-  position: relative;
-  margin: 1.5rem 0;
-  padding: 1rem 0;
+/* 纯CSS模拟 Prism Dark + 左侧行号 */
+pre code {
+  display: block;
+  padding: 1em 1em 1em 3.5em;
   border-radius: 6px;
   background: #2d2d2d;
-  line-height: 1.6;
-  overflow: auto;
+  color: #ccc;
+  position: relative;
+  overflow-x: auto;
   font-family: Consolas, Monaco, monospace;
-  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
-/* 行号左边背景条 */
-#article-container .highlight pre::before {
+/* 行号区域 */
+pre code::before {
   content: "";
   position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3.5rem;
-  background: #1e1e1e;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3em;
+  background: #1f1f1f;
   border-right: 1px solid #444;
-  z-index: 1;
+  pointer-events: none;
 }
 
-/* 代码整体右移，给行号腾位置 */
-#article-container .highlight code {
-  position: relative;
-  padding-left: 4rem !important;
-  display: block;
-  counter-reset: line-number;
-  z-index: 2;
-  color: #ccc;
+/* 关键字颜色 */
+pre code .keyword {
+  color: #ff79c6;
 }
-
-/* 每行变成一行 + 行号 */
-#article-container .highlight code > span {
-  display: block;
-  counter-increment: line-number;
+pre code .string {
+  color: #f1fa8c;
 }
-
-#article-container .highlight code > span::before {
-  content: counter(line-number);
-  position: absolute;
-  left: 0.8rem;
-  width: 2rem;
-  text-align: right;
-  color: #888;
-  z-index: 3;
+pre code .comment {
+  color: #999;
 }
-
-/* Prism Dark 主题颜色 · 只作用在 Gmeek 代码块 */
-#article-container .highlight .comment,
-#article-container .highlight .prolog,
-#article-container .highlight .doctype,
-#article-container .highlight .cdata { color: #999; }
-
-#article-container .highlight .punctuation { color: #ccc; }
-
-#article-container .highlight .tag,
-#article-container .highlight .boolean,
-#article-container .highlight .number,
-#article-container .highlight .constant,
-#article-container .highlight .symbol,
-#article-container .highlight .deleted { color: #f92672; }
-
-#article-container .highlight .attr-name,
-#article-container .highlight .string,
-#article-container .highlight .char,
-#article-container .highlight .builtin,
-#article-container .highlight .inserted { color: #a6e22e; }
-
-#article-container .highlight .property,
-#article-container .highlight .selector,
-#article-container .highlight .function,
-#article-container .highlight .keyword { color: #66d9ef; }
-
-#article-container .highlight .entity,
-#article-container .highlight .url,
-#article-container .highlight .variable { color: #fd971f; }
+pre code .function {
+  color: #50fa7b;
+}
+pre code .variable {
+  color: #8be9fd;
+}
