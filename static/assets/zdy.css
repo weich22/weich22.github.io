@@ -34,7 +34,7 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 /* 手机/电脑通用：只有焦点/hover 才显示，手指拿开依然保持显示 */
 #postBody a.tooltip-link {
   position: relative;
-  /* 不碰你的下划线！保持原样 */
+  /* 下划线！保持原样 */
 }
 
 #postBody a.tooltip-link::after {
