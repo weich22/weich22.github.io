@@ -98,40 +98,35 @@ pre[class*="language-"] code * {
 /* 强制显示行号数字写在下面，还没写好，暂时放弃治疗不写了，下面是别的有注释说明*/
 
  
-/* 适配 Gmeek 原生 Prism 代码块，不破坏结构 */
-pre[class*="language-"] {
-  position: relative !important;
-  padding-left: 3.8em !important;
+/* Gmeek 原生代码块样式复刻 */
+pre {
+  background-color: #282c34 !important;
   border-radius: 6px !important;
-  background: #1d1f21 !important;
-  margin: 1.5rem 0 !important;
-  overflow-x: auto !important;
   border: 1px solid #444 !important;
-}
-
-/* 行号背景 */
-pre[class*="language-"].line-numbers {
-  padding-left: 3.8em !important;
-}
-.line-numbers .line-numbers-rows {
-  position: absolute !important;
-  left: 0 !important;
-  top: 0 !important;
-  width: 3em !important;
-  border-right: 1px solid #444 !important;
-  background: #222 !important;
-  padding: 1em 0 !important;
-  height: 100% !important;
+  padding: 1em !important;
+  margin: 1.5rem 0 !important;
+  overflow: auto !important;
+  max-width: 100% !important;
   box-sizing: border-box !important;
 }
 
-/* 行号文字 */
-.line-numbers-rows > span:before {
-  color: #888 !important;
+pre code {
+  color: #abb2bf !important;
+  font-family: Consolas, monospace !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  background: transparent !important;
+  padding: 0 !important;
 }
 
-/* 代码颜色 */
-code[class*="language-"] {
-  color: #ccc !important;
-  background: transparent !important;
+/* 行号 */
+pre::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 2.8em;
+  background: #21252b !important;
+  border-right: 1px solid #444 !important;
 }
