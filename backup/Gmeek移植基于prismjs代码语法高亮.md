@@ -2,7 +2,7 @@ Typecho的CodeHighlighter基于 prismjs 的代码语法高亮插件如何移植�
 
 ### 添加自定义修复js
 
-```+css
+```js
  
 // prism-init.js —— 自动识别并标记 Gmeek 的代码块
 document.addEventListener('DOMContentLoaded', () => {
@@ -172,7 +172,7 @@ pre[class*="language-"] code * {
 
 好像这个css也要加，请自己实测。
 
-```
+```css
 /*代码高亮 强行清空 Gmeek 自带样式 */
 /* 
 .copy-to-clipboard {

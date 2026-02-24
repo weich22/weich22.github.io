@@ -79,39 +79,37 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="content">
 <div class="markdown-body" id="postBody"><p>Typecho的CodeHighlighter基于 prismjs 的代码语法高亮插件如何移植到基于github用Gmeek做的博客用。</p>
 <h3>添加自定义修复js</h3>
-<pre lang="+css" class="notranslate"><code class="notranslate"> 
-// prism-init.js —— 自动识别并标记 Gmeek 的代码块
-document.addEventListener('DOMContentLoaded', () =&gt; {
-  // 遍历所有 &lt;pre&gt;&lt;code class="notranslate"&gt;
-  document.querySelectorAll('pre.notranslate &gt; code.notranslate').forEach((codeEl) =&gt; {
-    // 尝试从父级 pre 的 title、data-lang 或内容特征推测语言（简单版）
-    let lang = 'plaintext';
-    const pre = codeEl.parentElement;
+<div class="highlight highlight-source-js"><pre class="notranslate"> 
+<span class="pl-c">// prism-init.js —— 自动识别并标记 Gmeek 的代码块</span>
+<span class="pl-smi">document</span><span class="pl-kos">.</span><span class="pl-en">addEventListener</span><span class="pl-kos">(</span><span class="pl-s">'DOMContentLoaded'</span><span class="pl-kos">,</span> <span class="pl-kos">(</span><span class="pl-kos">)</span> <span class="pl-c1">=&gt;</span> <span class="pl-kos">{</span>
+  <span class="pl-c">// 遍历所有 &lt;pre&gt;&lt;code class="notranslate"&gt;</span>
+  <span class="pl-smi">document</span><span class="pl-kos">.</span><span class="pl-en">querySelectorAll</span><span class="pl-kos">(</span><span class="pl-s">'pre.notranslate &gt; code.notranslate'</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">forEach</span><span class="pl-kos">(</span><span class="pl-kos">(</span><span class="pl-s1">codeEl</span><span class="pl-kos">)</span> <span class="pl-c1">=&gt;</span> <span class="pl-kos">{</span>
+    <span class="pl-c">// 尝试从父级 pre 的 title、data-lang 或内容特征推测语言（简单版）</span>
+    <span class="pl-k">let</span> <span class="pl-s1">lang</span> <span class="pl-c1">=</span> <span class="pl-s">'plaintext'</span><span class="pl-kos">;</span>
+    <span class="pl-k">const</span> <span class="pl-s1">pre</span> <span class="pl-c1">=</span> <span class="pl-s1">codeEl</span><span class="pl-kos">.</span><span class="pl-c1">parentElement</span><span class="pl-kos">;</span>
     
-    // 优先看 pre 的 title 属性（常见于 Gmeek 的手动标注，如 &lt;pre title="php"&gt;）
-    if (pre.title) lang = pre.title.trim().toLowerCase();
+    <span class="pl-c">// 优先看 pre 的 title 属性（常见于 Gmeek 的手动标注，如 &lt;pre title="php"&gt;）</span>
+    <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">pre</span><span class="pl-kos">.</span><span class="pl-c1">title</span><span class="pl-kos">)</span> <span class="pl-s1">lang</span> <span class="pl-c1">=</span> <span class="pl-s1">pre</span><span class="pl-kos">.</span><span class="pl-c1">title</span><span class="pl-kos">.</span><span class="pl-en">trim</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">toLowerCase</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
     
-    // 或看 data-lang（如果你能在 Markdown 里写 `{.python}` 之类，Gmeek 可能转成 data-lang）
-    else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
+    <span class="pl-c">// 或看 data-lang（如果你能在 Markdown 里写 `{.python}` 之类，Gmeek 可能转成 data-lang）</span>
+    <span class="pl-k">else</span> <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">pre</span><span class="pl-kos">.</span><span class="pl-c1">dataset</span><span class="pl-kos">.</span><span class="pl-c1">lang</span><span class="pl-kos">)</span> <span class="pl-s1">lang</span> <span class="pl-c1">=</span> <span class="pl-s1">pre</span><span class="pl-kos">.</span><span class="pl-c1">dataset</span><span class="pl-kos">.</span><span class="pl-c1">lang</span><span class="pl-kos">.</span><span class="pl-en">trim</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">toLowerCase</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
     
-    // 简单关键词 fallback（可选，谨慎使用）
-    else if (codeEl.textContent.includes('&lt;?php')) lang = 'php';
-    else if (codeEl.textContent.startsWith('def ') || codeEl.textContent.includes('import ')) lang = 'python';
-    else if (codeEl.textContent.includes('function ') || codeEl.textContent.includes('=&gt;')) lang = 'javascript';
+    <span class="pl-c">// 简单关键词 fallback（可选，谨慎使用）</span>
+    <span class="pl-k">else</span> <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">codeEl</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span><span class="pl-kos">.</span><span class="pl-en">includes</span><span class="pl-kos">(</span><span class="pl-s">'&lt;?php'</span><span class="pl-kos">)</span><span class="pl-kos">)</span> <span class="pl-s1">lang</span> <span class="pl-c1">=</span> <span class="pl-s">'php'</span><span class="pl-kos">;</span>
+    <span class="pl-k">else</span> <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">codeEl</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span><span class="pl-kos">.</span><span class="pl-en">startsWith</span><span class="pl-kos">(</span><span class="pl-s">'def '</span><span class="pl-kos">)</span> <span class="pl-c1">||</span> <span class="pl-s1">codeEl</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span><span class="pl-kos">.</span><span class="pl-en">includes</span><span class="pl-kos">(</span><span class="pl-s">'import '</span><span class="pl-kos">)</span><span class="pl-kos">)</span> <span class="pl-s1">lang</span> <span class="pl-c1">=</span> <span class="pl-s">'python'</span><span class="pl-kos">;</span>
+    <span class="pl-k">else</span> <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">codeEl</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span><span class="pl-kos">.</span><span class="pl-en">includes</span><span class="pl-kos">(</span><span class="pl-s">'function '</span><span class="pl-kos">)</span> <span class="pl-c1">||</span> <span class="pl-s1">codeEl</span><span class="pl-kos">.</span><span class="pl-c1">textContent</span><span class="pl-kos">.</span><span class="pl-en">includes</span><span class="pl-kos">(</span><span class="pl-s">'=&gt;'</span><span class="pl-kos">)</span><span class="pl-kos">)</span> <span class="pl-s1">lang</span> <span class="pl-c1">=</span> <span class="pl-s">'javascript'</span><span class="pl-kos">;</span>
 
-    // 添加 Prism 所需的 class
-    codeEl.classList.remove('notranslate');
-    codeEl.classList.add(`language-${lang}`);
-    pre.classList.add('line-numbers'); // 启用行号（需 coy.css 支持）
-  });
+    <span class="pl-c">// 添加 Prism 所需的 class</span>
+    <span class="pl-s1">codeEl</span><span class="pl-kos">.</span><span class="pl-c1">classList</span><span class="pl-kos">.</span><span class="pl-en">remove</span><span class="pl-kos">(</span><span class="pl-s">'notranslate'</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+    <span class="pl-s1">codeEl</span><span class="pl-kos">.</span><span class="pl-c1">classList</span><span class="pl-kos">.</span><span class="pl-en">add</span><span class="pl-kos">(</span><span class="pl-s">`language-<span class="pl-s1"><span class="pl-kos">${</span><span class="pl-s1">lang</span><span class="pl-kos">}</span></span>`</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+    <span class="pl-s1">pre</span><span class="pl-kos">.</span><span class="pl-c1">classList</span><span class="pl-kos">.</span><span class="pl-en">add</span><span class="pl-kos">(</span><span class="pl-s">'line-numbers'</span><span class="pl-kos">)</span><span class="pl-kos">;</span> <span class="pl-c">// 启用行号（需 coy.css 支持）</span>
+  <span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
 
-  // ✨ 最后手动触发 Prism 高亮（关键！）
-  if (typeof Prism !== 'undefined') {
-    Prism.highlightAll();
-  }
-});
-
-</code></pre>
+  <span class="pl-c">// ✨ 最后手动触发 Prism 高亮（关键！）</span>
+  <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-k">typeof</span> <span class="pl-v">Prism</span> <span class="pl-c1">!==</span> <span class="pl-s">'undefined'</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+    <span class="pl-v">Prism</span><span class="pl-kos">.</span><span class="pl-en">highlightAll</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+  <span class="pl-kos">}</span>
+<span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre></div>
 <p>别的参考版本：</p>
 <div class="highlight highlight-source-js"><pre class="notranslate">  
 <span class="pl-smi">document</span><span class="pl-kos">.</span><span class="pl-en">addEventListener</span><span class="pl-kos">(</span><span class="pl-s">'DOMContentLoaded'</span><span class="pl-kos">,</span> <span class="pl-kos">(</span><span class="pl-kos">)</span> <span class="pl-c1">=&gt;</span> <span class="pl-kos">{</span>
@@ -236,29 +234,28 @@ document.addEventListener('DOMContentLoaded', () =&gt; {
   }
 }</pre></div>
 <p>好像这个css也要加，请自己实测。</p>
-<pre class="notranslate"><code class="notranslate">/*代码高亮 强行清空 Gmeek 自带样式 */
-/* 
-.copy-to-clipboard {
-  position: absolute; top: 6px; right: 8px;
-  background: rgba(0,0,0,0.2); border: none; color: #fff;
-  padding: 2px 6px; border-radius: 4px; cursor: pointer;
-  font-size: 12px; opacity: 0.7;
-}
-.copy-to-clipboard:hover { opacity: 1; }
- 
-*/
+<div class="highlight highlight-source-css"><pre class="notranslate"><span class="pl-c">/*代码高亮 强行清空 Gmeek 自带样式 */</span>
+<span class="pl-c">/* </span>
+<span class="pl-c">.copy-to-clipboard {</span>
+<span class="pl-c">  position: absolute; top: 6px; right: 8px;</span>
+<span class="pl-c">  background: rgba(0,0,0,0.2); border: none; color: #fff;</span>
+<span class="pl-c">  padding: 2px 6px; border-radius: 4px; cursor: pointer;</span>
+<span class="pl-c">  font-size: 12px; opacity: 0.7;</span>
+<span class="pl-c">}</span>
+<span class="pl-c">.copy-to-clipboard:hover { opacity: 1; }</span>
+<span class="pl-c"> </span>
+<span class="pl-c">*/</span>
 
-/* 核心修复：代码块不撑大页面，超长横向滚动 */
-.article pre.line-numbers {
-  position: relative !important;
-  padding-left: 3.8em !important; /* 给行号预留固定空间 */
-  margin: 1em 0 !important;
-  overflow: auto !important;     /* 关键：让代码块自己滚动，不撑大页面 */
-  white-space: pre !important;    /* 关键：代码不换行，保留原始格式 */
-  word-wrap: normal !important;   /* 禁止自动折行 */
-  max-width: 100% !important;     /* 限制最大宽度为父容器宽度 */
-}
-</code></pre>
+<span class="pl-c">/* 核心修复：代码块不撑大页面，超长横向滚动 */</span>
+.<span class="pl-c1">article</span> <span class="pl-ent">pre</span>.<span class="pl-c1">line-numbers</span> {
+  <span class="pl-c1">position</span><span class="pl-kos">:</span> relative <span class="pl-k">!important</span>;
+  <span class="pl-c1">padding-left</span><span class="pl-kos">:</span> <span class="pl-c1">3.8<span class="pl-smi">em</span></span> <span class="pl-k">!important</span>; <span class="pl-c">/* 给行号预留固定空间 */</span>
+  <span class="pl-c1">margin</span><span class="pl-kos">:</span> <span class="pl-c1">1<span class="pl-smi">em</span></span> <span class="pl-c1">0</span> <span class="pl-k">!important</span>;
+  <span class="pl-c1">overflow</span><span class="pl-kos">:</span> auto <span class="pl-k">!important</span>;     <span class="pl-c">/* 关键：让代码块自己滚动，不撑大页面 */</span>
+  <span class="pl-c1">white-space</span><span class="pl-kos">:</span> pre <span class="pl-k">!important</span>;    <span class="pl-c">/* 关键：代码不换行，保留原始格式 */</span>
+  <span class="pl-c1">word-wrap</span><span class="pl-kos">:</span> normal <span class="pl-k">!important</span>;   <span class="pl-c">/* 禁止自动折行 */</span>
+  <span class="pl-c1">max-width</span><span class="pl-kos">:</span> <span class="pl-c1">100<span class="pl-smi">%</span></span> <span class="pl-k">!important</span>;     <span class="pl-c">/* 限制最大宽度为父容器宽度 */</span>
+}</pre></div>
 <h3>移植js和css源文件</h3>
 <p>去Typecho插件目录直接把文件拿过来上传并引用到Gmeek的config.json配置文件。<br>
 只需要prism.full.js（也可以是prism.js，只不过prism.full.js的更完整）和clipboard.min.js和你想要的主题文件coy.css也可以是别的主题文件css。</p>
