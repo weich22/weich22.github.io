@@ -122,3 +122,51 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 500);
 });
 
+/*链接获取焦点显示标题*/
+document.addEventListener('DOMContentLoaded', function () {
+  const path = window.location.pathname;
+  // 只在链接页生效
+  const needPage = path === '/link.html';
+
+  if (needPage) {
+    // 只给 #postBody 里面的 a[title] 生效
+    const links = document.querySelectorAll('#postBody a[title]');
+    links.forEach(link => {
+      link.dataset.title = link.title;
+      link.removeAttribute('title');
+
+      // 聚焦显示
+      link.addEventListener('focus', function () {
+        showTip(this);
+      });
+      // 失焦隐藏
+      link.addEventListener('blur', hideTip);
+      // 手机点击显示
+      link.addEventListener('click', function () {
+        showTip(this);
+      });
+    });
+  }
+
+  // 显示提示（在下方）
+  function showTip(el) {
+    hideTip();
+    if (!el || !el.dataset.title) return;
+
+    const tip = document.createElement('div');
+    tip.className = 'custom-tip';
+    tip.textContent = el.dataset.title;
+    document.body.appendChild(tip);
+
+    const rect = el.getBoundingClientRect();
+    tip.style.left = rect.left + 'px';
+    tip.style.top = (rect.bottom + 6 + window.scrollY) + 'px';
+  }
+
+  // 隐藏提示
+  function hideTip() {
+    const old = document.querySelector('.custom-tip');
+    if (old) old.remove();
+  }
+});
+
