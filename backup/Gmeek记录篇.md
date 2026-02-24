@@ -141,3 +141,9 @@ github：[Gmeek项目和说明](https://github.com/Meekdai/meekdai.github.io/iss
 ```
 "homeUrl":"https://g.weich.ee",
 ```
+
+### 给Gmeek自带代码高亮加边框
+
+```css
+.markdown-body pre {border: 1px solid #cdcaca}
+```
