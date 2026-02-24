@@ -98,15 +98,19 @@ pre[class*="language-"] code * {
 /* 强制显示行号数字写在下面，还没写好，暂时放弃治疗不写了，下面是别的有注释说明*/
 
  
+/* Gmeek 代码块 - 只加边框和背景，绝对稳定 */
 pre {
-  background: #2d2d2d !important;
+  background: #1e1e1e !important;
   border: 1px solid #444 !important;
   border-radius: 6px !important;
   padding: 1em !important;
-  overflow: auto !important;
   margin: 1em 0 !important;
+  overflow: auto !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
+
 pre code {
-  color: #ccc !important;
   background: transparent !important;
+  color: inherit !important;
 }
