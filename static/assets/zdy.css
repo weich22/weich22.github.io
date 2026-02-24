@@ -30,7 +30,7 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 .markdown-body pre {border: 1px solid #cdcaca}
 
 /*友情链接获取焦点显示标题*/
-.custom-tip {
+.custom-hover-title {
   position: absolute;
   background: #333;
   color: #fff;
@@ -38,6 +38,6 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
   border-radius: 4px;
   font-size: 12px;
   white-space: nowrap;
-  z-index: 9999;
+  z-index: 99999;
   pointer-events: none;
 }
