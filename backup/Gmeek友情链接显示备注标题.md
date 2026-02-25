@@ -20,7 +20,7 @@
 
 css部分：
 
-```css
+```+css
 <style>
 /* 手机/电脑通用：只有焦点/hover 才显示，手指拿开依然保持显示 */
 #postBody a.tooltip-link {
@@ -57,7 +57,7 @@ css部分：
 ```
 js部分：
 
-```js
+```+js
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   // 只在链接页面生效
