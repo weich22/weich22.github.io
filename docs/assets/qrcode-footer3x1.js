@@ -279,31 +279,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /*tag标签页面，用户点击哪个标签就去除它的css样式padding：4px*/
 
-// 等待页面加载完成
 document.addEventListener('DOMContentLoaded', function() {
-  // 获取所有标签按钮
-  const tagButtons = document.querySelectorAll('.tag-label, .label'); // 根据你的页面结构调整选择器
+  // 选择所有标签按钮
+  const tagButtons = document.querySelectorAll('button.label, a.label');
 
   tagButtons.forEach(button => {
     button.addEventListener('click', function(e) {
-      // 移除当前点击按钮的 padding 样式
-      this.style.padding = '0';
+      // 移除当前点击按钮的 padding
+      this.style.setProperty('padding', '0', 'important');
       
-      // 可选：如果需要移除其他按钮的 padding 重置效果
+      // 重置其他按钮的 padding
       tagButtons.forEach(btn => {
         if (btn !== this) {
-          btn.style.padding = ''; // 恢复默认样式
+          btn.style.removeProperty('padding');
         }
       });
     });
   });
 
-  // 页面加载时检查 hash，如果有对应的标签，也移除其 padding
-  const currentHash = window.location.hash.substring(1);
-  if (currentHash) {
-    const activeTag = document.querySelector(`a[href$="${currentHash}"], .label:contains("${currentHash}")`);
+  // 页面加载时根据 hash 激活对应标签
+  const hash = window.location.hash.slice(1);
+  if (hash) {
+    const activeTag = Array.from(tagButtons).find(btn => 
+      btn.textContent.trim() === hash || btn.getAttribute('href')?.endsWith(hash)
+    );
     if (activeTag) {
-      activeTag.style.padding = '0';
+      activeTag.style.setProperty('padding', '0', 'important');
     }
   }
 });
+
