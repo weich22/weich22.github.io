@@ -177,6 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
 ```
 
 ### 最终版本仅tag.html页面
+这个版本从别的页面点击过来也是有效果的，刷新也是有效果的，具体还有什么BUG的话，麻烦提交评论给我。
 
 ```+js
 (function() {

@@ -189,52 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
 ```
 
 ### 最终版本仅tag.html页面
-
-```+js
-(function() {
-  'use strict';
-
-  if (!window.location.pathname.includes('tag.html')) {
-    return;
-  }
-
-  function handleTagClick(event) {
-    const button = event.target.closest('button.Label');
-    if (!button) return;
-
-    document.querySelectorAll('button.Label').forEach(btn => {
-      btn.style.setProperty('padding', '4px', 'important');
-    });
-
-    button.style.setProperty('padding', '0', 'important');
-  }
-
-  const tagContainer = document.getElementById('taglabel');
-  if (tagContainer) {
-    tagContainer.addEventListener('click', handleTagClick);
-  }
-
-  function activateTagByHash() {
-    const currentHash = decodeURIComponent(window.location.hash.substring(1));
-    if (currentHash) {
-      document.querySelectorAll('button.Label').forEach(btn => {
-        btn.style.setProperty('padding', '4px', 'important');
-      });
-      const activeTag = Array.from(document.querySelectorAll('button.Label')).find(btn => 
-        btn.textContent.trim().includes(currentHash.trim())
-      );
-      if (activeTag) {
-        activeTag.style.setProperty('padding', '0', 'important');
-      }
-    }
-  }
-
-  setTimeout(activateTagByHash, 1000);
-  window.addEventListener('hashchange', activateTagByHash);
-})();
-
-```
-1.新增 activateTagByHash 函数:专门负责根据当前 URL hash 找到并激活对应标签。">
+这个版本从别的页面点击过来也是有效果的，刷新也是有效果的，具体还有什么BUG的话，麻烦提交评论给我。">
 <meta property="og:title" content="给Gmmek标签页面添加选中标签效果">
 <meta property="og:description" content="### 标签带有空格无效
 
@@ -415,52 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
 ```
 
 ### 最终版本仅tag.html页面
-
-```+js
-(function() {
-  'use strict';
-
-  if (!window.location.pathname.includes('tag.html')) {
-    return;
-  }
-
-  function handleTagClick(event) {
-    const button = event.target.closest('button.Label');
-    if (!button) return;
-
-    document.querySelectorAll('button.Label').forEach(btn => {
-      btn.style.setProperty('padding', '4px', 'important');
-    });
-
-    button.style.setProperty('padding', '0', 'important');
-  }
-
-  const tagContainer = document.getElementById('taglabel');
-  if (tagContainer) {
-    tagContainer.addEventListener('click', handleTagClick);
-  }
-
-  function activateTagByHash() {
-    const currentHash = decodeURIComponent(window.location.hash.substring(1));
-    if (currentHash) {
-      document.querySelectorAll('button.Label').forEach(btn => {
-        btn.style.setProperty('padding', '4px', 'important');
-      });
-      const activeTag = Array.from(document.querySelectorAll('button.Label')).find(btn => 
-        btn.textContent.trim().includes(currentHash.trim())
-      );
-      if (activeTag) {
-        activeTag.style.setProperty('padding', '0', 'important');
-      }
-    }
-  }
-
-  setTimeout(activateTagByHash, 1000);
-  window.addEventListener('hashchange', activateTagByHash);
-})();
-
-```
-1.新增 activateTagByHash 函数:专门负责根据当前 URL hash 找到并激活对应标签。">
+这个版本从别的页面点击过来也是有效果的，刷新也是有效果的，具体还有什么BUG的话，麻烦提交评论给我。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://g.weich.ee/post/11.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
@@ -679,6 +589,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </code></pre>
 <h3>最终版本仅tag.html页面</h3>
+<p>这个版本从别的页面点击过来也是有效果的，刷新也是有效果的，具体还有什么BUG的话，麻烦提交评论给我。</p>
 <pre lang="+js" class="notranslate"><code class="notranslate">(function() {
   'use strict';
 
