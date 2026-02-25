@@ -176,3 +176,55 @@ document.addEventListener('DOMContentLoaded', function() {
 
 ```
 
+### 最终版本仅tag.html页面
+
+```+js
+(function() {
+  'use strict';
+
+  if (!window.location.pathname.includes('tag.html')) {
+    return;
+  }
+
+  function handleTagClick(event) {
+    const button = event.target.closest('button.Label');
+    if (!button) return;
+
+    document.querySelectorAll('button.Label').forEach(btn => {
+      btn.style.setProperty('padding', '4px', 'important');
+    });
+
+    button.style.setProperty('padding', '0', 'important');
+  }
+
+  const tagContainer = document.getElementById('taglabel');
+  if (tagContainer) {
+    tagContainer.addEventListener('click', handleTagClick);
+  }
+
+  function activateTagByHash() {
+    const currentHash = decodeURIComponent(window.location.hash.substring(1));
+    if (currentHash) {
+      document.querySelectorAll('button.Label').forEach(btn => {
+        btn.style.setProperty('padding', '4px', 'important');
+      });
+      const activeTag = Array.from(document.querySelectorAll('button.Label')).find(btn => 
+        btn.textContent.trim().includes(currentHash.trim())
+      );
+      if (activeTag) {
+        activeTag.style.setProperty('padding', '0', 'important');
+      }
+    }
+  }
+
+  setTimeout(activateTagByHash, 1000);
+  window.addEventListener('hashchange', activateTagByHash);
+})();
+
+```
+1.新增 activateTagByHash 函数:专门负责根据当前 URL hash 找到并激活对应标签。
+2.监听 hashchange 事件:每次URL 中的hash 发生变化(比如点击标签、前进后退),都会自动调用
+activateTagByHash,确保选中状态始终同步。
+3.刷新后自动激活:页面刷新
+时,setTimeout 会延迟执行一次,保证DOM 加载完成后再根据 hash激活标签。
+这样,无论是刷新页面、点击标签,还是使用浏览器的前进后退按钮,选中状态都会一直保持正确,不会再出现失效的情况。
