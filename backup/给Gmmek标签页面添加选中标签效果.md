@@ -175,3 +175,90 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 
 ```
+
+### 只在tag.html页面生效
+
+```+js
+(function() {
+  'use strict';
+
+  // 只在标签页执行
+  if (!window.location.pathname.includes('tag.html')) {
+    return;
+  }
+
+  setTimeout(function() {
+    const tagButtons = document.querySelectorAll('button.Label');
+
+    if (tagButtons.length === 0) return;
+
+    tagButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        tagButtons.forEach(btn => {
+          btn.style.setProperty('padding', '4px', 'important');
+        });
+        this.style.setProperty('padding', '0', 'important');
+      });
+    });
+
+    const currentHash = decodeURIComponent(window.location.hash.substring(1));
+    if (currentHash) {
+      const activeTag = Array.from(tagButtons).find(btn => 
+        btn.textContent.trim().includes(currentHash.trim())
+      );
+      if (activeTag) {
+        activeTag.style.setProperty('padding', '0', 'important');
+      }
+    }
+  }, 1000);
+})();
+
+```
+
+### 预防添加新标签无效版本
+
+```+js
+(function() {
+  'use strict';
+
+  // 只在标签页执行
+  if (!window.location.pathname.includes('tag.html')) {
+    return;
+  }
+
+  // 使用事件委托，动态处理所有现有和未来的标签按钮
+  function handleTagClick(event) {
+    // 检查点击的元素是否是标签按钮
+    const button = event.target.closest('button.Label');
+    if (!button) return;
+
+    // 恢复所有标签的 padding
+    document.querySelectorAll('button.Label').forEach(btn => {
+      btn.style.setProperty('padding', '4px', 'important');
+    });
+
+    // 移除当前点击标签的 padding
+    button.style.setProperty('padding', '0', 'important');
+  }
+
+  // 将事件监听器绑定到父容器上，而不是每个按钮
+  const tagContainer = document.getElementById('taglabel');
+  if (tagContainer) {
+    tagContainer.addEventListener('click', handleTagClick);
+  }
+
+  // 页面加载时，根据 URL hash 自动激活对应标签
+  setTimeout(function() {
+    const currentHash = decodeURIComponent(window.location.hash.substring(1));
+    if (currentHash) {
+      const activeTag = Array.from(document.querySelectorAll('button.Label')).find(btn => 
+        btn.textContent.trim().includes(currentHash.trim())
+      );
+      if (activeTag) {
+        activeTag.style.setProperty('padding', '0', 'important');
+      }
+    }
+  }, 1000);
+})();
+
+```
