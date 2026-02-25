@@ -1,4 +1,6 @@
-```dos
+这个版本标签带有空格无效
+
+```+js
 document.addEventListener('DOMContentLoaded', function() {
   const tagButtons = document.querySelectorAll('button.Label');
 
@@ -15,8 +17,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 ```
-包含f12控制台调试信息输出，因为我发现标签有空格的会没有效果，未到匹配的…
-```dos
+### 空格无效版带调试信息
+
+包含f12控制台调试信息输出，因为我发现标签有空格的会没有效果，和上面的差不多，多了调试脚本，未到匹配的…
+
+```+js
 // 页面加载完成后执行
 document.addEventListener('DOMContentLoaded', function() {
   console.log('脚本已加载');
@@ -66,5 +71,105 @@ document.addEventListener('DOMContentLoaded', function() {
     console.error('未找到 updateShowTag 函数！');
   }
 });
+
+```
+
+### 全部有效版本，空格也有效
+
+```+js
+(function() {
+  'use strict';
+
+  setTimeout(function() {
+    const tagButtons = document.querySelectorAll('button.Label');
+
+    if (tagButtons.length === 0) return;
+
+    tagButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        tagButtons.forEach(btn => {
+          btn.style.setProperty('padding', '4px', 'important');
+        });
+        this.style.setProperty('padding', '0', 'important');
+      });
+    });
+
+    const currentHash = decodeURIComponent(window.location.hash.substring(1));
+    if (currentHash) {
+      const activeTag = Array.from(tagButtons).find(btn => 
+        btn.textContent.trim().includes(currentHash.trim())
+      );
+      if (activeTag) {
+        activeTag.style.setProperty('padding', '0', 'important');
+      }
+    }
+  }, 1000);
+})();
+
+```
+
+
+
+### 包含调试脚本的版本
+
+```+js
+// 调试版：带详细日志，用于定位问题
+(function() {
+  'use strict';
+
+  // 延迟执行，确保 DOM 加载完成
+  setTimeout(function() {
+    console.log('=== 标签选中调试脚本开始 ===');
+
+    // 1. 查找所有标签按钮
+    const tagButtons = document.querySelectorAll('button.Label');
+    console.log('找到的标签按钮数量:', tagButtons.length);
+
+    if (tagButtons.length === 0) {
+      console.error('未找到任何 button.Label 元素！');
+      console.log('页面中所有 button 元素:', document.querySelectorAll('button'));
+      return;
+    }
+
+    // 2. 为每个按钮绑定点击事件
+    tagButtons.forEach((button, index) => {
+      button.addEventListener('click', function() {
+        console.log(`按钮 #${index} 被点击:`, this.textContent.trim());
+
+        // 先恢复所有按钮的 padding
+        tagButtons.forEach((btn, i) => {
+          btn.style.setProperty('padding', '4px', 'important');
+          console.log(`恢复按钮 #${i} 的 padding`);
+        });
+
+        // 再移除当前按钮的 padding
+        this.style.setProperty('padding', '0', 'important');
+        console.log(`移除按钮 #${index} 的 padding`);
+      });
+    });
+
+    // 3. 页面加载时，根据 URL hash 自动激活对应标签
+    const currentHash = decodeURIComponent(window.location.hash.substring(1));
+    console.log('当前 URL hash:', currentHash);
+
+    if (currentHash) {
+      const activeTag = Array.from(tagButtons).find((btn, i) => {
+        const btnText = btn.textContent.trim();
+        const match = btnText.includes(currentHash.trim());
+        console.log(`匹配按钮 #${i}: "${btnText}" 包含 "${currentHash}"?`, match);
+        return match;
+      });
+
+      if (activeTag) {
+        activeTag.style.setProperty('padding', '0', 'important');
+        console.log('自动激活标签:', activeTag.textContent.trim());
+      } else {
+        console.warn('未找到与 hash 匹配的标签');
+      }
+    }
+
+    console.log('=== 标签选中调试脚本加载完成 ===');
+  }, 1000); // 延迟1秒，确保所有DOM都加载好
+})();
 
 ```
