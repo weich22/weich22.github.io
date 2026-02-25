@@ -90,7 +90,7 @@
         }
         .lb-lightbox-nav, .lb-lightbox-close {
           position: absolute;
-          background-color: rgba(255, 255, 255, 0.8);
+          background-color: rgba(92, 205, 77, 0.5);
           color: #333;
           border: none;
           border-radius: 50%;
