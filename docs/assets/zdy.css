@@ -106,3 +106,28 @@ pre[class*="language-"] code * {
     content: none !important;
   }
 }
+
+/*修复代码高亮行号前面样式异常*/
+
+/*代码高亮 强行清空 Gmeek 自带样式 */
+/* 
+.copy-to-clipboard {
+  position: absolute; top: 6px; right: 8px;
+  background: rgba(0,0,0,0.2); border: none; color: #fff;
+  padding: 2px 6px; border-radius: 4px; cursor: pointer;
+  font-size: 12px; opacity: 0.7;
+}
+.copy-to-clipboard:hover { opacity: 1; }
+ 
+*/
+
+/* 核心修复：代码块不撑大页面，超长横向滚动 */
+.article pre.line-numbers {
+  position: relative !important;
+  padding-left: 3.8em !important; /* 给行号预留固定空间 */
+  margin: 1em 0 !important;
+  overflow: auto !important;     /* 关键：让代码块自己滚动，不撑大页面 */
+  white-space: pre !important;    /* 关键：代码不换行，保留原始格式 */
+  word-wrap: normal !important;   /* 禁止自动折行 */
+  max-width: 100% !important;     /* 限制最大宽度为父容器宽度 */
+    }
