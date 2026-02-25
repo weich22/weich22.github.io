@@ -21,7 +21,7 @@ body {max-width: initial !important;}
 
 更新：后面我发现我需要是全局修改，于是我直接把代码统一整合写的到一个css文件里面去
 
-```css
+```+css
 body {max-width: initial !important;}
 a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客顶部LOGO文字*/
 .d-flex {display: inline-block !important;}/*调节文章标签到文章下*/

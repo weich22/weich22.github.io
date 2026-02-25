@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力，不做没用的功！</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Wed, 25 Feb 2026 12:54:29 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek友情链接显示备注标题</title><link>https://g.weich.ee/post/9.html</link><description>也就是Markdown超链接的title标题拿来当备注显示…
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力，不做没用的功！</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Wed, 25 Feb 2026 12:56:46 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek友情链接显示备注标题</title><link>https://g.weich.ee/post/9.html</link><description>也就是Markdown超链接的title标题拿来当备注显示…
 链接title是当鼠标悬停在链接上时会出现的文字，这个title是可选的，它放在圆括号中链接地址后面，跟链接地址之间以空格分隔。</description><guid isPermaLink="true">https://g.weich.ee/post/9.html</guid><pubDate>Tue, 24 Feb 2026 14:05:11 +0000</pubDate></item><item><title>Gmeek移植基于prismjs代码语法高亮</title><link>https://g.weich.ee/post/8.html</link><description>Typecho的CodeHighlighter基于 prismjs 的代码语法高亮插件如何移植到基于github用Gmeek做的博客用。</description><guid isPermaLink="true">https://g.weich.ee/post/8.html</guid><pubDate>Sun, 22 Feb 2026 06:43:44 +0000</pubDate></item><item><title>Gmeek图片缓存</title><link>https://g.weich.ee/post/7.html</link><description>原因是Gmeek在Issues里面写文章底部有个可以上传图片的，直接上传的话，文章图片链接是github.com开头的，容易抽风。</description><guid isPermaLink="true">https://g.weich.ee/post/7.html</guid><pubDate>Sat, 21 Feb 2026 18:35:10 +0000</pubDate></item><item><title>Gmeek文章页和友情页外部链接新窗口打开</title><link>https://g.weich.ee/post/6.html</link><description>### 没有排除链接
 ```js
 // ======================================================
@@ -92,7 +92,7 @@ body {max-width: initial !important;}
 
 更新：后面我发现我需要是全局修改，于是我直接把代码统一整合写的到一个css文件里面去
 
-```css
+```+css
 body {max-width: initial !important;}
 a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客顶部LOGO文字*/
 .d-flex {display: inline-block !important;}/*调节文章标签到文章下*/
