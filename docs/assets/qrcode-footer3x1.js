@@ -279,38 +279,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /*tag标签页面，用户点击哪个标签就去除它的css样式padding：4px*/
 
-// 保存原始的 updateShowTag 函数
-const originalUpdateShowTag = window.updateShowTag;
-
-// 重写这个函数
-window.updateShowTag = function(tag) {
-  // 先执行原来的逻辑
-  originalUpdateShowTag(tag);
-
+document.addEventListener('DOMContentLoaded', function() {
   // 选择所有标签按钮
   const tagButtons = document.querySelectorAll('button.Label');
 
-  // 恢复所有标签的 padding
-  tagButtons.forEach(btn => {
-    btn.style.padding = '4px';
+  // 为每个按钮绑定点击事件
+  tagButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      // 先恢复所有标签的 padding
+      tagButtons.forEach(btn => {
+        btn.style.padding = '4px';
+      });
+      // 再移除当前点击标签的 padding
+      this.style.padding = '0';
+    });
   });
 
-  // 找到当前点击的标签并移除 padding
-  // 用 includes 匹配，不管有没有空格都能找到
-  const activeTag = Array.from(tagButtons).find(btn => 
-    btn.textContent.trim().includes(tag.trim())
-  );
-  if (activeTag) {
-    activeTag.style.padding = '0';
-  }
-}
-
-// 页面加载时，根据 URL hash 自动激活对应标签
-document.addEventListener('DOMContentLoaded', function() {
+  // 页面加载时，根据 URL hash 自动激活对应标签
   const currentHash = decodeURIComponent(window.location.hash.substring(1));
   if (currentHash) {
-    // 触发一次函数，让样式同步
-    window.updateShowTag(currentHash);
+    const activeTag = Array.from(tagButtons).find(btn => 
+      btn.textContent.trim().includes(currentHash.trim())
+    );
+    if (activeTag) {
+      activeTag.style.padding = '0';
+    }
   }
 });
 
