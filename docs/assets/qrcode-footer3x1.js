@@ -180,33 +180,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// prism-init.js —— 适配 Gmeek highlight-source-* 结构
+// Gmeek+Prism 代码块初始化（教程适配版，直接用）
 document.addEventListener('DOMContentLoaded', () => {
-  // 遍历所有代码块容器
-  document.querySelectorAll('div.highlight').forEach((highlightEl) => {
-    // 从 highlight-source-* 提取语言
-    const langClass = Array.from(highlightEl.classList).find(cls => cls.startsWith('highlight-source-'));
+  // 只处理Gmeek生成的 notranslate 代码块
+  document.querySelectorAll('pre.notranslate > code.notranslate').forEach((codeEl) => {
     let lang = 'plaintext';
-    if (langClass) {
-      lang = langClass.replace('highlight-source-', '').toLowerCase();
+    const pre = codeEl.parentElement;
+
+    // 核心：从Gmeek外层div.highlight提取语言（优先级最高）
+    const highlightDiv = pre.closest('div.highlight');
+    if (highlightDiv) {
+      const sourceMatch = highlightDiv.className.match(/highlight-source-(\w+)/);
+      if (sourceMatch) lang = sourceMatch[1].toLowerCase();
     }
 
-    // 找到内部的 code 标签
-    const codeEl = highlightEl.querySelector('pre.notranslate > code.notranslate');
-    if (!codeEl) return;
+    // 兜底策略：title/data-lang/关键词判断（教程原版逻辑）
+    if (lang === 'plaintext') {
+      if (pre.title) lang = pre.title.trim().toLowerCase();
+      else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
+      else if (codeEl.textContent.includes('<?php')) lang = 'php';
+      else if (codeEl.textContent.startsWith('def ') || codeEl.textContent.includes('import ')) lang = 'python';
+      else if (codeEl.textContent.includes('function ') || codeEl.textContent.includes('=>')) lang = 'javascript';
+    }
 
-    // 移除 notranslate，添加 Prism 语言类
+    // 移除冲突类+添加Prism类+启用行号
     codeEl.classList.remove('notranslate');
     codeEl.classList.add(`language-${lang}`);
-
-    // 给 pre 加行号类
-    const preEl = codeEl.parentElement;
-    preEl.classList.remove('notranslate');
-    preEl.classList.add('line-numbers');
+    pre.classList.add('line-numbers');
   });
 
-  // 手动触发 Prism 高亮
-  if (typeof Prism !== 'undefined') {
+  // 强制触发高亮（判断Prism是否存在，避免报错）
+  if (typeof Prism !== 'undefined' && typeof Prism.highlightAll === 'function') {
     Prism.highlightAll();
   }
 });
+
