@@ -3,7 +3,7 @@
 
 既然原生自带的就有了还要折腾啥玩意？因为我觉得手机端浏览默认不显示，不方便，所以才有的这个文章。
 
-```Markdown
+```
 [无用功](https://weich22.github.io "没有用功努力，不做没用的功")。
 ```
 
@@ -15,10 +15,12 @@
 焦点移走→自动隐藏
 3.电脑 hover 直接显示
 不用点、不用右键
-4.只在 #postBody（文章内容部分） + link.html页面生效
+4.只在 #postBody + link.html生效
 按住→显示→拿开还显示→点别处才消失和原生焦点状态完全同步。
 
-```css
+css部分：
+
+```
 <style>
 /* 手机/电脑通用：只有焦点/hover 才显示，手指拿开依然保持显示 */
 #postBody a.tooltip-link {
@@ -52,6 +54,10 @@
 }
 </style>
 
+```
+js部分：
+
+```js
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   // 只在链接页面生效
