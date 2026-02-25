@@ -140,3 +140,38 @@ document.addEventListener('DOMContentLoaded', function () {
     link.setAttribute('tabindex', '0');
   });
 });
+
+
+/*代码高亮*/
+
+ 
+// prism-init.js —— 自动识别并标记 Gmeek 的代码块
+document.addEventListener('DOMContentLoaded', () => {
+  // 遍历所有 <pre><code class="notranslate">
+  document.querySelectorAll('pre.notranslate > code.notranslate').forEach((codeEl) => {
+    // 尝试从父级 pre 的 title、data-lang 或内容特征推测语言（简单版）
+    let lang = 'plaintext';
+    const pre = codeEl.parentElement;
+    
+    // 优先看 pre 的 title 属性（常见于 Gmeek 的手动标注，如 <pre title="php">）
+    if (pre.title) lang = pre.title.trim().toLowerCase();
+    
+    // 或看 data-lang（如果你能在 Markdown 里写 `{.python}` 之类，Gmeek 可能转成 data-lang）
+    else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
+    
+    // 简单关键词 fallback（可选，谨慎使用）
+    else if (codeEl.textContent.includes('<?php')) lang = 'php';
+    else if (codeEl.textContent.startsWith('def ') || codeEl.textContent.includes('import ')) lang = 'python';
+    else if (codeEl.textContent.includes('function ') || codeEl.textContent.includes('=>')) lang = 'javascript';
+
+    // 添加 Prism 所需的 class
+    codeEl.classList.remove('notranslate');
+    codeEl.classList.add(`language-${lang}`);
+    pre.classList.add('line-numbers'); // 启用行号（需 coy.css 支持）
+  });
+
+  // ✨ 最后手动触发 Prism 高亮（关键！）
+  if (typeof Prism !== 'undefined') {
+    Prism.highlightAll();
+  }
+});
