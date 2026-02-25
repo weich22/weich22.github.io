@@ -76,6 +76,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 ### 全部有效版本，空格也有效
 
+这个版本所有页面监听点击事件，就是说你从别的页面点击过来也是有效果的，但是我感觉会不会浪费性能…
+
 ```+js
 (function() {
   'use strict';
