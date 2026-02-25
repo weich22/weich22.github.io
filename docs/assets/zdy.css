@@ -26,8 +26,8 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
   -moz-animation: tada 1s .2s ease both;
 }
 
-/*文章代码高亮块边框，如果启用移植的代码高亮插件这个应该不可用，不然行号前面出错*/
-/*.markdown-body pre {border: 1px solid #cdcaca}*/
+/*文章代码高亮块边框*/
+.markdown-body pre {border: 1px solid #cdcaca}
 
 /*友情链接获取焦点显示标题*/
 
