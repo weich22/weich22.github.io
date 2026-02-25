@@ -1,13 +1,18 @@
 ### 自定义优化首页CSS
 添加代码到config.json，请删除我写的中文和括号
-```
+
+```+css
 "indexStyle":"<style>a.blogTitle {display: inline-block !important;}【优化手机端不显示博客顶部LOGO文字】.d-flex {display: inline-block !important;}【调节文章标签到文章下】.Label, .label {line-height: 12px !important;}【文章标签背景颜色框缩小一点】.LabelTime {display: inline-block !important;}【调节文章标签到手机显示不全或者不显示后面的日期】</style>",
 ```
+
+
 不限制博客首页最大宽度，直接添加在上面的</style>标签内
 
 ```css
 body {max-width: initial !important;}
 ```
+
+
 
 不限制文章页面最大宽度
 ```css
@@ -15,6 +20,7 @@ body {max-width: initial !important;}
 ```
 
 更新：后面我发现我需要是全局修改，于是我直接把代码统一整合写的到一个css文件里面去
+
 ```css
 body {max-width: initial !important;}
 a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客顶部LOGO文字*/
@@ -23,10 +29,16 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 .LabelTime {display: inline-block !important;}/*调节文章标签到手机显示不全或者不显示后面的日期*/
 ```
 
+
+
 然后上传到`static/assets/`文件夹内再添加代码到config.json引用就好了。
+
 ```html
 "allHead":"<link rel=\"stylesheet\" href='https://weich22.github.io/assets/zdy.css'>",
 ```
+
+
+
 ### 资源链接引用方式推荐
 推荐如下这样引用，为了预防以后更换域名，https问题很多现代浏览器不给你加载会发生错误，就是不要前面的域名以根目录斜杠 `/` 顶替你的域名，会自动帮你解析访问的本站绑定的域名上去。
 ```html
@@ -37,6 +49,7 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 ### 添加友情链接
 添加代码到config.json
 [参考地址](https://blog.meekdai.com/post/%E3%80%90Gmeek-jin-jie-%E3%80%91-you-shang-jiao-yuan-an-niu-pei-zhi.html#%E7%AB%99%E5%86%85%E9%93%BE%E6%8E%A5)
+
 ```
 "singlePage":["link"],
 ```
@@ -81,16 +94,17 @@ github：[Gmeek项目和说明](https://github.com/Meekdai/meekdai.github.io/iss
 
 
 禁止自动播放方法很简单，就是在视频 url 链接最后加上 `&autoplay=0`，例如：
-```html
+```+html
 <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=1305790042&bvid=BV1GM4m1m7ZD&cid=1588230883&p=1&autoplay=0"
 ```
 后面还有一段原复制的嵌入代码，那个不算视频url链接，应该是说属于参数而已吧。
+
 
 ### Gmeek UI增强插件
 [参考：Gmeek UI 增强插件](https://code.buxiantang.top/post/🍎 Gmeek UI -zeng-qiang-cha-jian-shi-yong-jiao-cheng.html)
 也就是添加一个css和一个js文件并引用到：`Code`的`config.json`文件内
 
-```html
+```+html
 "allHead":"<link rel=\"stylesheet\" href=\"https://weich22.github.io/assets/GmeekBaseTheme.css\"><script src=\"https://weich22.github.io/assets/GmeekCustomizeCss.js\"></script><script src='https://weich22.github.io/assets/GmeekVercount.js'></script>",
 ```
 `GmeekBaseTheme.css`和`GmeekCustomizeCss.js`文件，也可以自己本地化两个文件保存下来上传到项目的`static/assets`文件夹内，没有这个文件夹的自己创建，创建`static`文件夹的时候在后面加个斜杠就是文件夹了，`assets`也是一样的，`static/assets/`斜杠最后随便创建个文件比如`123.txt`也可以，创建好了再去删除那个不用的TXT文件就好了，引用的地址是你的 `主链接` 加 `忽略static文件夹` 之后的 `assets文件夹` `加文件名` 作为地址就好了，其实我也不知道有多大用，先加了再说…
@@ -104,7 +118,7 @@ github：[Gmeek项目和说明](https://github.com/Meekdai/meekdai.github.io/iss
 我用的文章目录是 `articletoc` 的，因为我觉得这个在文章右下角只有一个图标需要的时候点开好点。
 也是可以本地化，如上面的上转到一个文件夹可以引用，我的也是本地化了，预防别人项目不在了或者改变了，自己的还在，但是别人更新了，只能自己再去下载上传。
 
-```html
+```+html
 "script":"<script src='https://weich22.github.io/assets/articletoc.js'></script><script src='https://weich22.github.io/assets/lightbox.js'></script>",
 ```
 ### 评论区自动展开
@@ -144,6 +158,6 @@ github：[Gmeek项目和说明](https://github.com/Meekdai/meekdai.github.io/iss
 
 ### 给Gmeek自带代码高亮加边框
 
-```css
+```+css
 .markdown-body pre {border: 1px solid #cdcaca}
 ```
