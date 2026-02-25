@@ -108,14 +108,7 @@ pre[class*="language-"] code * {
 }
 
 /*tag选中标签去除它的css值padding*/
-/* 所有标签的默认样式 */
-.label {
-  padding: 4px;
-  /* 这里保留你原有的其他样式，如 background-color 等 */
-}
-
-/* 匹配当前 URL hash 对应的标签，移除 padding */
+/* 选中的标签：只去掉 padding，margin-bottom 保持 8px 不变 */
 .label:target {
   padding: 0 !important;
 }
-
