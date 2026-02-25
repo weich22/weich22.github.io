@@ -1,4 +1,4 @@
-这个版本标签带有空格无效
+### 标签带有空格无效
 
 ```+js
 document.addEventListener('DOMContentLoaded', function() {
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 ```
 
-### 预防添加新标签无效版本
+### 预防添加新标签无效，仅tag页面
 
 ```+js
 (function() {
