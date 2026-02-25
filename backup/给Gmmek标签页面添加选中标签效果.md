@@ -255,3 +255,57 @@ activateTagByHash,确保选中状态始终同步。
 轮子已经做好了，可以高仿做一个比如，点击标签后那个标签背景颜色就不圆角变成直角，去除：.label{border-radius:2em}的这个样式，然后背景颜色大小统一，已经点击选中的标签是直角的背景颜色…
 
 代码添加到之前引用到头部的自定义js文件里面就好了。
+
+
+### 发现小BUG
+如果用户直接打开这个页面，默认在all全部标签会无效，于是我又改了一下没有实测，因为影响不大的小BUG懒得测试了。
+
+```+js
+(function() {
+  'use strict';
+
+  if (!window.location.pathname.includes('tag.html')) return;
+
+  function handleTagClick(event) {
+    const button = event.target.closest('button.Label');
+    if (!button) return;
+
+    document.querySelectorAll('button.Label').forEach(btn => {
+      btn.style.setProperty('padding', '4px', 'important');
+    });
+    button.style.setProperty('padding', '0', 'important');
+  }
+
+  const tagContainer = document.getElementById('taglabel');
+  if (tagContainer) {
+    tagContainer.addEventListener('click', handleTagClick);
+  }
+
+  function activateTagByHash() {
+    const currentHash = decodeURIComponent(window.location.hash.substring(1));
+    const allTags = document.querySelectorAll('button.Label');
+    
+    allTags.forEach(btn => {
+      btn.style.setProperty('padding', '4px', 'important');
+    });
+
+    if (!currentHash) {
+      const allBtn = Array.from(allTags).find(btn => 
+        btn.textContent.trim().toLowerCase().startsWith('all')
+      );
+      if (allBtn) allBtn.style.setProperty('padding', '0', 'important');
+      return;
+    }
+
+    const activeTag = Array.from(allTags).find(btn => 
+      btn.textContent.trim().includes(currentHash.trim())
+    );
+    if (activeTag) activeTag.style.setProperty('padding', '0', 'important');
+  }
+
+  setTimeout(activateTagByHash, 1000);
+  window.addEventListener('hashchange', activateTagByHash);
+})();
+
+```
+谁实测了，也可以回复一下评论…
