@@ -180,33 +180,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// prism-init.js —— 只读取 Gmeek 官方语言标记，不猜内容，不乱高亮
+// prism-init.js —— 适配 Gmeek + 支持简写映射 + 不猜内容
 document.addEventListener('DOMContentLoaded', () => {
-  // 遍历 Gmeek 所有代码块
-  document.querySelectorAll('div.highlight').forEach((highlightEl) => {
-    // 从 Gmeek 自带的 class 提取语言：highlight-source-js → js
-    const langClass = Array.from(highlightEl.classList).find(cls => cls.startsWith('highlight-source-'));
-    let lang = 'plaintext';
-    if (langClass) {
-      lang = langClass.replace('highlight-source-', '').toLowerCase();
-    }
+  if (typeof Prism === 'undefined') return;
 
-    // 找到内部代码
-    const codeEl = highlightEl.querySelector('pre.notranslate > code.notranslate');
+  // 语言简写映射：左边 Gmeek 简写 → 右边 Prism 标准名
+  const langMap = {
+    md: 'markdown',
+    js: 'javascript',
+    ts: 'typescript',
+    py: 'python',
+    php: 'php',
+    css: 'css',
+    html: 'markup',
+    xml: 'markup',
+    sh: 'bash',
+    yaml: 'yml',
+    json: 'json',
+    java: 'java',
+    c: 'c',
+    cpp: 'cpp',
+  };
+
+  // 遍历 Gmeek 代码块
+  document.querySelectorAll('div.highlight').forEach(block => {
+    // 从 Gmeek 取语言：highlight-source-js → js
+    const langCls = Array.from(block.classList)
+      .find(c => c.startsWith('highlight-source-'));
+    if (!langCls) return;
+
+    const gLang = langCls.replace('highlight-source-', '').toLowerCase();
+    // 简写映射
+    const lang = langMap[gLang] || gLang;
+
+    // 找到代码元素
+    const codeEl = block.querySelector('pre.notranslate > code.notranslate');
     if (!codeEl) return;
 
-    // 只加 Prism 语言类，不做任何内容猜测
+    const preEl = codeEl.parentElement;
+
+    // 清理冲突类，加上 Prism 标准类
     codeEl.classList.remove('notranslate');
     codeEl.classList.add(`language-${lang}`);
-
-    const preEl = codeEl.parentElement;
-    preEl.classList.remove('notranslate');
     preEl.classList.add('line-numbers');
   });
 
-  // 手动触发高亮
-  if (typeof Prism !== 'undefined') {
-    Prism.highlightAll();
-  }
+  // 强制 Prism 重新高亮
+  Prism.highlightAll();
 });
 
