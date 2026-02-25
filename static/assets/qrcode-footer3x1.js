@@ -282,23 +282,30 @@ document.addEventListener('DOMContentLoaded', () => {
 (function() {
   'use strict';
 
-  setTimeout(function() {
-    const tagButtons = document.querySelectorAll('button.Label');
+  if (!window.location.pathname.includes('tag.html')) {
+    return;
+  }
 
-    if (tagButtons.length === 0) return;
+  function handleTagClick(event) {
+    const button = event.target.closest('button.Label');
+    if (!button) return;
 
-    tagButtons.forEach(button => {
-      button.addEventListener('click', function() {
-        tagButtons.forEach(btn => {
-          btn.style.setProperty('padding', '4px', 'important');
-        });
-        this.style.setProperty('padding', '0', 'important');
-      });
+    document.querySelectorAll('button.Label').forEach(btn => {
+      btn.style.setProperty('padding', '4px', 'important');
     });
 
+    button.style.setProperty('padding', '0', 'important');
+  }
+
+  const tagContainer = document.getElementById('taglabel');
+  if (tagContainer) {
+    tagContainer.addEventListener('click', handleTagClick);
+  }
+
+  setTimeout(function() {
     const currentHash = decodeURIComponent(window.location.hash.substring(1));
     if (currentHash) {
-      const activeTag = Array.from(tagButtons).find(btn => 
+      const activeTag = Array.from(document.querySelectorAll('button.Label')).find(btn => 
         btn.textContent.trim().includes(currentHash.trim())
       );
       if (activeTag) {
