@@ -180,52 +180,134 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// prism-init.js —— 适配 Gmeek + 支持简写映射 + 不猜内容
+// prism-init.js —— 自动识别并标记 Gmeek 的代码块（超级全语言+系统命令高亮）
 document.addEventListener('DOMContentLoaded', () => {
-  if (typeof Prism === 'undefined') return;
+  document.querySelectorAll('pre.notranslate > code.notranslate').forEach((codeEl) => {
+    let lang = 'plaintext';
+    const pre = codeEl.parentElement;
+    const text = codeEl.textContent.trimStart();
 
-  // 语言简写映射：左边 Gmeek 简写 → 右边 Prism 标准名
-  const langMap = {
-    md: 'markdown',
-    js: 'javascript',
-    ts: 'typescript',
-    py: 'python',
-    php: 'php',
-    css: 'css',
-    html: 'markup',
-    xml: 'markup',
-    sh: 'bash',
-    yaml: 'yml',
-    json: 'json',
-    java: 'java',
-    c: 'c',
-    cpp: 'cpp',
-  };
+    // 优先从 title / data-lang 读取
+    if (pre.title) lang = pre.title.trim().toLowerCase();
+    else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
 
-  // 遍历 Gmeek 代码块
-  document.querySelectorAll('div.highlight').forEach(block => {
-    // 从 Gmeek 取语言：highlight-source-js → js
-    const langCls = Array.from(block.classList)
-      .find(c => c.startsWith('highlight-source-'));
-    if (!langCls) return;
+    // ————————————————————————————————————
+    // 全语言内容识别（含系统命令、终端、配置）
+    // ————————————————————————————————————
+    else if (text.includes('<?php'))
+      lang = 'php';
+    else if (
+      text.includes('document.') || text.includes('window.') ||
+      text.includes('console.log') || text.includes('function') ||
+      text.includes('const ') || text.includes('let ') || text.includes('=>') ||
+      text.includes('var ') || text.includes('alert(') || text.includes('fetch(')
+    )
+      lang = 'javascript';
+    else if (
+      text.startsWith('def ') || text.includes('import ') ||
+      text.includes('print(') || text.includes('self.')
+    )
+      lang = 'python';
+    else if (
+      text.includes('color:') || text.includes('margin:') ||
+      text.includes('padding:') || text.includes('display:') ||
+      text.includes('font-') || text.includes('@media')
+    )
+      lang = 'css';
+    else if (
+      text.includes('<div') || text.includes('<p>') || text.includes('<span') ||
+      text.includes('<ul>') || text.includes('<!DOCTYPE') || text.includes('</')
+    )
+      lang = 'markup';
 
-    const gLang = langCls.replace('highlight-source-', '').toLowerCase();
-    // 简写映射
-    const lang = langMap[gLang] || gLang;
+    // C / C++
+    else if (text.includes('#include') || text.includes('int main') || text.includes('printf('))
+      lang = 'c';
+    else if (text.includes('std::') || text.includes('cout') || text.includes('cin'))
+      lang = 'cpp';
 
-    // 找到代码元素
-    const codeEl = block.querySelector('pre.notranslate > code.notranslate');
-    if (!codeEl) return;
+    // Java / Go
+    else if (text.includes('public class') || text.includes('static void') || text.includes('System.out.println'))
+      lang = 'java';
+    else if (text.includes('func ') || text.includes('package ') || text.includes('fmt.Println'))
+      lang = 'go';
 
-    const preEl = codeEl.parentElement;
+    // Linux / Unix Shell / 终端命令
+    else if (
+      text.includes('sudo ') || text.includes('apt ') || text.includes('yum ') ||
+      text.includes('ls ') || text.includes('cd ') || text.includes('pwd ') ||
+      text.includes('mkdir ') || text.includes('rm ') || text.includes('chmod ') ||
+      text.includes('if [') || text.includes('for ') || text.includes('do ') ||
+      text.includes('echo ') || text.includes('#!/bin/bash') || text.startsWith('$')
+    )
+      lang = 'bash';
 
-    // 清理冲突类，加上 Prism 标准类
+    // Windows CMD / 批处理
+    else if (
+      text.includes('@echo') || text.includes('dir ') || text.includes('copy ') ||
+      text.includes('del ') || text.includes('md ') || text.includes('rd ') ||
+      text.includes('ipconfig') || text.includes('ping ') || text.startsWith('C:\\')
+    )
+      lang = 'batch';
+
+    // Windows PowerShell
+    else if (
+      text.includes('Get-') || text.includes('Set-') || text.includes('New-') ||
+      text.includes('Remove-') || text.includes('Write-') || text.includes('$PSVersionTable')
+    )
+      lang = 'powershell';
+
+    // JSON / Markdown / YAML
+    else if ((text.startsWith('{') || text.startsWith('[')) && text.includes(':') && text.includes(','))
+      lang = 'json';
+    else if (text.startsWith('# ') || text.startsWith('## ') || text.startsWith('- ') || text.includes('[]('))
+      lang = 'markdown';
+    else if (text.includes(': ') && !text.includes('{') && !text.includes(';'))
+      lang = 'yaml';
+
+    // SQL / Rust / Ruby / Kotlin / Swift / TypeScript
+    else if (text.includes('SELECT ') || text.includes('FROM ') || text.includes('WHERE ') || text.includes('CREATE TABLE'))
+      lang = 'sql';
+    else if (text.includes('fn main') || text.includes('let mut') || text.includes('println!'))
+      lang = 'rust';
+    else if (text.includes('def ') && text.includes('end'))
+      lang = 'ruby';
+    else if (text.includes('fun ') || text.includes('class ') && text.includes('fun'))
+      lang = 'kotlin';
+    else if (text.includes('import ') && text.includes('struct') && text.includes('impl'))
+      lang = 'swift';
+    else if (text.includes('interface ') || text.includes('type ') || text.includes(': '))
+      lang = 'typescript';
+
+    // Nginx / Apache 配置
+    else if (text.includes('server {') || text.includes('location ') || text.includes('listen 80') || text.includes('root '))
+      lang = 'nginx';
+
+    // 环境变量 / config / ini
+    else if (text.includes('export ') || text.includes('PATH=') || (text.includes('=') && !text.includes(':') && !text.includes(';')))
+      lang = 'ini';
+
+    // Docker
+    else if (text.includes('FROM ') || text.includes('RUN ') || text.includes('COPY ') || text.includes('CMD '))
+      lang = 'docker';
+
+    // Git 命令
+    else if (text.includes('git ') && (text.includes('commit') || text.includes('push') || text.includes('pull') || text.includes('checkout')))
+      lang = 'git';
+
+    // 兜底
+    else {
+      lang = 'plaintext';
+    }
+
+    // 应用 Prism 类
     codeEl.classList.remove('notranslate');
     codeEl.classList.add(`language-${lang}`);
-    preEl.classList.add('line-numbers');
+    pre.classList.add('line-numbers');
   });
 
-  // 强制 Prism 重新高亮
-  Prism.highlightAll();
+  if (typeof Prism !== 'undefined') {
+    Prism.highlightAll();
+  }
 });
 
