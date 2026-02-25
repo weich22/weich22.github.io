@@ -77,3 +77,5 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 ```
+
+代码添加到之前引用到头部的自定义css和js文件里面就好了。
