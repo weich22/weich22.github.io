@@ -79,6 +79,7 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 视频：[https://b23.tv/LI3hM7E](https://b23.tv/LI3hM7E)
 图文：[https://b23.tv/ikbKm1j](https://b23.tv/ikbKm1j)
 github：[Gmeek项目和说明](https://github.com/Meekdai/meekdai.github.io/issues/39)
+Gmmek博客：[Gmmek快速上手](https://blog.meekdai.com/post/Gmeek-kuai-su-shang-shou.html "Gmmek文档")
 
 `Gmeek-html<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=1305790042&bvid=BV1GM4m1m7ZD&cid=1588230883&p=1&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>`
 
