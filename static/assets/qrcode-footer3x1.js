@@ -279,40 +279,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /*tag标签页面，用户点击哪个标签就去除它的css样式padding：4px*/
 
-document.addEventListener('DOMContentLoaded', function() {
+// 保存原始的 updateShowTag 函数
+const originalUpdateShowTag = window.updateShowTag;
+
+// 重写这个函数
+window.updateShowTag = function(tag) {
+  // 先执行原来的逻辑
+  originalUpdateShowTag(tag);
+
   // 选择所有标签按钮
   const tagButtons = document.querySelectorAll('button.Label');
 
-  function setActiveTag(activeButton) {
-    // 先恢复所有标签的 padding
-    tagButtons.forEach(btn => {
-      btn.style.padding = '4px';
-    });
-    // 再移除当前选中标签的 padding
-    if (activeButton) {
-      activeButton.style.padding = '0';
-    }
-  }
-
-  // 为每个标签绑定点击事件
-  tagButtons.forEach(button => {
-    button.addEventListener('click', function(e) {
-      setActiveTag(this);
-      // 同时更新 URL hash，方便刷新后保持状态
-      const tagName = this.textContent.trim().split(/\s+/)[0];
-      window.location.hash = tagName;
-    });
+  // 恢复所有标签的 padding
+  tagButtons.forEach(btn => {
+    btn.style.padding = '4px';
   });
 
-  // 页面加载时，根据 URL hash 自动激活对应标签
+  // 找到当前点击的标签并移除 padding
+  const activeTag = Array.from(tagButtons).find(btn => 
+    btn.textContent.trim().split(/\s+/)[0] === tag
+  );
+  if (activeTag) {
+    activeTag.style.padding = '0';
+  }
+}
+
+// 页面加载时，根据 URL hash 自动激活对应标签
+document.addEventListener('DOMContentLoaded', function() {
   const currentHash = window.location.hash.substring(1);
   if (currentHash) {
-    const activeTag = Array.from(tagButtons).find(btn => 
-      btn.textContent.trim().split(/\s+/)[0] === currentHash
-    );
-    if (activeTag) {
-      setActiveTag(activeTag);
-    }
+    // 触发一次函数，让样式同步
+    window.updateShowTag(currentHash);
   }
 });
 
