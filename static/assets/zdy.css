@@ -108,7 +108,3 @@ pre[class*="language-"] code * {
 }
 
 /*tag选中标签去除它的css值padding*/
-/* 选中的标签：只去掉 padding，margin-bottom 保持 8px 不变 */
-.label:target {
-  padding: 0 !important;
-}
