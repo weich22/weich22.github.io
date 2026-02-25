@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力，不做没用的功！</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Wed, 25 Feb 2026 17:58:12 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>给win10桌面创建网络连接中心创建桌面快捷方式</title><link>https://g.weich.ee/post/10.html</link><description>其实就是win系统的 `更改适配器选项` 这个选项打开就是 `网络连接` 。</description><guid isPermaLink="true">https://g.weich.ee/post/10.html</guid><pubDate>Wed, 25 Feb 2026 17:04:40 +0000</pubDate></item><item><title>Gmeek友情链接显示备注标题</title><link>https://g.weich.ee/post/9.html</link><description>也就是Markdown超链接的title标题拿来当备注显示…
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力，不做没用的功！</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Wed, 25 Feb 2026 18:11:14 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>给win10桌面创建网络连接中心创建桌面快捷方式</title><link>https://g.weich.ee/post/10.html</link><description>其实就是win系统的 `更改适配器选项` 这个选项打开就是 `网络连接` 。</description><guid isPermaLink="true">https://g.weich.ee/post/10.html</guid><pubDate>Wed, 25 Feb 2026 17:04:40 +0000</pubDate></item><item><title>Gmeek友情链接显示备注标题</title><link>https://g.weich.ee/post/9.html</link><description>也就是Markdown超链接的title标题拿来当备注显示…
 链接title是当鼠标悬停在链接上时会出现的文字，这个title是可选的，它放在圆括号中链接地址后面，跟链接地址之间以空格分隔。</description><guid isPermaLink="true">https://g.weich.ee/post/9.html</guid><pubDate>Tue, 24 Feb 2026 14:05:11 +0000</pubDate></item><item><title>Gmeek移植基于prismjs代码语法高亮</title><link>https://g.weich.ee/post/8.html</link><description>Typecho的CodeHighlighter基于 prismjs 的代码语法高亮插件如何移植到基于github用Gmeek做的博客用。</description><guid isPermaLink="true">https://g.weich.ee/post/8.html</guid><pubDate>Sun, 22 Feb 2026 06:43:44 +0000</pubDate></item><item><title>Gmeek图片缓存</title><link>https://g.weich.ee/post/7.html</link><description>原因是Gmeek在Issues里面写文章底部有个可以上传图片的，直接上传的话，文章图片链接是github.com开头的，容易抽风。</description><guid isPermaLink="true">https://g.weich.ee/post/7.html</guid><pubDate>Sat, 21 Feb 2026 18:35:10 +0000</pubDate></item><item><title>Gmeek文章页和友情页外部链接新窗口打开</title><link>https://g.weich.ee/post/6.html</link><description>### 没有排除链接
 ```js
 // ======================================================
@@ -103,22 +103,22 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 
 
 然后上传到`static/assets/`文件夹内再添加代码到config.json引用就好了。</description><guid isPermaLink="true">https://g.weich.ee/post/1.html</guid><pubDate>Fri, 06 Feb 2026 13:42:55 +0000</pubDate></item><item><title>网址</title><link>https://g.weich.ee/link.html</link><description>### 博客集合：
-[🔗极客日志](http://weich.ee)  [🔗stripchat](http://stripchat.ee)
+🔗[极客日志](http://weich.ee)  🔗[stripchat](http://stripchat.ee)
 
 ### 在线工具：
-[🕸️二维码解码器](https://cli.im/deqr)  [🕸️三合一收款码生成](https://www.rocschool.com/tool/qr/) [🐳DeepSeek网页版](https://chat.deepseek.com/) [Neumorphism](https://neumorphism.io/ '拟态css在线生成')
+🕸️[二维码解码器](https://cli.im/deqr)  🕸️[三合一收款码生成](https://www.rocschool.com/tool/qr/) 🐳🔗[DeepSeek网页版](https://chat.deepseek.com/) 🔗[Neumorphism](https://neumorphism.io/ '拟态css在线生成')
 
 ### git项目：
-[🕸️五合一收款码](https://github.com/insoxin/qrpay?tab=readme-ov-file) [🕸️多合一收款码](https://github.com/jiusanzhou/payone) [](https://github.com/microsoft/fluentui-system-icons '微软开源的Icons图标库fluentui-system-icons')
+🕸️[五合一收款码](https://github.com/insoxin/qrpay?tab=readme-ov-file) 🕸️[多合一收款码](https://github.com/jiusanzhou/payone) 🔗[fluentui-system-icons](https://github.com/microsoft/fluentui-system-icons '微软开源的Icons图标库fluentui-system-icons')
 
 ### Gmeek：
-[🔗Gmeek](https://blog.meekdai.com/tag.html#Gmeek 'Gmeek作者主页')  [🔗LIYIFAN](https://blog.154451.xyz/)
+🔗[Gmeek](https://blog.meekdai.com/tag.html#Gmeek 'Gmeek作者主页')  🔗[LIYIFAN](https://blog.154451.xyz/)
 
 ### 开发语言：
-  [🔗Markdown](https://markdown.com.cn/basic-syntax/links.html '最好的markdown教程')
+ 🔗[Markdown](https://markdown.com.cn/basic-syntax/links.html '最好的markdown教程')
 
 ### 网页3D：
-[Messenger](https://messenger.abeto.co/ 'abeto作品，卡通送信员在地球小镇上奔跑，联机在线，可换装') [Summer Afternoon](https://summer-afternoon.vlucendo.com/ '夏日午后，小男孩在乡村公路上上游玩')
+🔗[Messenger](https://messenger.abeto.co/ 'abeto作品，卡通送信员在地球小镇上奔跑，联机在线，可换装') 🔗[Summer Afternoon](https://summer-afternoon.vlucendo.com/ '夏日午后，小男孩在乡村公路上上游玩')
 
 ### 前端开发：
-[Ionicons](https://ionic.io/ionicons '免费开源Icons图标库')。</description><guid isPermaLink="true">https://g.weich.ee/link.html</guid><pubDate>Fri, 06 Feb 2026 16:02:13 +0000</pubDate></item></channel></rss>
+🔗[Ionicons](https://ionic.io/ionicons '免费开源Icons图标库')。</description><guid isPermaLink="true">https://g.weich.ee/link.html</guid><pubDate>Fri, 06 Feb 2026 16:02:13 +0000</pubDate></item></channel></rss>
