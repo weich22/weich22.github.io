@@ -145,7 +145,6 @@ document.addEventListener('DOMContentLoaded', function () {
 /*代码高亮*/
 
 
-/*
 
 // prism-init.js —— 自动识别并标记 Gmeek 的代码块（超级全语言+系统命令高亮）
 document.addEventListener('DOMContentLoaded', () => {
@@ -278,66 +277,3 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-*/
-
-
-// prism-init.js —— 最终纯净版：只翻译Gmeek标记，不猜内容
-document.addEventListener('DOMContentLoaded', () => {
-  if (typeof Prism === 'undefined') return;
-
-  // 语言简写映射（你习惯怎么写，我就怎么映射）
-  const langMap = {
-    js: 'javascript',
-    ts: 'typescript',
-    py: 'python',
-    md: 'markdown',
-    html: 'markup',
-    xml: 'markup',
-    sh: 'bash',
-    bash: 'bash',
-
-    // 你要的自定义简写映射
-    cmd: 'powershell',   // 标记 cmd → 按 powershell 高亮
-    nx: 'nginx',         // 标记 nx → 按 nginx 高亮
-
-    ps1: 'powershell',
-    bat: 'batch',
-    yml: 'yaml',
-    rb: 'ruby',
-    rs: 'rust',
-    go: 'go',
-    java: 'java',
-    c: 'c',
-    cpp: 'cpp',
-    php: 'php',
-    css: 'css',
-    json: 'json',
-    sql: 'sql',
-    ini: 'ini',
-    docker: 'docker',
-    nginx: 'nginx',
-    git: 'git',
-    batch: 'batch',
-    powershell: 'powershell'
-  };
-
-  // 遍历 Gmeek 代码块
-  document.querySelectorAll('div.highlight').forEach(block => {
-    const langCls = Array.from(block.classList)
-      .find(c => c.startsWith('highlight-source-'));
-    if (!langCls) return;
-
-    const gLang = langCls.replace('highlight-source-', '').toLowerCase();
-    const lang = langMap[gLang] || gLang;
-
-    const codeEl = block.querySelector('pre.notranslate > code.notranslate');
-    if (!codeEl) return;
-    const preEl = codeEl.parentElement;
-
-    codeEl.classList.remove('notranslate');
-    codeEl.classList.add(`language-${lang}`);
-    preEl.classList.add('line-numbers');
-  });
-
-  Prism.highlightAll();
-});
