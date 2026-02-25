@@ -302,9 +302,12 @@ document.addEventListener('DOMContentLoaded', () => {
     tagContainer.addEventListener('click', handleTagClick);
   }
 
-  setTimeout(function() {
+  function activateTagByHash() {
     const currentHash = decodeURIComponent(window.location.hash.substring(1));
     if (currentHash) {
+      document.querySelectorAll('button.Label').forEach(btn => {
+        btn.style.setProperty('padding', '4px', 'important');
+      });
       const activeTag = Array.from(document.querySelectorAll('button.Label')).find(btn => 
         btn.textContent.trim().includes(currentHash.trim())
       );
@@ -312,6 +315,9 @@ document.addEventListener('DOMContentLoaded', () => {
         activeTag.style.setProperty('padding', '0', 'important');
       }
     }
-  }, 1000);
+  }
+
+  setTimeout(activateTagByHash, 1000);
+  window.addEventListener('hashchange', activateTagByHash);
 })();
 
