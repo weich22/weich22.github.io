@@ -134,7 +134,7 @@ pre[class*="language-"] {
   max-width: 100% !important;
   overflow-x: auto !important;
   -webkit-overflow-scrolling: touch !important;
-  padding-left: 3.5em !important;
+  /*padding-left: 3.5em !important;这个看个人因为我后期修改了别的导致行号前面留白*/
   margin: 0 !important;
   word-break: normal !important;
 }
