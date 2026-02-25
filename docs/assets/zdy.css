@@ -73,7 +73,7 @@ pre[class*="language-"] {
   max-width: 100% !important;
   overflow-x: auto !important;
   -webkit-overflow-scrolling: touch !important;
-  padding-left: 3.5em !important;
+  /*padding-left: 3.5em !important;这个不需要不然代码行号前面会留白*/
   margin: 0 !important;
   word-break: normal !important;
 }
@@ -108,6 +108,7 @@ pre[class*="language-"] code * {
 }
 
 
+/*应该不需要好像重复了
 /*代码高亮 强行清空 Gmeek 自带样式 */
 /* 
 .copy-to-clipboard {
@@ -130,3 +131,5 @@ pre[class*="language-"] code * {
   word-wrap: normal !important;   /* 禁止自动折行 */
   max-width: 100% !important;     /* 限制最大宽度为父容器宽度 */
     }
+*/
+
