@@ -37,97 +37,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ```
 
-别的参考版本：
-```+js
-  
-document.addEventListener('DOMContentLoaded', () => {
-  // ✅ 保持原选择器不变！因为之前这样高亮是正常的
-  document.querySelectorAll('pre.notranslate > code.notranslate').forEach((codeEl) => {
-    let lang = 'plaintext';
-    const pre = codeEl.parentElement;
-    
-    // ✨ 新增：从Gmeek父级div提取语言（这才是关键！）
-    const gmeekDiv = pre.parentElement; // 获取父级div
-    if (gmeekDiv && gmeekDiv.classList) {
-      for (const cls of gmeekDiv.classList) {
-        // 匹配 highlight-source-xxx 格式
-        const match = cls.match(/highlight-source-(\w+)/);
-        if (match) {
-          lang = match[1].toLowerCase();
-          break; // 找到就停止
-        }
-      }
-    }
-    
-    // ❌ 保留原逻辑但降级为备选（避免冲突）
-    if (lang === 'plaintext') {
-      if (pre.title) lang = pre.title.trim().toLowerCase();
-      else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
-      else if (codeEl.textContent.includes('<?php')) lang = 'php';
-      else if (codeEl.textContent.startsWith('def ') || codeEl.textContent.includes('import ')) lang = 'python';
-      else if (codeEl.textContent.includes('function ') || codeEl.textContent.includes('=>')) lang = 'javascript';
-    }
 
-    // ✅ 保持原class操作不变（这是高亮生效的关键！）
-    codeEl.classList.remove('notranslate');
-    codeEl.classList.add(`language-${lang}`);
-    pre.classList.add('line-numbers');
-  });
-
-  // ✅ 保持原高亮触发不变！
-  if (typeof Prism !== 'undefined') {
-    Prism.highlightAll();
-  }
-});
-  
-```
-另外一个参考：
-
-```+js
-document.addEventListener('DOMContentLoaded', () => {
-  // ✅ 保持原有选择器：只处理 Gmeek 生成的 notranslate 结构
-  document.querySelectorAll('pre.notranslate > code.notranslate').forEach((codeEl) => {
-    let lang = 'plaintext';
-    const pre = codeEl.parentElement;
-
-    // 🔑【核心修复】优先从 Gmeek 的父级 div.highlight 中提取 language
-    // 向上查找最近的 div.highlight（Gmeek 包裹容器）
-    const highlightDiv = pre.closest('div.highlight');
-    if (highlightDiv) {
-      const sourceMatch = highlightDiv.className.match(/highlight-source-(\w+)/);
-      if (sourceMatch) {
-        lang = sourceMatch[1].toLowerCase();
-      }
-    }
-
-    // 📌 降级策略：仍保留你原有的 title / data-lang / 内容关键词判断（兜底）
-    if (!lang || lang === 'plaintext') {
-      if (pre.title) lang = pre.title.trim().toLowerCase();
-      else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
-      else if (codeEl.textContent.includes('<?php')) lang = 'php';
-      else if (codeEl.textContent.startsWith('def ') || codeEl.textContent.includes('import ')) lang = 'python';
-      else if (codeEl.textContent.includes('function ') || codeEl.textContent.includes('=>')) lang = 'javascript';
-    }
-
-    // ✅ 保持原有 class 操作（安全、无副作用）
-    codeEl.classList.remove('notranslate');
-    codeEl.classList.add(`language-${lang}`);
-    pre.classList.add('line-numbers'); // 行号保持开启
-  });
-
-  // ✅ 保持原有 Prism 调用（最稳妥）
-  if (typeof Prism !== 'undefined' && typeof Prism.highlightAll === 'function') {
-    Prism.highlightAll();
-  }
-});
-
-```
 
 ### 推荐升级版本
-支持更多语言识别。
+支持更多语言识别，代码里现在一共支持 28 种语言/格式：
+ 
+1. 前端
+ 
+1. markup（HTML / XML / SVG）
+2. css
+3. javascript
+4. typescript
+ 
+2. 编程语言
+ 
+5. python
+6. php
+7. c
+8. cpp
+9. java
+10. go
+11. rust
+12. ruby
+13. kotlin
+14. swift
+ 
+3. 数据与文档
+ 
+15. json
+16. yaml
+17. markdown
+18. sql
+ 
+4. 配置文件
+ 
+19. ini（.env / .ini / 配置）
+20. nginx
+21. docker
+22. git
+ 
+5. 系统命令（你特别要的）
+ 
+23. bash（Linux / macOS 终端）
+24. batch（Windows CMD / 批处理）
+25. powershell（Windows PowerShell）
+ 
+6. 兜底
+ 
+26. plaintext（纯文本）
+27. 所有未识别的自动走通用高亮
+ 
 
 
-```
+
+
+```+js
 // prism-init.js —— 自动识别并标记 Gmeek 的代码块（超级全语言+系统命令高亮）
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('pre.notranslate > code.notranslate').forEach((codeEl) => {
@@ -308,7 +272,7 @@ pre[class*="language-"] code * {
 
 ```
 
-好像这个css也要加，请自己实测。
+好像这个css可以不加重复了吧，请自己实测。
 
 ```+css
 /*代码高亮 强行清空 Gmeek 自带样式 */

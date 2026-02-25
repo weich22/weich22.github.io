@@ -112,91 +112,54 @@ document.addEventListener('DOMContentLoaded', () =&gt; {
 });
 
 </code></pre>
-<p>别的参考版本：</p>
-<pre lang="+js" class="notranslate"><code class="notranslate">  
-document.addEventListener('DOMContentLoaded', () =&gt; {
-  // ✅ 保持原选择器不变！因为之前这样高亮是正常的
-  document.querySelectorAll('pre.notranslate &gt; code.notranslate').forEach((codeEl) =&gt; {
-    let lang = 'plaintext';
-    const pre = codeEl.parentElement;
-    
-    // ✨ 新增：从Gmeek父级div提取语言（这才是关键！）
-    const gmeekDiv = pre.parentElement; // 获取父级div
-    if (gmeekDiv &amp;&amp; gmeekDiv.classList) {
-      for (const cls of gmeekDiv.classList) {
-        // 匹配 highlight-source-xxx 格式
-        const match = cls.match(/highlight-source-(\w+)/);
-        if (match) {
-          lang = match[1].toLowerCase();
-          break; // 找到就停止
-        }
-      }
-    }
-    
-    // ❌ 保留原逻辑但降级为备选（避免冲突）
-    if (lang === 'plaintext') {
-      if (pre.title) lang = pre.title.trim().toLowerCase();
-      else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
-      else if (codeEl.textContent.includes('&lt;?php')) lang = 'php';
-      else if (codeEl.textContent.startsWith('def ') || codeEl.textContent.includes('import ')) lang = 'python';
-      else if (codeEl.textContent.includes('function ') || codeEl.textContent.includes('=&gt;')) lang = 'javascript';
-    }
-
-    // ✅ 保持原class操作不变（这是高亮生效的关键！）
-    codeEl.classList.remove('notranslate');
-    codeEl.classList.add(`language-${lang}`);
-    pre.classList.add('line-numbers');
-  });
-
-  // ✅ 保持原高亮触发不变！
-  if (typeof Prism !== 'undefined') {
-    Prism.highlightAll();
-  }
-});
-  
-</code></pre>
-<p>另外一个参考：</p>
-<pre lang="+js" class="notranslate"><code class="notranslate">document.addEventListener('DOMContentLoaded', () =&gt; {
-  // ✅ 保持原有选择器：只处理 Gmeek 生成的 notranslate 结构
-  document.querySelectorAll('pre.notranslate &gt; code.notranslate').forEach((codeEl) =&gt; {
-    let lang = 'plaintext';
-    const pre = codeEl.parentElement;
-
-    // 🔑【核心修复】优先从 Gmeek 的父级 div.highlight 中提取 language
-    // 向上查找最近的 div.highlight（Gmeek 包裹容器）
-    const highlightDiv = pre.closest('div.highlight');
-    if (highlightDiv) {
-      const sourceMatch = highlightDiv.className.match(/highlight-source-(\w+)/);
-      if (sourceMatch) {
-        lang = sourceMatch[1].toLowerCase();
-      }
-    }
-
-    // 📌 降级策略：仍保留你原有的 title / data-lang / 内容关键词判断（兜底）
-    if (!lang || lang === 'plaintext') {
-      if (pre.title) lang = pre.title.trim().toLowerCase();
-      else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
-      else if (codeEl.textContent.includes('&lt;?php')) lang = 'php';
-      else if (codeEl.textContent.startsWith('def ') || codeEl.textContent.includes('import ')) lang = 'python';
-      else if (codeEl.textContent.includes('function ') || codeEl.textContent.includes('=&gt;')) lang = 'javascript';
-    }
-
-    // ✅ 保持原有 class 操作（安全、无副作用）
-    codeEl.classList.remove('notranslate');
-    codeEl.classList.add(`language-${lang}`);
-    pre.classList.add('line-numbers'); // 行号保持开启
-  });
-
-  // ✅ 保持原有 Prism 调用（最稳妥）
-  if (typeof Prism !== 'undefined' &amp;&amp; typeof Prism.highlightAll === 'function') {
-    Prism.highlightAll();
-  }
-});
-
-</code></pre>
 <h3>推荐升级版本</h3>
-<p>支持更多语言识别。</p>
-<pre class="notranslate"><code class="notranslate">// prism-init.js —— 自动识别并标记 Gmeek 的代码块（超级全语言+系统命令高亮）
+<p>支持更多语言识别，代码里现在一共支持 28 种语言/格式：</p>
+<ol>
+<li>前端</li>
+</ol>
+<p>1. markup（HTML / XML / SVG）<br>
+2. css<br>
+3. javascript<br>
+4. typescript</p>
+<ol start="2">
+<li>编程语言</li>
+</ol>
+<p>5. python<br>
+6. php<br>
+7. c<br>
+8. cpp<br>
+9. java<br>
+10. go<br>
+11. rust<br>
+12. ruby<br>
+13. kotlin<br>
+14. swift</p>
+<ol start="3">
+<li>数据与文档</li>
+</ol>
+<p>15. json<br>
+16. yaml<br>
+17. markdown<br>
+18. sql</p>
+<ol start="4">
+<li>配置文件</li>
+</ol>
+<p>19. ini（.env / .ini / 配置）<br>
+20. nginx<br>
+21. docker<br>
+22. git</p>
+<ol start="5">
+<li>系统命令（你特别要的）</li>
+</ol>
+<p>23. bash（Linux / macOS 终端）<br>
+24. batch（Windows CMD / 批处理）<br>
+25. powershell（Windows PowerShell）</p>
+<ol start="6">
+<li>兜底</li>
+</ol>
+<p>26. plaintext（纯文本）<br>
+27. 所有未识别的自动走通用高亮</p>
+<pre lang="+js" class="notranslate"><code class="notranslate">// prism-init.js —— 自动识别并标记 Gmeek 的代码块（超级全语言+系统命令高亮）
 document.addEventListener('DOMContentLoaded', () =&gt; {
   document.querySelectorAll('pre.notranslate &gt; code.notranslate').forEach((codeEl) =&gt; {
     let lang = 'plaintext';
@@ -371,7 +334,7 @@ pre[class*="language-"] code * {
 }
 
 </code></pre>
-<p>好像这个css也要加，请自己实测。</p>
+<p>好像这个css可以不加重复了吧，请自己实测。</p>
 <pre lang="+css" class="notranslate"><code class="notranslate">/*代码高亮 强行清空 Gmeek 自带样式 */
 /* 
 .copy-to-clipboard {
