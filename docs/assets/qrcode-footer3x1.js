@@ -180,37 +180,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// Gmeek+Prism 代码块初始化（教程适配版，直接用）
+// prism-init.js —— 只读取 Gmeek 官方语言标记，不猜内容，不乱高亮
 document.addEventListener('DOMContentLoaded', () => {
-  // 只处理Gmeek生成的 notranslate 代码块
-  document.querySelectorAll('pre.notranslate > code.notranslate').forEach((codeEl) => {
+  // 遍历 Gmeek 所有代码块
+  document.querySelectorAll('div.highlight').forEach((highlightEl) => {
+    // 从 Gmeek 自带的 class 提取语言：highlight-source-js → js
+    const langClass = Array.from(highlightEl.classList).find(cls => cls.startsWith('highlight-source-'));
     let lang = 'plaintext';
-    const pre = codeEl.parentElement;
-
-    // 核心：从Gmeek外层div.highlight提取语言（优先级最高）
-    const highlightDiv = pre.closest('div.highlight');
-    if (highlightDiv) {
-      const sourceMatch = highlightDiv.className.match(/highlight-source-(\w+)/);
-      if (sourceMatch) lang = sourceMatch[1].toLowerCase();
+    if (langClass) {
+      lang = langClass.replace('highlight-source-', '').toLowerCase();
     }
 
-    // 兜底策略：title/data-lang/关键词判断（教程原版逻辑）
-    if (lang === 'plaintext') {
-      if (pre.title) lang = pre.title.trim().toLowerCase();
-      else if (pre.dataset.lang) lang = pre.dataset.lang.trim().toLowerCase();
-      else if (codeEl.textContent.includes('<?php')) lang = 'php';
-      else if (codeEl.textContent.startsWith('def ') || codeEl.textContent.includes('import ')) lang = 'python';
-      else if (codeEl.textContent.includes('function ') || codeEl.textContent.includes('=>')) lang = 'javascript';
-    }
+    // 找到内部代码
+    const codeEl = highlightEl.querySelector('pre.notranslate > code.notranslate');
+    if (!codeEl) return;
 
-    // 移除冲突类+添加Prism类+启用行号
+    // 只加 Prism 语言类，不做任何内容猜测
     codeEl.classList.remove('notranslate');
     codeEl.classList.add(`language-${lang}`);
-    pre.classList.add('line-numbers');
+
+    const preEl = codeEl.parentElement;
+    preEl.classList.remove('notranslate');
+    preEl.classList.add('line-numbers');
   });
 
-  // 强制触发高亮（判断Prism是否存在，避免报错）
-  if (typeof Prism !== 'undefined' && typeof Prism.highlightAll === 'function') {
+  // 手动触发高亮
+  if (typeof Prism !== 'undefined') {
     Prism.highlightAll();
   }
 });
