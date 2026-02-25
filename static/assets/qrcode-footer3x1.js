@@ -279,33 +279,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /*tag标签页面，用户点击哪个标签就去除它的css样式padding：4px*/
 
-document.addEventListener('DOMContentLoaded', function() {
-  // 选择所有标签按钮
-  const tagButtons = document.querySelectorAll('button.label, a.label');
-
-  tagButtons.forEach(button => {
-    button.addEventListener('click', function(e) {
-      // 移除当前点击按钮的 padding
-      this.style.setProperty('padding', '0', 'important');
-      
-      // 重置其他按钮的 padding
-      tagButtons.forEach(btn => {
-        if (btn !== this) {
-          btn.style.removeProperty('padding');
-        }
-      });
-    });
-  });
-
-  // 页面加载时根据 hash 激活对应标签
-  const hash = window.location.hash.slice(1);
-  if (hash) {
-    const activeTag = Array.from(tagButtons).find(btn => 
-      btn.textContent.trim() === hash || btn.getAttribute('href')?.endsWith(hash)
-    );
-    if (activeTag) {
-      activeTag.style.setProperty('padding', '0', 'important');
-    }
-  }
-});
 
