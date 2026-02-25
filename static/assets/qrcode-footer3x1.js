@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /*代码高亮*/
 
- 
+/*测试另外的版本 
 // prism-init.js —— 自动识别并标记 Gmeek 的代码块
 document.addEventListener('DOMContentLoaded', () => {
   // 遍历所有 <pre><code class="notranslate">
@@ -171,6 +171,41 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ✨ 最后手动触发 Prism 高亮（关键！）
+  if (typeof Prism !== 'undefined') {
+    Prism.highlightAll();
+  }
+});
+测试另外的版本*/
+
+
+
+
+// prism-init.js —— 适配 Gmeek highlight-source-* 结构
+document.addEventListener('DOMContentLoaded', () => {
+  // 遍历所有代码块容器
+  document.querySelectorAll('div.highlight').forEach((highlightEl) => {
+    // 从 highlight-source-* 提取语言
+    const langClass = Array.from(highlightEl.classList).find(cls => cls.startsWith('highlight-source-'));
+    let lang = 'plaintext';
+    if (langClass) {
+      lang = langClass.replace('highlight-source-', '').toLowerCase();
+    }
+
+    // 找到内部的 code 标签
+    const codeEl = highlightEl.querySelector('pre.notranslate > code.notranslate');
+    if (!codeEl) return;
+
+    // 移除 notranslate，添加 Prism 语言类
+    codeEl.classList.remove('notranslate');
+    codeEl.classList.add(`language-${lang}`);
+
+    // 给 pre 加行号类
+    const preEl = codeEl.parentElement;
+    preEl.classList.remove('notranslate');
+    preEl.classList.add('line-numbers');
+  });
+
+  // 手动触发 Prism 高亮
   if (typeof Prism !== 'undefined') {
     Prism.highlightAll();
   }
