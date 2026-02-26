@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力，不做没用的功！</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Thu, 26 Feb 2026 10:51:58 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>给Gmmek标签页面添加选中标签效果</title><link>https://g.weich.ee/post/11.html</link><description>### 标签带有空格无效
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力，不做没用的功！</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Thu, 26 Feb 2026 14:14:48 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>移植prismjs代码高亮后修改右上角的copy为中文复制</title><link>https://g.weich.ee/post/12.html</link><description>
+### 简约版本
+
+简约版本会生效，但是样式效果不太好而已，比如鼠标划过文字不会变色，文字不居中而已。</description><guid isPermaLink="true">https://g.weich.ee/post/12.html</guid><pubDate>Thu, 26 Feb 2026 14:14:17 +0000</pubDate></item><item><title>给Gmmek标签页面添加选中标签效果</title><link>https://g.weich.ee/post/11.html</link><description>### 标签带有空格无效
 
 ```+js
 document.addEventListener('DOMContentLoaded', function() {
