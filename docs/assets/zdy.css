@@ -30,44 +30,8 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 .markdown-body pre {border: 1px solid #cdcaca}
 
 
-/*
+
 /*友情链接获取焦点显示标题*/
-/* 手机/电脑通用：只有焦点/hover 才显示，手指拿开依然保持显示 */
-#postBody a.tooltip-link {
-  position: relative;
-  /* 下划线！保持原样 */
-}
-
-#postBody a.tooltip-link::after {
-  content: attr(data-title);
-  position: absolute;
-  top: 100%;
-  left: 0;
-  margin-top: 4px;
-  background: #333;
-  color: #fff;
-  padding: 0px 4px;
-  border-radius: 4px;
-  font-size: 14px;
-  white-space: nowrap;
-  z-index: 999;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s;
-}
-
-/* 核心：hover 电脑可用 + focus 保持显示（手机点完不消失） */
-#postBody a.tooltip-link:hover::after,
-#postBody a.tooltip-link:focus::after {
-  opacity: 1;
-  visibility: visible;
-}
-
-*/
-
-
-
-
 
 #postBody a.tooltip-link {
   position: relative;
