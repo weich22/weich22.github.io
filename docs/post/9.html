@@ -124,6 +124,58 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 &lt;/style&gt;
 
 </code></pre>
+<h3>发现BUG修正版css</h3>
+<p>小BUG一般很少有人会注意到发现，既然我发现了就要修正，就是如果链接的备注标题太长，手机打开浏览页面的右边会溢出屏幕，然后会把整个页面往右边顶过去顶开往右边撑大，其实也有可能和我的博客修改的样式有点关系，因为我的博客最大宽度不限制。</p>
+<pre lang="+css" class="notranslate"><code class="notranslate">&lt;style&gt;
+#postBody a.tooltip-link {
+  position: relative;
+  display: inline-block;
+}
+
+#postBody a.tooltip-link::after {
+  content: attr(data-title);
+  position: absolute;
+  /* 1. 回到起点：左对齐 */
+  top: 100%;
+  left: 0; 
+  margin-top: 6px;
+
+  background: #333;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s;
+
+  /* 2. 核心修复：允许换行并严格限制宽度 */
+  white-space: normal !important;      /* 允许换行 */
+  word-wrap: break-word !important;   /* 强制断开长单词 */
+  width: max-content !important;      /* 宽度随文字走 */
+  line-height: 1.5;
+
+  /* 3. 关键：设定手机端绝对安全的宽度，防止撑开右侧 */
+  /* 一般手机屏幕宽 300px+，设为 200px 左右绝不会撑开页面 */
+  max-width: 200px !important; 
+}
+
+/* 针对屏幕特别窄的手机进一步缩减 */
+@media (max-width: 350px) {
+  #postBody a.tooltip-link::after {
+    max-width: 160px !important;
+  }
+}
+
+#postBody a.tooltip-link:hover::after,
+#postBody a.tooltip-link:focus::after {
+  opacity: 1;
+  visibility: visible;
+}
+&lt;/style&gt;
+
+</code></pre>
 <p>js部分：</p>
 <pre lang="+js" class="notranslate"><code class="notranslate">&lt;script&gt;
 document.addEventListener('DOMContentLoaded', function () {
