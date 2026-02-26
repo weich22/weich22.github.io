@@ -110,28 +110,42 @@ pre[class*="language-"] code * {
 /*代码高亮右上角copy修改成中文复制*/
 /* 隐藏原来的文字，注入新文字 */
 /* 1. 强制隐藏原始文本 */
+/* 1. 容器处理：确保伪元素有参考基准 */
 .code-toolbar .toolbar-item a {
-    color: transparent !important; /* 让原文字透明 */
+    color: transparent !important; /* 原文字隐身 */
     position: relative;
-    display: inline-block;
+    display: inline-flex !important; /* 改用 flex 布局 */
+    align-items: center;             /* 垂直居中 */
+    justify-content: center;        /* 水平居中 */
+    min-width: 60px;                /* 给一个最小宽度，防止文字挤在一起 */
+    text-decoration: none !important;
+    transition: all 0.2s;
 }
 
-/* 2. 注入“复制”文字 */
+/* 2. 注入中文并实现完美居中 */
 .code-toolbar .toolbar-item a::before {
-    content: "复制"; /* 默认显示的文字 */
-    color: #bbb;    /* 这里的颜色可以根据你的主题调整 */
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    font-size: 12px; /* 调整为你希望的大小 */
-    pointer-events: none; /* 确保点击能穿透到下层的 a 标签 */
+    content: "复制"; 
+    color: #999;                    /* 默认颜色 */
+    position: absolute;             /* 绝对定位 */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); /* 核心：强制绝对居中 */
+    font-size: 12px;
+    white-space: nowrap;            /* 防止中文换行 */
+    pointer-events: none;
+    transition: color 0.2s;         /* 颜色过渡动画 */
 }
 
-/* 3. 当点击成功后（Prism 会自动切换状态），改变文字 */
+/* 3. 解决划过（Hover）不变色的问题 */
+/* 当鼠标划过 a 标签时，改变 before 伪元素的颜色 */
+.code-toolbar .toolbar-item a:hover::before {
+    color: #555 !important;         /* 划过后的深色，你可以改为你喜欢的颜色 */
+    cursor: pointer;
+}
+
+/* 4. 复制成功后的状态 */
 .code-toolbar .toolbar-item a[data-copy-state="copy-success"]::before {
-    content: "已复制!";
-    color: #4caf50; /* 成功时显示绿色 */
+    content: "已复制";
+    color: #4caf50 !important;      /* 成功后的绿色 */
 }
 
