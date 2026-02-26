@@ -68,6 +68,7 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 
 
 
+
 #postBody a.tooltip-link {
   position: relative;
   display: inline-block;
@@ -76,39 +77,36 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 #postBody a.tooltip-link::after {
   content: attr(data-title);
   position: absolute;
-  /* 1. 改为底部居中定位 */
-  top: 110%;
-  left: 50%;
-  transform: translateX(-50%); /* 配合 left: 50% 实现水平居中 */
-  
-  background: rgba(51, 51, 51, 0.95);
+  /* 1. 回到起点：左对齐 */
+  top: 100%;
+  left: 0; 
+  margin-top: 6px;
+
+  background: #333;
   color: #fff;
   padding: 8px 12px;
-  border-radius: 6px;
+  border-radius: 4px;
   font-size: 13px;
   z-index: 999;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s;
 
-  /* 2. 核心：允许换行并限制宽度 */
-  white-space: normal !important;
-  word-wrap: break-word !important;
-  width: max-content !important;
-  /* 设定一个手机端安全的宽度 */
-  max-width: 180px !important; 
+  /* 2. 核心修复：允许换行并严格限制宽度 */
+  white-space: normal !important;      /* 允许换行 */
+  word-wrap: break-word !important;   /* 强制断开长单词 */
+  width: max-content !important;      /* 宽度随文字走 */
   line-height: 1.5;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+  /* 3. 关键：设定手机端绝对安全的宽度，防止撑开右侧 */
+  /* 一般手机屏幕宽 300px+，设为 200px 左右绝不会撑开页面 */
+  max-width: 200px !important; 
 }
 
-/* 3. 手机端适配：处理左右贴边看不见的问题 */
-@media (max-width: 768px) {
+/* 针对屏幕特别窄的手机进一步缩减 */
+@media (max-width: 350px) {
   #postBody a.tooltip-link::after {
-    max-width: 150px !important; /* 手机端宽度再收紧一点 */
-    
-    /* 关键：如果链接太靠左，这里的居中会失效，
-       但因为 max-width 只有 150px，
-       它基本能保证在大部分手机屏幕中心区域显示 */
+    max-width: 160px !important;
   }
 }
 
