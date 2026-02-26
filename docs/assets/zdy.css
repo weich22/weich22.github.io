@@ -30,7 +30,7 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 .markdown-body pre {border: 1px solid #cdcaca}
 
 
-
+/*
 /*友情链接获取焦点显示标题*/
 /* 手机/电脑通用：只有焦点/hover 才显示，手指拿开依然保持显示 */
 #postBody a.tooltip-link {
@@ -63,21 +63,53 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
   visibility: visible;
 }
 
-/* 解决友链提示文字手机端撑大页面的终极方案 */
-[data-item]::after {
-    white-space: normal !important;      /* 允许换行 */
-    max-width: 180px !important;        /* 限制宽度，防止手机端横向滚动 */
-    word-wrap: break-word !important;   /* 强制断开长单词 */
-    line-height: 1.5 !important;        /* 增加行间距，换行后不拥挤 */
-    text-align: left !important;        /* 换行后左对齐更整齐 */
-    display: inline-block !important;   /* 确保宽度限制生效 */
+*/
+
+
+
+/* 手机/电脑通用：只有焦点/hover 才显示 */
+#postBody a.tooltip-link {
+  position: relative;
+  display: inline-block; /* 确保定位基准稳定 */
 }
 
-/* 电脑端如果觉得 180px 太窄，可以稍微放宽一点 */
-@media (min-width: 769px) {
-    [data-item]::after {
-        max-width: 300px !important;
-    }
+#postBody a.tooltip-link::after {
+  content: attr(data-title);
+  position: absolute;
+  top: 110%; /* 稍微向下挪一点，不遮挡链接 */
+  left: 0;
+  background: #333;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s;
+  
+  /* --- 核心修复：防止横飞 --- */
+  white-space: normal !important;      /* 允许换行 */
+  word-wrap: break-word !important;   /* 强制断开长单词/链接 */
+  width: max-content !important;      /* 宽度随文字自适应 */
+  max-width: 220px !important;        /* 限制最大宽度，超过这个值就自动换行 */
+  line-height: 1.5 !important;        /* 换行后增加行间距，不拥挤 */
+}
+
+/* 手机端专项优化：当屏幕宽度小于 768px 时 */
+@media (max-width: 768px) {
+  #postBody a.tooltip-link::after {
+    max-width: 160px !important;      /* 手机端屏幕窄，把换行宽度设得更小 */
+    left: 50% !important;             /* 居中显示，防止左侧贴边 */
+    transform: translateX(-50%) !important; 
+  }
+}
+
+/* 核心：hover 电脑可用 + focus 手机可用 */
+#postBody a.tooltip-link:hover::after,
+#postBody a.tooltip-link:focus::after {
+  opacity: 1;
+  visibility: visible;
 }
 
 
