@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 ```
 
-### 全部有效版本，空格也有效
+### 全部有效版，空格也有效
 
 这个版本所有页面监听点击事件，就是说你从别的页面点击过来也是有效果的，但是我感觉会不会浪费性能…
 
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-### 包含调试脚本的版本
+### 全部有效包含调试脚本版
 
 ```+js
 // 调试版：带详细日志，用于定位问题
@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 ```
 
-### 全部有效版本，空格也有效
+### 全部有效版，空格也有效
 
 这个版本所有页面监听点击事件，就是说你从别的页面点击过来也是有效果的，但是我感觉会不会浪费性能…
 
@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-### 包含调试脚本的版本
+### 全部有效包含调试脚本版
 
 ```+js
 // 调试版：带详细日志，用于定位问题
@@ -495,7 +495,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 </code></pre>
-<h3>全部有效版本，空格也有效</h3>
+<h3>全部有效版，空格也有效</h3>
 <p>这个版本所有页面监听点击事件，就是说你从别的页面点击过来也是有效果的，但是我感觉会不会浪费性能…</p>
 <pre lang="+js" class="notranslate"><code class="notranslate">(function() {
   'use strict';
@@ -527,7 +527,7 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 
 </code></pre>
-<h3>包含调试脚本的版本</h3>
+<h3>全部有效包含调试脚本版</h3>
 <pre lang="+js" class="notranslate"><code class="notranslate">// 调试版：带详细日志，用于定位问题
 (function() {
   'use strict';
@@ -658,7 +658,7 @@ activateTagByHash,确保选中状态始终同步。<br>
 <p>我比较懒，也不像加太多东西，所以效果就是点击那个标签就直接去它的css样式（padding:4px），这样一来背景直接缩小，效果还是蛮明显能区分的…</p>
 <p>轮子已经做好了，可以高仿做一个比如，点击标签后那个标签背景颜色就不圆角变成直角，去除：.label{border-radius:2em}的这个样式，然后背景颜色大小统一，已经点击选中的标签是直角的背景颜色…</p>
 <p>代码添加到之前引用到头部的自定义js文件里面就好了。</p>
-<h3>发现小BUG</h3>
+<h3>发现小BUG，已修正版</h3>
 <p>如果用户直接打开这个页面，默认在all全部标签会无效，于是我又改了一下没有实测，因为影响不大的小BUG懒得测试了。</p>
 <pre lang="+js" class="notranslate"><code class="notranslate">(function() {
   'use strict';

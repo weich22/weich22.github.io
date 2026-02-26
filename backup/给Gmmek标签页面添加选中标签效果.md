@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 ```
 
-### 全部有效版本，空格也有效
+### 全部有效版，空格也有效
 
 这个版本所有页面监听点击事件，就是说你从别的页面点击过来也是有效果的，但是我感觉会不会浪费性能…
 
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-### 包含调试脚本的版本
+### 全部有效包含调试脚本版
 
 ```+js
 // 调试版：带详细日志，用于定位问题
@@ -257,7 +257,7 @@ activateTagByHash,确保选中状态始终同步。
 代码添加到之前引用到头部的自定义js文件里面就好了。
 
 
-### 发现小BUG
+### 发现小BUG，已修正版
 如果用户直接打开这个页面，默认在all全部标签会无效，于是我又改了一下没有实测，因为影响不大的小BUG懒得测试了。
 
 ```+js
