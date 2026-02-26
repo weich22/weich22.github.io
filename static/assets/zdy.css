@@ -107,4 +107,21 @@ pre[class*="language-"] code * {
   }
 }
 
-/*tag选中标签去除它的css值padding*/
+/*代码高亮右上角copy修改成中文复制*/
+/* 隐藏原来的文字，注入新文字 */
+.toolbar-item a[data-copy-state="copy"] {
+    font-size: 0 !important;
+}
+.toolbar-item a[data-copy-state="copy"]::after {
+    content: "复制";
+    font-size: 12px; /* 恢复正常字体大小 */
+}
+
+.toolbar-item a[data-copy-state="copy-success"] {
+    font-size: 0 !important;
+}
+.toolbar-item a[data-copy-state="copy-success"]::after {
+    content: "已复制！";
+    font-size: 12px;
+}
+
