@@ -67,45 +67,51 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 
 
 
-/* 手机/电脑通用：只有焦点/hover 才显示 */
+
 #postBody a.tooltip-link {
   position: relative;
-  display: inline-block; /* 确保定位基准稳定 */
+  display: inline-block;
 }
 
 #postBody a.tooltip-link::after {
   content: attr(data-title);
   position: absolute;
-  top: 110%; /* 稍微向下挪一点，不遮挡链接 */
-  left: 0;
-  background: #333;
+  /* 1. 改为底部居中定位 */
+  top: 110%;
+  left: 50%;
+  transform: translateX(-50%); /* 配合 left: 50% 实现水平居中 */
+  
+  background: rgba(51, 51, 51, 0.95);
   color: #fff;
-  padding: 6px 10px;
-  border-radius: 4px;
+  padding: 8px 12px;
+  border-radius: 6px;
   font-size: 13px;
   z-index: 999;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s;
-  
-  /* --- 核心修复：防止横飞 --- */
-  white-space: normal !important;      /* 允许换行 */
-  word-wrap: break-word !important;   /* 强制断开长单词/链接 */
-  width: max-content !important;      /* 宽度随文字自适应 */
-  max-width: 220px !important;        /* 限制最大宽度，超过这个值就自动换行 */
-  line-height: 1.5 !important;        /* 换行后增加行间距，不拥挤 */
+
+  /* 2. 核心：允许换行并限制宽度 */
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  width: max-content !important;
+  /* 设定一个手机端安全的宽度 */
+  max-width: 180px !important; 
+  line-height: 1.5;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* 手机端专项优化：当屏幕宽度小于 768px 时 */
+/* 3. 手机端适配：处理左右贴边看不见的问题 */
 @media (max-width: 768px) {
   #postBody a.tooltip-link::after {
-    max-width: 160px !important;      /* 手机端屏幕窄，把换行宽度设得更小 */
-    left: 50% !important;             /* 居中显示，防止左侧贴边 */
-    transform: translateX(-50%) !important; 
+    max-width: 150px !important; /* 手机端宽度再收紧一点 */
+    
+    /* 关键：如果链接太靠左，这里的居中会失效，
+       但因为 max-width 只有 150px，
+       它基本能保证在大部分手机屏幕中心区域显示 */
   }
 }
 
-/* 核心：hover 电脑可用 + focus 手机可用 */
 #postBody a.tooltip-link:hover::after,
 #postBody a.tooltip-link:focus::after {
   opacity: 1;
