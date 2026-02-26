@@ -277,14 +277,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-/*tag标签页面，用户点击哪个标签就去除它的css样式padding：4px*/
+/*tag标签页面，用户选中标签切换效果点击哪个标签就去除它的css样式padding：4px*/
 
 (function() {
   'use strict';
 
-  if (!window.location.pathname.includes('tag.html')) {
-    return;
-  }
+  if (!window.location.pathname.includes('tag.html')) return;
 
   function handleTagClick(event) {
     const button = event.target.closest('button.Label');
@@ -293,7 +291,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('button.Label').forEach(btn => {
       btn.style.setProperty('padding', '4px', 'important');
     });
-
     button.style.setProperty('padding', '0', 'important');
   }
 
@@ -304,17 +301,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function activateTagByHash() {
     const currentHash = decodeURIComponent(window.location.hash.substring(1));
-    if (currentHash) {
-      document.querySelectorAll('button.Label').forEach(btn => {
-        btn.style.setProperty('padding', '4px', 'important');
-      });
-      const activeTag = Array.from(document.querySelectorAll('button.Label')).find(btn => 
-        btn.textContent.trim().includes(currentHash.trim())
+    const allTags = document.querySelectorAll('button.Label');
+    
+    allTags.forEach(btn => {
+      btn.style.setProperty('padding', '4px', 'important');
+    });
+
+    if (!currentHash) {
+      const allBtn = Array.from(allTags).find(btn => 
+        btn.textContent.trim().toLowerCase().startsWith('all')
       );
-      if (activeTag) {
-        activeTag.style.setProperty('padding', '0', 'important');
-      }
+      if (allBtn) allBtn.style.setProperty('padding', '0', 'important');
+      return;
     }
+
+    const activeTag = Array.from(allTags).find(btn => 
+      btn.textContent.trim().includes(currentHash.trim())
+    );
+    if (activeTag) activeTag.style.setProperty('padding', '0', 'important');
   }
 
   setTimeout(activateTagByHash, 1000);
