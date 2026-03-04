@@ -67,7 +67,10 @@ sudo update-locale LANG-zh_CN.UTF-8
 
 
 ### 更改屏幕方向
+
+找到设置图标，其实状态栏也有但是有时候打开多了有不显示在这了，没有更换主题之类的，按键盘的win图标按钮按键也可以显示这个界面。
+
 ![找到设置图标](https://weich22.github.io/imagesw/S6030502123207.webp)
 
-
+找到Disolay点进去设置：
 ![找到Disolay点进去设置](https://weich22.github.io/imagesw/S6030502112231.webp)
