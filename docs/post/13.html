@@ -11,11 +11,11 @@
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
 <meta name="description" content="
-
+ ### Ventoy启动盘制作
  u盘用Ventoy 刻录启动，把Winux的系统包放在 Ventoy 的文件夹内。">
 <meta property="og:title" content="壹号本3安装linux之Winux">
 <meta property="og:description" content="
-
+ ### Ventoy启动盘制作
  u盘用Ventoy 刻录启动，把Winux的系统包放在 Ventoy 的文件夹内。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://g.weich.ee/post/13.html">
@@ -81,8 +81,10 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>u盘用Ventoy 刻录启动，把Winux的系统包放在 Ventoy 的文件夹内。</p>
+<div class="markdown-body" id="postBody"><h3>Ventoy启动盘制作</h3>
+<p>u盘用Ventoy 刻录启动，把Winux的系统包放在 Ventoy 的文件夹内。</p>
 <p>插到电脑USB上面。</p>
+<h3>启动到主板设置</h3>
 <p>手动点击进入，启动原来的win系统<br>
 1.点击键盘左下角的 开始菜单。<br>
 2.点击 电源按钮。<br>
@@ -94,6 +96,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 ·UEFI 固件设置 (UEFl Firmware Settings)<br>
 ·点击 重启。<br>
 就自动进去壹号本3的主板设置了，</p>
+<h3>从主板设置启动u盘Ventoy</h3>
 <p>进入 BIOS 后如何启动U盘?<br>
 壹号本3的 BIOS界面通常是横过来的(旋转90度),请歪头查看:<br>
 1.使用键盘方向键移动U Save &amp; Exit(保存并退出)选项卡。<br>
@@ -105,8 +108,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>从选择u盘启动 Ventoy 之后，按键盘L按键切换到中文语言，按键盘返回键回到主菜单选择刚刚你下载的系统启动进去以后会是英文的。</p>
 <p>电脑右下角链接WiFi，</p>
 <p>按下键盘 Ctrl+ Alt + T ，启动命令窗口。</p>
-<p>中文化<br>
-因为你已经开启了持久化模式,我们直接用"暴力”一点的命令行方式把这些缺少的包补全:<br>
+<h3>中文化</h3>
+<p>因为你已经开启了持久化模式,我们直接用"暴力”一点的命令行方式把这些缺少的包补全:<br>
 1.联网并更新列表<br>
 首先,确保你的壹号本已经连上 WiFi。打开终端(Terminal),输入:</p>
 <pre class="notranslate"><code class="notranslate">sudo apt update
@@ -122,6 +125,7 @@ sudo update-locale LANG-zh_CN.UTF-8
 </code></pre>
 <p>然后按笔记本电脑电源按键，注销，再登陆就好了，登陆密码为空，但是必须把鼠标点到输入框内，再按回车键按键登陆。</p>
 <p>中文语言弄好了，开始弄屏幕转向方向，如下图点进去找到有个屏幕方向图标随便选合适你的，我是选择倒数图标2：</p>
+<h3>更改屏幕方向</h3>
 <p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/8b23beaf3c8be4d56271a0d575b047437dc7c1e138096309f0ad5c18bae50c62/68747470733a2f2f776569636832322e6769746875622e696f2f696d61676573772f30323132333230375f636f6d2e6d65697a752e6d656469612e67616c6c6572792e77656270"><img src="https://camo.githubusercontent.com/8b23beaf3c8be4d56271a0d575b047437dc7c1e138096309f0ad5c18bae50c62/68747470733a2f2f776569636832322e6769746875622e696f2f696d61676573772f30323132333230375f636f6d2e6d65697a752e6d656469612e67616c6c6572792e77656270" alt="找到设置图标" data-canonical-src="https://weich22.github.io/imagesw/02123207_com.meizu.media.gallery.webp" style="max-width: 100%;"></a></p>
 <p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/4c59413b1e156042a29014e8cc8d5b182534e0bb376e408f8d98b47f889697ce/68747470733a2f2f776569636832322e6769746875622e696f2f696d61676573772f30323131323233315f636f6d2e6d65697a752e6d656469612e67616c6c6572792e77656270"><img src="https://camo.githubusercontent.com/4c59413b1e156042a29014e8cc8d5b182534e0bb376e408f8d98b47f889697ce/68747470733a2f2f776569636832322e6769746875622e696f2f696d61676573772f30323131323233315f636f6d2e6d65697a752e6d656469612e67616c6c6572792e77656270" alt="找到Disolay点进去设置" data-canonical-src="https://weich22.github.io/imagesw/02112231_com.meizu.media.gallery.webp" style="max-width: 100%;"></a></p></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
