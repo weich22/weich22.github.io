@@ -1,5 +1,9 @@
 
  ### Ventoy启动盘制作
+
+下载Ventoy的win版本
+[Ventoy官网](https:// "https://www.ventoy.net/cn/download.html")
+
  u盘用Ventoy 刻录启动，把Winux的系统包放在 Ventoy 的文件夹内。
 
 插到电脑USB上面。
