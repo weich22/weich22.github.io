@@ -56,3 +56,8 @@ sudo apt install -ylanguage-pack-zh-hanslanguage-pack-gnome-zh-hans fonts-wqy-ze
 sudo locale-gen zh_CN.UTF-8
 sudo update-locale LANG-zh_CN.UTF-8
 ```
+
+然后按笔记本电脑电源按键，注销，再登陆就好了，登陆密码为空，但是必须把鼠标点到输入框内，再按回车键按键登陆。
+
+中文语言弄好了，开始弄屏幕转向方向，如下图点进去找到有个屏幕方向图标随便选合适你的，我是选择倒数图标2：
+
