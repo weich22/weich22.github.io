@@ -61,3 +61,7 @@ sudo update-locale LANG-zh_CN.UTF-8
 
 中文语言弄好了，开始弄屏幕转向方向，如下图点进去找到有个屏幕方向图标随便选合适你的，我是选择倒数图标2：
 
+![找到设置图标](https://weich22.github.io/imagesw/02123207_com.meizu.media.gallery.webp)
+
+
+![找到Disolay点进去设置](https://weich22.github.io/imagesw/02112231_com.meizu.media.gallery.webp)
