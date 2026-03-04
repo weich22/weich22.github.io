@@ -67,7 +67,7 @@ sudo update-locale LANG-zh_CN.UTF-8
 
 
 ### 更改屏幕方向
-![找到设置图标](https://weich22.github.io/imagesw/02123207_com.meizu.media.gallery.webp)
+![找到设置图标](https://weich22.github.io/imagesw/S6030502123207.webp)
 
 
-![找到Disolay点进去设置](https://weich22.github.io/imagesw/02112231_com.meizu.media.gallery.webp)
+![找到Disolay点进去设置](https://weich22.github.io/imagesw/S6030502112231.webp)
