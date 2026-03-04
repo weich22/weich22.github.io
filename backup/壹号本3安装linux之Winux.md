@@ -6,6 +6,10 @@
 
  u盘用Ventoy 在win系统上面刻录启动，把Winux的系统包放在 Ventoy 的文件夹内。
 
+我下载的Winux系统链接：
+
+[winux-11.26.03.1-noble-lts.iso系统下载](https://zenlayer.dl.sourceforge.net/project/windows-linux/winux-11.26.03-noble-lts.iso?viasf=1)
+
 插到电脑USB上面。
 
 
