@@ -341,7 +341,7 @@ activateTagByHash,确保选中状态始终同步。
     display: inline-block !important;
     position: relative;
     z-index: 10;
-    /* 既然选中了，可以给它一个更亮的主题色 */
+    /* 既然选中了，可以给它一个更亮的主题色，不需要就把下面2行删除或者注释掉不改变颜色 */
     background-color: #0075ca !important; 
     color: white !important;
 }
