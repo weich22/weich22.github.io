@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Thu, 05 Mar 2026 22:02:30 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Github Pages查看已用存储空间</title><link>https://g.weich.ee/post/14.html</link><description>因为每个Github Pages给的空间好像是1g的，拿来写博客难免会有可能满的时候。</description><guid isPermaLink="true">https://g.weich.ee/post/14.html</guid><pubDate>Thu, 05 Mar 2026 05:38:09 +0000</pubDate></item><item><title>壹号本3安装linux之Winux</title><link>https://g.weich.ee/post/13.html</link><description>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Fri, 06 Mar 2026 08:19:54 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Github Pages查看已用存储空间</title><link>https://g.weich.ee/post/14.html</link><description>因为每个Github Pages给的空间好像是1g的，拿来写博客难免会有可能满的时候。</description><guid isPermaLink="true">https://g.weich.ee/post/14.html</guid><pubDate>Thu, 05 Mar 2026 05:38:09 +0000</pubDate></item><item><title>壹号本3安装linux之Winux</title><link>https://g.weich.ee/post/13.html</link><description>
  ### Ventoy启动盘制作
 
 下载Ventoy的win版本
@@ -260,7 +260,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 ### 光标是竖线
 插入模式(INS)：光标是竖线 | 输入文字会向后挤，不覆盖原有内容。</description><guid isPermaLink="true">https://g.weich.ee/post/4.html</guid><pubDate>Thu, 12 Feb 2026 16:17:17 +0000</pubDate></item><item><title>GitHub Pages 绑定自定义域名</title><link>https://g.weich.ee/post/3.html</link><description>### 域名CNAME解析
-在你购买域名的地方（运营商），子域名或者主域名（你用哪个就解析那个）解析做CNAME记录到你原来的Github Pages域名（一般都是你github用户名加.github.io，比如：xxx.github.io，xxx是你的github用户，除非你之前申请的是后面有仓库名，是哪个就绑定那个）。</description><guid isPermaLink="true">https://g.weich.ee/post/3.html</guid><pubDate>Mon, 09 Feb 2026 20:46:06 +0000</pubDate></item><item><title>Gmeek记录篇</title><link>https://g.weich.ee/post/1.html</link><description>### 自定义优化首页CSS
+在你购买域名的地方（运营商），子域名或者主域名（你用哪个就解析那个）解析做CNAME记录到你原来的Github Pages域名（一般都是你github用户名加.github.io，比如：xxx.github.io，xxx是你的github用户，除非你之前申请的是后面有仓库名，是哪个就绑定那个）。</description><guid isPermaLink="true">https://g.weich.ee/post/3.html</guid><pubDate>Mon, 09 Feb 2026 20:46:06 +0000</pubDate></item><item><title>Gmeek记录篇</title><link>https://g.weich.ee/post/1.html</link><description>
+### Gmeek预览图：
+
+![Gmeek首页预览图](https://weich22.github.io/imagesw/Image1772784593563.jpg)
+
+### 自定义优化首页CSS
 添加代码到config.json，请删除我写的中文和括号
 
 ```+css

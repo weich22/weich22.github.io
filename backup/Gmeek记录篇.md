@@ -1,3 +1,8 @@
+
+### Gmeek预览图：
+
+![Gmeek首页预览图](https://weich22.github.io/imagesw/Image1772784593563.jpg)
+
 ### 自定义优化首页CSS
 添加代码到config.json，请删除我写的中文和括号
 
