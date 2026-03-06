@@ -211,10 +211,6 @@ pre[class*="language-"] code * {
     border-left: 3px solid #027aff !important; /* 左侧亮起主题蓝 */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 淡淡的投影，产生浮起感 */
 }
-
-/* 3. 让文章标题在悬停时颜色也变一下 */
-.SideNav-item:hover .SideNav-label {
-    color: #027aff !important;
 }
 
 
