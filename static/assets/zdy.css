@@ -163,6 +163,7 @@ pre[class*="language-"] code * {
 
 
 /* 1. 选中标签定义呼吸动画得搭配原来的选中标签去除样式变小的那个js */
+/* 1. 呼吸动画 */
 @keyframes tagBreath {
     0% {
         box-shadow: 0 0 5px rgba(2, 122, 255, 0.2);
@@ -170,7 +171,7 @@ pre[class*="language-"] code * {
     }
     50% {
         box-shadow: 0 0 15px rgba(2, 122, 255, 0.6);
-        transform: scale(1.05); /* 选中的时候轻微放大 */
+        transform: scale(1.1); /* 既然 padding 没了，缩放稍微大一点补偿视觉 */
     }
     100% {
         box-shadow: 0 0 5px rgba(2, 122, 255, 0.2);
@@ -178,15 +179,17 @@ pre[class*="language-"] code * {
     }
 }
 
-/* 2. 核心：定位选中的标签 */
-/* 根据你在文章里的 JS 逻辑，选中的标签会被赋予特定的背景色。
-   CSS 属性选择器可以直接捕捉到这个状态。
-*/
-.Label[style*="background-color"] {
+/* 2. 核心：只抓取被 JS 设置了 padding 为 0 的标签 */
+/* 适配可能出现的不同写法：padding: 0, padding: 0px, padding:0 */
+.Label[style*="padding: 0"],
+.Label[style*="padding:0"],
+.Label[style*="padding: 0px"] {
     animation: tagBreath 2s linear infinite !important;
-    display: inline-block !important; /* 必须加这一行，否则 scale 缩放无效 */
+    display: inline-block !important;
     position: relative;
     z-index: 10;
+    /* 既然选中了，可以给它一个更亮的主题色 */
+    background-color: #0075ca !important; 
+    color: white !important;
 }
-
 
