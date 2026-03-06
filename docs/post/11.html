@@ -741,7 +741,7 @@ activateTagByHash,确保选中状态始终同步。<br>
 }
 
 </code></pre>
-<h3>选中标签写法呼吸说明：</h3>
+<h3>选中标签呼吸写法说明：</h3>
 <p>“选中"的特征是 padding: 0,那我们的 CSS 选择器就要精准地去抓那个被设为0的标签。</p>
 <p>·特征唯一性:普通状态下的 Gmeek 标签都有默认的padding。只有当你点击后,你的 JS才会给那个特定的标签注入 style="padding: 0;"。<br>
 ·CSS 属性雷达: ,Label[style*="padding: 0"]就像一个雷达,它会扫描页面上所有的标签,一旦发现谁的 style 属性里冒出了 padding: 0,就立刻给它套上呼吸动效。<br>
