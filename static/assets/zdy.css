@@ -215,13 +215,5 @@ pre[class*="language-"] code * {
 /* 3. 标题：变色 + 稍微加粗 */
 .SideNav-item:hover .listTitle {
     color: #027aff !important;
-    font-weight: 500 !important; /* 增加一点点厚度，更有质感 */
     transition: color 0.3s ease;
 }
-
-/* 4. 日期与标签：轻微缩放反馈 */
-.SideNav-item:hover .listLabels {
-    transform: scale(1.05); /* 标签轻微放大，产生呼吸感 */
-    transition: transform 0.3s ease;
-}
-
