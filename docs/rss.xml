@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Fri, 06 Mar 2026 13:00:23 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>给Gmeek文章列表添加悬停(Hover)特效</title><link>https://g.weich.ee/post/15.html</link><description>```+css
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Fri, 06 Mar 2026 16:53:30 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>给Gmeek文章列表添加悬停(Hover)特效</title><link>https://g.weich.ee/post/15.html</link><description>```+css
 /* 1. 设置文章条目的基础样式，准备过渡 */
 .SideNav-item {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
@@ -16,13 +16,8 @@
     border-left: 3px solid #027aff !important; /* 左侧亮起主题蓝 */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 淡淡的投影，产生浮起感 */
 }
-
-/* 3. 让文章标题在悬停时颜色也变一下 */
-.SideNav-item:hover .SideNav-label {
-    color: #027aff !important;
-}
-
-```。</description><guid isPermaLink="true">https://g.weich.ee/post/15.html</guid><pubDate>Fri, 06 Mar 2026 12:59:55 +0000</pubDate></item><item><title>Github Pages查看已用存储空间</title><link>https://g.weich.ee/post/14.html</link><description>因为每个Github Pages给的空间好像是1g的，拿来写博客难免会有可能满的时候。</description><guid isPermaLink="true">https://g.weich.ee/post/14.html</guid><pubDate>Thu, 05 Mar 2026 05:38:09 +0000</pubDate></item><item><title>壹号本3安装linux之Winux</title><link>https://g.weich.ee/post/13.html</link><description>
+```
+。</description><guid isPermaLink="true">https://g.weich.ee/post/15.html</guid><pubDate>Fri, 06 Mar 2026 12:59:55 +0000</pubDate></item><item><title>Github Pages查看已用存储空间</title><link>https://g.weich.ee/post/14.html</link><description>因为每个Github Pages给的空间好像是1g的，拿来写博客难免会有可能满的时候。</description><guid isPermaLink="true">https://g.weich.ee/post/14.html</guid><pubDate>Thu, 05 Mar 2026 05:38:09 +0000</pubDate></item><item><title>壹号本3安装linux之Winux</title><link>https://g.weich.ee/post/13.html</link><description>
  ### Ventoy启动盘制作
 
 下载Ventoy的win版本
