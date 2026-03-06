@@ -188,9 +188,6 @@ pre[class*="language-"] code * {
     display: inline-block !important;
     position: relative;
     z-index: 10;
-    /* 既然选中了，可以给它一个更亮的主题色 */
-    background-color: #0075ca !important; 
-    color: white !important;
 }
 
 
@@ -216,5 +213,4 @@ pre[class*="language-"] code * {
 .SideNav-item:hover .SideNav-label {
     color: #027aff !important;
 }
-
 
