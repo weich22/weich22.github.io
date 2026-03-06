@@ -707,7 +707,39 @@ activateTagByHash,确保选中状态始终同步。<br>
 })();
 
 </code></pre>
-<p>已经实测直接打开tag标签页默认在全部标签all也有效…</p></div>
+<p>已经实测直接打开tag标签页默认在全部标签all也有效…</p>
+<p>加上一个选中的标签会有"呼吸"放大效果，不然感觉选中的标签区分不太明确…</p>
+<pre lang="+css" class="notranslate"><code class="notranslate">/* 1. 呼吸动画 */
+@keyframes tagBreath {
+    0% {
+        box-shadow: 0 0 5px rgba(2, 122, 255, 0.2);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 15px rgba(2, 122, 255, 0.6);
+        transform: scale(1.1); /* 既然 padding 没了，缩放稍微大一点补偿视觉 */
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(2, 122, 255, 0.2);
+        transform: scale(1);
+    }
+}
+
+/* 2. 核心：只抓取被 JS 设置了 padding 为 0 的标签 */
+/* 适配可能出现的不同写法：padding: 0, padding: 0px, padding:0 */
+.Label[style*="padding: 0"],
+.Label[style*="padding:0"],
+.Label[style*="padding: 0px"] {
+    animation: tagBreath 2s linear infinite !important;
+    display: inline-block !important;
+    position: relative;
+    z-index: 10;
+    /* 既然选中了，可以给它一个更亮的主题色 */
+    background-color: #0075ca !important; 
+    color: white !important;
+}
+
+</code></pre></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
