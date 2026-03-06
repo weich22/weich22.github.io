@@ -28,7 +28,9 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 淡淡的投影，产生浮起感 */
 }
 ```
-。">
+
+
+·非对称动效:通过translatex(5px)而不是简单的放大,视觉上会有一种'列表项向你招手'的感觉,非常符合阅读习惯。">
 <meta property="og:title" content="给Gmeek文章列表添加悬停(Hover)特效">
 <meta property="og:description" content="```+css
 /* 1. 设置文章条目的基础样式，准备过渡 */
@@ -48,7 +50,9 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 淡淡的投影，产生浮起感 */
 }
 ```
-。">
+
+
+·非对称动效:通过translatex(5px)而不是简单的放大,视觉上会有一种'列表项向你招手'的感觉,非常符合阅读习惯。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://g.weich.ee/post/15.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
@@ -119,7 +123,10 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     border-left: 3px solid #027aff !important; /* 左侧亮起主题蓝 */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 淡淡的投影，产生浮起感 */
 }
-</code></pre></div>
+</code></pre>
+<p>·非对称动效:通过translatex(5px)而不是简单的放大,视觉上会有一种"列表项向你招手"的感觉,非常符合阅读习惯。<br>
+·贝塞尔曲线(cubic-bezier):我特意使用了自定义的加速曲线,这比标准的 ease 看起来更灵动,更有"弹性”。<br>
+·低功耗:同样利用了 transform属性,直接交给 GPU渲染,即便文章列表很长,滑动起来也依然丝滑。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
