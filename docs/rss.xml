@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Sun, 08 Mar 2026 20:47:50 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>给Gmeek文章列表添加悬停(Hover)特效</title><link>https://g.weich.ee/post/15.html</link><description>```+css
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Sun, 08 Mar 2026 21:05:02 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>给Gmeek文章列表添加悬停(Hover)特效</title><link>https://g.weich.ee/post/15.html</link><description>```+css
 /* 1. 设置文章条目的基础样式，准备过渡 */
 .SideNav-item {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
@@ -343,6 +343,6 @@ a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客�
 
 🔗[腾飞WebOS](https://os.tenfell.cn 'nas系统win系统效果') 🔗[Winux](https://winuxos.org '直接对标复刻win系统的linux') 🔗[ZorinOS](https://zorin.com 'win和Mac样式直接切换的linux')
 
-### 好用软件
+### 好用软件：
 
 🥰[LocalSend](https://localsend.org/zh-CN '跨平台区域网传输可传文字')。</description><guid isPermaLink="true">https://g.weich.ee/link.html</guid><pubDate>Fri, 06 Feb 2026 16:02:13 +0000</pubDate></item></channel></rss>
