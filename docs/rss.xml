@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Wed, 11 Mar 2026 22:06:36 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>中文编程语言全生态汇总（2026 完整版）</title><link>https://g.weich.ee/post/19.html</link><description>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Wed, 11 Mar 2026 22:45:08 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>全平台编程语言全生态汇总 (2026 完整版)</title><link>https://g.weich.ee/post/20.html</link><description># 全平台编程语言全生态汇总 (2026 完整版)
+
+### 一、 移动端开发（安卓 / iOS / 跨平台）
+
+#### Java
+* **特点**：安卓开发的绝对基石。</description><guid isPermaLink="true">https://g.weich.ee/post/20.html</guid><pubDate>Wed, 11 Mar 2026 22:44:37 +0000</pubDate></item><item><title>中文编程语言全生态汇总（2026 完整版）</title><link>https://g.weich.ee/post/19.html</link><description>
 中文编程语言全生态汇总（2026 完整版）
 本汇总涵盖了目前活跃在移动端、桌面端、物联网及教育领域的中文编程工具，旨在为开发者提供全方位的参考。</description><guid isPermaLink="true">https://g.weich.ee/post/19.html</guid><pubDate>Wed, 11 Mar 2026 22:06:05 +0000</pubDate></item><item><title>闪念微语之关键词</title><link>https://g.weich.ee/post/18.html</link><description>### 编程
 蓝鸟 微鸟 易安卓 E4A Gmeek iApp AIDE Fusion app ALua 结绳 Kotlin
