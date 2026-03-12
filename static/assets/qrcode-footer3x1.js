@@ -325,3 +325,81 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('hashchange', activateTagByHash);
 })();
 
+
+
+
+
+
+
+
+
+
+
+/*文章页面添加内容*/
+
+
+(function() {
+    // 仅在文章详情页运行（通过判断是否存在 postBody 元素）
+    const postBody = document.getElementById('postBody');
+    if (!postBody) return;
+
+    const feedUrl = window.location.origin + '/feed.json';
+    const currentPath = window.location.pathname;
+
+    fetch(feedUrl)
+        .then(res => res.json())
+        .then(data => {
+            const posts = data.items;
+            // 匹配当前文章索引
+            const currentIndex = posts.findIndex(p => p.link.includes(currentPath));
+            if (currentIndex === -1) return;
+
+            const currentPost = posts[currentIndex];
+            const container = document.createElement('div');
+            container.className = 'gmeek-post-footer';
+            container.style.marginTop = '40px';
+            container.style.borderTop = '1px solid var(--color-border-default)';
+            container.style.paddingTop = '20px';
+
+            // --- 1. 日期与标签展示 ---
+            const metaHtml = `
+                <div style="margin-bottom:20px; color:var(--color-fg-muted); font-size:14px;">
+                    <span>发布日期：${currentPost.date}</span>
+                    <span style="margin-left:15px;">标签：${currentPost.labels.join(', ')}</span>
+                </div>`;
+
+            // --- 2. 上下篇文章翻页 ---
+            let navHtml = '<div style="display:flex; justify-content:space-between; gap:10px; margin-bottom:25px; flex-wrap:wrap;">';
+            // 下一篇 (数组索引减1)
+            if (currentIndex > 0) {
+                navHtml += `<a href="${posts[currentIndex - 1].link}" style="flex:1; text-align:left;">← 下一篇：${posts[currentIndex - 1].title}</a>`;
+            } else {
+                navHtml += `<span style="flex:1;"></span>`;
+            }
+            // 上一篇 (数组索引加1)
+            if (currentIndex < posts.length - 1) {
+                navHtml += `<a href="${posts[currentIndex + 1].link}" style="flex:1; text-align:right;">上一篇：${posts[currentIndex + 1].title} →</a>`;
+            } else {
+                navHtml += `<span style="flex:1;"></span>`;
+            }
+            navHtml += '</div>';
+
+            // --- 3. 相关文章 (根据标签匹配) ---
+            const relatedPosts = posts.filter((p, i) => 
+                i !== currentIndex && p.labels && p.labels.some(l => currentPost.labels.includes(l))
+            ).slice(0, 3);
+
+            let relatedHtml = '';
+            if (relatedPosts.length > 0) {
+                relatedHtml = '<div class="related-posts"><h3>相关文章</h3><ul style="list-style:none; padding-left:0;">';
+                relatedPosts.forEach(p => {
+                    relatedHtml += `<li style="margin:8px 0;"><a href="${p.link}">• ${p.title}</a></li>`;
+                });
+                relatedHtml += '</ul></div>';
+            }
+
+            container.innerHTML = metaHtml + navHtml + relatedHtml;
+            postBody.appendChild(container);
+        })
+        .catch(err => console.error('Gmeek Footer Error:', err));
+})();
