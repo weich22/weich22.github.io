@@ -227,11 +227,3 @@ pre[class*="language-"] code * {
     margin-bottom: 4px !important; /* 给换行后的标签留一点上下间距 */
 }
 
-/*由于版本2js优化性能导致搜索标签页面打开的时候字体颜色闪动一下要优化*/
-
-/* 消除标签变色闪烁补丁 */
-.Label, .LabelName, .post-tag, .listLabels span {
-    color: transparent !important; /* 默认透明，等待 JS 处理 */
-    transition: color 0.1s ease-in; /* 增加一个极短的过渡，让显现更自然 */
-}
-
