@@ -417,21 +417,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function syncLabelColors() {
-        // 增加对搜索页可能出现的 span 或 a 标签更广的匹配
         const selectors = '.Label, .LabelName, .post-tag, .listLabels span, .listLabels a';
         document.querySelectorAll(selectors).forEach(el => {
+            // 如果已经处理过且没有脏标记，跳过
             if (el.dataset.colorFixed === "true" && !el.dataset.dirty) return;
 
             try {
                 let bg = window.getComputedStyle(el).backgroundColor;
-                // 如果当前元素背景透明，尝试找父级，搜索页很多时候是包裹在 a 标签里的
                 if (bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') {
                     bg = window.getComputedStyle(el.parentElement).backgroundColor;
                 }
 
                 if (bg && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)') {
                     const fg = getAdaptiveColor(bg);
-                    // 递归寻找文字承载节点
                     const target = (el.tagName === 'A') ? el : (el.querySelector('a') || el);
                     
                     if (target && target.style) {
@@ -445,34 +443,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 初始执行
+    // 1. 初始执行：前 5 秒内高频检测（解决搜索/标签页加载慢的问题）
     syncLabelColors();
+    let count = 0;
+    const initTimer = setInterval(() => {
+        syncLabelColors();
+        if (++count > 10) clearInterval(initTimer); // 5秒后停止高频
+    }, 500);
 
-    // 1. 监听模式切换
+    // 2. 监听：模式切换（强制重算）
     const themeObserver = new MutationObserver(() => {
-        document.querySelectorAll('.Label, .LabelName').forEach(el => el.dataset.dirty = "true");
+        document.querySelectorAll('.Label, .LabelName, .post-tag, .listLabels span').forEach(el => {
+            el.dataset.dirty = "true";
+        });
         syncLabelColors();
     });
     themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-color-mode'] });
 
-    // 2. 增强型内容监听：扩大监听范围到整个文档，确保捕获搜索框输入的即时变化
-    const contentObserver = new MutationObserver(() => {
-        syncLabelColors();
-    });
-    contentObserver.observe(document.body, { 
-        childList: true, 
-        subtree: true, 
-        attributes: false 
-    });
+    // 3. 监听：动态内容加载
+    const contentObserver = new MutationObserver(() => syncLabelColors());
+    contentObserver.observe(document.body, { childList: true, subtree: true });
 
-    // 3. 搜索页特殊兜底：针对搜索输入框的 input 事件进行触发
-    document.addEventListener('input', (e) => {
-        if (e.target.id === 'search-input' || e.target.classList.contains('search-input')) {
-            setTimeout(syncLabelColors, 100); // 延迟一瞬间等待结果渲染
-        }
-    });
-
-    // 4. 低频兜底 (3秒一次)
+    // 4. 兜底：低频检查
     setInterval(syncLabelColors, 3000);
 })();
 
