@@ -339,67 +339,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 (function() {
-    // 仅在文章详情页运行（通过判断是否存在 postBody 元素）
+    // 1. 寻找“转载请注明出处”那个节点作为锚点
+    // 根据截图，它是一个 style 包含 float:right 的 div
     const postBody = document.getElementById('postBody');
     if (!postBody) return;
 
+    // 找到 postBody 紧接着的下一个兄弟节点（即转载声明所在的 div）
+    const transferDiv = postBody.nextElementSibling;
+    
     const feedUrl = window.location.origin + '/feed.json';
     const currentPath = window.location.pathname;
 
-    fetch(feedUrl)
-        .then(res => res.json())
-        .then(data => {
-            const posts = data.items;
-            // 匹配当前文章索引
-            const currentIndex = posts.findIndex(p => p.link.includes(currentPath));
-            if (currentIndex === -1) return;
+    fetch(feedUrl).then(res => res.json()).then(data => {
+        const posts = data.items;
+        const currentIndex = posts.findIndex(p => p.link.includes(currentPath));
+        if (currentIndex === -1) return;
 
-            const currentPost = posts[currentIndex];
-            const container = document.createElement('div');
-            container.className = 'gmeek-post-footer';
-            container.style.marginTop = '40px';
-            container.style.borderTop = '1px solid var(--color-border-default)';
-            container.style.paddingTop = '20px';
+        const currentPost = posts[currentIndex];
+        
+        // 创建我们的插件容器
+        const container = document.createElement('div');
+        container.id = 'custom-post-footer';
+        container.style.cssText = "margin-top:20px; padding-top:15px; border-top:1px solid var(--color-border-default); clear:both;";
 
-            // --- 1. 日期与标签展示 ---
-            const metaHtml = `
-                <div style="margin-bottom:20px; color:var(--color-fg-muted); font-size:14px;">
-                    <span>发布日期：${currentPost.date}</span>
-                    <span style="margin-left:15px;">标签：${currentPost.labels.join(', ')}</span>
-                </div>`;
+        // --- 内容构造 ---
+        // 日期标签
+        let html = `<div style="font-size:13px; color:var(--color-fg-muted); margin-bottom:15px;">
+                        <span>📅 ${currentPost.date}</span>
+                        <span style="margin-left:15px;">🏷️ ${currentPost.labels.join(', ')}</span>
+                    </div>`;
 
-            // --- 2. 上下篇文章翻页 ---
-            let navHtml = '<div style="display:flex; justify-content:space-between; gap:10px; margin-bottom:25px; flex-wrap:wrap;">';
-            // 下一篇 (数组索引减1)
-            if (currentIndex > 0) {
-                navHtml += `<a href="${posts[currentIndex - 1].link}" style="flex:1; text-align:left;">← 下一篇：${posts[currentIndex - 1].title}</a>`;
-            } else {
-                navHtml += `<span style="flex:1;"></span>`;
-            }
-            // 上一篇 (数组索引加1)
-            if (currentIndex < posts.length - 1) {
-                navHtml += `<a href="${posts[currentIndex + 1].link}" style="flex:1; text-align:right;">上一篇：${posts[currentIndex + 1].title} →</a>`;
-            } else {
-                navHtml += `<span style="flex:1;"></span>`;
-            }
-            navHtml += '</div>';
+        // 上下篇
+        html += `<div style="display:flex; justify-content:space-between; gap:10px; margin-bottom:20px;">`;
+        if (posts[currentIndex + 1]) {
+            html += `<a href="${posts[currentIndex + 1].link}" style="flex:1; font-size:14px;">← 上一篇：${posts[currentIndex + 1].title}</a>`;
+        } else { html += `<span style="flex:1;"></span>`; }
+        
+        if (posts[currentIndex - 1]) {
+            html += `<a href="${posts[currentIndex - 1].link}" style="flex:1; text-align:right; font-size:14px;">下一篇：${posts[currentIndex - 1].title} →</a>`;
+        } else { html += `<span style="flex:1;"></span>`; }
+        html += `</div>`;
 
-            // --- 3. 相关文章 (根据标签匹配) ---
-            const relatedPosts = posts.filter((p, i) => 
-                i !== currentIndex && p.labels && p.labels.some(l => currentPost.labels.includes(l))
-            ).slice(0, 3);
+        // 相关文章
+        const related = posts.filter((p, i) => i !== currentIndex && p.labels && p.labels.some(l => currentPost.labels.includes(l))).slice(0, 3);
+        if (related.length > 0) {
+            html += `<div style="font-weight:bold; margin-bottom:10px;">相关文章推荐：</div><ul style="padding-left:20px; margin:0; font-size:14px;">`;
+            related.forEach(p => { html += `<li style="margin-bottom:5px;"><a href="${p.link}">${p.title}</a></li>`; });
+            html += `</ul>`;
+        }
 
-            let relatedHtml = '';
-            if (relatedPosts.length > 0) {
-                relatedHtml = '<div class="related-posts"><h3>相关文章</h3><ul style="list-style:none; padding-left:0;">';
-                relatedPosts.forEach(p => {
-                    relatedHtml += `<li style="margin:8px 0;"><a href="${p.link}">• ${p.title}</a></li>`;
-                });
-                relatedHtml += '</ul></div>';
-            }
+        container.innerHTML = html;
 
-            container.innerHTML = metaHtml + navHtml + relatedHtml;
-            postBody.appendChild(container);
-        })
-        .catch(err => console.error('Gmeek Footer Error:', err));
+        // 2. 关键：插入到“转载声明”div 的后面
+        if (transferDiv) {
+            transferDiv.insertAdjacentElement('afterend', container);
+        } else {
+            postBody.insertAdjacentElement('afterend', container);
+        }
+    }).catch(e => console.error("GmeekFooter Error:", e));
 })();
