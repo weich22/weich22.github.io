@@ -337,80 +337,72 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /*文章页面添加内容*/
 
+
 (function() {
-    // 1. 确保只在文章页运行，并直接锁定插入位置
     const postBody = document.getElementById('postBody');
     if (!postBody) return;
 
-    // 自动寻找“转载声明”所在的 div，如果找不到就兜底插入到 postBody 后面
+    // 定位到“转载说明”的那个 div
     const targetNode = postBody.nextElementSibling || postBody;
 
-    // 2. 动态获取 feed.json (适配不同层级的路径)
-    const feedUrl = window.location.origin + '/feed.json';
-    const currentPath = window.location.pathname;
-
-    console.log("Gmeek-Footer: 正在尝试加载 " + feedUrl);
-
-    fetch(feedUrl)
-        .then(res => {
-            if (!res.ok) throw new Error('Feed 404');
-            return res.json();
-        })
+    // 抓取 RSS 文件
+    const rssUrl = window.location.origin + '/rss.xml';
+    
+    fetch(rssUrl)
+        .then(res => res.text())
+        .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
         .then(data => {
-            const posts = data.items;
+            const items = Array.from(data.querySelectorAll("item"));
+            const posts = items.map(item => {
+                return {
+                    title: item.querySelector("title").textContent,
+                    link: item.querySelector("link").textContent,
+                    pubDate: item.querySelector("pubDate").textContent,
+                    description: item.querySelector("description") ? item.querySelector("description").textContent : ""
+                };
+            });
+
+            const currentPath = window.location.pathname;
             const currentIndex = posts.findIndex(p => p.link.includes(currentPath));
-            
-            if (currentIndex === -1) {
-                console.warn("Gmeek-Footer: 未能匹配到当前文章路径");
-                return;
-            }
 
-            const currentPost = posts[currentIndex];
+            if (currentIndex === -1) return;
+
             const container = document.createElement('div');
-            container.id = 'custom-post-footer';
-            
-            // 样式增强：确保在华强北 S100 或手机上也能看清
-            container.style.cssText = "margin: 20px 0; padding: 15px 0; border-top: 1px solid var(--color-border-default); clear: both; line-height: 1.6;";
+            container.id = 'gmeek-dynamic-footer';
+            container.style.cssText = "margin-top:30px; padding-top:20px; border-top:1px solid var(--color-border-default); clear:both; font-family:sans-serif;";
 
-            // --- 构造 HTML ---
-            let html = "";
-            
-            // 标签与日期
-            html += `<div style="font-size: 13px; color: var(--color-fg-muted); margin-bottom: 15px;">
-                        <span>📅 ${currentPost.date}</span>
-                        <span style="margin-left:15px;">🏷️ ${currentPost.labels.join(', ')}</span>
-                    </div>`;
+            // --- 1. 显示日期 ---
+            const dateObj = new Date(posts[currentIndex].pubDate);
+            const dateStr = `${dateObj.getFullYear()}-${(dateObj.getMonth()+1).toString().padStart(2,'0')}-${dateObj.getDate().toString().padStart(2,'0')}`;
+            let html = `<div style="font-size:13px; color:var(--color-fg-muted); margin-bottom:15px;">发布日期：${dateStr}</div>`;
 
-            // 翻页导航 (使用 flex-direction: column 适配窄屏)
-            html += `<div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">`;
-            if (posts[currentIndex + 1]) {
-                html += `<a href="${posts[currentIndex + 1].link}" style="color: var(--color-accent-fg);">← 上一篇：${posts[currentIndex + 1].title}</a>`;
+            // --- 2. 上下篇文章 (翻页) ---
+            html += `<div style="display:flex; flex-direction:column; gap:12px; margin-bottom:25px;">`;
+            // 下一篇 (RSS中索引更小的是更新的)
+            if (currentIndex > 0) {
+                html += `<a href="${posts[currentIndex - 1].link}" style="color:var(--color-accent-fg); text-decoration:none; font-size:15px;">← 下一篇：${posts[currentIndex - 1].title}</a>`;
             }
-            if (posts[currentIndex - 1]) {
-                html += `<a href="${posts[currentIndex - 1].link}" style="color: var(--color-accent-fg);">→ 下一篇：${posts[currentIndex - 1].title}</a>`;
+            // 上一篇 (RSS中索引更大的是更旧的)
+            if (currentIndex < posts.length - 1) {
+                html += `<a href="${posts[currentIndex + 1].link}" style="color:var(--color-accent-fg); text-decoration:none; font-size:15px;">→ 上一篇：${posts[currentIndex + 1].title}</a>`;
             }
             html += `</div>`;
 
-            // 相关文章
-            const related = posts.filter((p, i) => i !== currentIndex && p.labels && p.labels.some(l => currentPost.labels.includes(l))).slice(0, 3);
+            // --- 3. 相关文章推荐 ---
+            // 逻辑：寻找描述内容中包含相似关键词的文章（简单模拟标签匹配）
+            const currentTitle = posts[currentIndex].title;
+            const related = posts.filter((p, i) => i !== currentIndex && (p.title.includes(currentTitle.substring(0,2)))).slice(0, 3);
+            
             if (related.length > 0) {
-                html += `<div style="font-weight: bold; margin-bottom: 8px;">相关文章：</div><ul style="padding-left: 18px; margin: 0; font-size: 14px;">`;
-                related.forEach(p => { html += `<li style="margin-bottom: 6px;"><a href="${p.link}">${p.title}</a></li>`; });
+                html += `<div style="font-weight:bold; margin-bottom:10px; font-size:16px;">相关文章：</div><ul style="padding-left:20px; margin:0; line-height:1.8;">`;
+                related.forEach(p => {
+                    html += `<li><a href="${p.link}" style="color:var(--color-accent-fg); font-size:14px;">${p.title}</a></li>`;
+                });
                 html += `</ul>`;
             }
 
             container.innerHTML = html;
-
-            // 3. 强制插入到指定位置 (紧跟在转载声明后面)
             targetNode.insertAdjacentElement('afterend', container);
-            console.log("Gmeek-Footer: 渲染成功");
-
         })
-        .catch(err => {
-            console.error('Gmeek-Footer Error:', err);
-            // 只有报错时才执行的兜底方案
-            if (err.message === 'Feed 404') {
-                postBody.insertAdjacentHTML('afterend', '<p style="font-size:12px;color:gray;">加载更多文章失败，请检查 feed.json 路径</p>');
-            }
-        });
+        .catch(err => console.error("Gmeek RSS Footer Error:", err));
 })();
