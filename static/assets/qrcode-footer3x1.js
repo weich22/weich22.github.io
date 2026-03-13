@@ -409,7 +409,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 (function() {
-    // 1. 核心亮度算法（从插件提取）
     function getAdaptiveColor(bg) {
         const rgb = bg.match(/\d+/g);
         if (!rgb || rgb.length < 3) return "#ffffff";
@@ -418,46 +417,37 @@ document.addEventListener('DOMContentLoaded', () => {
         return l > 0.6 ? "#000000" : "#ffffff";
     }
 
-    // 2. 统一执行函数
-    function syncLabelStyles() {
-        // 选择器同时覆盖了首页重构后的 .post-tag 和 搜索页原生的 .Label
-        const selectors = '.post-tag, .Label, .LabelName, .listLabels span';
+    function syncLabelColorsOnly() {
+        // 仅抓取标签相关的类名
+        const selectors = '.Label, .LabelName, .post-tag, .listLabels span';
         document.querySelectorAll(selectors).forEach(el => {
             try {
-                // 获取背景色
+                // 读取背景
                 let bg = window.getComputedStyle(el).backgroundColor;
                 if (bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') {
                     bg = window.getComputedStyle(el.parentElement).backgroundColor;
                 }
 
-                if (bg && bg !== 'transparent') {
+                if (bg && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)') {
                     const fg = getAdaptiveColor(bg);
-                    // 适配：如果是 A 标签直接改，如果包含 A 标签改里面的 A
-                    const target = el.tagName === 'A' ? el : (el.querySelector('a') || el);
+                    // 精准定位文字容器
+                    const target = (el.tagName === 'A') ? el : (el.querySelector('a') || el);
                     
-                    target.style.setProperty('color', fg, 'important');
-                    target.style.setProperty('text-shadow', 'none', 'important');
-                    // 强制清理可能残留的滤镜
-                    el.style.filter = 'none';
-                    el.style.mixBlendMode = 'normal';
+                    // 只修改颜色和阴影，不修改任何布局相关的 style 属性
+                    if (target && target.style) {
+                        target.style.setProperty('color', fg, 'important');
+                        target.style.setProperty('text-shadow', 'none', 'important');
+                    }
                 }
-            } catch (e) {
-                // 忽略个别还没加载出来的元素错误
-            }
+            } catch (e) {}
         });
     }
 
-    // 3. 页面加载执行
-    if (document.readyState === 'complete') {
-        syncLabelStyles();
-    } else {
-        window.addEventListener('load', syncLabelStyles);
-    }
+    // 初始与定时执行（定时是为了兼容搜索页动态生成的标签）
+    syncLabelColorsOnly();
+    setInterval(syncLabelColorsOnly, 1500);
 
-    // 4. 定时检查（应对搜索页动态加载标签）
-    setInterval(syncLabelStyles, 1200);
-
-    // 5. 监听主题切换（暗黑/白天模式）
-    const observer = new MutationObserver(syncLabelStyles);
+    // 监听暗黑模式切换
+    const observer = new MutationObserver(syncLabelColorsOnly);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-color-mode'] });
 })();
