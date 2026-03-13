@@ -337,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /*文章页面添加内容*/
 
-
+/*
 (function() {
     // 检查是否已经在运行，防止重复
     if (window.GmeekNavLoaded) return;
@@ -418,3 +418,114 @@ document.addEventListener('DOMContentLoaded', () => {
     var injectionInterval = setInterval(startInjection, 500);
 })();
 
+*/
+
+
+
+
+
+
+
+1111111111
+
+
+
+
+(function() {
+    if (window.GmeekNavLoaded) return;
+    
+    function startInjection() {
+        var postBody = document.getElementById('postBody');
+        if (!postBody) return;
+
+        clearInterval(injectionInterval);
+        window.GmeekNavLoaded = true;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/rss.xml', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var xml = xhr.responseXML || new DOMParser().parseFromString(xhr.responseText, "text/xml");
+                var items = xml.getElementsByTagName("item");
+                var posts = [];
+                for (var i = 0; i < items.length; i++) {
+                    posts.push({
+                        title: items[i].getElementsByTagName("title")[0].textContent,
+                        link: items[i].getElementsByTagName("link")[0].textContent,
+                        date: items[i].getElementsByTagName("pubDate")[0].textContent
+                    });
+                }
+
+                var curPath = window.location.pathname;
+                var currentIndex = -1;
+                for (var j = 0; j < posts.length; j++) {
+                    if (posts[j].link.indexOf(curPath) !== -1 || curPath.indexOf(posts[j].link) !== -1) {
+                        currentIndex = j;
+                        break;
+                    }
+                }
+
+                if (currentIndex === -1) return;
+
+                // --- 关键：尝试获取页面现有的标签 ---
+                // Gmeek 默认会在文章页的脚本或元数据中留下 Label 信息
+                var labelNodes = document.querySelectorAll('.LabelName'); 
+                var labels = [];
+                for(var n=0; n<labelNodes.length; n++) {
+                    labels.push(labelNodes[n].innerText);
+                }
+
+                var navDiv = document.createElement('div');
+                navDiv.id = 'gmeek-nav-container';
+                navDiv.style.cssText = "margin: 30px 0; padding: 20px 0; border-top: 1px solid var(--color-border-default); clear: both;";
+
+                var d = new Date(posts[currentIndex].date);
+                var dateStr = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
+                
+                // 1. 组装显示信息（日期 + 标签）
+                var html = '<div style="font-size:13px; color:var(--color-fg-muted); margin-bottom:15px;">';
+                html += '📅 发布日期：' + dateStr;
+                if (labels.length > 0) {
+                    html += ' <span style="margin-left:15px;">🏷️ 标签：' + labels.join(', ') + '</span>';
+                }
+                html += '</div>';
+
+                // 2. 翻页链接
+                html += '<div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">';
+                if (currentIndex > 0) {
+                    html += '<a href="' + posts[currentIndex - 1].link + '" style="color:var(--color-accent-fg); text-decoration:none; font-size:15px; font-weight:500;">← 下一篇：' + posts[currentIndex - 1].title + '</a>';
+                }
+                if (currentIndex < posts.length - 1) {
+                    html += '<a href="' + posts[currentIndex + 1].link + '" style="color:var(--color-accent-fg); text-decoration:none; font-size:15px; font-weight:500;">→ 上一篇：' + posts[currentIndex + 1].title + '</a>';
+                }
+                html += '</div>';
+
+                // 3. 相关文章（基于标题相似度，因为 RSS 没有标签）
+                var currentTitle = posts[currentIndex].title;
+                var related = posts.filter(function(p, idx) {
+                    return idx !== currentIndex && p.title.substring(0,4) === currentTitle.substring(0,4);
+                }).slice(0, 3);
+
+                if (related.length > 0) {
+                    html += '<div style="font-weight:bold; margin-bottom:10px;">相关推荐：</div><ul style="padding-left:20px; margin:0; font-size:14px; line-height:1.8;">';
+                    for(var r=0; r<related.length; r++) {
+                        html += '<li><a href="' + related[r].link + '" style="color:var(--color-accent-fg);">' + related[r].title + '</a></li>';
+                    }
+                    html += '</ul>';
+                }
+
+                navDiv.innerHTML = html;
+
+                var target = postBody.nextElementSibling;
+                if (target && target.innerText && target.innerText.indexOf('转载') !== -1) {
+                    target.parentNode.insertBefore(navDiv, target.nextSibling);
+                } else {
+                    postBody.parentNode.insertBefore(navDiv, postBody.nextSibling);
+                }
+            }
+        };
+        xhr.send();
+    }
+
+    var injectionInterval = setInterval(startInjection, 500);
+})();
