@@ -94,8 +94,9 @@ observer.observe(document.documentElement, { attributes: true, attributeFilter: 
 })();
 ```
 
-### 修补css说明
-添加js后用下面的css修复上面的补丁，因为标签太多不会换行，往右边溢出，扩大整个页面。">
+
+1.这个JS对哪些页面生效?
+由于在 Gmeek 中将其作为'全局引用JS'添加,它理论上会对全站生效。">
 <meta property="og:title" content="Gmeek根据标签背景颜色更改标签字体颜色">
 <meta property="og:description" content=" ### 全局引用js
 
@@ -181,8 +182,9 @@ observer.observe(document.documentElement, { attributes: true, attributeFilter: 
 })();
 ```
 
-### 修补css说明
-添加js后用下面的css修复上面的补丁，因为标签太多不会换行，往右边溢出，扩大整个页面。">
+
+1.这个JS对哪些页面生效?
+由于在 Gmeek 中将其作为'全局引用JS'添加,它理论上会对全站生效。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://g.weich.ee/post/30.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
@@ -318,6 +320,21 @@ observer.observe(document.documentElement, { attributes: true, attributeFilter: 
 
 })();
 </code></pre>
+<p>1.这个JS对哪些页面生效?<br>
+由于在 Gmeek 中将其作为"全局引用JS"添加,它理论上会对全站生效。具体到页面类型:<br>
+·首页/列表页:最核心的生效场景。代码会处理文章列表下方的所有.listLabels 标签和日期。<br>
+·文章详情页:会对文章标题下方的分类标签(.post-tag)生效。<br>
+·搜索页归档页:代码中特意设置了 setInterval 定时执行,就是为了兼容搜索结果动态加载后,新出现的标签也能自动适配颜色。<br>
+2.代码是如何做到的?(实现逻辑)<br>
+·智能对比度算法(getAdaptiveColor): 它利用了亮度权重公式(0.299<em>R + 0.587</em>G + 0.114*B)。如果计算出的亮度超过0.6(偏浅色背景),文字会自动变黑;否则变白。这保证了无论标签背景是什么颜色,文字都能清晰可见。<br>
+·布局与内容分离:<br>
+·JS只管颜色:JS 遍历所有的标签类名<br>
+(如 .Label, .LabelName),只修改 color和text-shadoWo<br>
+·CSS 只管溢出:利用 flex-wrap:wrap 强制打破Gmeek 原生的 nowrap 限制,解决标签太多飞出屏幕的问题。</p>
+<p>·动态监控:通过 Mutationobserver 监听网页根目录的属性变化。当你切换“暗黑模式"或”日间模式”时,JS会自动重新计算一次颜色。<br>
+3.需要注意什么?(避坑指南)<br>
+。性能考量:代码中使用了 setInterval(...,1500)。虽然1.5秒执行一次对现代手机性能影响微乎其微,但如果页面标签极多,可以观察是否有微小卡顿。</p>
+<h3>升级版本</h3>
 <h3>修补css说明</h3>
 <p>添加js后用下面的css修复上面的补丁，因为标签太多不会换行，往右边溢出，扩大整个页面。</p>
 <p>这确实不是JS逻辑的问题,而是 Gmeek原生 CSS 样式的一个冲突配置:<br>
