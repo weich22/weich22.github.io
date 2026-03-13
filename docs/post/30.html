@@ -94,38 +94,10 @@ observer.observe(document.documentElement, { attributes: true, attributeFilter: 
 ```
 
 
-```dos
-/* 版本一：全局换行补丁 */
-.listLabels {
-    white-space: normal !important;
-    flex-wrap: wrap !important;
-    display: flex !important;
-}
+添加js后用下面的css修复上面的补丁，
 
-.Label, .LabelName, .LabelTime {
-    margin-bottom: 4px !important; /* 给换行后的标签留一点上下间距 */
-}
-
-```
-```dos
-/* 版本二：智能换行补丁（推荐） */
-.listLabels {
-    white-space: normal !important;
-    flex-wrap: wrap !important;
-    display: flex !important;
-}
-
-/* 强制日期作为一个整体，不允许内部折断 */
-.LabelTime {
-    white-space: nowrap !important;
-    display: inline-block !important;
-}
-
-.Label, .LabelName, .LabelTime {
-    margin-bottom: 4px !important;
-}
-
-```。">
+版本一：所有标签（含日期）都会自动换行
+​这个版本最彻底，只要空间不够，任何标签（包括日期）都会自动掉到下一行，确保绝对不溢出屏幕。">
 <meta property="og:title" content="Gmeek根据标签背景颜色更改标签字体颜色">
 <meta property="og:description" content="
 ```d
@@ -211,38 +183,10 @@ observer.observe(document.documentElement, { attributes: true, attributeFilter: 
 ```
 
 
-```dos
-/* 版本一：全局换行补丁 */
-.listLabels {
-    white-space: normal !important;
-    flex-wrap: wrap !important;
-    display: flex !important;
-}
+添加js后用下面的css修复上面的补丁，
 
-.Label, .LabelName, .LabelTime {
-    margin-bottom: 4px !important; /* 给换行后的标签留一点上下间距 */
-}
-
-```
-```dos
-/* 版本二：智能换行补丁（推荐） */
-.listLabels {
-    white-space: normal !important;
-    flex-wrap: wrap !important;
-    display: flex !important;
-}
-
-/* 强制日期作为一个整体，不允许内部折断 */
-.LabelTime {
-    white-space: nowrap !important;
-    display: inline-block !important;
-}
-
-.Label, .LabelName, .LabelTime {
-    margin-bottom: 4px !important;
-}
-
-```。">
+版本一：所有标签（含日期）都会自动换行
+​这个版本最彻底，只要空间不够，任何标签（包括日期）都会自动掉到下一行，确保绝对不溢出屏幕。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://g.weich.ee/post/30.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
@@ -386,6 +330,10 @@ setInterval(syncLabelColorsOnly, <span class="pl-c1">1500</span>);
 observer.observe(document.documentElement, { attributes: <span class="pl-c1">true</span>, attributeFilter: [<span class="pl-s"><span class="pl-pds">'</span>data-color-mode<span class="pl-pds">'</span></span>] });
 
 })();</pre></div>
+<p>添加js后用下面的css修复上面的补丁，</p>
+<p>版本一：所有标签（含日期）都会自动换行<br>
+​这个版本最彻底，只要空间不够，任何标签（包括日期）都会自动掉到下一行，确保绝对不溢出屏幕。<br>
+​代码如下：</p>
 <pre lang="dos" class="notranslate"><code class="notranslate">/* 版本一：全局换行补丁 */
 .listLabels {
     white-space: normal !important;
@@ -398,6 +346,9 @@ observer.observe(document.documentElement, { attributes: <span class="pl-c1">tru
 }
 
 </code></pre>
+<p>版本二：标签自动换行，但日期保持整体（不拆散）<br>
+​这个版本更精致：普通标签可以掉下去，但日期（如 2026-03-14）会作为一个整体。如果那一行放不下日期，整个日期会一起掉到下一行，而不会出现“年”在上一行、“月日”在下一行的情况。<br>
+​代码如下：</p>
 <pre lang="dos" class="notranslate"><code class="notranslate">/* 版本二：智能换行补丁（推荐） */
 .listLabels {
     white-space: normal !important;

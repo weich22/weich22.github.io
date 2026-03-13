@@ -82,6 +82,13 @@ observer.observe(document.documentElement, { attributes: true, attributeFilter: 
 ```
 
 
+添加js后用下面的css修复上面的补丁，
+
+版本一：所有标签（含日期）都会自动换行
+​这个版本最彻底，只要空间不够，任何标签（包括日期）都会自动掉到下一行，确保绝对不溢出屏幕。
+​代码如下：
+
+
 ```dos
 /* 版本一：全局换行补丁 */
 .listLabels {
@@ -95,6 +102,12 @@ observer.observe(document.documentElement, { attributes: true, attributeFilter: 
 }
 
 ```
+
+
+版本二：标签自动换行，但日期保持整体（不拆散）
+​这个版本更精致：普通标签可以掉下去，但日期（如 2026-03-14）会作为一个整体。如果那一行放不下日期，整个日期会一起掉到下一行，而不会出现“年”在上一行、“月日”在下一行的情况。
+​代码如下：
+
 ```dos
 /* 版本二：智能换行补丁（推荐） */
 .listLabels {
