@@ -80,7 +80,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>该命令通过关闭系统级“触摸反馈”总开关，解决锁屏界面输入密码时的振动以及指纹识别成功后（平常碰到也会振动，现在完全不会振动了）的反馈。</p>
 <pre lang="+bash" class="notranslate"><code class="notranslate">adb shell settings put system haptic_feedback_enabled 0
 </code></pre>
-<h3>3. AppOpsX 权限进阶管理（参考 Weich.ee 方案）</h3>
+<h3>3. AppOpsX 权限进阶管理（参考： <a href="https://weich.ee/archives/212.html" rel="nofollow">Weich.ee</a> 方案）</h3>
 <p>对于系统级更顽固的振动反馈，可通过 AppOpsX 进行底层拦截。</p>
 <p><strong>启动步骤：</strong></p>
 <ol>
