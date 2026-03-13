@@ -216,15 +216,20 @@ pre[class*="language-"] code * {
 
 /*添加js根据标签背景颜色更改标签字体颜色后，标签太多右边溢出修补*/
 
-
-/* 版本一：全局换行补丁 */
+/* 版本二：智能换行补丁（推荐） */
 .listLabels {
     white-space: normal !important;
     flex-wrap: wrap !important;
     display: flex !important;
 }
 
+/* 强制日期作为一个整体，不允许内部折断 */
+.LabelTime {
+    white-space: nowrap !important;
+    display: inline-block !important;
+}
+
 .Label, .LabelName, .LabelTime {
-    margin-bottom: 4px !important; /* 给换行后的标签留一点上下间距 */
+    margin-bottom: 4px !important;
 }
 
