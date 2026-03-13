@@ -339,70 +339,82 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 (function() {
-    const postBody = document.getElementById('postBody');
-    if (!postBody) return;
-
-    // 定位到“转载说明”的那个 div
-    const targetNode = postBody.nextElementSibling || postBody;
-
-    // 抓取 RSS 文件
-    const rssUrl = window.location.origin + '/rss.xml';
+    // 检查是否已经在运行，防止重复
+    if (window.GmeekNavLoaded) return;
     
-    fetch(rssUrl)
-        .then(res => res.text())
-        .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-        .then(data => {
-            const items = Array.from(data.querySelectorAll("item"));
-            const posts = items.map(item => {
-                return {
-                    title: item.querySelector("title").textContent,
-                    link: item.querySelector("link").textContent,
-                    pubDate: item.querySelector("pubDate").textContent,
-                    description: item.querySelector("description") ? item.querySelector("description").textContent : ""
-                };
-            });
+    function startInjection() {
+        var postBody = document.getElementById('postBody');
+        // 如果没找到正文容器，就继续等
+        if (!postBody) return;
 
-            const currentPath = window.location.pathname;
-            const currentIndex = posts.findIndex(p => p.link.includes(currentPath));
+        // 停止重复检查
+        clearInterval(injectionInterval);
+        window.GmeekNavLoaded = true;
 
-            if (currentIndex === -1) return;
+        var xhr = new XMLHttpRequest();
+        // 强制使用根目录下的 rss.xml
+        xhr.open('GET', '/rss.xml', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var xml = xhr.responseXML || new DOMParser().parseFromString(xhr.responseText, "text/xml");
+                var items = xml.getElementsByTagName("item");
+                var posts = [];
+                for (var i = 0; i < items.length; i++) {
+                    posts.push({
+                        title: items[i].getElementsByTagName("title")[0].textContent,
+                        link: items[i].getElementsByTagName("link")[0].textContent,
+                        date: items[i].getElementsByTagName("pubDate")[0].textContent
+                    });
+                }
 
-            const container = document.createElement('div');
-            container.id = 'gmeek-dynamic-footer';
-            container.style.cssText = "margin-top:30px; padding-top:20px; border-top:1px solid var(--color-border-default); clear:both; font-family:sans-serif;";
+                // 匹配当前页逻辑（更宽松的匹配）
+                var curPath = window.location.pathname;
+                var currentIndex = -1;
+                for (var j = 0; j < posts.length; j++) {
+                    if (posts[j].link.indexOf(curPath) !== -1 || curPath.indexOf(posts[j].link) !== -1) {
+                        currentIndex = j;
+                        break;
+                    }
+                }
 
-            // --- 1. 显示日期 ---
-            const dateObj = new Date(posts[currentIndex].pubDate);
-            const dateStr = `${dateObj.getFullYear()}-${(dateObj.getMonth()+1).toString().padStart(2,'0')}-${dateObj.getDate().toString().padStart(2,'0')}`;
-            let html = `<div style="font-size:13px; color:var(--color-fg-muted); margin-bottom:15px;">发布日期：${dateStr}</div>`;
+                if (currentIndex === -1) return;
 
-            // --- 2. 上下篇文章 (翻页) ---
-            html += `<div style="display:flex; flex-direction:column; gap:12px; margin-bottom:25px;">`;
-            // 下一篇 (RSS中索引更小的是更新的)
-            if (currentIndex > 0) {
-                html += `<a href="${posts[currentIndex - 1].link}" style="color:var(--color-accent-fg); text-decoration:none; font-size:15px;">← 下一篇：${posts[currentIndex - 1].title}</a>`;
+                // 创建导航容器
+                var navDiv = document.createElement('div');
+                navDiv.id = 'gmeek-nav-container';
+                // 这里的 border: 1px solid red 是调试用的，出来效果后你可以删掉这行
+                navDiv.style.cssText = "margin: 30px 0; padding: 15px 0; border-top: 1px solid var(--color-border-default); clear: both;";
+
+                // 格式化日期
+                var d = new Date(posts[currentIndex].date);
+                var dateStr = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
+                
+                var html = '<div style="font-size:13px; color:var(--color-fg-muted); margin-bottom:10px;">📅 发布日期：' + dateStr + '</div>';
+                html += '<div style="display:flex; flex-direction:column; gap:12px;">';
+                
+                if (currentIndex > 0) {
+                    html += '<a href="' + posts[currentIndex - 1].link + '" style="color:var(--color-accent-fg); text-decoration:none; font-size:15px; font-weight:500;">← 下一篇：' + posts[currentIndex - 1].title + '</a>';
+                }
+                if (currentIndex < posts.length - 1) {
+                    html += '<a href="' + posts[currentIndex + 1].link + '" style="color:var(--color-accent-fg); text-decoration:none; font-size:15px; font-weight:500;">→ 上一篇：' + posts[currentIndex + 1].title + '</a>';
+                }
+                html += '</div>';
+
+                navDiv.innerHTML = html;
+
+                // 找插入位置：优先找转载说明 div，找不到就插在 postBody 后面
+                var target = postBody.nextElementSibling;
+                if (target && target.innerText && target.innerText.indexOf('转载') !== -1) {
+                    target.parentNode.insertBefore(navDiv, target.nextSibling);
+                } else {
+                    postBody.parentNode.insertBefore(navDiv, postBody.nextSibling);
+                }
             }
-            // 上一篇 (RSS中索引更大的是更旧的)
-            if (currentIndex < posts.length - 1) {
-                html += `<a href="${posts[currentIndex + 1].link}" style="color:var(--color-accent-fg); text-decoration:none; font-size:15px;">→ 上一篇：${posts[currentIndex + 1].title}</a>`;
-            }
-            html += `</div>`;
+        };
+        xhr.send();
+    }
 
-            // --- 3. 相关文章推荐 ---
-            // 逻辑：寻找描述内容中包含相似关键词的文章（简单模拟标签匹配）
-            const currentTitle = posts[currentIndex].title;
-            const related = posts.filter((p, i) => i !== currentIndex && (p.title.includes(currentTitle.substring(0,2)))).slice(0, 3);
-            
-            if (related.length > 0) {
-                html += `<div style="font-weight:bold; margin-bottom:10px; font-size:16px;">相关文章：</div><ul style="padding-left:20px; margin:0; line-height:1.8;">`;
-                related.forEach(p => {
-                    html += `<li><a href="${p.link}" style="color:var(--color-accent-fg); font-size:14px;">${p.title}</a></li>`;
-                });
-                html += `</ul>`;
-            }
-
-            container.innerHTML = html;
-            targetNode.insertAdjacentElement('afterend', container);
-        })
-        .catch(err => console.error("Gmeek RSS Footer Error:", err));
+    // 每 500 毫秒检查一次 DOM 是否准备好
+    var injectionInterval = setInterval(startInjection, 500);
 })();
+
