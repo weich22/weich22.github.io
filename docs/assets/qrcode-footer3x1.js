@@ -419,7 +419,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function syncLabelColors() {
         const selectors = '.Label, .LabelName, .post-tag, .listLabels span, .listLabels a';
         document.querySelectorAll(selectors).forEach(el => {
-            // 如果已经处理过且没有脏标记，跳过
+            // 1. 如果是日期标签，直接跳过，不计算也不标记，保持其原始 CSS 颜色
+            if (el.classList.contains('LabelTime')) return;
+
+            // 2. 性能锁：已经处理过且没有脏标记的跳过
             if (el.dataset.colorFixed === "true" && !el.dataset.dirty) return;
 
             try {
@@ -443,28 +446,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 1. 初始执行：前 5 秒内高频检测（解决搜索/标签页加载慢的问题）
+    // --- 启动与监听逻辑 ---
     syncLabelColors();
     let count = 0;
     const initTimer = setInterval(() => {
         syncLabelColors();
-        if (++count > 10) clearInterval(initTimer); // 5秒后停止高频
+        if (++count > 10) clearInterval(initTimer); 
     }, 500);
 
-    // 2. 监听：模式切换（强制重算）
     const themeObserver = new MutationObserver(() => {
-        document.querySelectorAll('.Label, .LabelName, .post-tag, .listLabels span').forEach(el => {
+        document.querySelectorAll('.Label, .LabelName, .post-tag').forEach(el => {
             el.dataset.dirty = "true";
         });
         syncLabelColors();
     });
     themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-color-mode'] });
 
-    // 3. 监听：动态内容加载
     const contentObserver = new MutationObserver(() => syncLabelColors());
     contentObserver.observe(document.body, { childList: true, subtree: true });
 
-    // 4. 兜底：低频检查
     setInterval(syncLabelColors, 3000);
 })();
 
