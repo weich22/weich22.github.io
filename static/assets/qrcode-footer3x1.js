@@ -434,27 +434,9 @@ document.addEventListener('DOMContentLoaded', () => {
 (function() {
     if (window.GmeekFooterDone) return;
 
-    function getLabels() {
-        var labels = [];
-        // 精准定位截图中的标签结构
-        var nodes = document.querySelectorAll('.listLabels .LabelName, .listLabels .Label, .postTitle + div .Label');
-        for (var i = 0; i < nodes.length; i++) {
-            var txt = nodes[i].innerText.trim();
-            if (txt && labels.indexOf(txt) === -1) labels.push(txt);
-        }
-        return labels;
-    }
-
     function initGmeekPlugins() {
         var postBody = document.getElementById('postBody');
         if (!postBody) return;
-
-        var currentLabels = getLabels();
-        // 标签可能加载慢，如果没抓到就重试，最多等 5 秒
-        if (currentLabels.length === 0 && (window.retryL || 0) < 10) {
-            window.retryL = (window.retryL || 0) + 1;
-            return;
-        }
 
         clearInterval(footerInterval);
         window.GmeekFooterDone = true;
@@ -467,54 +449,47 @@ document.addEventListener('DOMContentLoaded', () => {
                     var xml = xhr.responseXML || new DOMParser().parseFromString(xhr.responseText, "text/xml");
                     var items = xml.getElementsByTagName("item");
                     var posts = [];
-                    for (var j = 0; j < items.length; j++) {
+                    for (var i = 0; i < items.length; i++) {
                         posts.push({
-                            title: items[j].getElementsByTagName("title")[0].textContent,
-                            link: items[j].getElementsByTagName("link")[0].textContent,
-                            date: items[j].getElementsByTagName("pubDate")[0].textContent
+                            title: items[i].getElementsByTagName("title")[0].textContent,
+                            link: items[i].getElementsByTagName("link")[0].textContent,
+                            date: items[i].getElementsByTagName("pubDate")[0].textContent
                         });
                     }
 
                     var curPath = window.location.pathname;
                     var currentIndex = -1;
-                    for (var k = 0; k < posts.length; k++) {
-                        if (posts[k].link.indexOf(curPath) !== -1 || curPath.indexOf(posts[k].link) !== -1) {
-                            currentIndex = k;
+                    for (var j = 0; j < posts.length; j++) {
+                        if (posts[j].link.indexOf(curPath) !== -1 || curPath.indexOf(posts[j].link) !== -1) {
+                            currentIndex = j;
                             break;
                         }
                     }
+
                     if (currentIndex === -1) return;
 
-                    // --- 相关推荐逻辑 ---
-                    // 1. 寻找标题前 4 位相同的文章（如“华强北s”）
-                    var related = posts.filter(function(p, idx) {
-                        return idx !== currentIndex && p.title.substring(0,4) === posts[currentIndex].title.substring(0,4);
-                    }).slice(0, 4);
-
-                    // 2. 如果不足 4 篇，用最新文章补齐
-                    if (related.length < 4) {
-                        for (var m = 0; m < posts.length; m++) {
-                            if (m !== currentIndex && related.indexOf(posts[m]) === -1) {
-                                related.push(posts[m]);
-                                if (related.length === 4) break;
-                            }
-                        }
+                    // --- 核心修复：直接从页面元素抓取标签文本 ---
+                    var labels = [];
+                    var labelNodes = document.querySelectorAll('.listLabels .LabelName, .listLabels .Label, .LabelName');
+                    for (var k = 0; k < labelNodes.length; k++) {
+                        var txt = labelNodes[k].innerText.trim();
+                        if (txt) labels.push(txt);
                     }
 
-                    // --- 构建 UI ---
                     var footerDiv = document.createElement('div');
                     footerDiv.style.cssText = "margin-top:30px; padding-top:20px; border-top:1px solid var(--color-border-default); clear:both; font-size:14px;";
 
                     var d = new Date(posts[currentIndex].date);
                     var dateStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
                     
+                    // 1. 还原你最稳定的日期显示
                     var html = '<div style="color:var(--color-fg-muted); margin-bottom:15px;">📅 发布日期：' + dateStr;
-                    if (currentLabels.length > 0) {
-                        html += ' <span style="margin-left:15px;">🏷️ 标签：' + currentLabels.join(', ') + '</span>';
+                    if (labels.length > 0) {
+                        html += ' <span style="margin-left:15px;">🏷️ 标签：' + labels.join(', ') + '</span>';
                     }
                     html += '</div>';
 
-                    // 翻页
+                    // 2. 还原你最稳定的翻页显示
                     html += '<div style="display:flex; flex-direction:column; gap:8px; margin-bottom:20px; padding-bottom:15px; border-bottom:1px dashed var(--color-border-default);">';
                     if (currentIndex > 0) {
                         html += '<a href="' + posts[currentIndex - 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">← 下一篇：' + posts[currentIndex - 1].title + '</a>';
@@ -524,7 +499,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     html += '</div>';
 
-                    // 相关文章
+                    // 3. 添加相关推荐 (优先标题前缀匹配)
+                    var related = posts.filter(function(p, idx) {
+                        return idx !== currentIndex && p.title.substring(0,4) === posts[currentIndex].title.substring(0,4);
+                    }).slice(0, 4);
+
+                    if (related.length < 4) {
+                        for (var m = 0; m < posts.length; m++) {
+                            if (m !== currentIndex && related.indexOf(posts[m]) === -1) {
+                                related.push(posts[m]);
+                                if (related.length === 4) break;
+                            }
+                        }
+                    }
+
                     html += '<div style="font-weight:bold; margin-bottom:10px;">🔍 相关推荐：</div><ul style="padding-left:18px; margin:0; line-height:1.8;">';
                     for (var r = 0; r < related.length; r++) {
                         html += '<li><a href="' + related[r].link + '" style="color:var(--color-accent-fg); font-size:13px;">' + related[r].title + '</a></li>';
@@ -533,14 +521,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     footerDiv.innerHTML = html;
 
-                    // 定位并插入
                     var target = postBody.nextElementSibling;
                     if (target && target.innerText && target.innerText.indexOf('转载') !== -1) {
                         target.parentNode.insertBefore(footerDiv, target.nextSibling);
                     } else {
                         postBody.parentNode.insertBefore(footerDiv, postBody.nextSibling);
                     }
-                } catch (e) { console.error("Footer Error", e); }
+
+                } catch (e) { console.error("Footer Error:", e); }
             }
         };
         xhr.send();
