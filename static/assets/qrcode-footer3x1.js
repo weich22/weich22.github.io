@@ -405,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-/*标签字体颜色*/
+/*根据标签背景颜色更改标签字体颜色*/
 
 
 (function() {
