@@ -403,3 +403,61 @@ document.addEventListener('DOMContentLoaded', () => {
     var footerInterval = setInterval(initGmeekPlugins, 300);
 })();
 
+
+
+/*标签字体颜色*/
+
+
+(function() {
+    // 1. 核心亮度算法（从插件提取）
+    function getAdaptiveColor(bg) {
+        const rgb = bg.match(/\d+/g);
+        if (!rgb || rgb.length < 3) return "#ffffff";
+        const [r, g, b] = rgb.map(Number);
+        const l = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        return l > 0.6 ? "#000000" : "#ffffff";
+    }
+
+    // 2. 统一执行函数
+    function syncLabelStyles() {
+        // 选择器同时覆盖了首页重构后的 .post-tag 和 搜索页原生的 .Label
+        const selectors = '.post-tag, .Label, .LabelName, .listLabels span';
+        document.querySelectorAll(selectors).forEach(el => {
+            try {
+                // 获取背景色
+                let bg = window.getComputedStyle(el).backgroundColor;
+                if (bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') {
+                    bg = window.getComputedStyle(el.parentElement).backgroundColor;
+                }
+
+                if (bg && bg !== 'transparent') {
+                    const fg = getAdaptiveColor(bg);
+                    // 适配：如果是 A 标签直接改，如果包含 A 标签改里面的 A
+                    const target = el.tagName === 'A' ? el : (el.querySelector('a') || el);
+                    
+                    target.style.setProperty('color', fg, 'important');
+                    target.style.setProperty('text-shadow', 'none', 'important');
+                    // 强制清理可能残留的滤镜
+                    el.style.filter = 'none';
+                    el.style.mixBlendMode = 'normal';
+                }
+            } catch (e) {
+                // 忽略个别还没加载出来的元素错误
+            }
+        });
+    }
+
+    // 3. 页面加载执行
+    if (document.readyState === 'complete') {
+        syncLabelStyles();
+    } else {
+        window.addEventListener('load', syncLabelStyles);
+    }
+
+    // 4. 定时检查（应对搜索页动态加载标签）
+    setInterval(syncLabelStyles, 1200);
+
+    // 5. 监听主题切换（暗黑/白天模式）
+    const observer = new MutationObserver(syncLabelStyles);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-color-mode'] });
+})();
