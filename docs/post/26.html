@@ -10,157 +10,13 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="```+js
-(function() {
-    if (window.GmeekFooterDone) return;
-
-    function initGmeekPlugins() {
-        var postBody = document.getElementById('postBody');
-        if (!postBody) return;
-
-        clearInterval(footerInterval);
-        window.GmeekFooterDone = true;
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/rss.xml', true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                try {
-                    var xml = xhr.responseXML || new DOMParser().parseFromString(xhr.responseText, 'text/xml');
-                    var items = xml.getElementsByTagName('item');
-                    var posts = [];
-                    var curPath = window.location.pathname;
-                    var currentIndex = -1;
-
-                    // 1. 快速提取并定位当前文章
-                    for (var i = 0; i < items.length; i++) {
-                        var link = items[i].getElementsByTagName('link')[0].textContent;
-                        var title = items[i].getElementsByTagName('title')[0].textContent;
-                        var date = items[i].getElementsByTagName('pubDate')[0].textContent;
-                        posts.push({title: title, link: link, date: date});
-                        
-                        if (currentIndex === -1 && (link.indexOf(curPath) !== -1 || curPath.indexOf(link) !== -1)) {
-                            currentIndex = i;
-                        }
-                    }
-
-                    if (currentIndex === -1) return;
-
-                    // 2. 格式化日期
-                    var d = new Date(posts[currentIndex].date);
-                    var dateStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-                    
-                    // 3. 构建极简 UI
-                    var footerDiv = document.createElement('div');
-                    footerDiv.style.cssText = 'margin-top:30px; padding-top:20px; border-top:1px solid var(--color-border-default); clear:both; font-size:14px;';
-
-                    var html = '<div style='color:var(--color-fg-muted); margin-bottom:15px;'>📅 发布日期：' + dateStr + '</div>';
-                    html += '<div style='display:flex; flex-direction:column; gap:10px;'>';
-                    
-                    if (currentIndex > 0) {
-                        html += '<a href='' + posts[currentIndex - 1].link + '' style='color:var(--color-accent-fg); text-decoration:none;'>← 下一篇：' + posts[currentIndex - 1].title + '</a>';
-                    }
-                    if (currentIndex < posts.length - 1) {
-                        html += '<a href='' + posts[currentIndex + 1].link + '' style='color:var(--color-accent-fg); text-decoration:none;'>→ 上一篇：' + posts[currentIndex + 1].title + '</a>';
-                    }
-                    
-                    html += '</div>';
-                    footerDiv.innerHTML = html;
-
-                    // 4. 精准插入位置
-                    var target = postBody.nextElementSibling;
-                    if (target && target.innerText && target.innerText.indexOf('转载') !== -1) {
-                        target.parentNode.insertBefore(footerDiv, target.nextSibling);
-                    } else {
-                        postBody.parentNode.insertBefore(footerDiv, postBody.nextSibling);
-                    }
-
-                } catch (e) { console.error('Footer Mini Error:', e); }
-            }
-        };
-        xhr.send();
-    }
-
-    var footerInterval = setInterval(initGmeekPlugins, 300);
-})();
-
-```。">
+<meta name="description" content="1.代码的核心作用
+这段代码的主要任务是为你的每一篇文章自动生成'页脚组件”,包含两个功能:
+·发布日期:从系统数据中提取精准的发布时间。">
 <meta property="og:title" content="Gmeek文章页面显示上下文章链接和日期">
-<meta property="og:description" content="```+js
-(function() {
-    if (window.GmeekFooterDone) return;
-
-    function initGmeekPlugins() {
-        var postBody = document.getElementById('postBody');
-        if (!postBody) return;
-
-        clearInterval(footerInterval);
-        window.GmeekFooterDone = true;
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/rss.xml', true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                try {
-                    var xml = xhr.responseXML || new DOMParser().parseFromString(xhr.responseText, 'text/xml');
-                    var items = xml.getElementsByTagName('item');
-                    var posts = [];
-                    var curPath = window.location.pathname;
-                    var currentIndex = -1;
-
-                    // 1. 快速提取并定位当前文章
-                    for (var i = 0; i < items.length; i++) {
-                        var link = items[i].getElementsByTagName('link')[0].textContent;
-                        var title = items[i].getElementsByTagName('title')[0].textContent;
-                        var date = items[i].getElementsByTagName('pubDate')[0].textContent;
-                        posts.push({title: title, link: link, date: date});
-                        
-                        if (currentIndex === -1 && (link.indexOf(curPath) !== -1 || curPath.indexOf(link) !== -1)) {
-                            currentIndex = i;
-                        }
-                    }
-
-                    if (currentIndex === -1) return;
-
-                    // 2. 格式化日期
-                    var d = new Date(posts[currentIndex].date);
-                    var dateStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-                    
-                    // 3. 构建极简 UI
-                    var footerDiv = document.createElement('div');
-                    footerDiv.style.cssText = 'margin-top:30px; padding-top:20px; border-top:1px solid var(--color-border-default); clear:both; font-size:14px;';
-
-                    var html = '<div style='color:var(--color-fg-muted); margin-bottom:15px;'>📅 发布日期：' + dateStr + '</div>';
-                    html += '<div style='display:flex; flex-direction:column; gap:10px;'>';
-                    
-                    if (currentIndex > 0) {
-                        html += '<a href='' + posts[currentIndex - 1].link + '' style='color:var(--color-accent-fg); text-decoration:none;'>← 下一篇：' + posts[currentIndex - 1].title + '</a>';
-                    }
-                    if (currentIndex < posts.length - 1) {
-                        html += '<a href='' + posts[currentIndex + 1].link + '' style='color:var(--color-accent-fg); text-decoration:none;'>→ 上一篇：' + posts[currentIndex + 1].title + '</a>';
-                    }
-                    
-                    html += '</div>';
-                    footerDiv.innerHTML = html;
-
-                    // 4. 精准插入位置
-                    var target = postBody.nextElementSibling;
-                    if (target && target.innerText && target.innerText.indexOf('转载') !== -1) {
-                        target.parentNode.insertBefore(footerDiv, target.nextSibling);
-                    } else {
-                        postBody.parentNode.insertBefore(footerDiv, postBody.nextSibling);
-                    }
-
-                } catch (e) { console.error('Footer Mini Error:', e); }
-            }
-        };
-        xhr.send();
-    }
-
-    var footerInterval = setInterval(initGmeekPlugins, 300);
-})();
-
-```。">
+<meta property="og:description" content="1.代码的核心作用
+这段代码的主要任务是为你的每一篇文章自动生成'页脚组件”,包含两个功能:
+·发布日期:从系统数据中提取精准的发布时间。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://g.weich.ee/post/26.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
@@ -215,7 +71,24 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><pre lang="+js" class="notranslate"><code class="notranslate">(function() {
+<div class="markdown-body" id="postBody"><p>1.代码的核心作用<br>
+这段代码的主要任务是为你的每一篇文章自动生成"页脚组件”,包含两个功能:<br>
+·发布日期:从系统数据中提取精准的发布时间。<br>
+·智能翻页:自动计算"上一篇"和"下一篇”的链接,方便你在手表上连续阅读,不用跳回首页。</p>
+<p>2.数据是从哪里拿的?<br>
+代码并不是凭空产生数据的,它像一个"小爬虫”,在后台做了一次极速访问:<br>
+·目标文件:它会读取你博客根目录下的 /rss.xml文件。<br>
+rss.xml是Gmeek 必生成的标准文件。它里面按时间顺序排列了你所有的文章标题、链接和日期。<br>
+·匹配逻辑:代码获取 RSS 列表后,会将当前页面的网址(URL)与列表里的链接逐一比对。一旦对上了,它就知道"我是谁”,同时也知道了排在我前面和后面的是哪两篇文章。</p>
+<p>3.性能表现:<br>
+我设计了*“哨兵机制"**:<br>
+·轮询监听:由于 Gmeek 的内容 (postBody) 是动态渲染的,代码设置了一个300ms 的“哨兵”。它每隔0.3秒看一眼页面:“文章加载完了吗?”<br>
+·即刻下班:一旦哨兵发现文章内容出现了,它会立即执行clearInterval。这就像哨兵接到了人就立刻撤岗,后续不再消耗任何CPU资源。</p>
+<p>4.它是如何插入到页面的?<br>
+代码采用了**”智能定位插入”**:<br>
+·它首先寻找文章的主体区域 postBodyo<br>
+·特殊处理:如果你在文章末尾加了“转载请注明出处"之类的提示,代码会智能识别这些文字,并把日期和翻页放在这些提示的下面,确保排版符合直觉。</p>
+<pre lang="+js" class="notranslate"><code class="notranslate">(function() {
     if (window.GmeekFooterDone) return;
 
     function initGmeekPlugins() {
