@@ -101,7 +101,76 @@ observer.observe(document.documentElement, { attributes: true, attributeFilter: 
 
 ### 升级版本
 
+这份升级版代码在保持文章中原有逻辑的基础上,加入了"性能锁”(防止重复计算)和更智能的"DOM 监听”*,这样甚至可以删掉那个1.5秒ー次的定时器,让代码运行得更优雅。
 
+
+这样整合升级后的三大好处:
+1.更省电/省资源:加入了 dataset.colorFixed 检查。原本的代码每1.5秒会强行计算一次所有标签,现在只要标签没变,它就会直接跳过计算,对手机浏览器非常友好。
+2.响应更即时:通过contentobserver 监听 DOM 变化,只要搜索结果一出来,颜色会秒变,不需要等那1.5秒的定时器。
+3.逻辑自闭环:颜色算法、模式切换、动态加载全部锁在一个闭包里,不会污染你博客的其他JS 变量。
+
+```+js
+(function() {
+    // 1. 核心算法：根据背景色计算文字颜色
+    function getAdaptiveColor(bg) {
+        const rgb = bg.match(/\d+/g);
+        if (!rgb || rgb.length < 3) return "#ffffff";
+        const [r, g, b] = rgb.map(Number);
+        const l = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        return l > 0.6 ? "#000000" : "#ffffff";
+    }
+
+    // 2. 执行逻辑：适配颜色并标记，避免重复运算
+    function syncLabelColors() {
+        const selectors = '.Label, .LabelName, .post-tag, .listLabels span';
+        document.querySelectorAll(selectors).forEach(el => {
+            // 如果已经处理过且背景没变，就跳过（性能优化）
+            if (el.dataset.colorFixed === "true" && !el.dataset.dirty) return;
+
+            try {
+                let bg = window.getComputedStyle(el).backgroundColor;
+                if (bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') {
+                    bg = window.getComputedStyle(el.parentElement).backgroundColor;
+                }
+
+                if (bg && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)') {
+                    const fg = getAdaptiveColor(bg);
+                    const target = (el.tagName === 'A') ? el : (el.querySelector('a') || el);
+                    
+                    if (target && target.style) {
+                        target.style.setProperty('color', fg, 'important');
+                        target.style.setProperty('text-shadow', 'none', 'important');
+                        el.dataset.colorFixed = "true"; // 标记已处理
+                        delete el.dataset.dirty; 
+                    }
+                }
+            } catch (e) {
+                console.error("Gmeek颜色适配出错:", e);
+            }
+        });
+    }
+
+    // 3. 智能监听：不仅监听模式切换，还监听内容加载
+    // 初始执行
+    syncLabelColors();
+
+    // 监听暗黑模式切换
+    const themeObserver = new MutationObserver(() => {
+        // 模式切换时，标记所有标签为“脏数据”，触发重新计算
+        document.querySelectorAll('.Label, .LabelName').forEach(el => el.dataset.dirty = "true");
+        syncLabelColors();
+    });
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-color-mode'] });
+
+    // 监听动态内容（如分页、搜索加载）
+    const contentObserver = new MutationObserver(() => syncLabelColors());
+    contentObserver.observe(document.body, { childList: true, subtree: true });
+
+    // 保留一个低频补偿，防止极端情况（可选）
+    setInterval(syncLabelColors, 3000);
+})();
+
+```
 
 
 
