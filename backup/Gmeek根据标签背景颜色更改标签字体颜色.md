@@ -173,6 +173,27 @@ observer.observe(document.documentElement, { attributes: true, attributeFilter: 
 ```
 
 
+### 升级版js额外css补丁
+
+每次打开搜索标签页面会看到一次标签文字"颜色闪动”
+为了消除这种“闪动感”,我们要做的就是:在JS算好颜色之前,让文字先"隐身”或者保持透明。
+这段代码会让标签文字默认“透明”,只有当我们的JS计算完颜色并加上 color 属性后,文字才会显现。这样你就只能看到"最终颜色”,而看不到"变色过程”。
+
+不添加这个css补丁也可以，小细节修复而已，而且修复的效果也不是很大。
+
+也可以用js版本1的，也就是升级之前的，但是又感觉影响性能…
+
+```+css
+/* 消除标签变色闪烁补丁 */
+.Label, .LabelName, .post-tag, .listLabels span {
+    color: transparent !important; /* 默认透明，等待 JS 处理 */
+    transition: color 0.1s ease-in; /* 增加一个极短的过渡，让显现更自然 */
+}
+```
+
+
+↓↓↓下面是不管用哪个版本js都要2选1，不然标签太多会右边溢出↓↓↓
+
 
 ### 修补css说明
 添加js后用下面的css修复上面的补丁，因为标签太多不会换行，往右边溢出，扩大整个页面。
