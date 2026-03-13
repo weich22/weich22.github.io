@@ -337,64 +337,80 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /*文章页面添加内容*/
 
-
 (function() {
-    // 1. 寻找“转载请注明出处”那个节点作为锚点
-    // 根据截图，它是一个 style 包含 float:right 的 div
+    // 1. 确保只在文章页运行，并直接锁定插入位置
     const postBody = document.getElementById('postBody');
     if (!postBody) return;
 
-    // 找到 postBody 紧接着的下一个兄弟节点（即转载声明所在的 div）
-    const transferDiv = postBody.nextElementSibling;
-    
+    // 自动寻找“转载声明”所在的 div，如果找不到就兜底插入到 postBody 后面
+    const targetNode = postBody.nextElementSibling || postBody;
+
+    // 2. 动态获取 feed.json (适配不同层级的路径)
     const feedUrl = window.location.origin + '/feed.json';
     const currentPath = window.location.pathname;
 
-    fetch(feedUrl).then(res => res.json()).then(data => {
-        const posts = data.items;
-        const currentIndex = posts.findIndex(p => p.link.includes(currentPath));
-        if (currentIndex === -1) return;
+    console.log("Gmeek-Footer: 正在尝试加载 " + feedUrl);
 
-        const currentPost = posts[currentIndex];
-        
-        // 创建我们的插件容器
-        const container = document.createElement('div');
-        container.id = 'custom-post-footer';
-        container.style.cssText = "margin-top:20px; padding-top:15px; border-top:1px solid var(--color-border-default); clear:both;";
+    fetch(feedUrl)
+        .then(res => {
+            if (!res.ok) throw new Error('Feed 404');
+            return res.json();
+        })
+        .then(data => {
+            const posts = data.items;
+            const currentIndex = posts.findIndex(p => p.link.includes(currentPath));
+            
+            if (currentIndex === -1) {
+                console.warn("Gmeek-Footer: 未能匹配到当前文章路径");
+                return;
+            }
 
-        // --- 内容构造 ---
-        // 日期标签
-        let html = `<div style="font-size:13px; color:var(--color-fg-muted); margin-bottom:15px;">
+            const currentPost = posts[currentIndex];
+            const container = document.createElement('div');
+            container.id = 'custom-post-footer';
+            
+            // 样式增强：确保在华强北 S100 或手机上也能看清
+            container.style.cssText = "margin: 20px 0; padding: 15px 0; border-top: 1px solid var(--color-border-default); clear: both; line-height: 1.6;";
+
+            // --- 构造 HTML ---
+            let html = "";
+            
+            // 标签与日期
+            html += `<div style="font-size: 13px; color: var(--color-fg-muted); margin-bottom: 15px;">
                         <span>📅 ${currentPost.date}</span>
                         <span style="margin-left:15px;">🏷️ ${currentPost.labels.join(', ')}</span>
                     </div>`;
 
-        // 上下篇
-        html += `<div style="display:flex; justify-content:space-between; gap:10px; margin-bottom:20px;">`;
-        if (posts[currentIndex + 1]) {
-            html += `<a href="${posts[currentIndex + 1].link}" style="flex:1; font-size:14px;">← 上一篇：${posts[currentIndex + 1].title}</a>`;
-        } else { html += `<span style="flex:1;"></span>`; }
-        
-        if (posts[currentIndex - 1]) {
-            html += `<a href="${posts[currentIndex - 1].link}" style="flex:1; text-align:right; font-size:14px;">下一篇：${posts[currentIndex - 1].title} →</a>`;
-        } else { html += `<span style="flex:1;"></span>`; }
-        html += `</div>`;
+            // 翻页导航 (使用 flex-direction: column 适配窄屏)
+            html += `<div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">`;
+            if (posts[currentIndex + 1]) {
+                html += `<a href="${posts[currentIndex + 1].link}" style="color: var(--color-accent-fg);">← 上一篇：${posts[currentIndex + 1].title}</a>`;
+            }
+            if (posts[currentIndex - 1]) {
+                html += `<a href="${posts[currentIndex - 1].link}" style="color: var(--color-accent-fg);">→ 下一篇：${posts[currentIndex - 1].title}</a>`;
+            }
+            html += `</div>`;
 
-        // 相关文章
-        const related = posts.filter((p, i) => i !== currentIndex && p.labels && p.labels.some(l => currentPost.labels.includes(l))).slice(0, 3);
-        if (related.length > 0) {
-            html += `<div style="font-weight:bold; margin-bottom:10px;">相关文章推荐：</div><ul style="padding-left:20px; margin:0; font-size:14px;">`;
-            related.forEach(p => { html += `<li style="margin-bottom:5px;"><a href="${p.link}">${p.title}</a></li>`; });
-            html += `</ul>`;
-        }
+            // 相关文章
+            const related = posts.filter((p, i) => i !== currentIndex && p.labels && p.labels.some(l => currentPost.labels.includes(l))).slice(0, 3);
+            if (related.length > 0) {
+                html += `<div style="font-weight: bold; margin-bottom: 8px;">相关文章：</div><ul style="padding-left: 18px; margin: 0; font-size: 14px;">`;
+                related.forEach(p => { html += `<li style="margin-bottom: 6px;"><a href="${p.link}">${p.title}</a></li>`; });
+                html += `</ul>`;
+            }
 
-        container.innerHTML = html;
+            container.innerHTML = html;
 
-        // 2. 关键：插入到“转载声明”div 的后面
-        if (transferDiv) {
-            transferDiv.insertAdjacentElement('afterend', container);
-        } else {
-            postBody.insertAdjacentElement('afterend', container);
-        }
-    }).catch(e => console.error("GmeekFooter Error:", e));
+            // 3. 强制插入到指定位置 (紧跟在转载声明后面)
+            targetNode.insertAdjacentElement('afterend', container);
+            console.log("Gmeek-Footer: 渲染成功");
+
+        })
+        .catch(err => {
+            console.error('Gmeek-Footer Error:', err);
+            // 只有报错时才执行的兜底方案
+            if (err.message === 'Feed 404') {
+                postBody.insertAdjacentHTML('afterend', '<p style="font-size:12px;color:gray;">加载更多文章失败，请检查 feed.json 路径</p>');
+            }
+        });
 })();
