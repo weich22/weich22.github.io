@@ -10,11 +10,11 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="1.代码的核心作用
+<meta name="description" content="### 1.代码的核心作用
 这段代码的主要任务是为你的每一篇文章自动生成'页脚组件”,包含两个功能:
 ·发布日期:从系统数据中提取精准的发布时间。">
 <meta property="og:title" content="Gmeek文章页面显示上下文章链接和日期">
-<meta property="og:description" content="1.代码的核心作用
+<meta property="og:description" content="### 1.代码的核心作用
 这段代码的主要任务是为你的每一篇文章自动生成'页脚组件”,包含两个功能:
 ·发布日期:从系统数据中提取精准的发布时间。">
 <meta property="og:type" content="article">
@@ -71,23 +71,31 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>1.代码的核心作用<br>
-这段代码的主要任务是为你的每一篇文章自动生成"页脚组件”,包含两个功能:<br>
+<div class="markdown-body" id="postBody"><h3>1.代码的核心作用</h3>
+<p>这段代码的主要任务是为你的每一篇文章自动生成"页脚组件”,包含两个功能:<br>
 ·发布日期:从系统数据中提取精准的发布时间。<br>
 ·智能翻页:自动计算"上一篇"和"下一篇”的链接,方便你在手表上连续阅读,不用跳回首页。</p>
-<p>2.数据是从哪里拿的?<br>
-代码并不是凭空产生数据的,它像一个"小爬虫”,在后台做了一次极速访问:<br>
+<h3>2.数据是从哪里拿的?</h3>
+<p>代码并不是凭空产生数据的,它像一个"小爬虫”,在后台做了一次极速访问:<br>
 ·目标文件:它会读取你博客根目录下的 /rss.xml文件。<br>
 rss.xml是Gmeek 必生成的标准文件。它里面按时间顺序排列了你所有的文章标题、链接和日期。<br>
 ·匹配逻辑:代码获取 RSS 列表后,会将当前页面的网址(URL)与列表里的链接逐一比对。一旦对上了,它就知道"我是谁”,同时也知道了排在我前面和后面的是哪两篇文章。</p>
-<p>3.性能表现:<br>
-我设计了*“哨兵机制"**:<br>
+<h3>3.性能表现:</h3>
+<p>我设计了*“哨兵机制"**:<br>
 ·轮询监听:由于 Gmeek 的内容 (postBody) 是动态渲染的,代码设置了一个300ms 的“哨兵”。它每隔0.3秒看一眼页面:“文章加载完了吗?”<br>
 ·即刻下班:一旦哨兵发现文章内容出现了,它会立即执行clearInterval。这就像哨兵接到了人就立刻撤岗,后续不再消耗任何CPU资源。</p>
-<p>4.它是如何插入到页面的?<br>
-代码采用了**”智能定位插入”**:<br>
+<h3>4.它是如何插入到页面的?</h3>
+<p>代码采用了**”智能定位插入”**:<br>
 ·它首先寻找文章的主体区域 postBodyo<br>
 ·特殊处理:如果你在文章末尾加了“转载请注明出处"之类的提示,代码会智能识别这些文字,并把日期和翻页放在这些提示的下面,确保排版符合直觉。</p>
+<h3>注意事项：</h3>
+<h3>代码内部的路径修改</h3>
+<p>在 js 中,有一行代码是核心数据来源:<br>
+<code class="notranslate">xhr.open('GET','/rss.xml',true);</code><br>
+·注意事项:开头的/代表网站的根目录。<br>
+·如何修改:如果你的博客就在二级域名的根目录下(例如访问 <code class="notranslate">g.weich.ee</code> 直接就是首页),那么这行代码不需要动,它会自动去 <code class="notranslate">g.weich.ee/rss.xml</code> 拿数据。<br>
+·特殊情况:如果你是放在二级域名的子目录下(如<br>
+<code class="notranslate">g.weich.ee/blog/</code> ),你必须把路径改成 <code class="notranslate">xhr.open('GET', '/blog/rss.xml', true);</code> 。</p>
 <pre lang="+js" class="notranslate"><code class="notranslate">(function() {
     if (window.GmeekFooterDone) return;
 
