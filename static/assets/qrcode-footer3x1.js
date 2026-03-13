@@ -449,78 +449,45 @@ document.addEventListener('DOMContentLoaded', () => {
                     var xml = xhr.responseXML || new DOMParser().parseFromString(xhr.responseText, "text/xml");
                     var items = xml.getElementsByTagName("item");
                     var posts = [];
-                    for (var i = 0; i < items.length; i++) {
-                        posts.push({
-                            title: items[i].getElementsByTagName("title")[0].textContent,
-                            link: items[i].getElementsByTagName("link")[0].textContent,
-                            date: items[i].getElementsByTagName("pubDate")[0].textContent
-                        });
-                    }
-
                     var curPath = window.location.pathname;
                     var currentIndex = -1;
-                    for (var j = 0; j < posts.length; j++) {
-                        if (posts[j].link.indexOf(curPath) !== -1 || curPath.indexOf(posts[j].link) !== -1) {
-                            currentIndex = j;
-                            break;
+
+                    // 1. 快速提取并定位当前文章
+                    for (var i = 0; i < items.length; i++) {
+                        var link = items[i].getElementsByTagName("link")[0].textContent;
+                        var title = items[i].getElementsByTagName("title")[0].textContent;
+                        var date = items[i].getElementsByTagName("pubDate")[0].textContent;
+                        posts.push({title: title, link: link, date: date});
+                        
+                        if (currentIndex === -1 && (link.indexOf(curPath) !== -1 || curPath.indexOf(link) !== -1)) {
+                            currentIndex = i;
                         }
                     }
 
                     if (currentIndex === -1) return;
 
-                    // --- 核心修复：直接从页面元素抓取标签文本 ---
-                    var labels = [];
-                    var labelNodes = document.querySelectorAll('.listLabels .LabelName, .listLabels .Label, .LabelName');
-                    for (var k = 0; k < labelNodes.length; k++) {
-                        var txt = labelNodes[k].innerText.trim();
-                        if (txt) labels.push(txt);
-                    }
-
-                    var footerDiv = document.createElement('div');
-                    footerDiv.style.cssText = "margin-top:30px; padding-top:20px; border-top:1px solid var(--color-border-default); clear:both; font-size:14px;";
-
+                    // 2. 格式化日期
                     var d = new Date(posts[currentIndex].date);
                     var dateStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
                     
-                    // 1. 还原你最稳定的日期显示
-                    var html = '<div style="color:var(--color-fg-muted); margin-bottom:15px;">📅 发布日期：' + dateStr;
-                    if (labels.length > 0) {
-                        html += ' <span style="margin-left:15px;">🏷️ 标签：' + labels.join(', ') + '</span>';
-                    }
-                    html += '</div>';
+                    // 3. 构建极简 UI
+                    var footerDiv = document.createElement('div');
+                    footerDiv.style.cssText = "margin-top:30px; padding-top:20px; border-top:1px solid var(--color-border-default); clear:both; font-size:14px;";
 
-                    // 2. 还原你最稳定的翻页显示
-                    html += '<div style="display:flex; flex-direction:column; gap:8px; margin-bottom:20px; padding-bottom:15px; border-bottom:1px dashed var(--color-border-default);">';
+                    var html = '<div style="color:var(--color-fg-muted); margin-bottom:15px;">📅 发布日期：' + dateStr + '</div>';
+                    html += '<div style="display:flex; flex-direction:column; gap:10px;">';
+                    
                     if (currentIndex > 0) {
                         html += '<a href="' + posts[currentIndex - 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">← 下一篇：' + posts[currentIndex - 1].title + '</a>';
                     }
                     if (currentIndex < posts.length - 1) {
                         html += '<a href="' + posts[currentIndex + 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">→ 上一篇：' + posts[currentIndex + 1].title + '</a>';
                     }
+                    
                     html += '</div>';
-
-                    // 3. 添加相关推荐 (优先标题前缀匹配)
-                    var related = posts.filter(function(p, idx) {
-                        return idx !== currentIndex && p.title.substring(0,4) === posts[currentIndex].title.substring(0,4);
-                    }).slice(0, 4);
-
-                    if (related.length < 4) {
-                        for (var m = 0; m < posts.length; m++) {
-                            if (m !== currentIndex && related.indexOf(posts[m]) === -1) {
-                                related.push(posts[m]);
-                                if (related.length === 4) break;
-                            }
-                        }
-                    }
-
-                    html += '<div style="font-weight:bold; margin-bottom:10px;">🔍 相关推荐：</div><ul style="padding-left:18px; margin:0; line-height:1.8;">';
-                    for (var r = 0; r < related.length; r++) {
-                        html += '<li><a href="' + related[r].link + '" style="color:var(--color-accent-fg); font-size:13px;">' + related[r].title + '</a></li>';
-                    }
-                    html += '</ul>';
-
                     footerDiv.innerHTML = html;
 
+                    // 4. 精准插入位置
                     var target = postBody.nextElementSibling;
                     if (target && target.innerText && target.innerText.indexOf('转载') !== -1) {
                         target.parentNode.insertBefore(footerDiv, target.nextSibling);
@@ -528,12 +495,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         postBody.parentNode.insertBefore(footerDiv, postBody.nextSibling);
                     }
 
-                } catch (e) { console.error("Footer Error:", e); }
+                } catch (e) { console.error("Footer Mini Error:", e); }
             }
         };
         xhr.send();
     }
 
-    var footerInterval = setInterval(initGmeekPlugins, 500);
+    var footerInterval = setInterval(initGmeekPlugins, 300);
 })();
 
