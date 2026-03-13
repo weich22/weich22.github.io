@@ -1,5 +1,79 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Thu, 12 Mar 2026 22:38:20 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>华强北s100手表关闭正在应用上层显示通知</title><link>https://g.weich.ee/post/25.html</link><description>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Fri, 13 Mar 2026 01:46:37 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek文章页面显示上下文章链接和日期</title><link>https://g.weich.ee/post/26.html</link><description>```js
+(function() {
+    if (window.GmeekFooterDone) return;
+
+    function initGmeekPlugins() {
+        var postBody = document.getElementById('postBody');
+        if (!postBody) return;
+
+        clearInterval(footerInterval);
+        window.GmeekFooterDone = true;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/rss.xml', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 &amp;&amp; xhr.status === 200) {
+                try {
+                    var xml = xhr.responseXML || new DOMParser().parseFromString(xhr.responseText, 'text/xml');
+                    var items = xml.getElementsByTagName('item');
+                    var posts = [];
+                    var curPath = window.location.pathname;
+                    var currentIndex = -1;
+
+                    // 1. 快速提取并定位当前文章
+                    for (var i = 0; i &lt; items.length; i++) {
+                        var link = items[i].getElementsByTagName('link')[0].textContent;
+                        var title = items[i].getElementsByTagName('title')[0].textContent;
+                        var date = items[i].getElementsByTagName('pubDate')[0].textContent;
+                        posts.push({title: title, link: link, date: date});
+                        
+                        if (currentIndex === -1 &amp;&amp; (link.indexOf(curPath) !== -1 || curPath.indexOf(link) !== -1)) {
+                            currentIndex = i;
+                        }
+                    }
+
+                    if (currentIndex === -1) return;
+
+                    // 2. 格式化日期
+                    var d = new Date(posts[currentIndex].date);
+                    var dateStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+                    
+                    // 3. 构建极简 UI
+                    var footerDiv = document.createElement('div');
+                    footerDiv.style.cssText = 'margin-top:30px; padding-top:20px; border-top:1px solid var(--color-border-default); clear:both; font-size:14px;';
+
+                    var html = '&lt;div style='color:var(--color-fg-muted); margin-bottom:15px;'&gt;📅 发布日期：' + dateStr + '&lt;/div&gt;';
+                    html += '&lt;div style='display:flex; flex-direction:column; gap:10px;'&gt;';
+                    
+                    if (currentIndex &gt; 0) {
+                        html += '&lt;a href='' + posts[currentIndex - 1].link + '' style='color:var(--color-accent-fg); text-decoration:none;'&gt;← 下一篇：' + posts[currentIndex - 1].title + '&lt;/a&gt;';
+                    }
+                    if (currentIndex &lt; posts.length - 1) {
+                        html += '&lt;a href='' + posts[currentIndex + 1].link + '' style='color:var(--color-accent-fg); text-decoration:none;'&gt;→ 上一篇：' + posts[currentIndex + 1].title + '&lt;/a&gt;';
+                    }
+                    
+                    html += '&lt;/div&gt;';
+                    footerDiv.innerHTML = html;
+
+                    // 4. 精准插入位置
+                    var target = postBody.nextElementSibling;
+                    if (target &amp;&amp; target.innerText &amp;&amp; target.innerText.indexOf('转载') !== -1) {
+                        target.parentNode.insertBefore(footerDiv, target.nextSibling);
+                    } else {
+                        postBody.parentNode.insertBefore(footerDiv, postBody.nextSibling);
+                    }
+
+                } catch (e) { console.error('Footer Mini Error:', e); }
+            }
+        };
+        xhr.send();
+    }
+
+    var footerInterval = setInterval(initGmeekPlugins, 300);
+})();
+
+```。</description><guid isPermaLink="true">https://g.weich.ee/post/26.html</guid><pubDate>Fri, 13 Mar 2026 01:46:08 +0000</pubDate></item><item><title>华强北s100手表关闭正在应用上层显示通知</title><link>https://g.weich.ee/post/25.html</link><description>
 noEmie os手表（糯米系统），w527处理器。</description><guid isPermaLink="true">https://g.weich.ee/post/25.html</guid><pubDate>Thu, 12 Mar 2026 22:24:21 +0000</pubDate></item><item><title>华强北s100手表桌面图标拖动排序</title><link>https://g.weich.ee/post/24.html</link><description>打开 ～设置，～个性设置，～桌面切换，选择：～`经典桌面` 就可以回到桌面拖动图标了，然后你已经拖动的图标排序，再次 ～设置桌面 切换 到 ～手机桌面 你拖动调整的图标还是你设置好的布局。</description><guid isPermaLink="true">https://g.weich.ee/post/24.html</guid><pubDate>Thu, 12 Mar 2026 22:22:59 +0000</pubDate></item><item><title>华强北s100手表悬浮呼出应用快捷方式</title><link>https://g.weich.ee/post/23.html</link><description>w527处理器，安卓，noEmie os手表（糯米os）理论上这些是通用。</description><guid isPermaLink="true">https://g.weich.ee/post/23.html</guid><pubDate>Thu, 12 Mar 2026 15:17:04 +0000</pubDate></item><item><title>华强北手表s100无法连接蓝牙耳机</title><link>https://g.weich.ee/post/22.html</link><description>华强北手表s100无法连接蓝牙耳机（从手表里面看蓝牙耳机里面只有 共享联系人），但是可以连接手机（从手表里面查看链接的手机里面共享类和蓝牙耳机一样有 共享媒体 那些），即使手表用新设备方式链接蓝牙耳机，也是和蓝牙耳机秒断开的，死活链接不上蓝牙耳机，去手表设置里面恢复重置网络和蓝牙出厂设置都没用，重启也是没用。</description><guid isPermaLink="true">https://g.weich.ee/post/22.html</guid><pubDate>Thu, 12 Mar 2026 11:54:24 +0000</pubDate></item><item><title>魅族22的EnergyRing配置文件</title><link>https://g.weich.ee/post/21.html</link><description>energyring电量指示环是一款非常火的电量显示类软件，相较于同类型的软件来说更加的智能，在全屏的时候能够主动的为你进行隐藏，在显示之时能够替换掉你手机当中的电量显示图标。</description><guid isPermaLink="true">https://g.weich.ee/post/21.html</guid><pubDate>Thu, 12 Mar 2026 00:16:03 +0000</pubDate></item><item><title>全平台编程语言全生态汇总 (2026 完整版)</title><link>https://g.weich.ee/post/20.html</link><description>### 全平台编程/标记语言全生态汇总 (2026 完整版)
 
 ### 一、移动端开发（安卓 / iOS / 跨平台）
