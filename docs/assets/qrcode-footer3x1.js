@@ -432,17 +432,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 (function() {
-    // 1. 声明一个全局锁，防止重复执行
     if (window.GmeekFooterDone) return;
 
     function initGmeekPlugins() {
         var postBody = document.getElementById('postBody');
-        if (!postBody) return; // 如果不是文章页，直接退出
+        if (!postBody) return;
 
-        clearInterval(footerInterval); // 找到元素后停止轮询
+        clearInterval(footerInterval);
         window.GmeekFooterDone = true;
 
-        // 2. 抓取 RSS 数据（用于翻页）
         var xhr = new XMLHttpRequest();
         xhr.open('GET', '/rss.xml', true);
         xhr.onreadystatechange = function() {
@@ -459,7 +457,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                     }
 
-                    // 匹配当前页
                     var curPath = window.location.pathname;
                     var currentIndex = -1;
                     for (var j = 0; j < posts.length; j++) {
@@ -471,41 +468,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if (currentIndex === -1) return;
 
-                    // 3. 抓取页面顶部的标签 (Gmeek 默认类名是 LabelName)
-                    var labelNodes = document.getElementsByClassName('LabelName');
+                    // --- 标签捕获增强开始 ---
                     var labels = [];
-                    for (var k = 0; k < labelNodes.length; k++) {
-                        labels.push(labelNodes[k].innerText);
+                    // 方式A: 尝试从 Gmeek 顶部的标签容器抓取 (兼容不同版本的类名)
+                    var labelElements = document.querySelectorAll('.LabelName, .list-style-none .Label');
+                    if (labelElements.length > 0) {
+                        for (var k = 0; k < labelElements.length; k++) {
+                            var txt = labelElements[k].innerText.trim();
+                            if (txt) labels.push(txt);
+                        }
+                    } 
+                    // 方式B: 如果页面上没抓到，尝试从全局变量拿 (Gmeek 有时会存这个)
+                    else if (window.labels && window.labels.length > 0) {
+                        labels = window.labels;
                     }
+                    // --- 标签捕获增强结束 ---
 
-                    // 4. 构建底部的容器
                     var footerDiv = document.createElement('div');
                     footerDiv.id = 'gmeek-combined-footer';
-                    footerDiv.style.cssText = "margin-top:30px; padding-top:20px; border-top:1px solid var(--color-border-default); clear:both; font-size:14px; line-height:1.6;";
+                    footerDiv.style.cssText = "margin-top:30px; padding-top:20px; border-top:1px solid var(--color-border-default); clear:both; font-size:14px;";
 
-                    // A. 日期和标签内容
                     var d = new Date(posts[currentIndex].date);
                     var dateStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-                    var metaHtml = '<div style="color:var(--color-fg-muted); margin-bottom:15px;">📅 发布日期：' + dateStr;
+                    
+                    // 构建内容
+                    var html = '<div style="color:var(--color-fg-muted); margin-bottom:15px;">📅 发布日期：' + dateStr;
                     if (labels.length > 0) {
-                        metaHtml += ' <span style="margin-left:15px;">🏷️ 标签：' + labels.join(', ') + '</span>';
+                        // 移除重复标签并显示
+                        var uniqueLabels = labels.filter(function(item, pos) { return labels.indexOf(item) == pos; });
+                        html += ' <span style="margin-left:15px;">🏷️ 标签：' + uniqueLabels.join(', ') + '</span>';
                     }
-                    metaHtml += '</div>';
+                    html += '</div>';
 
-                    // B. 翻页链接
-                    var navHtml = '<div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">';
+                    html += '<div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">';
                     if (currentIndex > 0) {
-                        navHtml += '<a href="' + posts[currentIndex - 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">← 下一篇：' + posts[currentIndex - 1].title + '</a>';
+                        html += '<a href="' + posts[currentIndex - 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">← 下一篇：' + posts[currentIndex - 1].title + '</a>';
                     }
                     if (currentIndex < posts.length - 1) {
-                        navHtml += '<a href="' + posts[currentIndex + 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">→ 上一篇：' + posts[currentIndex + 1].title + '</a>';
+                        html += '<a href="' + posts[currentIndex + 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">→ 上一篇：' + posts[currentIndex + 1].title + '</a>';
                     }
-                    navHtml += '</div>';
+                    html += '</div>';
 
-                    // C. 组装并插入
-                    footerDiv.innerHTML = metaHtml + navHtml;
+                    footerDiv.innerHTML = html;
 
-                    // 插入位置逻辑
                     var target = postBody.nextElementSibling;
                     if (target && target.innerText && target.innerText.indexOf('转载') !== -1) {
                         target.parentNode.insertBefore(footerDiv, target.nextSibling);
@@ -513,14 +518,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         postBody.parentNode.insertBefore(footerDiv, postBody.nextSibling);
                     }
 
-                } catch (e) {
-                    console.error("Footer Logic Error:", e);
-                }
+                } catch (e) { console.error("Footer Error:", e); }
             }
         };
         xhr.send();
     }
 
-    // 启动轮询检查，确保即使 DOM 没加载完也能捕获
     var footerInterval = setInterval(initGmeekPlugins, 500);
 })();
