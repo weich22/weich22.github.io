@@ -216,26 +216,15 @@ pre[class*="language-"] code * {
 
 /*添加js根据标签背景颜色更改标签字体颜色后，标签太多右边溢出修补*/
 
-/* 容器：允许换行 */
+/* 版本一：全局换行补丁 */
 .listLabels {
-    display: flex !important;
-    flex-wrap: wrap !important;
     white-space: normal !important;
-    align-items: center !important;
-    overflow: visible !important; /* 确保不裁剪 */
+    flex-wrap: wrap !important;
+    display: flex !important;
 }
 
-/* 核心：日期锁定逻辑 */
-.LabelTime {
-    white-space: nowrap !important;
-    flex: 0 0 auto !important;     /* 关键：不放大、不缩小、不自动调整 */
-    margin-left: 8px !important;    /* 保持间距，不使用 auto 避免无限靠右 */
-    order: 99 !important;          /* 确保排在最后 */
+.Label, .LabelName, .LabelTime {
+    margin-bottom: 4px !important; /* 给换行后的标签留一点上下间距 */
 }
 
-/* 标签：空间不足时优先收缩并换行 */
-.Label, .LabelName {
-    flex: 0 1 auto !important;     /* 允许标签缩小并换行 */
-    margin-bottom: 4px !important;
-}
 
