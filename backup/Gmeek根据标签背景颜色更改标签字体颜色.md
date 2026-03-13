@@ -1,5 +1,6 @@
+ ### 全局引用js
 
-```d
+```+js
 (function() {
 
 function getAdaptiveColor(bg) {
@@ -81,15 +82,25 @@ observer.observe(document.documentElement, { attributes: true, attributeFilter: 
 })();
 ```
 
+### 修补css说明
+添加js后用下面的css修复上面的补丁，因为标签太多不会换行，往右边溢出，扩大整个页面。
 
-添加js后用下面的css修复上面的补丁，
+这确实不是JS逻辑的问题,而是 Gmeek原生 CSS 样式的一个冲突配置:
+·.listLabels 容器被设置了display: flex;。
+·同时,它还被设置了white-space: nowrap;(这就是罪魁祸首)。
+nowrap 会强制让容器内的所有标签横向排成一排,绝不换行,所以当你的标签变多时,它们就直接”飞"出了屏幕边缘。
+为什么没有加这个js之前没发现?
+可能是因为之前标签文字颜色和背景混在一起,或者之前某个旧的样式表(比如 我自己加的自定义zdy.css)刚好覆盖了这个属性,而现在由于 Actions 重新构建或者JS刷新的原因,这个nowrap重新获得了最高优先级。
 
-版本一：所有标签（含日期）都会自动换行
+
+
+### 修补版本一：
+所有标签（含日期）都会自动换行
 ​这个版本最彻底，只要空间不够，任何标签（包括日期）都会自动掉到下一行，确保绝对不溢出屏幕。
 ​代码如下：
 
 
-```dos
+```+css
 /* 版本一：全局换行补丁 */
 .listLabels {
     white-space: normal !important;
@@ -104,11 +115,12 @@ observer.observe(document.documentElement, { attributes: true, attributeFilter: 
 ```
 
 
-版本二：标签自动换行，但日期保持整体（不拆散）
+### 修补版本二：
+标签自动换行，但日期保持整体（不拆散）
 ​这个版本更精致：普通标签可以掉下去，但日期（如 2026-03-14）会作为一个整体。如果那一行放不下日期，整个日期会一起掉到下一行，而不会出现“年”在上一行、“月日”在下一行的情况。
 ​代码如下：
 
-```dos
+```+css
 /* 版本二：智能换行补丁（推荐） */
 .listLabels {
     white-space: normal !important;

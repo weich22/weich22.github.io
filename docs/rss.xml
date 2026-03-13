@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Fri, 13 Mar 2026 21:28:32 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek根据标签背景颜色更改标签字体颜色</title><link>https://g.weich.ee/post/30.html</link><description>
-```d
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Fri, 13 Mar 2026 21:38:15 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek根据标签背景颜色更改标签字体颜色</title><link>https://g.weich.ee/post/30.html</link><description> ### 全局引用js
+
+```+js
 (function() {
 
 function getAdaptiveColor(bg) {
@@ -82,11 +83,8 @@ observer.observe(document.documentElement, { attributes: true, attributeFilter: 
 })();
 ```
 
-
-添加js后用下面的css修复上面的补丁，
-
-版本一：所有标签（含日期）都会自动换行
-​这个版本最彻底，只要空间不够，任何标签（包括日期）都会自动掉到下一行，确保绝对不溢出屏幕。</description><guid isPermaLink="true">https://g.weich.ee/post/30.html</guid><pubDate>Fri, 13 Mar 2026 21:16:02 +0000</pubDate></item><item><title>80后时代火爆歌单</title><link>https://g.weich.ee/post/29.html</link><description>1.一场游戏一场梦 王杰
+### 修补css说明
+添加js后用下面的css修复上面的补丁，因为标签太多不会换行，往右边溢出，扩大整个页面。</description><guid isPermaLink="true">https://g.weich.ee/post/30.html</guid><pubDate>Fri, 13 Mar 2026 21:16:02 +0000</pubDate></item><item><title>80后时代火爆歌单</title><link>https://g.weich.ee/post/29.html</link><description>1.一场游戏一场梦 王杰
 2.我只在乎你 邓丽君
 3. 大约在冬季 齐秦
 4. 粉红色的回忆 韩宝仪
