@@ -434,9 +434,27 @@ document.addEventListener('DOMContentLoaded', () => {
 (function() {
     if (window.GmeekFooterDone) return;
 
+    function getPageLabels() {
+        var labels = [];
+        // 根据你提供的截图，精准定位 listLabels 下的 span 或 a
+        var labelNodes = document.querySelectorAll('.listLabels .LabelName, .listLabels .Label, .postTitle + div .Label');
+        for (var i = 0; i < labelNodes.length; i++) {
+            var txt = labelNodes[i].innerText.trim();
+            if (txt && labels.indexOf(txt) === -1) labels.push(txt);
+        }
+        return labels;
+    }
+
     function initGmeekPlugins() {
         var postBody = document.getElementById('postBody');
         if (!postBody) return;
+
+        var currentLabels = getPageLabels();
+        // 如果还没有抓到标签，先不停止轮询，等待 Gmeek 渲染
+        if (currentLabels.length === 0 && window.retryCount < 10) {
+            window.retryCount = (window.retryCount || 0) + 1;
+            return;
+        }
 
         clearInterval(footerInterval);
         window.GmeekFooterDone = true;
@@ -468,39 +486,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if (currentIndex === -1) return;
 
-                    // --- 标签捕获增强开始 ---
-                    var labels = [];
-                    // 方式A: 尝试从 Gmeek 顶部的标签容器抓取 (兼容不同版本的类名)
-                    var labelElements = document.querySelectorAll('.LabelName, .list-style-none .Label');
-                    if (labelElements.length > 0) {
-                        for (var k = 0; k < labelElements.length; k++) {
-                            var txt = labelElements[k].innerText.trim();
-                            if (txt) labels.push(txt);
+                    // --- 相关推荐逻辑 (4篇) ---
+                    // 1. 优先找标题前几个字相同的（系列文章）
+                    // 2. 不足则按时间顺序补齐
+                    var related = posts.filter(function(p, idx) {
+                        return idx !== currentIndex && p.title.substring(0,4) === posts[currentIndex].title.substring(0,4);
+                    }).slice(0, 4);
+
+                    if (related.length < 4) {
+                        for (var m = 0; m < posts.length; m++) {
+                            if (m !== currentIndex && related.indexOf(posts[m]) === -1) {
+                                related.push(posts[m]);
+                                if (related.length === 4) break;
+                            }
                         }
-                    } 
-                    // 方式B: 如果页面上没抓到，尝试从全局变量拿 (Gmeek 有时会存这个)
-                    else if (window.labels && window.labels.length > 0) {
-                        labels = window.labels;
                     }
-                    // --- 标签捕获增强结束 ---
 
                     var footerDiv = document.createElement('div');
-                    footerDiv.id = 'gmeek-combined-footer';
                     footerDiv.style.cssText = "margin-top:30px; padding-top:20px; border-top:1px solid var(--color-border-default); clear:both; font-size:14px;";
 
                     var d = new Date(posts[currentIndex].date);
                     var dateStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
                     
-                    // 构建内容
                     var html = '<div style="color:var(--color-fg-muted); margin-bottom:15px;">📅 发布日期：' + dateStr;
-                    if (labels.length > 0) {
-                        // 移除重复标签并显示
-                        var uniqueLabels = labels.filter(function(item, pos) { return labels.indexOf(item) == pos; });
-                        html += ' <span style="margin-left:15px;">🏷️ 标签：' + uniqueLabels.join(', ') + '</span>';
+                    if (currentLabels.length > 0) {
+                        html += ' <span style="margin-left:15px;">🏷️ 标签：' + currentLabels.join(', ') + '</span>';
                     }
                     html += '</div>';
 
-                    html += '<div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">';
+                    // 翻页
+                    html += '<div style="display:flex; flex-direction:column; gap:8px; margin-bottom:20px; padding-bottom:15px; border-bottom:1px dashed var(--color-border-default);">';
                     if (currentIndex > 0) {
                         html += '<a href="' + posts[currentIndex - 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">← 下一篇：' + posts[currentIndex - 1].title + '</a>';
                     }
@@ -508,6 +523,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         html += '<a href="' + posts[currentIndex + 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">→ 上一篇：' + posts[currentIndex + 1].title + '</a>';
                     }
                     html += '</div>';
+
+                    // 4个相关推荐
+                    html += '<div style="font-weight:bold; margin-bottom:10px;">🔍 相关推荐：</div><ul style="padding-left:18px; margin:0; line-height:1.8;">';
+                    for (var r = 0; r < related.length; r++) {
+                        html += '<li><a href="' + related[r].link + '" style="color:var(--color-accent-fg); font-size:13px;">' + related[r].title + '</a></li>';
+                    }
+                    html += '</ul>';
 
                     footerDiv.innerHTML = html;
 
@@ -526,3 +548,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var footerInterval = setInterval(initGmeekPlugins, 500);
 })();
+
