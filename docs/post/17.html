@@ -11,12 +11,12 @@
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
 <meta name="description" content="鑫泰奇S100华强北插卡阔屏手表处理器是紫光展锐w527。">
-<meta property="og:title" content="华强北s100手表各种代码">
+<meta property="og:title" content="华强北s100手表各种代码和打开开发者选项">
 <meta property="og:description" content="鑫泰奇S100华强北插卡阔屏手表处理器是紫光展锐w527。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://g.weich.ee/post/17.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
-<title>华强北s100手表各种代码</title>
+<title>华强北s100手表各种代码和打开开发者选项</title>
 
 
 
@@ -49,7 +49,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">华强北s100手表各种代码</h1>
+<h1 class="postTitle">华强北s100手表各种代码和打开开发者选项</h1>
 <div class="title-right">
     <a href="https://g.weich.ee" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -80,7 +80,16 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </code></pre>
 <h4>后期更新后版本：</h4>
 <pre lang="dos" class="notranslate"><code class="notranslate">*#*#385882#*#*
-</code></pre></div>
+</code></pre>
+<p>打开开发者：</p>
+<p>先按照上面的打开USB调试再输入下面命令</p>
+<p>开启开发者选项开关</p>
+<pre lang="dos" class="notranslate"><code class="notranslate">adb shell settings put global development_settings_enabled 1
+</code></pre>
+<p>尝试拉起开发者界面</p>
+<pre lang="dos" class="notranslate"><code class="notranslate">adb shell am start -a android.settings.APPLICATION_DEVELOPMENT_SETTINGS
+</code></pre>
+<p>手表屏幕：直接进入开发者选项列表，如果命令输入反了就会提示：请先打开开发者选项。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
