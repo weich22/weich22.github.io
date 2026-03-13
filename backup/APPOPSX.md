@@ -1,3 +1,6 @@
+因为华强北s100手表就是安卓9的，差不多通用的，就一些什么魔改太多的系统那些可能用不了这些命令。
+
+
 [APPOPSX1.2.5](https://github.com/8enet/AppOpsX/releases)
 
 [备用下载](https://apkfab.com/zh/appopsx/com.zzzmode.appopsx)
@@ -13,7 +16,7 @@ adb shell settings put system lockscreen_sounds_enabled 0
 ```
 
 ### 2. 关闭锁屏密码输入与指纹识别振动
-该命令通过关闭系统级“触摸反馈”总开关，解决锁屏界面输入密码时的振动以及指纹识别成功后的反馈。
+该命令通过关闭系统级“触摸反馈”总开关，解决锁屏界面输入密码时的振动以及指纹识别成功后（平常碰到也会振动，现在完全不会振动了）的反馈。
 ```+bash
 adb shell settings put system haptic_feedback_enabled 0
 ```
@@ -39,3 +42,14 @@ adb shell sh /sdcard/Android/data/com.zzzmode.appopsx/opsx.sh
 针对 com.dw.launcher 桌面自带的充电特效组件，目前的测试结论如下：
 * **目标组件：** com.dw.launcher.activity.ChargeEffectActivity
 * **结论：** 该组件受系统固件底层保护，执行 pm disable 报错。建议通过物理固定磁吸头或在“互动屏保”设置中尝试关闭，避免由于磁吸不稳导致的频繁弹窗。
+
+
+
+### 核心：
+
+ * 激活 AppOpsX 脚本： adb shell sh /sdcard/Android/data/com.zzzmode.appopsx/opsx.sh
+ * 关闭锁屏音： adb shell settings put system lockscreen_sounds_enabled 0
+ * 关闭触感反馈（指纹/输入）： adb shell settings put system haptic_feedback_enabled 0
+ * 无法禁用的组件： com.dw.launcher/com.dw.launcher.activity.ChargeEffectActivity (受系统底层保护)
+
+无法禁用是因为那个充电特效是属于桌面软件的组件活动又被限制，现在实在想禁用只能禁用桌面用第三方桌面顶替，因为这个手表磁吸充电的，经常不稳正在用到一般，那个充电特效动画老是弹出来。
