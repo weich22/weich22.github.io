@@ -111,7 +111,6 @@ observer.observe(document.documentElement, { attributes: true, attributeFilter: 
 
 ```+js
 (function() {
-    // 1. 核心算法：根据背景色计算文字颜色
     function getAdaptiveColor(bg) {
         const rgb = bg.match(/\d+/g);
         if (!rgb || rgb.length < 3) return "#ffffff";
@@ -120,11 +119,10 @@ observer.observe(document.documentElement, { attributes: true, attributeFilter: 
         return l > 0.6 ? "#000000" : "#ffffff";
     }
 
-    // 2. 执行逻辑：适配颜色并标记，避免重复运算
     function syncLabelColors() {
-        const selectors = '.Label, .LabelName, .post-tag, .listLabels span';
+        const selectors = '.Label, .LabelName, .post-tag, .listLabels span, .listLabels a';
         document.querySelectorAll(selectors).forEach(el => {
-            // 如果已经处理过且背景没变，就跳过（性能优化）
+            // 如果已经处理过且没有脏标记，跳过
             if (el.dataset.colorFixed === "true" && !el.dataset.dirty) return;
 
             try {
@@ -140,33 +138,36 @@ observer.observe(document.documentElement, { attributes: true, attributeFilter: 
                     if (target && target.style) {
                         target.style.setProperty('color', fg, 'important');
                         target.style.setProperty('text-shadow', 'none', 'important');
-                        el.dataset.colorFixed = "true"; // 标记已处理
+                        el.dataset.colorFixed = "true";
                         delete el.dataset.dirty; 
                     }
                 }
-            } catch (e) {
-                console.error("Gmeek颜色适配出错:", e);
-            }
+            } catch (e) {}
         });
     }
 
-    // 3. 智能监听：不仅监听模式切换，还监听内容加载
-    // 初始执行
+    // 1. 初始执行：前 5 秒内高频检测（解决搜索/标签页加载慢的问题）
     syncLabelColors();
+    let count = 0;
+    const initTimer = setInterval(() => {
+        syncLabelColors();
+        if (++count > 10) clearInterval(initTimer); // 5秒后停止高频
+    }, 500);
 
-    // 监听暗黑模式切换
+    // 2. 监听：模式切换（强制重算）
     const themeObserver = new MutationObserver(() => {
-        // 模式切换时，标记所有标签为“脏数据”，触发重新计算
-        document.querySelectorAll('.Label, .LabelName').forEach(el => el.dataset.dirty = "true");
+        document.querySelectorAll('.Label, .LabelName, .post-tag, .listLabels span').forEach(el => {
+            el.dataset.dirty = "true";
+        });
         syncLabelColors();
     });
     themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-color-mode'] });
 
-    // 监听动态内容（如分页、搜索加载）
+    // 3. 监听：动态内容加载
     const contentObserver = new MutationObserver(() => syncLabelColors());
     contentObserver.observe(document.body, { childList: true, subtree: true });
 
-    // 保留一个低频补偿，防止极端情况（可选）
+    // 4. 兜底：低频检查
     setInterval(syncLabelColors, 3000);
 })();
 
