@@ -434,12 +434,12 @@ document.addEventListener('DOMContentLoaded', () => {
 (function() {
     if (window.GmeekFooterDone) return;
 
-    function getPageLabels() {
+    function getLabels() {
         var labels = [];
-        // 根据你提供的截图，精准定位 listLabels 下的 span 或 a
-        var labelNodes = document.querySelectorAll('.listLabels .LabelName, .listLabels .Label, .postTitle + div .Label');
-        for (var i = 0; i < labelNodes.length; i++) {
-            var txt = labelNodes[i].innerText.trim();
+        // 精准定位截图中的标签结构
+        var nodes = document.querySelectorAll('.listLabels .LabelName, .listLabels .Label, .postTitle + div .Label');
+        for (var i = 0; i < nodes.length; i++) {
+            var txt = nodes[i].innerText.trim();
             if (txt && labels.indexOf(txt) === -1) labels.push(txt);
         }
         return labels;
@@ -449,10 +449,10 @@ document.addEventListener('DOMContentLoaded', () => {
         var postBody = document.getElementById('postBody');
         if (!postBody) return;
 
-        var currentLabels = getPageLabels();
-        // 如果还没有抓到标签，先不停止轮询，等待 Gmeek 渲染
-        if (currentLabels.length === 0 && window.retryCount < 10) {
-            window.retryCount = (window.retryCount || 0) + 1;
+        var currentLabels = getLabels();
+        // 标签可能加载慢，如果没抓到就重试，最多等 5 秒
+        if (currentLabels.length === 0 && (window.retryL || 0) < 10) {
+            window.retryL = (window.retryL || 0) + 1;
             return;
         }
 
@@ -467,32 +467,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     var xml = xhr.responseXML || new DOMParser().parseFromString(xhr.responseText, "text/xml");
                     var items = xml.getElementsByTagName("item");
                     var posts = [];
-                    for (var i = 0; i < items.length; i++) {
+                    for (var j = 0; j < items.length; j++) {
                         posts.push({
-                            title: items[i].getElementsByTagName("title")[0].textContent,
-                            link: items[i].getElementsByTagName("link")[0].textContent,
-                            date: items[i].getElementsByTagName("pubDate")[0].textContent
+                            title: items[j].getElementsByTagName("title")[0].textContent,
+                            link: items[j].getElementsByTagName("link")[0].textContent,
+                            date: items[j].getElementsByTagName("pubDate")[0].textContent
                         });
                     }
 
                     var curPath = window.location.pathname;
                     var currentIndex = -1;
-                    for (var j = 0; j < posts.length; j++) {
-                        if (posts[j].link.indexOf(curPath) !== -1 || curPath.indexOf(posts[j].link) !== -1) {
-                            currentIndex = j;
+                    for (var k = 0; k < posts.length; k++) {
+                        if (posts[k].link.indexOf(curPath) !== -1 || curPath.indexOf(posts[k].link) !== -1) {
+                            currentIndex = k;
                             break;
                         }
                     }
-
                     if (currentIndex === -1) return;
 
-                    // --- 相关推荐逻辑 (4篇) ---
-                    // 1. 优先找标题前几个字相同的（系列文章）
-                    // 2. 不足则按时间顺序补齐
+                    // --- 相关推荐逻辑 ---
+                    // 1. 寻找标题前 4 位相同的文章（如“华强北s”）
                     var related = posts.filter(function(p, idx) {
                         return idx !== currentIndex && p.title.substring(0,4) === posts[currentIndex].title.substring(0,4);
                     }).slice(0, 4);
 
+                    // 2. 如果不足 4 篇，用最新文章补齐
                     if (related.length < 4) {
                         for (var m = 0; m < posts.length; m++) {
                             if (m !== currentIndex && related.indexOf(posts[m]) === -1) {
@@ -502,6 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
 
+                    // --- 构建 UI ---
                     var footerDiv = document.createElement('div');
                     footerDiv.style.cssText = "margin-top:30px; padding-top:20px; border-top:1px solid var(--color-border-default); clear:both; font-size:14px;";
 
@@ -524,7 +524,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     html += '</div>';
 
-                    // 4个相关推荐
+                    // 相关文章
                     html += '<div style="font-weight:bold; margin-bottom:10px;">🔍 相关推荐：</div><ul style="padding-left:18px; margin:0; line-height:1.8;">';
                     for (var r = 0; r < related.length; r++) {
                         html += '<li><a href="' + related[r].link + '" style="color:var(--color-accent-fg); font-size:13px;">' + related[r].title + '</a></li>';
@@ -533,14 +533,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     footerDiv.innerHTML = html;
 
+                    // 定位并插入
                     var target = postBody.nextElementSibling;
                     if (target && target.innerText && target.innerText.indexOf('转载') !== -1) {
                         target.parentNode.insertBefore(footerDiv, target.nextSibling);
                     } else {
                         postBody.parentNode.insertBefore(footerDiv, postBody.nextSibling);
                     }
-
-                } catch (e) { console.error("Footer Error:", e); }
+                } catch (e) { console.error("Footer Error", e); }
             }
         };
         xhr.send();
