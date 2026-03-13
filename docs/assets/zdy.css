@@ -216,20 +216,24 @@ pre[class*="language-"] code * {
 
 /*添加js根据标签背景颜色更改标签字体颜色后，标签太多右边溢出修补*/
 
-/* 版本二：智能换行补丁（推荐） */
+/* 版本二：标签自动换行，日期保持整体不拆散 */
 .listLabels {
     white-space: normal !important;
     flex-wrap: wrap !important;
     display: flex !important;
+    align-items: center !important; /* 确保换行后依然垂直居中 */
 }
 
-/* 强制日期作为一个整体，不允许内部折断 */
+/* 强制日期作为一个整体 */
 .LabelTime {
     white-space: nowrap !important;
     display: inline-block !important;
+    flex-shrink: 0 !important; /* 禁止日期被挤压 */
 }
 
-.Label, .LabelName, .LabelTime {
+/* 标签通用样式，增加点左右间距更好看 */
+.Label, .LabelName {
     margin-bottom: 4px !important;
+    margin-right: 4px !important;
 }
 
