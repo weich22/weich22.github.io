@@ -407,8 +407,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /*根据标签背景颜色更改标签字体颜色*/
 
-
 (function() {
+    // 1. 核心算法：根据背景色计算文字颜色
     function getAdaptiveColor(bg) {
         const rgb = bg.match(/\d+/g);
         if (!rgb || rgb.length < 3) return "#ffffff";
@@ -417,12 +417,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return l > 0.6 ? "#000000" : "#ffffff";
     }
 
-    function syncLabelColorsOnly() {
-        // 仅抓取标签相关的类名
+    // 2. 执行逻辑：适配颜色并标记，避免重复运算
+    function syncLabelColors() {
         const selectors = '.Label, .LabelName, .post-tag, .listLabels span';
         document.querySelectorAll(selectors).forEach(el => {
+            // 如果已经处理过且背景没变，就跳过（性能优化）
+            if (el.dataset.colorFixed === "true" && !el.dataset.dirty) return;
+
             try {
-                // 读取背景
                 let bg = window.getComputedStyle(el).backgroundColor;
                 if (bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') {
                     bg = window.getComputedStyle(el.parentElement).backgroundColor;
@@ -430,24 +432,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (bg && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)') {
                     const fg = getAdaptiveColor(bg);
-                    // 精准定位文字容器
                     const target = (el.tagName === 'A') ? el : (el.querySelector('a') || el);
                     
-                    // 只修改颜色和阴影，不修改任何布局相关的 style 属性
                     if (target && target.style) {
                         target.style.setProperty('color', fg, 'important');
                         target.style.setProperty('text-shadow', 'none', 'important');
+                        el.dataset.colorFixed = "true"; // 标记已处理
+                        delete el.dataset.dirty; 
                     }
                 }
-            } catch (e) {}
+            } catch (e) {
+                console.error("Gmeek颜色适配出错:", e);
+            }
         });
     }
 
-    // 初始与定时执行（定时是为了兼容搜索页动态生成的标签）
-    syncLabelColorsOnly();
-    setInterval(syncLabelColorsOnly, 1500);
+    // 3. 智能监听：不仅监听模式切换，还监听内容加载
+    // 初始执行
+    syncLabelColors();
 
     // 监听暗黑模式切换
-    const observer = new MutationObserver(syncLabelColorsOnly);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-color-mode'] });
+    const themeObserver = new MutationObserver(() => {
+        // 模式切换时，标记所有标签为“脏数据”，触发重新计算
+        document.querySelectorAll('.Label, .LabelName').forEach(el => el.dataset.dirty = "true");
+        syncLabelColors();
+    });
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-color-mode'] });
+
+    // 监听动态内容（如分页、搜索加载）
+    const contentObserver = new MutationObserver(() => syncLabelColors());
+    contentObserver.observe(document.body, { childList: true, subtree: true });
+
+    // 保留一个低频补偿，防止极端情况（可选）
+    setInterval(syncLabelColors, 3000);
 })();
+
