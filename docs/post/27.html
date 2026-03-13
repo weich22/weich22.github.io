@@ -14,21 +14,23 @@
 
 [备用下载](https://apkfab.com/zh/appopsx/com.zzzmode.appopsx)
 
-解和锁屏声音
-```dos
-adb shell settings put system lockscreen_sounds_enabled 0
+### Android 9 系统反馈优化成功方案
 
-```。">
+---
+
+### 1. 关闭锁屏与解锁音效
+该命令用于彻底消除按下电源键锁屏以及成功解锁进入桌面时的系统提示音。">
 <meta property="og:title" content="APPOPSX">
 <meta property="og:description" content="[APPOPSX1.2.5](https://github.com/8enet/AppOpsX/releases)
 
 [备用下载](https://apkfab.com/zh/appopsx/com.zzzmode.appopsx)
 
-解和锁屏声音
-```dos
-adb shell settings put system lockscreen_sounds_enabled 0
+### Android 9 系统反馈优化成功方案
 
-```。">
+---
+
+### 1. 关闭锁屏与解锁音效
+该命令用于彻底消除按下电源键锁屏以及成功解锁进入桌面时的系统提示音。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://g.weich.ee/post/27.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
@@ -85,10 +87,35 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="content">
 <div class="markdown-body" id="postBody"><p><a href="https://github.com/8enet/AppOpsX/releases">APPOPSX1.2.5</a></p>
 <p><a href="https://apkfab.com/zh/appopsx/com.zzzmode.appopsx" rel="nofollow">备用下载</a></p>
-<p>解和锁屏声音</p>
-<pre lang="dos" class="notranslate"><code class="notranslate">adb shell settings put system lockscreen_sounds_enabled 0
-
-</code></pre></div>
+<h3>Android 9 系统反馈优化成功方案</h3>
+<hr>
+<h3>1. 关闭锁屏与解锁音效</h3>
+<p>该命令用于彻底消除按下电源键锁屏以及成功解锁进入桌面时的系统提示音。<br>
+adb shell settings put system lockscreen_sounds_enabled 0</p>
+<h3>2. 关闭锁屏密码输入与指纹识别振动</h3>
+<p>该命令通过关闭系统级“触摸反馈”总开关，解决锁屏界面输入密码时的振动以及指纹识别成功后的反馈。<br>
+adb shell settings put system haptic_feedback_enabled 0</p>
+<h3>3. AppOpsX 权限进阶管理（参考 Weich.ee 方案）</h3>
+<p>对于系统级更顽固的振动反馈，可通过 AppOpsX 进行底层拦截。</p>
+<p><strong>启动步骤：</strong></p>
+<ol>
+<li>手机安装 AppOpsX 客户端。</li>
+<li>在 ADB 终端输入以下命令激活服务：<br>
+adb shell sh /sdcard/Android/data/com.zzzmode.appopsx/opsx.sh</li>
+</ol>
+<p><strong>权限操作：</strong></p>
+<ul>
+<li><strong>操作目标：</strong> 在 AppOpsX 列表中找到“Android 系统” (Android System)。</li>
+<li><strong>拦截项目：</strong> 找到“控制振动” (VIBRATE) 选项。</li>
+<li><strong>处理方式：</strong> 将其设置为“关闭/拒绝”，可彻底压制系统底层的指纹等硬件反馈振动。</li>
+</ul>
+<hr>
+<h3>4. 充电动画组件说明（已知受限项）</h3>
+<p>针对 com.dw.launcher 桌面自带的充电特效组件，目前的测试结论如下：</p>
+<ul>
+<li><strong>目标组件：</strong> com.dw.launcher.activity.ChargeEffectActivity</li>
+<li><strong>结论：</strong> 该组件受系统固件底层保护，执行 pm disable 报错。建议通过物理固定磁吸头或在“互动屏保”设置中尝试关闭，避免由于磁吸不稳导致的频繁弹窗。</li>
+</ul></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
