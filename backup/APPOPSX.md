@@ -8,11 +8,15 @@
 
 ### 1. 关闭锁屏与解锁音效
 该命令用于彻底消除按下电源键锁屏以及成功解锁进入桌面时的系统提示音。
+```+bash
 adb shell settings put system lockscreen_sounds_enabled 0
+```
 
 ### 2. 关闭锁屏密码输入与指纹识别振动
 该命令通过关闭系统级“触摸反馈”总开关，解决锁屏界面输入密码时的振动以及指纹识别成功后的反馈。
+```+bash
 adb shell settings put system haptic_feedback_enabled 0
+```
 
 ### 3. AppOpsX 权限进阶管理（参考 Weich.ee 方案）
 对于系统级更顽固的振动反馈，可通过 AppOpsX 进行底层拦截。
@@ -20,7 +24,9 @@ adb shell settings put system haptic_feedback_enabled 0
 **启动步骤：**
 1. 手机安装 AppOpsX 客户端。
 2. 在 ADB 终端输入以下命令激活服务：
+```+bash
 adb shell sh /sdcard/Android/data/com.zzzmode.appopsx/opsx.sh
+```
 
 **权限操作：**
 * **操作目标：** 在 AppOpsX 列表中找到“Android 系统” (Android System)。

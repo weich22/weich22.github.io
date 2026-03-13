@@ -90,19 +90,22 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <h3>Android 9 系统反馈优化成功方案</h3>
 <hr>
 <h3>1. 关闭锁屏与解锁音效</h3>
-<p>该命令用于彻底消除按下电源键锁屏以及成功解锁进入桌面时的系统提示音。<br>
-adb shell settings put system lockscreen_sounds_enabled 0</p>
+<p>该命令用于彻底消除按下电源键锁屏以及成功解锁进入桌面时的系统提示音。</p>
+<pre lang="+bash" class="notranslate"><code class="notranslate">adb shell settings put system lockscreen_sounds_enabled 0
+</code></pre>
 <h3>2. 关闭锁屏密码输入与指纹识别振动</h3>
-<p>该命令通过关闭系统级“触摸反馈”总开关，解决锁屏界面输入密码时的振动以及指纹识别成功后的反馈。<br>
-adb shell settings put system haptic_feedback_enabled 0</p>
+<p>该命令通过关闭系统级“触摸反馈”总开关，解决锁屏界面输入密码时的振动以及指纹识别成功后的反馈。</p>
+<pre lang="+bash" class="notranslate"><code class="notranslate">adb shell settings put system haptic_feedback_enabled 0
+</code></pre>
 <h3>3. AppOpsX 权限进阶管理（参考 Weich.ee 方案）</h3>
 <p>对于系统级更顽固的振动反馈，可通过 AppOpsX 进行底层拦截。</p>
 <p><strong>启动步骤：</strong></p>
 <ol>
 <li>手机安装 AppOpsX 客户端。</li>
-<li>在 ADB 终端输入以下命令激活服务：<br>
-adb shell sh /sdcard/Android/data/com.zzzmode.appopsx/opsx.sh</li>
+<li>在 ADB 终端输入以下命令激活服务：</li>
 </ol>
+<pre lang="+bash" class="notranslate"><code class="notranslate">adb shell sh /sdcard/Android/data/com.zzzmode.appopsx/opsx.sh
+</code></pre>
 <p><strong>权限操作：</strong></p>
 <ul>
 <li><strong>操作目标：</strong> 在 AppOpsX 列表中找到“Android 系统” (Android System)。</li>
