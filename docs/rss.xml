@@ -1,51 +1,84 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Fri, 13 Mar 2026 21:19:26 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek根据标签背景颜色更改标签字体颜色</title><link>https://g.weich.ee/post/30.html</link><description>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Fri, 13 Mar 2026 21:24:43 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek根据标签背景颜色更改标签字体颜色</title><link>https://g.weich.ee/post/30.html</link><description>
 ```d
 (function() {
-    function getAdaptiveColor(bg) {
-        const rgb = bg.match(/\d+/g);
-        if (!rgb || rgb.length &lt; 3) return '#ffffff';
-        const [r, g, b] = rgb.map(Number);
-        // 插件里的 0.6 阈值逻辑
-        const l = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-        return l &gt; 0.6 ? '#000000' : '#ffffff';
-    }
 
-    function solveAllLabels() {
-        // 核心：增加对顶部标签云的选择支持 (.subnav-item, .listLabels span 等)
-        const selectors = '.Label, .LabelName, .post-tag, .subnav-item, .listLabels span, .listLabels a';
-        
-        document.querySelectorAll(selectors).forEach(el =&gt; {
-            try {
-                // 1. 获取背景色（如果自身透明就抓父级）
-                let bg = window.getComputedStyle(el).backgroundColor;
-                if (bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') {
-                    bg = window.getComputedStyle(el.parentElement).backgroundColor;
-                }
+function getAdaptiveColor(bg) {
 
-                if (bg &amp;&amp; bg !== 'transparent' &amp;&amp; bg !== 'rgba(0, 0, 0, 0)') {
-                    const fg = getAdaptiveColor(bg);
-                    
-                    // 2. 深度适配文字目标
-                    // 如果自己是 A 或 Button 直接改；否则找里面的 A；再找不到就改自己
-                    const target = (el.tagName === 'A' || el.tagName === 'BUTTON') 
-                                   ? el 
-                                   : (el.querySelector('a') || el);
-                    
-                    if (target &amp;&amp; target.style) {
-                        target.style.setProperty('color', fg, 'important');
-                        target.style.setProperty('text-shadow', 'none', 'important');
-                    }
-                }
-            } catch (e) {
-                // 针对动态加载的静默处理
-            }
-        });
-    }
+const rgb = bg.match(/\d+/g);
 
-    // 初始化与循环监听
-    solveAllLabels();
-    setInterval(solveAllLabels, 1500); // 应对搜索页顶部的动态刷新
+if (!rgb || rgb.length &lt; 3) return '#ffffff';
+
+const [r, g, b] = rgb.map(Number);
+
+const l = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+return l &gt; 0.6 ? '#000000' : '#ffffff';
+
+}
+
+
+function syncLabelColorsOnly() {
+
+// 仅抓取标签相关的类名
+
+const selectors = '.Label, .LabelName, .post-tag, .listLabels span';
+
+document.querySelectorAll(selectors).forEach(el =&gt; {
+
+try {
+
+// 读取背景
+
+let bg = window.getComputedStyle(el).backgroundColor;
+
+if (bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') {
+
+bg = window.getComputedStyle(el.parentElement).backgroundColor;
+
+}
+
+
+if (bg &amp;&amp; bg !== 'transparent' &amp;&amp; bg !== 'rgba(0, 0, 0, 0)') {
+
+const fg = getAdaptiveColor(bg);
+
+// 精准定位文字容器
+
+const target = (el.tagName === 'A') ? el : (el.querySelector('a') || el);
+
+// 只修改颜色和阴影，不修改任何布局相关的 style 属性
+
+if (target &amp;&amp; target.style) {
+
+target.style.setProperty('color', fg, 'important');
+
+target.style.setProperty('text-shadow', 'none', 'important');
+
+}
+
+}
+
+} catch (e) {}
+
+});
+
+}
+
+
+// 初始与定时执行（定时是为了兼容搜索页动态生成的标签）
+
+syncLabelColorsOnly();
+
+setInterval(syncLabelColorsOnly, 1500);
+
+
+// 监听暗黑模式切换
+
+const observer = new MutationObserver(syncLabelColorsOnly);
+
+observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-color-mode'] });
+
 })();
 ```
 
