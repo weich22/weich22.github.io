@@ -471,36 +471,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-document.addEventListener('DOMContentLoaded', function () {
+function renderLinkCards() {
     if (window.location.pathname !== '/link.html') return;
 
     const postBody = document.getElementById('postBody');
     if (!postBody) return;
 
-    postBody.querySelectorAll('a[title]').forEach(link => {
-        const desc = link.title;
-        const fullText = link.innerText.trim();
+    // 查找所有带 title 且还没被处理过的链接
+    const links = postBody.querySelectorAll('a[title]:not(.tooltip-link)');
+    
+    if (links.length > 0) {
+        links.forEach(link => {
+            const desc = link.title;
+            const fullText = link.innerText.trim();
+            const textArray = Array.from(fullText);
+            
+            // 提取第一个字符作为图标（针对不显示 Emoji 的情况，提取首字）
+            const icon = textArray.length > 0 ? textArray[0] : '🔗';
+            const name = textArray.length > 1 ? textArray.slice(1).join('').trim() : fullText;
 
-        // 兼容性提取：处理 Emoji 或 普通字符
-        const textArray = Array.from(fullText);
-        // 检测第一个字符是否为 Emoji 的正则
-        const isEmoji = /\p{Extended_Pictographic}/u.test(textArray[0]);
-        
-        // 逻辑：如果是 Emoji 则用 Emoji；如果不是，取第一个字符（如“极”、“M”）
-        const icon = textArray.length > 0 ? textArray[0] : '🔗';
-        // 如果提取了第一个字符做图标，标题就从第二个字符开始；否则标题保持完整
-        const name = textArray.slice(1).join('').trim();
-
-        link.classList.add('tooltip-link');
-        
-        link.innerHTML = `
-            <div class="card-icon">${icon}</div>
-            <div class="card-content">
-                <div class="card-title">${name || fullText}</div>
+            link.classList.add('tooltip-link');
+            link.innerHTML = `
+                <div class="card-icon">${icon}</div>
+                <div class="card-title">${name}</div>
                 <div class="card-desc">${desc}</div>
-            </div>
-        `;
+            `;
+            link.removeAttribute('title');
+        });
+        console.log("Link cards rendered successfully.");
+    }
+}
 
-        link.removeAttribute('title');
-    });
-});
+// 保险：立即执行一次，1秒后再补刀执行一次（防止 Gmeek 异步渲染延迟）
+renderLinkCards();
+setTimeout(renderLinkCards, 500);
+setTimeout(renderLinkCards, 1500);
