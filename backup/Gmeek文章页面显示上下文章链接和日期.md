@@ -110,6 +110,82 @@ rss.xml是Gmeek 必生成的标准文件。它里面按时间顺序排列了你�
 ```
 
 
+
+#### 更新细节版本
+
+```dos
+(function() {
+    if (window.GmeekFooterDone) return;
+
+    function initGmeekPlugins() {
+        var postBody = document.getElementById('postBody');
+        if (!postBody) return;
+
+        clearInterval(footerInterval);
+        window.GmeekFooterDone = true;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/rss.xml', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                try {
+                    var xml = xhr.responseXML || new DOMParser().parseFromString(xhr.responseText, "text/xml");
+                    var items = xml.getElementsByTagName("item");
+                    var posts = [];
+                    var curPath = window.location.pathname;
+                    var currentIndex = -1;
+
+                    for (var i = 0; i < items.length; i++) {
+                        var link = items[i].getElementsByTagName("link")[0].textContent;
+                        var title = items[i].getElementsByTagName("title")[0].textContent;
+                        var date = items[i].getElementsByTagName("pubDate")[0].textContent;
+                        posts.push({title: title, link: link, date: date});
+                        
+                        if (currentIndex === -1 && (link.indexOf(curPath) !== -1 || curPath.indexOf(link) !== -1)) {
+                            currentIndex = i;
+                        }
+                    }
+
+                    if (currentIndex === -1) return;
+
+                    var d = new Date(posts[currentIndex].date);
+                    var dateStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+                    
+                    var footerDiv = document.createElement('div');
+                    footerDiv.style.cssText = "margin-top:30px; padding-top:20px; border-top:1px solid var(--color-border-default); clear:both; font-size:14px;";
+
+                    var html = '<div style="color:var(--color-fg-muted); margin-bottom:15px;">📅 发布日期：' + dateStr + '</div>';
+                    html += '<div style="display:flex; flex-direction:column; gap:10px;">';
+                    
+                    // 修改点：将箭头文字放在 <a> 标签外面
+                    if (currentIndex > 0) {
+                        html += '<div><span style="color:var(--color-fg-muted);">← 上一篇：</span><a href="' + posts[currentIndex - 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">' + posts[currentIndex - 1].title + '</a></div>';
+                    }
+                    if (currentIndex < posts.length - 1) {
+                        html += '<div><span style="color:var(--color-fg-muted);">→ 下一篇：</span><a href="' + posts[currentIndex + 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">' + posts[currentIndex + 1].title + '</a></div>';
+                    }
+                    
+                    html += '</div>';
+                    footerDiv.innerHTML = html;
+
+                    var target = postBody.nextElementSibling;
+                    if (target && target.innerText && target.innerText.indexOf('转载') !== -1) {
+                        target.parentNode.insertBefore(footerDiv, target.nextSibling);
+                    } else {
+                        postBody.parentNode.insertBefore(footerDiv, postBody.nextSibling);
+                    }
+
+                } catch (e) { console.error("Footer Mini Error:", e); }
+            }
+        };
+        xhr.send();
+    }
+
+    var footerInterval = setInterval(initGmeekPlugins, 300);
+})();
+
+```
+
 ### 结论:
 
 建议全局引用(放在 config.json 的 healer 中，不是直接把代码放进去config.json，也可以通过外部js文件然后在 healer 引用的意思)虽然这段代码的最终效果只在文章页面显示,但将其作为全局引用是目前最稳妥、也是 Gmeek 框架默认推荐的做法。原因如下:
