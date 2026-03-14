@@ -375,10 +375,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // 修改点：将箭头文字放在 <a> 标签外面
                     if (currentIndex > 0) {
-                        html += '<div><span style="color:var(--color-fg-muted);">← 下一篇：</span><a href="' + posts[currentIndex - 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">' + posts[currentIndex - 1].title + '</a></div>';
+                        html += '<div><span style="color:var(--color-fg-muted);">← 强一篇：</span><a href="' + posts[currentIndex - 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">' + posts[currentIndex - 1].title + '</a></div>';
                     }
                     if (currentIndex < posts.length - 1) {
-                        html += '<div><span style="color:var(--color-fg-muted);">→ 上一篇：</span><a href="' + posts[currentIndex + 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">' + posts[currentIndex + 1].title + '</a></div>';
+                        html += '<div><span style="color:var(--color-fg-muted);">→ 下一篇：</span><a href="' + posts[currentIndex + 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">' + posts[currentIndex + 1].title + '</a></div>';
                     }
                     
                     html += '</div>';
