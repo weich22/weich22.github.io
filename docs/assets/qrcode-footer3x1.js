@@ -472,37 +472,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-  // 1. 路径守卫：只在链接页面生效
-  if (window.location.pathname !== '/link.html') return;
+    if (window.location.pathname !== '/link.html') return;
 
-  const postBody = document.getElementById('postBody');
-  if (!postBody) return;
+    const postBody = document.getElementById('postBody');
+    if (!postBody) return;
 
-  // 2. 批量处理带 title 的链接
-  postBody.querySelectorAll('a[title]').forEach(link => {
-    // 提取原始数据
-    const desc = link.title; 
-    const fullText = link.innerText.trim();
-    
-    // 核心重组逻辑：分离图标和文字
-    // 使用 Array.from 兼容 Emoji
-    const textArray = Array.from(fullText);
-    const icon = textArray[0]; 
-    const name = textArray.slice(1).join('').trim();
+    postBody.querySelectorAll('a[title]').forEach(link => {
+        const desc = link.title;
+        const fullText = link.innerText.trim();
 
-    // 3. 赋予新的结构
-    link.classList.add('tooltip-link');
-    link.setAttribute('tabindex', '0');
-    link.dataset.title = desc; // 保留你的 dataset 习惯
-    
-    // 重新填充内部 HTML 结构，对应方块布局
-    link.innerHTML = `
-      <div class="card-icon">${icon}</div>
-      <div class="card-title">${name}</div>
-      <div class="card-desc">${desc}</div>
-    `;
+        // 兼容性提取：处理 Emoji 或 普通字符
+        const textArray = Array.from(fullText);
+        // 检测第一个字符是否为 Emoji 的正则
+        const isEmoji = /\p{Extended_Pictographic}/u.test(textArray[0]);
+        
+        // 逻辑：如果是 Emoji 则用 Emoji；如果不是，取第一个字符（如“极”、“M”）
+        const icon = textArray.length > 0 ? textArray[0] : '🔗';
+        // 如果提取了第一个字符做图标，标题就从第二个字符开始；否则标题保持完整
+        const name = textArray.slice(1).join('').trim();
 
-    // 4. 移除原始 title 避免原生黑框
-    link.removeAttribute('title');
-  });
+        link.classList.add('tooltip-link');
+        
+        link.innerHTML = `
+            <div class="card-icon">${icon}</div>
+            <div class="card-content">
+                <div class="card-title">${name || fullText}</div>
+                <div class="card-desc">${desc}</div>
+            </div>
+        `;
+
+        link.removeAttribute('title');
+    });
 });
