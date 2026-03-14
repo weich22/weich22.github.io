@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /*链接获取焦点显示标题*/
-
+/*
 document.addEventListener('DOMContentLoaded', function () {
   // 只在链接页面生效
   if (window.location.pathname !== '/link.html') return;
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
     link.setAttribute('tabindex', '0');
   });
 });
-
+*/
 
 /*代码高亮*/
 
@@ -467,4 +467,42 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(syncLabelColors, 3000);
 })();
 
+/*友情卡片*/
 
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  // 1. 路径守卫：只在链接页面生效
+  if (window.location.pathname !== '/link.html') return;
+
+  const postBody = document.getElementById('postBody');
+  if (!postBody) return;
+
+  // 2. 批量处理带 title 的链接
+  postBody.querySelectorAll('a[title]').forEach(link => {
+    // 提取原始数据
+    const desc = link.title; 
+    const fullText = link.innerText.trim();
+    
+    // 核心重组逻辑：分离图标和文字
+    // 使用 Array.from 兼容 Emoji
+    const textArray = Array.from(fullText);
+    const icon = textArray[0]; 
+    const name = textArray.slice(1).join('').trim();
+
+    // 3. 赋予新的结构
+    link.classList.add('tooltip-link');
+    link.setAttribute('tabindex', '0');
+    link.dataset.title = desc; // 保留你的 dataset 习惯
+    
+    // 重新填充内部 HTML 结构，对应方块布局
+    link.innerHTML = `
+      <div class="card-icon">${icon}</div>
+      <div class="card-title">${name}</div>
+      <div class="card-desc">${desc}</div>
+    `;
+
+    // 4. 移除原始 title 避免原生黑框
+    link.removeAttribute('title');
+  });
+});
