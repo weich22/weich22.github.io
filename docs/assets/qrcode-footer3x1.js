@@ -373,12 +373,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     var html = '<div style="color:var(--color-fg-muted); margin-bottom:15px;">📅 发布日期：' + dateStr + '</div>';
                     html += '<div style="display:flex; flex-direction:column; gap:10px;">';
                     
-                    // 修改点：将箭头文字放在 <a> 标签外面
+                    // 修改点 1：currentIndex - 1 指向更新的文章（下一篇）
                     if (currentIndex > 0) {
-                        html += '<div><span style="color:var(--color-fg-muted);">← 强一篇：</span><a href="' + posts[currentIndex - 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">' + posts[currentIndex - 1].title + '</a></div>';
+                        html += '<div><span style="color:var(--color-fg-muted);">← 下一篇：</span><a href="' + posts[currentIndex - 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">' + posts[currentIndex - 1].title + '</a></div>';
                     }
+                    // 修改点 2：currentIndex + 1 指向更旧的文章（上一篇）
                     if (currentIndex < posts.length - 1) {
-                        html += '<div><span style="color:var(--color-fg-muted);">→ 下一篇：</span><a href="' + posts[currentIndex + 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">' + posts[currentIndex + 1].title + '</a></div>';
+                        html += '<div><span style="color:var(--color-fg-muted);">→ 上一篇：</span><a href="' + posts[currentIndex + 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">' + posts[currentIndex + 1].title + '</a></div>';
                     }
                     
                     html += '</div>';
