@@ -471,38 +471,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-function renderLinkCards() {
-    if (window.location.pathname !== '/link.html') return;
 
-    const postBody = document.getElementById('postBody');
-    if (!postBody) return;
-
-    // 查找所有带 title 且还没被处理过的链接
-    const links = postBody.querySelectorAll('a[title]:not(.tooltip-link)');
-    
-    if (links.length > 0) {
-        links.forEach(link => {
-            const desc = link.title;
-            const fullText = link.innerText.trim();
-            const textArray = Array.from(fullText);
-            
-            // 提取第一个字符作为图标（针对不显示 Emoji 的情况，提取首字）
-            const icon = textArray.length > 0 ? textArray[0] : '🔗';
-            const name = textArray.length > 1 ? textArray.slice(1).join('').trim() : fullText;
-
-            link.classList.add('tooltip-link');
-            link.innerHTML = `
-                <div class="card-icon">${icon}</div>
-                <div class="card-title">${name}</div>
-                <div class="card-desc">${desc}</div>
-            `;
-            link.removeAttribute('title');
-        });
-        console.log("Link cards rendered successfully.");
-    }
-}
-
-// 保险：立即执行一次，1秒后再补刀执行一次（防止 Gmeek 异步渲染延迟）
-renderLinkCards();
-setTimeout(renderLinkCards, 500);
-setTimeout(renderLinkCards, 1500);
