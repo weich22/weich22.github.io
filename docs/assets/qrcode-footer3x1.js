@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /*链接获取焦点显示标题*/
-/*
+
 document.addEventListener('DOMContentLoaded', function () {
   // 只在链接页面生效
   if (window.location.pathname !== '/link.html') return;
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
     link.setAttribute('tabindex', '0');
   });
 });
-*/
+
 
 /*代码高亮*/
 
