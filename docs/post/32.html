@@ -10,11 +10,11 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="
+<meta name="description" content="### 说明文档
 
 这套代码的核心逻辑是**“结构重组 + 视觉模拟”**，将原本分散的网页元素包装成一个具有“窗口感”的整体布局。">
 <meta property="og:title" content="Gmeek主题">
-<meta property="og:description" content="
+<meta property="og:description" content="### 说明文档
 
 这套代码的核心逻辑是**“结构重组 + 视觉模拟”**，将原本分散的网页元素包装成一个具有“窗口感”的整体布局。">
 <meta property="og:type" content="article">
@@ -71,7 +71,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>这套代码的核心逻辑是**“结构重组 + 视觉模拟”**，将原本分散的网页元素包装成一个具有“窗口感”的整体布局。<br>
+<div class="markdown-body" id="postBody"><h3>说明文档</h3>
+<p>这套代码的核心逻辑是**“结构重组 + 视觉模拟”**，将原本分散的网页元素包装成一个具有“窗口感”的整体布局。<br>
 以下是代码的功能总结：<br>
 🎨 CSS 部分：视觉重塑</p>
 <ul>
@@ -99,6 +100,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 这套方案兼顾了原生美感和个性化定制，目前运行非常稳定。</li>
 </ul>
 <p>删除所有自定义css和js，然后全局头部引用这个代码就好了。</p>
+<h3>js代码</h3>
 <pre lang="+js" class="notranslate"><code class="notranslate">(function(){
     // 获取 Gmeek 原生的三个核心区块
     const h = document.querySelector("#header"),
@@ -116,6 +118,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 })();
 
 </code></pre>
+<h3>css代码</h3>
 <pre lang="+css" class="notranslate"><code class="notranslate">/* 颜色变量定义 */
 :root {--bg-main: #f0f2f5; --win-bg: #ffffff; --win-border: #999; --header-bg: #dee1e6; --text-p: #333;}
 [data-color-mode='dark'] {--bg-main: #0d1117; --win-bg: #161b22; --win-border: #444; --header-bg: #30363d; --text-p: #adbac7;}
