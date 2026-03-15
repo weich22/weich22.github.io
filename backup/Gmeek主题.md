@@ -71,3 +71,113 @@ html, body, #main, .Gmeek-mainindex {background: var(--bg-main)!important; margi
 .subTitle, .SideNav-icon, .title-right .btn-octicon:first-child {display:none!important}
 
 ```
+
+
+### 翻车了重做
+
+原因是大屏整体视觉不太好，歪一边。
+
+```dos
+/* 颜色变量定义 */
+
+:root {--bg-main: #f0f2f5; --win-bg: #ffffff; --win-border: #999; --header-bg: #dee1e6; --text-p: #333;}
+
+[data-color-mode='dark'] {--bg-main: #0d1117; --win-bg: #161b22; --win-border: #444; --header-bg: #30363d; --text-p: #adbac7;}
+
+
+/* 整体背景：设定 body 统一为 97% 并居中 */
+
+html, body, #main, .Gmeek-mainindex {
+
+background: var(--bg-main)!important; 
+
+margin:0 auto!important; 
+
+height:auto!important; 
+
+min-height:100vh!important; 
+
+display: block!important;
+
+max-width: 97% !important; 
+
+}
+
+
+/* 模拟窗口头部：统一 97% 逻辑 */
+
+#header {
+
+display:flex!important; 
+
+align-items:center!important; 
+
+width:100%!important; /* 填满父级 body 的 97% */
+
+height:44px!important; 
+
+margin:45px auto 0 auto!important; 
+
+background:var(--header-bg)!important; 
+
+border:1px solid var(--win-border)!important; 
+
+border-radius:8px 8px 0 0!important; 
+
+padding:0 15px!important; 
+
+box-sizing:border-box!important; 
+
+position:relative!important; 
+
+z-index:1001!important;
+
+}
+
+
+/* 模拟窗口主体：内容随外壳一起拉伸至 97% */
+
+#content, .main, .list-content {
+
+display:block!important; 
+
+width:100%!important; 
+
+margin:0 auto!important; 
+
+background:var(--win-bg)!important; 
+
+
+```
+
+```dos
+(function(){
+
+// 获取 Gmeek 原生的三个核心区块
+
+const h = document.querySelector("#header"),
+
+c = document.querySelector("#content") || document.querySelector(".main"),
+
+f = document.querySelector("#footer");
+
+// 如果头部和主体都存在，则进行结构重排
+
+if(h && c){
+
+// 将头部移到主体上方
+
+c.parentNode.insertBefore(h, c);
+
+// 如果有页脚，将其紧贴在主体下方
+
+if(f) c.parentNode.insertBefore(f, c.nextSibling);
+
+}
+
+console.log("Window-Layout-Deployed-1200px");
+
+})();
+
+
+```
