@@ -241,3 +241,61 @@ pre[class*="language-"] code * {
 }
 
 
+
+
+
+
+
+/*顶部毛玻璃*/
+
+
+
+/* 针对 g.weich.ee 的置顶导航栏样式 */
+#header {
+    /* 1. 开启固定置顶 */
+    position: fixed !important;
+    top: 10px !important; /* 距离顶部留一点间隙，更有悬浮感 */
+    left: 5% !important;
+    width: 90% !important;
+    
+    /* 2. 背景与毛玻璃效果 */
+    background: rgba(255, 255, 255, 0.7) !important; /* 白色半透明背景 */
+    backdrop-filter: blur(10px) !important; /* 关键：背景模糊效果 */
+    -webkit-backdrop-filter: blur(10px) !important; /* 兼容 Safari */
+    
+    /* 3. 边框与阴影 */
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 12px !important; /* 圆角效果 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important; /* 淡淡的阴影 */
+    
+    /* 4. 布局微调 */
+    display: flex !important;
+    align-items: center !important;
+    padding: 8px 15px !important;
+    z-index: 999 !important; /* 确保在所有内容之上 */
+    transition: all 0.3s ease !important;
+}
+
+/* 修正内部头像和标题的对齐 */
+.title-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important; /* 头像和标题之间的间距 */
+}
+
+.avatar-user {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+}
+
+.blogTitle {
+    font-size: 18px !important;
+    font-weight: bold !important;
+    color: #333 !important;
+}
+
+/* 为了防止内容被置顶栏遮挡，给主体内容加个顶距 */
+.main {
+    margin-top: 100px !important;
+}
