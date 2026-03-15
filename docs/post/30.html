@@ -414,6 +414,67 @@ observer.observe(document.documentElement, { attributes: true, attributeFilter: 
     transition: color 0.1s ease-in; /* 增加一个极短的过渡，让显现更自然 */
 }
 </code></pre>
+<h3>再次更新js版本</h3>
+<pre lang="+js" class="notranslate"><code class="notranslate">(function() {
+    function getAdaptiveColor(bg) {
+        const rgb = bg.match(/\d+/g);
+        if (!rgb || rgb.length &lt; 3) return "#ffffff";
+        const [r, g, b] = rgb.map(Number);
+        const l = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        return l &gt; 0.6 ? "#000000" : "#ffffff";
+    }
+
+    function syncLabelColors() {
+        const selectors = '.Label, .LabelName, .post-tag, .listLabels span, .listLabels a';
+        document.querySelectorAll(selectors).forEach(el =&gt; {
+            if (el.dataset.colorFixed === "true" &amp;&amp; !el.dataset.dirty) return;
+            try {
+                let bg = window.getComputedStyle(el).backgroundColor;
+                if (bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') {
+                    bg = window.getComputedStyle(el.parentElement).backgroundColor;
+                }
+                if (bg &amp;&amp; bg !== 'transparent' &amp;&amp; bg !== 'rgba(0, 0, 0, 0)') {
+                    const fg = getAdaptiveColor(bg);
+                    const target = (el.tagName === 'A') ? el : (el.querySelector('a') || el);
+                    if (target &amp;&amp; target.style) {
+                        target.style.setProperty('color', fg, 'important');
+                        target.style.setProperty('text-shadow', 'none', 'important');
+                        el.dataset.colorFixed = "true";
+                        delete el.dataset.dirty; 
+                    }
+                }
+            } catch (e) {}
+        });
+    }
+
+    // 1. 初始执行：前 5 秒内高频检测
+    syncLabelColors();
+    let count = 0;
+    const initTimer = setInterval(() =&gt; {
+        syncLabelColors();
+        if (++count &gt; 10) clearInterval(initTimer);
+    }, 500);
+
+    // 2. 监听：模式切换（强制重算）
+    const themeObserver = new MutationObserver(() =&gt; {
+        document.querySelectorAll('.Label, .LabelName, .post-tag, .listLabels span').forEach(el =&gt; {
+            el.dataset.dirty = "true";
+        });
+        syncLabelColors();
+    });
+    
+    // 增加防御性判断，确保 html 节点存在
+    if (document.documentElement) {
+        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-color-mode'] });
+    }
+
+    // --- 删除了原本导致报错的第 3 步监听 (document.body) ---
+
+    // 4. 兜底：低频检查（每 3 秒处理一次新加载的内容，不再报错）
+    setInterval(syncLabelColors, 3000);
+})();
+
+</code></pre>
 <p>↓↓↓下面是不管用哪个版本js都要2选1，不然标签太多会右边溢出↓↓↓</p>
 <h3>修补css说明</h3>
 <p>添加js后用下面的css修复上面的补丁，因为标签太多不会换行，往右边溢出，扩大整个页面。</p>
