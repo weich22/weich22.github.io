@@ -247,12 +247,12 @@ pre[class*="language-"] code * {
 .SideNav-item {
     position: relative !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border-left: 3px solid transparent !important;
     background-color: transparent !important;
     border-radius: 6px !important;
     margin-bottom: 4px !important;
     z-index: 1 !important;
     overflow: hidden !important;
-    border: none !important;
 }
 
 .SideNav-item::before {
@@ -269,7 +269,8 @@ pre[class*="language-"] code * {
 
 .SideNav-item:hover {
     transform: translateX(5px) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    border-left: 3px solid #027aff !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
 }
 
 .SideNav-item:hover::before {
