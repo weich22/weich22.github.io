@@ -470,4 +470,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+/*顶部毛玻璃修复长标题溢出*/
+
+(function(){
+    const h = document.querySelector("#header");
+    const tr = h ? h.querySelector(".title-right") : null;
+    // 关键结构挪动：确保按钮组在 header 内部，防止长标题换行挤跑图标
+    if(h && tr) h.appendChild(tr);
+})();
+
+
 
