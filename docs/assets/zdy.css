@@ -250,52 +250,44 @@ pre[class*="language-"] code * {
 
 
 
-/* 针对 g.weich.ee 的置顶导航栏样式 */
+/* --- 彻底贯穿屏幕的置顶导航栏 --- */
 #header {
-    /* 1. 开启固定置顶 */
+    /* 1. 位置修正：取消圆角，两头到边 */
     position: fixed !important;
-    top: 10px !important; /* 距离顶部留一点间隙，更有悬浮感 */
-    left: 5% !important;
-    width: 90% !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important; /* 强制填满横向空间 */
     
-    /* 2. 背景与毛玻璃效果 */
-    background: rgba(255, 255, 255, 0.7) !important; /* 白色半透明背景 */
-    backdrop-filter: blur(10px) !important; /* 关键：背景模糊效果 */
-    -webkit-backdrop-filter: blur(10px) !important; /* 兼容 Safari */
+    /* 2. 背景增强：更像截图里的白色质感 */
+    background: rgba(255, 255, 255, 0.85) !important; /* 提高白色的浓度 */
+    backdrop-filter: blur(15px) !important; /* 增强毛玻璃模糊度 */
+    -webkit-backdrop-filter: blur(15px) !important;
     
-    /* 3. 边框与阴影 */
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    border-radius: 12px !important; /* 圆角效果 */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important; /* 淡淡的阴影 */
+    /* 3. 细节：底部细线和阴影 */
+    border: none !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
     
     /* 4. 布局微调 */
+    padding: 10px 20px !important;
+    height: 65px !important; /* 固定高度方便内容避让 */
     display: flex !important;
     align-items: center !important;
-    padding: 8px 15px !important;
-    z-index: 999 !important; /* 确保在所有内容之上 */
-    transition: all 0.3s ease !important;
+    z-index: 9999 !important;
+    box-sizing: border-box !important;
 }
 
-/* 修正内部头像和标题的对齐 */
+/* --- 解决“挡住下面内容”的关键代码 --- */
+#content, .main {
+    margin-top: 80px !important; /* 这个值必须大于 header 的高度 */
+    padding-top: 10px !important;
+}
+
+/* 修正头像和标题，确保它们在贯穿模式下也好看 */
 .title-left {
     display: flex !important;
     align-items: center !important;
-    gap: 12px !important; /* 头像和标题之间的间距 */
-}
-
-.avatar-user {
-    width: 40px !important;
-    height: 40px !important;
-    border-radius: 50% !important;
-}
-
-.blogTitle {
-    font-size: 18px !important;
-    font-weight: bold !important;
-    color: #333 !important;
-}
-
-/* 为了防止内容被置顶栏遮挡，给主体内容加个顶距 */
-.main {
-    margin-top: 100px !important;
+    max-width: 1200px; /* 让内容在中间区域对齐 */
+    margin: 0 auto;
+    width: 100%;
 }
