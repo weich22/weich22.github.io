@@ -195,6 +195,14 @@ observer.observe(document.documentElement, { attributes: true, attributeFilter: 
 ### 再次更新js版本
 
 
+修改说明:
+1. 根治控制台报错:彻底去掉了
+contentobserver.obse-ve(document.body, ...)。在link.html 这种自定义页面或Gmeek 脚本加载极快的情况下,document.body往往还是 nul1,删掉它是最直接的减法。
+2.性能优化:原代码监控了整个页面的 subtree,对性能
+有一定开销。现在的3秒一次循环(第4步)完全能覆盖动态加载需求,且由于有
+dataset.colorFixed 标记,不会重复计算,非常轻量。
+3.兼容性:保留了所有的标签颜色自适应逻辑,无论是文章页还是友情链接页都能正常工作。
+上线后,刷新页面查看控制台,那个红色的 TурeError 报错应该就彻底消失了，我实测是消失了，但是得具体看个人博客，有的有可能不太一样，所以还是建议去看看。
 
 ```+js
 (function() {
