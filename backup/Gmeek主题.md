@@ -77,7 +77,19 @@ html, body, #main, .Gmeek-mainindex {background: var(--bg-main)!important; margi
 
 原因是大屏整体视觉不太好，歪一边。
 
-```dos
+
+🎨 CSS (视觉定义者)
+​放置位置： zdy.css
+核心逻辑：
+这是解决你之前“大屏偏左”和“内容塌缩”问题的关键。
+​全局宽度与居中：通过 max-width: 97% 让窗口在所有设备上都尽可能铺满，同时用 margin: 0 auto 强制让这 97% 的内容在屏幕正中央对齐。
+​消除塌缩：使用 display: block 确保主体区域在大屏幕下不会收缩成一个窄条。
+​首页与文章页统一：同时对 .main（首页列表）和 #content（文章正文）应用样式，保证全站风格一致，不会出现首页正常但文章页“歪掉”的情况。
+
+
+###css
+
+```+css
 /* 颜色变量定义 */
 
 :root {--bg-main: #f0f2f5; --win-bg: #ffffff; --win-border: #999; --header-bg: #dee1e6; --text-p: #333;}
@@ -149,6 +161,9 @@ background:var(--win-bg)!important;
 
 
 ```
+### js
+
+​🛠️核心逻辑:由于 Gmeek原生的 HTML结构中,页头(#header)、主体(#content/.main)和页脚(#footer)是相互独立的。JS的作用是在页面加载时,把它们按顺序移动到一起,形成一个“盒子"。
 
 ```dos
 (function(){
@@ -181,3 +196,8 @@ console.log("Window-Layout-Deployed-1200px");
 
 
 ```
+
+✅ 修改后的最终成效
+​大屏幕：窗口拉伸到屏幕的 97% 宽度，左右各留 1.5% 的极细缝隙，视觉非常开阔且居中。
+​内容一致性：无论是看文章列表还是具体的文章正文，宽度、边框和位置都完全重合，不会有跳变感。
+​移动端：依然保持了 97% 的比例，在手机上看起来非常厚实且充满屏幕感。
