@@ -10,91 +10,13 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="```dos
-(function(){
-    // 获取 Gmeek 原生的三个核心区块
-    const h = document.querySelector('#header'),
-          c = document.querySelector('#content') || document.querySelector('.main'),
-          f = document.querySelector('#footer');
-    
-    // 如果头部和主体都存在，则进行结构重排
-    if(h && c){
-        // 将头部移到主体上方
-        c.parentNode.insertBefore(h, c);
-        // 如果有页脚，将其紧贴在主体下方
-        if(f) c.parentNode.insertBefore(f, c.nextSibling);
-    }
-    console.log('Gmeek-SimWindow-Deployed');
-})();
+<meta name="description" content="
 
-```
-```dos
-/* 颜色变量定义 */
-:root {--bg-main: #f0f2f5; --win-bg: #ffffff; --win-border: #999; --header-bg: #dee1e6; --text-p: #333;}
-[data-color-mode='dark'] {--bg-main: #0d1117; --win-bg: #161b22; --win-border: #444; --header-bg: #30363d; --text-p: #adbac7;}
-
-/* 整体背景拉伸 */
-html, body, #main, .Gmeek-mainindex {background: var(--bg-main)!important; margin:0!important; height:auto!important; min-height:100vh!important;}
-
-/* 模拟窗口头部：磁贴感 */
-#header {display:flex!important; align-items:center!important; width:95%!important; max-width:900px!important; height:44px!important; margin:45px auto 0 auto!important; background:var(--header-bg)!important; border:1px solid var(--win-border)!important; border-radius:8px 8px 0 0!important; padding:0 15px!important; box-sizing:border-box!important; position:relative!important; z-index:1001!important}
-
-/* 核心：拉伸白色主体填满屏幕 */
-#content, .main, .list-content {display:block!important; width:95%!important; max-width:900px!important; margin:0 auto!important; background:var(--win-bg)!important; border-left:1px solid var(--win-border)!important; border-right:1px solid var(--win-border)!important; padding:20px!important; position:relative!important; z-index:1000!important; min-height:calc(100vh - 200px)!important; height:auto!important;}
-
-/* 底部收口 */
-#footer {display:block!important; width:95%!important; max-width:900px!important; margin:0 auto 60px auto!important; background:var(--win-bg)!important; border:1px solid var(--win-border)!important; border-top:none!important; border-radius:0 0 8px 8px!important; padding:20px!important; box-sizing:border-box!important; z-index:1000!important}
-
-/* 原生组件微调：头像凸出与标题加粗 */
-.SideNav {display:block!important; background:transparent!important; border:none!important; min-width:auto!important;}
-.avatar {width:46px!important; height:46px!important; margin-right:12px!important; margin-top:-20px!important; border:2px solid var(--win-border)!important; background:var(--win-bg)!important; border-radius:8px!important; z-index:1002!important; box-shadow:0 4px 8px rgba(0,0,0,0.2)!important}
-.blogTitle {display:inline-block!important; font-size:16px!important; color:var(--text-p)!important; margin-top:10px!important; font-weight:bold!important}
-.subTitle, .SideNav-icon, .title-right .btn-octicon:first-child {display:none!important}
-
-```。">
+这套代码的核心逻辑是**“结构重组 + 视觉模拟”**，将原本分散的网页元素包装成一个具有“窗口感”的整体布局。">
 <meta property="og:title" content="Gmeek主题">
-<meta property="og:description" content="```dos
-(function(){
-    // 获取 Gmeek 原生的三个核心区块
-    const h = document.querySelector('#header'),
-          c = document.querySelector('#content') || document.querySelector('.main'),
-          f = document.querySelector('#footer');
-    
-    // 如果头部和主体都存在，则进行结构重排
-    if(h && c){
-        // 将头部移到主体上方
-        c.parentNode.insertBefore(h, c);
-        // 如果有页脚，将其紧贴在主体下方
-        if(f) c.parentNode.insertBefore(f, c.nextSibling);
-    }
-    console.log('Gmeek-SimWindow-Deployed');
-})();
+<meta property="og:description" content="
 
-```
-```dos
-/* 颜色变量定义 */
-:root {--bg-main: #f0f2f5; --win-bg: #ffffff; --win-border: #999; --header-bg: #dee1e6; --text-p: #333;}
-[data-color-mode='dark'] {--bg-main: #0d1117; --win-bg: #161b22; --win-border: #444; --header-bg: #30363d; --text-p: #adbac7;}
-
-/* 整体背景拉伸 */
-html, body, #main, .Gmeek-mainindex {background: var(--bg-main)!important; margin:0!important; height:auto!important; min-height:100vh!important;}
-
-/* 模拟窗口头部：磁贴感 */
-#header {display:flex!important; align-items:center!important; width:95%!important; max-width:900px!important; height:44px!important; margin:45px auto 0 auto!important; background:var(--header-bg)!important; border:1px solid var(--win-border)!important; border-radius:8px 8px 0 0!important; padding:0 15px!important; box-sizing:border-box!important; position:relative!important; z-index:1001!important}
-
-/* 核心：拉伸白色主体填满屏幕 */
-#content, .main, .list-content {display:block!important; width:95%!important; max-width:900px!important; margin:0 auto!important; background:var(--win-bg)!important; border-left:1px solid var(--win-border)!important; border-right:1px solid var(--win-border)!important; padding:20px!important; position:relative!important; z-index:1000!important; min-height:calc(100vh - 200px)!important; height:auto!important;}
-
-/* 底部收口 */
-#footer {display:block!important; width:95%!important; max-width:900px!important; margin:0 auto 60px auto!important; background:var(--win-bg)!important; border:1px solid var(--win-border)!important; border-top:none!important; border-radius:0 0 8px 8px!important; padding:20px!important; box-sizing:border-box!important; z-index:1000!important}
-
-/* 原生组件微调：头像凸出与标题加粗 */
-.SideNav {display:block!important; background:transparent!important; border:none!important; min-width:auto!important;}
-.avatar {width:46px!important; height:46px!important; margin-right:12px!important; margin-top:-20px!important; border:2px solid var(--win-border)!important; background:var(--win-bg)!important; border-radius:8px!important; z-index:1002!important; box-shadow:0 4px 8px rgba(0,0,0,0.2)!important}
-.blogTitle {display:inline-block!important; font-size:16px!important; color:var(--text-p)!important; margin-top:10px!important; font-weight:bold!important}
-.subTitle, .SideNav-icon, .title-right .btn-octicon:first-child {display:none!important}
-
-```。">
+这套代码的核心逻辑是**“结构重组 + 视觉模拟”**，将原本分散的网页元素包装成一个具有“窗口感”的整体布局。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://g.weich.ee/post/32.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
@@ -149,7 +71,35 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><pre lang="dos" class="notranslate"><code class="notranslate">(function(){
+<div class="markdown-body" id="postBody"><p>这套代码的核心逻辑是**“结构重组 + 视觉模拟”**，将原本分散的网页元素包装成一个具有“窗口感”的整体布局。<br>
+以下是代码的功能总结：<br>
+🎨 CSS 部分：视觉重塑</p>
+<ul>
+<li>明暗模式自适应：通过 :root 和 [data-color-mode='dark'] 定义了两套颜色变量，确保窗口边框、背景和文字在深色主题下也能自动切换。</li>
+<li>全屏背景锁定：强制 html 和 body 使用浅灰色（或深色）背景，并消除边距，为模拟窗口提供一个干净的底层背景。</li>
+<li>模拟窗口三段式：
+<ul>
+<li>头部 (#header)：模拟窗口标题栏，设置了圆角、背景色和边框，通过 margin-top 预留出顶部空间。</li>
+<li>主体 (#content)：通过 min-height: calc(100vh - 200px) 实现纵向拉伸，确保无论内容多少，窗口都能延伸至靠近屏幕底部。</li>
+<li>底部 (#footer)：作为窗口的收口，去掉了顶部边框，并与主体完美衔接，底部设置了圆角。</li>
+</ul>
+</li>
+<li>组件细节优化：
+<ul>
+<li>头像立体感：将 .avatar 向上移动并添加阴影，使其呈现出“悬浮”在窗口边缘的视觉效果。</li>
+<li>界面精简：隐藏了副标题、原生图标及多余的按钮，使整体视觉更加清爽。<br>
+⚙️ JavaScript 部分：逻辑重排</li>
+</ul>
+</li>
+<li>动态节点搬运：由于 Gmeek 默认的 HTML 结构可能比较分散，这段脚本会自动寻找 #header、#content 和 #footer。</li>
+<li>结构合并：通过 insertBefore 逻辑，在页面加载时强行将这三个区块移动到一起，形成“头-身-尾”垂直排列的嵌套结构，这是实现“窗口一体化”效果的前提。<br>
+💡 维护小提示</li>
+<li>调整窗口长短：如果觉得窗口底部留白不合适，调整 CSS 中 #content 里的 200px 即可。</li>
+<li>调整宽度：目前的窗口宽度是屏幕的 95%（最大 900px），如需更改，调整 #header、#content、#footer 里的 width 值。<br>
+这套方案兼顾了原生美感和个性化定制，目前运行非常稳定。</li>
+</ul>
+<p>删除所有自定义css和js，然后全局头部引用这个代码就好了。</p>
+<pre lang="+js" class="notranslate"><code class="notranslate">(function(){
     // 获取 Gmeek 原生的三个核心区块
     const h = document.querySelector("#header"),
           c = document.querySelector("#content") || document.querySelector(".main"),
@@ -166,7 +116,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 })();
 
 </code></pre>
-<pre lang="dos" class="notranslate"><code class="notranslate">/* 颜色变量定义 */
+<pre lang="+css" class="notranslate"><code class="notranslate">/* 颜色变量定义 */
 :root {--bg-main: #f0f2f5; --win-bg: #ffffff; --win-border: #999; --header-bg: #dee1e6; --text-p: #333;}
 [data-color-mode='dark'] {--bg-main: #0d1117; --win-bg: #161b22; --win-border: #444; --header-bg: #30363d; --text-p: #adbac7;}
 
