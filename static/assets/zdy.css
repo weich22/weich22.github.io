@@ -202,32 +202,22 @@ pre[class*="language-"] code * {
 /*文章列表获取焦点悬浮显示别的颜色区分*/
 
 /* 文章条目流金悬浮效果 */
-@keyframes goldFlow {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 200% 50%; }
-}
-
-/* 1. 基础样式：保持透明背景和圆角 */
+/* 文章条目：纯静态金黄色悬浮（无发黑感） */
 .SideNav-item {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    border-left: 3px solid transparent !important; /* 预留左侧边框位 */
+    border-left: 3px solid transparent !important;
     background-color: transparent !important;
     border-radius: 6px !important;
     margin-bottom: 4px !important;
 }
 
-/* 2. 悬停效果：蓝色边条 + 流金背景 */
 .SideNav-item:hover {
-    /* 核心：将原有的淡蓝色替换为流金动画背景 */
-    background: linear-gradient(90deg, #f1c40f, #fff5b1, #d4af37, #fff5b1, #f1c40f) !important;
-    background-size: 200% auto !important;
-    animation: goldFlow 3s linear infinite !important;
-
-    /* 动作：向右平移 5px */
+    /* 使用亮金(#f1c40f)与黄金(#ffd700)组合，杜绝发黑 */
+    background: linear-gradient(90deg, #f1c40f, #ffd700, #f1c40f) !important;
+    
+    /* 动作保留 */
     transform: translateX(5px) !important;
-    /* 边框：亮起主题蓝 */
     border-left: 3px solid #027aff !important;
-    /* 阴影：增加浮起感 */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
 }
 
