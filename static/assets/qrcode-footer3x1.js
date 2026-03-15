@@ -405,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /*根据标签背景颜色更改标签字体颜色*/
-
+/*
 (function() {
     function getAdaptiveColor(bg) {
         const rgb = bg.match(/\d+/g);
@@ -466,8 +466,72 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. 兜底：低频检查
     setInterval(syncLabelColors, 3000);
 })();
+*/
+/*标签修复版本*/
 
-/*友情卡片*/
+
+
+
+
+(function() {
+    function getAdaptiveColor(bg) {
+        const rgb = bg.match(/\d+/g);
+        if (!rgb || rgb.length < 3) return "#ffffff";
+        const [r, g, b] = rgb.map(Number);
+        const l = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        return l > 0.6 ? "#000000" : "#ffffff";
+    }
+
+    function syncLabelColors() {
+        const selectors = '.Label, .LabelName, .post-tag, .listLabels span, .listLabels a';
+        document.querySelectorAll(selectors).forEach(el => {
+            if (el.dataset.colorFixed === "true" && !el.dataset.dirty) return;
+            try {
+                let bg = window.getComputedStyle(el).backgroundColor;
+                if (bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') {
+                    bg = window.getComputedStyle(el.parentElement).backgroundColor;
+                }
+                if (bg && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)') {
+                    const fg = getAdaptiveColor(bg);
+                    const target = (el.tagName === 'A') ? el : (el.querySelector('a') || el);
+                    if (target && target.style) {
+                        target.style.setProperty('color', fg, 'important');
+                        target.style.setProperty('text-shadow', 'none', 'important');
+                        el.dataset.colorFixed = "true";
+                        delete el.dataset.dirty; 
+                    }
+                }
+            } catch (e) {}
+        });
+    }
+
+    // 1. 初始执行：前 5 秒内高频检测
+    syncLabelColors();
+    let count = 0;
+    const initTimer = setInterval(() => {
+        syncLabelColors();
+        if (++count > 10) clearInterval(initTimer);
+    }, 500);
+
+    // 2. 监听：模式切换（强制重算）
+    const themeObserver = new MutationObserver(() => {
+        document.querySelectorAll('.Label, .LabelName, .post-tag, .listLabels span').forEach(el => {
+            el.dataset.dirty = "true";
+        });
+        syncLabelColors();
+    });
+    
+    // 增加防御性判断，确保 html 节点存在
+    if (document.documentElement) {
+        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-color-mode'] });
+    }
+
+    // --- 删除了原本导致报错的第 3 步监听 (document.body) ---
+
+    // 4. 兜底：低频检查（每 3 秒处理一次新加载的内容，不再报错）
+    setInterval(syncLabelColors, 3000);
+})();
+
 
 
 
