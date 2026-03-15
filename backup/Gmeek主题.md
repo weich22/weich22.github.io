@@ -75,7 +75,7 @@ html, body, #main, .Gmeek-mainindex {background: var(--bg-main)!important; margi
 
 ### 翻车了重做
 
-原因是大屏整体视觉不太好，歪一边。
+原因是大屏整体视觉不太好，歪一边，是直接替换全部代码的。
 
 
 🎨 CSS (视觉定义者)
