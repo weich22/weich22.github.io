@@ -196,10 +196,18 @@ pre[class*="language-"] code * {
 
 
 
-/*文章列表悬浮*/
 
-/*
-/* 1. 设置文章条目的基础样式，准备过渡 */
+
+
+/*文章列表获取焦点悬浮显示别的颜色区分*/
+
+/* 文章条目流金悬浮效果 */
+@keyframes goldFlow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+/* 1. 基础样式：保持透明背景和圆角 */
 .SideNav-item {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     border-left: 3px solid transparent !important; /* 预留左侧边框位 */
@@ -208,15 +216,26 @@ pre[class*="language-"] code * {
     margin-bottom: 4px !important;
 }
 
-/* 2. 悬停时的浮起效果 */
+/* 2. 悬停效果：蓝色边条 + 流金背景 */
 .SideNav-item:hover {
-    background-color: rgba(2, 122, 255, 0.05) !important; /* 极淡的蓝色背景 */
-    transform: translateX(5px); /* 向右轻微平移，产生“被点中”的动感 */
-    border-left: 3px solid #027aff !important; /* 左侧亮起主题蓝 */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 淡淡的投影，产生浮起感 */
+    /* 核心：将原有的淡蓝色替换为流金动画背景 */
+    background: linear-gradient(90deg, #f1c40f, #fff5b1, #d4af37, #fff5b1, #f1c40f) !important;
+    background-size: 200% auto !important;
+    animation: goldFlow 3s linear infinite !important;
+
+    /* 动作：向右平移 5px */
+    transform: translateX(5px) !important;
+    /* 边框：亮起主题蓝 */
+    border-left: 3px solid #027aff !important;
+    /* 阴影：增加浮起感 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
 }
 
-*/
+
+
+
+
+
 
 /*添加js根据标签背景颜色更改标签字体颜色后，标签太多右边溢出修补*/
 
@@ -234,46 +253,4 @@ pre[class*="language-"] code * {
 
 
 
-
-
-/*文章列表悬浮*/
-
-
-@keyframes goldFlow {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 200% 50%; }
-}
-
-.SideNav-item {
-    position: relative !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    border-left: 3px solid transparent !important;
-    background-color: transparent !important;
-    border-radius: 6px !important;
-    margin-bottom: 4px !important;
-    z-index: 1 !important;
-    overflow: hidden !important;
-}
-
-.SideNav-item::before {
-    content: "" !important;
-    position: absolute !important;
-    inset: 0 !important;
-    z-index: -1 !important;
-    background: linear-gradient(90deg, #f1c40f, #fff5b1, #d4af37, #fff5b1, #f1c40f) !important;
-    background-size: 200% auto !important;
-    opacity: 0 !important;
-    transition: opacity 0.3s ease !important;
-    animation: goldFlow 3s linear infinite !important;
-}
-
-.SideNav-item:hover {
-    transform: translateX(5px) !important;
-    border-left: 3px solid #027aff !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
-}
-
-.SideNav-item:hover::before {
-    opacity: 1 !important;
-}
 
