@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Sun, 15 Mar 2026 23:30:16 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek主题</title><link>https://g.weich.ee/post/32.html</link><description>### 说明文档
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Sun, 15 Mar 2026 23:37:22 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek主题</title><link>https://g.weich.ee/post/32.html</link><description>### 说明文档
 
 这套代码的核心逻辑是**“结构重组 + 视觉模拟”**，将原本分散的网页元素包装成一个具有“窗口感”的整体布局。</description><guid isPermaLink="true">https://g.weich.ee/post/32.html</guid><pubDate>Sun, 15 Mar 2026 19:27:48 +0000</pubDate></item><item><title>Gmeek顶部适配悬浮毛玻璃自应式黑暗模式</title><link>https://g.weich.ee/post/31.html</link><description>```dos
 /* --- A线程：全屏贯穿+自动适配明暗模式的导航栏 --- */
@@ -119,7 +119,10 @@
 
 .subTitle, .SideNav-icon { display: none !important; }
 
-```。</description><guid isPermaLink="true">https://g.weich.ee/post/31.html</guid><pubDate>Sun, 15 Mar 2026 16:30:04 +0000</pubDate></item><item><title>Gmeek根据标签背景颜色更改标签字体颜色</title><link>https://g.weich.ee/post/30.html</link><description> ### 全局引用js
+```
+
+
+第二个版本css要用的话也是全部替换，差不多的。</description><guid isPermaLink="true">https://g.weich.ee/post/31.html</guid><pubDate>Sun, 15 Mar 2026 16:30:04 +0000</pubDate></item><item><title>Gmeek根据标签背景颜色更改标签字体颜色</title><link>https://g.weich.ee/post/30.html</link><description> ### 全局引用js
 
 ```+js
 (function() {
