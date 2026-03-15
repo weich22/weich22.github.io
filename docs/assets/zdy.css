@@ -241,6 +241,10 @@ pre[class*="language-"] code * {
 }
 
 
-
-
+/*添加一张代码背景图片*/
+body {
+    background: url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=2070') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0; overflow: hidden; height: 100vh;
+        }
 
