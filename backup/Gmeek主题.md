@@ -87,7 +87,7 @@ html, body, #main, .Gmeek-mainindex {background: var(--bg-main)!important; margi
 ​首页与文章页统一：同时对 .main（首页列表）和 #content（文章正文）应用样式，保证全站风格一致，不会出现首页正常但文章页“歪掉”的情况。
 
 
-###css
+### css
 
 ```+css
 /* 颜色变量定义 */
