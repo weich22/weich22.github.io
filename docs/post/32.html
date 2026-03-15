@@ -364,7 +364,12 @@ html, body, #main, .Gmeek-mainindex {
     }
 })();
 
-</code></pre></div>
+</code></pre>
+<p>✅ 最终效果确认<br>
+​长标题：在窄屏上字体会轻微缩小，若仍装不下则自动换行，且绝对不会遮挡右侧图标。<br>
+​全站统一：首页和文章页都遵循 97% 宽度居中原则，看起来像一个完整的应用窗口。<br>
+​性能：移除了冗余的 flex 计算，直接使用盒模型 padding 保护，渲染更稳定。<br>
+​上线代码后如果在某些极窄的设备（如 300px 以下）还有微调需求，我们可以再调整 clamp 的最小值。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
