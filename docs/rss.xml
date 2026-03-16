@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Mon, 16 Mar 2026 02:55:18 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek响应式优化布局主题</title><link>https://g.weich.ee/post/32.html</link><description>### 小屏居中
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Mon, 16 Mar 2026 04:47:09 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>华强北手表s100更新后蓝牙无媒体声音</title><link>https://g.weich.ee/post/33.html</link><description>更新的版本：
+DW_W527_FW13FBAV35_XTQ_S100_J0_GB_CN
+ZX_W4.0T_4.4V_256X24B_CN_480X480_V02_20260310_0319_20260310-0321
+
+
+默认的“硬件卸载”解码逻辑和耳机对不上，打开  `“停用蓝牙 A2DP 硬件卸载”`   强制让系统通过软件解码，路径一下就通了。</description><guid isPermaLink="true">https://g.weich.ee/post/33.html</guid><pubDate>Mon, 16 Mar 2026 04:46:36 +0000</pubDate></item><item><title>Gmeek响应式优化布局主题</title><link>https://g.weich.ee/post/32.html</link><description>### 小屏居中
 
 ![Gmeek 响应式居中优化布局](https://weich22.github.io/imagesw/S6031609224196.webp)
 
