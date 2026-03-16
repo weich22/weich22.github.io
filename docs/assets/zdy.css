@@ -256,13 +256,13 @@ pre[class*="language-"] code * {
     min-height: 65px !important;
     height: auto !important;
     /* 保持 0.12 底色，提供水晶物质感 */
-    background: rgba(255, 255, 255, 0.12) !important;
+    background: rgba(255, 255, 255, 0.3) !important;
     /* 彻底移除毛玻璃，确保绝对通透 */
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     padding: 12px 20px !important;
     /* 分割线提亮：由 0.03 上调至 0.06，增强悬浮边界感 */
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15) !important;
     z-index: 9999 !important;
     box-sizing: border-box !important;
     display: flex !important;
