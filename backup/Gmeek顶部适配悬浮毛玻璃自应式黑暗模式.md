@@ -119,11 +119,11 @@
 ```
 
 
-第二个版本css要用的话也是全部替换，差不多的。
+第二个版本css要用的话也是全部替换，差不多的，最大区别就是去除了多余宽度限制大小。
 
 
 ```dos
-/* --- A 线程：全屏毛玻璃悬浮 (仅借鉴 B 线程 Flex 布局) --- */
+/* --- A 线程修复：全屏毛玻璃 (彻底移除 B 的宽度限制) --- */
 #header {
     position: fixed !important;
     top: 0 !important;
@@ -138,7 +138,6 @@
     border-bottom: 1px solid rgba(0,0,0,0.1) !important;
     z-index: 9999 !important;
     box-sizing: border-box !important;
-    /* 借鉴 B 的布局核心：让标题和按钮分立两侧，无需 JS 介入 */
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
@@ -149,7 +148,7 @@
     border-color: rgba(255,255,255,0.1) !important;
 }
 
-/* 优化标题：自适应字号 + 自动换行不遮挡按钮 */
+/* 标题布局优化 */
 .blogTitle, .postTitle {
     display: block !important;
     font-size: clamp(18px, 5vw, 24px) !important;
@@ -159,7 +158,6 @@
     word-break: break-all !important;
     line-height: 1.3 !important;
     margin: 0 !important;
-    /* 借鉴 B 的弹性逻辑：确保标题换行时背景自动撑高 */
     flex: 1 !important;
     padding-right: 15px !important;
 }
@@ -168,7 +166,6 @@
     color: #adbac7 !important;
 }
 
-/* 按钮组：守住右侧，不随标题抖动 */
 .title-right {
     display: flex !important;
     gap: 12px !important;
@@ -176,11 +173,12 @@
     z-index: 10000 !important;
 }
 
-/* --- 回归 A 线程纯净内容区：坚决不要 B 线程的边框和背景 --- */
+/* --- 回归图1布局：移除 width 95% 和 max-width --- */
 #content, .main {
     margin: 85px auto 0 auto !important;
     padding: 0 20px !important;
-    max-width: 900px !important;
+    width: auto !important; /* 恢复自动宽度 */
+    max-width: none !important; /* 彻底移除宽度上限 */
     background: transparent !important;
     border: none !important;
 }
