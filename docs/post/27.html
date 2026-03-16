@@ -110,6 +110,10 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <li><strong>结论：</strong> 该组件受系统固件底层保护，执行 pm disable 报错。</li>
 </ul>
 <p>现在实在想禁用只能禁用那个充电特效动画，桌面就用第三方桌面顶替，因为这个手表磁吸充电的，经常不稳正在用到一半，那个充电特效动画老是弹出来。</p>
+<h3>黑屏指纹验证振动关闭</h3>
+<p>硬件级别震动强度归零（针对物理反馈），副作用我不知道，实测s100有效。</p>
+<pre lang="dos" class="notranslate"><code class="notranslate">adb shell settings put system haptic_feedback_intensity 0
+</code></pre>
 <h3>核心：</h3>
 <ul>
 <li>激活 AppOpsX 脚本： adb shell sh /sdcard/Android/data/com.zzzmode.appopsx/opsx.sh</li>
