@@ -1,5 +1,6 @@
 ### 小屏居中
 
+![Gmeek 响应式居中优化布局](https://weich22.github.io/imagesw/S6031609224196.webp)
 
 版本 A：经典居中限宽版 (Max-Width 1000px)
 ​特点：保留了 1000px 的最大宽度限制，在大屏上会保持居中长条状，视觉重心更集中，适合文字阅读。
@@ -93,6 +94,7 @@
 
 ### 大屏
 
+![Gmeek 响应式大屏优化布局](https://weich22.github.io/imagesw/S6031610400750mark.webp)
 
 版本 B：大屏全适配版 (Max-Width Unlocked)
 ​特点：彻底解除 900px 的限制，让页面在超宽屏幕上也能占据 95% 的宽度，适合喜欢极致大视野的用户。
