@@ -319,7 +319,7 @@ pre[class*="language-"] code * {
 
 
 
-/* --- A 线程：全屏半透明 (去毛玻璃纯净版) --- */
+/* --- A 线程：极致半透明 0.2 版 --- */
 #header {
     position: fixed !important;
     top: 0 !important;
@@ -327,8 +327,8 @@ pre[class*="language-"] code * {
     width: 100% !important;
     min-height: 65px !important;
     height: auto !important;
-    /* 仅保留半透明底色，已彻底删除 blur 冗余 */
-    background: rgba(255,255,255,0.7) !important;
+    /* 仅保留 0.2 透明度底色，完全剔除毛玻璃相关代码 */
+    background: rgba(255,255,255,0.2) !important;
     padding: 12px 20px !important;
     border-bottom: 1px solid rgba(0,0,0,0.1) !important;
     z-index: 9999 !important;
@@ -339,11 +339,11 @@ pre[class*="language-"] code * {
 }
 
 [data-color-mode='dark'] #header {
-    background: rgba(13,17,23,0.7) !important;
+    background: rgba(13,17,23,0.2) !important;
     border-color: rgba(255,255,255,0.1) !important;
 }
 
-/* 标题布局优化：保留 Flex 逻辑，防止遮挡按钮 */
+/* 标题布局优化 - 保持不变 */
 .blogTitle, .postTitle {
     display: block !important;
     font-size: clamp(18px, 5vw, 24px) !important;
@@ -368,7 +368,7 @@ pre[class*="language-"] code * {
     z-index: 10000 !important;
 }
 
-/* 内容布局：保持全屏通透，无宽度限制 */
+/* 内容布局 - 保持全屏通透，无宽度限制 */
 #content, .main {
     margin: 85px auto 0 auto !important;
     padding: 0 20px !important;
