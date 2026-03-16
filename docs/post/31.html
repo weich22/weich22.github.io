@@ -488,7 +488,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 </code></pre>
 <h3>更改为水晶透明</h3>
-<pre lang="dos" class="notranslate"><code class="notranslate">/* --- A 线程：水晶悬浮全屏版 --- */
+<pre lang="dos" class="notranslate"><code class="notranslate">/* --- A 线程：水晶悬浮全屏版 (分割线质感增强) --- */
 #header {
     position: fixed !important;
     top: 0 !important;
@@ -496,14 +496,14 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     width: 100% !important;
     min-height: 65px !important;
     height: auto !important;
-    /* 水晶质感核心：0.12 的极淡底色，提供物质感而不产生雾气 */
+    /* 保持 0.12 底色，提供水晶物质感 */
     background: rgba(255, 255, 255, 0.12) !important;
-    /* 彻底物理移除毛玻璃滤镜，确保通透 */
+    /* 彻底移除毛玻璃，确保绝对通透 */
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     padding: 12px 20px !important;
-    /* 水晶边缘线：若隐若现的分割感 */
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    /* 分割线提亮：由 0.03 上调至 0.06，增强悬浮边界感 */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
     z-index: 9999 !important;
     box-sizing: border-box !important;
     display: flex !important;
@@ -511,13 +511,13 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     align-items: center !important;
 }
 
-/* 黑暗模式适配：保持水晶通透度 */
+/* 黑暗模式：同步增强边缘线 */
 [data-color-mode='dark'] #header {
     background: rgba(34, 39, 46, 0.15) !important;
-    border-color: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.06) !important;
 }
 
-/* 标题布局逻辑：全屏适配与防重叠 */
+/* 标题全屏布局逻辑 */
 .blogTitle, .postTitle {
     display: block !important;
     font-size: clamp(18px, 5vw, 24px) !important;
@@ -542,7 +542,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     z-index: 10000 !important;
 }
 
-/* 正文容器：确保不被悬浮头遮挡 */
+/* 正文避让间距 */
 #content, .main {
     margin: 95px auto 0 auto !important;
     padding: 0 20px !important;
@@ -552,7 +552,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     border: none !important;
 }
 
-/* 隐藏多余元素 */
+/* 隐藏副标题及冗余图标 */
 .subTitle, .SideNav-icon { display: none !important; }
 
 </code></pre></div>
