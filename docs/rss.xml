@@ -1,6 +1,161 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Mon, 16 Mar 2026 01:33:48 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek主题</title><link>https://g.weich.ee/post/32.html</link><description>```dos
-#header{background:#f1f3f4!important;padding:12px 15px!important;border:1px solid #c1c1c1!important;border-bottom:none!important;border-radius:8px 8px 0 0!important;width:95%!important;max-width:1000px!important;margin:45px auto 0 auto!important;box-sizing:border-box!important;display:flex!important;justify-content:space-between!important;align-items:center!important}#content,.main{background:#fff!important;border:1px solid #c1c1c1!important;border-top:none!important;border-bottom:none!important;width:95%!important;max-width:1000px!important;margin:0 auto!important;padding:40px 30px!important;box-sizing:border-box!important;min-height:70vh!important}#footer{background:#fff!important;border:1px solid #c1c1c1!important;border-top:none!important;border-radius:0 0 8px 8px!important;width:95%!important;max-width:1000px!important;margin:0 auto 30px auto!important;padding:20px 0!important;box-shadow:0 8px 20px rgba(0,0,0,0.1)!important}[data-color-mode='dark'] #header{background:#2d333b!important;border-color:#444c56!important}[data-color-mode='dark'] #content,[data-color-mode='dark'] .main,[data-color-mode='dark'] #footer{background:#22272e!important;border-color:#444c56!important}.blogTitle{display:block!important;font-size:24px!important;font-weight:bold!important;color:#24292f!important;text-decoration:none!important}[data-color-mode='dark'] .blogTitle{color:#adbac7!important}.title-right{display:flex!important;gap:12px!important;z-index:9999!important;pointer-events:auto!important}.subTitle,.SideNav-icon{display:none!important}
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Mon, 16 Mar 2026 02:47:49 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek主题</title><link>https://g.weich.ee/post/32.html</link><description>### 小屏居中
+```dos
+/* --- Gmeek 页面样式格式化 --- */
+
+/* 顶部标题栏 */
+#header {
+    background: #f1f3f4 !important;
+    padding: 12px 15px !important;
+    border: 1px solid #c1c1c1 !important;
+    border-bottom: none !important;
+    border-radius: 8px 8px 0 0 !important;
+    width: 95% !important;
+    max-width: 1000px !important;
+    margin: 45px auto 0 auto !important; /* 顶部外边距 */
+    box-sizing: border-box !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important; /* 垂直居中对齐 */
+}
+
+/* 正文内容区 */
+#content, .main {
+    background: #fff !important;
+    border: 1px solid #c1c1c1 !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    width: 95% !important;
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    padding: 40px 30px !important;
+    box-sizing: border-box !important;
+    min-height: 70vh !important;
+}
+
+/* 底部栏 */
+#footer {
+    background: #fff !important;
+    border: 1px solid #c1c1c1 !important;
+    border-top: none !important;
+    border-radius: 0 0 8px 8px !important;
+    width: 95% !important;
+    max-width: 1000px !important;
+    margin: 0 auto 30px auto !important;
+    padding: 20px 0 !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1) !important;
+}
+
+/* 暗色模式适配 */
+[data-color-mode='dark'] #header {
+    background: #2d333b !important;
+    border-color: #444c56 !important;
+}
+
+[data-color-mode='dark'] #content, 
+[data-color-mode='dark'] .main, 
+[data-color-mode='dark'] #footer {
+    background: #22272e !important;
+    border-color: #444c56 !important;
+}
+
+/* 博客标题样式 */
+.blogTitle {
+    display: block !important;
+    font-size: 24px !important;
+    font-weight: bold !important;
+    color: #24292f !important;
+    text-decoration: none !important;
+}
+
+[data-color-mode='dark'] .blogTitle {
+    color: #adbac7 !important;
+}
+
+/* 右侧图标组（搜索、天气等） */
+.title-right {
+    display: flex !important;
+    gap: 12px !important;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+}
+
+/* 隐藏冗余元素 */
+.subTitle, .SideNav-icon {
+    display: none !important;
+}
+
+```
+
+### 大屏
+
+```dos
+/* --- Gmeek 全局大屏适配与 UI 修正 --- */
+
+
+/* 1. 解除 body 宽度限制，适配大屏并恢复顶部间距 */
+
+body {
+
+width: 95% !important;
+
+max-width: none !important; /* 核心：拆除 900px 限制墙 */
+
+margin: 45px auto 0 auto !important; /* 恢复顶部 45px 间距，解决靠顶问题 */
+
+padding: 0 !important;
+
+}
+
+
+/* 2. 标题栏：填满 body 宽度并实现垂直居中 */
+
+#header {
+
+background: #f1f3f4 !important;
+
+padding: 12px 15px !important;
+
+border: 1px solid #c1c1c1 !important;
+
+border-bottom: none !important;
+
+border-radius: 8px 8px 0 0 !important;
+
+width: 100% !important;
+
+box-sizing: border-box !important;
+
+display: flex !important;
+
+justify-content: space-between !important;
+
+align-items: center !important; /* 图标与标题垂直中心对齐 */
+
+}
+
+
+/* 3. 正文内容区：同步 body 宽度 */
+
+#content, .main {
+
+background: #fff !important;
+
+border: 1px solid #c1c1c1 !important;
+
+border-top: none !important;
+
+border-bottom: none !important;
+
+width: 100% !important;
+
+padding: 40px 30px !important;
+
+box-sizing: border-box !important;
+
+min-height: 70vh !important;
+
+}
 
 ```。</description><guid isPermaLink="true">https://g.weich.ee/post/32.html</guid><pubDate>Sun, 15 Mar 2026 19:27:48 +0000</pubDate></item><item><title>Gmeek顶部适配悬浮毛玻璃自应式黑暗模式</title><link>https://g.weich.ee/post/31.html</link><description>```dos
 /* --- A线程：全屏贯穿+自动适配明暗模式的导航栏 --- */
