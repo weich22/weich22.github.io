@@ -174,4 +174,4 @@ min-height: 70vh !important;
 📋 总结对比
 ​两个版本都修复了 45px 的顶部间距，解决了页面死贴边缘的问题。
 ​均采用 flex 布局并设置 align-items: center，确保图标不会上下错位。
-​主要区别在于 max-width：版本 A 随屏幕无限变宽，版本 B 锁定在 1000px 以内。
+​主要区别在于 max-width：版本 B 随屏幕无限变宽，版本 A 锁定在 1000px 以内。
