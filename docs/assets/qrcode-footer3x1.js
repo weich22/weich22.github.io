@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /*文章页面显示上下文章链接和发布文章日期*/
-
+/*
 
 (function() {
     if (window.GmeekFooterDone) return;
@@ -401,7 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var footerInterval = setInterval(initGmeekPlugins, 300);
 })();
 
-
+*/
 
 
 /*根据标签背景颜色更改标签字体颜色*/
