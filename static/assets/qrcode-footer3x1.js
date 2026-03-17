@@ -473,89 +473,60 @@ document.addEventListener('DOMContentLoaded', () => {
 /*文章里面显示标签和日期和上下一篇文章*/
 
 (function() {
-    const c = document.getElementById('cmButton');
-    if (!c || document.getElementById('customLabels')) return;
+    function getAdaptiveColor(bg) {
+        const rgb = bg.match(/\d+/g);
+        if (!rgb || rgb.length < 3) return "#ffffff";
+        const [r, g, b] = rgb.map(Number);
+        const l = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        return l > 0.6 ? "#000000" : "#ffffff";
+    }
 
-    const p = window.location.pathname.split('/').pop();
-    const u = window.location.href;
-
-    // 1. 获取 RSS 数据：用于日期和上下篇文章跳转
-    fetch("/rss.xml").then(r => r.text()).then(x => {
-        const d = new DOMParser().parseFromString(x, "text/xml");
-        const is = Array.from(d.querySelectorAll("item"));
-        let idx = -1;
-
-        // 定位当前文章在 RSS 中的位置
-        for (let i = 0; i < is.length; i++) {
-            const l = is[i].querySelector("link").textContent;
-            if (l === u || l.indexOf(p) !== -1) {
-                idx = i;
-                break;
-            }
-        }
-
-        if (idx === -1) return; // 若不在 RSS 中则不执行
-
-        // 2. 生成发布日期与上下篇 (样式参考图 4)
-        const it = is[idx];
-        const pub = new Date(it.querySelector("pubDate").textContent);
-        const dt = pub.getFullYear() + '-' + (pub.getMonth() + 1) + '-' + pub.getDate();
-
-        const box = document.createElement('div');
-        box.style.cssText = "margin-top:30px;padding-top:20px;border-top:1px solid var(--color-border-default);clear:both;font-size:14px;";
-
-        let h = '<div style="color:var(--color-fg-muted);margin-bottom:15px;">📅 发布日期：' + dt + '</div>';
-        h += '<div style="display:flex;flex-direction:column;gap:10px;">';
-
-        // 上一篇：索引更小的文章 (更新)
-        if (idx > 0) {
-            h += '<div><span style="color:var(--color-fg-muted);">← 上一篇：</span><a href="' + is[idx - 1].querySelector("link").textContent + '" style="color:var(--color-accent-fg);text-decoration:none;">' + is[idx - 1].querySelector("title").textContent + '</a></div>';
-        }
-        // 下一篇：索引更大的文章 (更旧)
-        if (idx < is.length - 1) {
-            h += '<div><span style="color:var(--color-fg-muted);">→ 下一篇：</span><a href="' + is[idx + 1].querySelector("link").textContent + '" style="color:var(--color-accent-fg);text-decoration:none;">' + is[idx + 1].querySelector("title").textContent + '</a></div>';
-        }
-        h += '</div>';
-        box.innerHTML = h;
-        c.before(box);
-
-        // 3. 翻页抓取首页标签及背景颜色
-        function s(url) {
-            fetch(url).then(r => r.text()).then(h => {
-                const d = new DOMParser().parseFromString(h, "text/html");
-                const ps = d.querySelector("a.SideNav-item[href*='" + p + "']");
-                
-                if (ps) {
-                    const b = document.createElement('div');
-                    b.id = "customLabels";
-                    b.style.cssText = "margin-bottom:15px;display:flex;flex-wrap:wrap;gap:8px;";
-                    
-                    ps.querySelectorAll(".LabelName,.Label").forEach(l => {
-                        const t = l.innerText.trim();
-                        if (t && !/^\d{4}/.test(t)) {
-                            const a = document.createElement('a');
-                            a.href = "/tag.html#" + t;
-                            a.innerText = t;
-
-                            // 关键：隐身克隆获取 computedStyle 颜色
-                            const temp = document.body.appendChild(l.cloneNode(true));
-                            temp.style.display = "none";
-                            const bg = window.getComputedStyle(temp).backgroundColor;
-                            document.body.removeChild(temp);
-
-                            a.style.cssText = "background-color:" + bg + ";color:#fff;padding:2px 10px;border-radius:20px;font-size:12px;text-decoration:none;display:inline-block;";
-                            b.appendChild(a);
-                        }
-                    });
-                    if (b.children.length > 0) c.before(b);
-                } else {
-                    const n = d.querySelector('.pagination a:last-child, a[rel="next"], .next_page');
-                    if (n && n.getAttribute('href') && n.getAttribute('href') !== url) s(n.getAttribute('href'));
+    function syncLabelColors() {
+        const selectors = '.Label, .LabelName, .post-tag, .listLabels span, .listLabels a';
+        document.querySelectorAll(selectors).forEach(el => {
+            if (el.dataset.colorFixed === "true" && !el.dataset.dirty) return;
+            try {
+                let bg = window.getComputedStyle(el).backgroundColor;
+                if (bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') {
+                    bg = window.getComputedStyle(el.parentElement).backgroundColor;
                 }
-            });
-        }
-        s("/index.html");
-    });
-})();
+                if (bg && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)') {
+                    const fg = getAdaptiveColor(bg);
+                    const target = (el.tagName === 'A') ? el : (el.querySelector('a') || el);
+                    if (target && target.style) {
+                        target.style.setProperty('color', fg, 'important');
+                        target.style.setProperty('text-shadow', 'none', 'important');
+                        el.dataset.colorFixed = "true";
+                        delete el.dataset.dirty; 
+                    }
+                }
+            } catch (e) {}
+        });
+    }
 
+    // 1. 初始执行：前 5 秒高频检测，确保首屏渲染
+    syncLabelColors();
+    let count = 0;
+    const initTimer = setInterval(() => {
+        syncLabelColors();
+        if (++count > 10) clearInterval(initTimer); // 5秒后强制停止，不占用资源
+    }, 500);
+
+    // 2. 监听：模式切换（只有手动点太阳/月亮时才触发一次）
+    if (document.documentElement) {
+        new MutationObserver(() => {
+            document.querySelectorAll('.Label, .LabelName, .post-tag, .listLabels span').forEach(el => {
+                el.dataset.dirty = "true";
+            });
+            syncLabelColors();
+        }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-color-mode'] });
+    }
+
+    // 3. 智能监听：只有当页面里真的新加了东西（比如评论加载了）才会执行，比定时器省电
+    const contentObserver = new MutationObserver(() => syncLabelColors());
+    const targetNode = document.getElementById('comments') || document.body;
+    if (targetNode) {
+        contentObserver.observe(targetNode, { childList: true, subtree: true });
+    }
+})();
 
