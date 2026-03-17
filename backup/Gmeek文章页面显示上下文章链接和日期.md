@@ -353,3 +353,112 @@ if (!postBody) return;
 
 如果发现某些新标签颜色没变怎么办？
 ​修改点：在自适应字体脚本中，找到 const l = '...' 这一行，在后面添加该标签的 CSS 类名（用逗号隔开）。
+
+
+### 更新添加本文标签文本
+
+```dos
+(function() {
+    let checkCount = 0;
+    const run = () => {
+        const c = document.getElementById('cmButton');
+        // 等待评论按钮出现，最多尝试 10 秒
+        if (!c) {
+            if (checkCount++ < 20) setTimeout(run, 500); 
+            return;
+        }
+        if (document.getElementById('customLabels')) return;
+
+        const p = window.location.pathname;
+        const u = window.location.href;
+
+        // 1. 抓取 RSS：日期与上下篇
+        fetch("/rss.xml").then(r => r.text()).then(x => {
+            const d = new DOMParser().parseFromString(x, "text/xml");
+            const items = Array.from(d.querySelectorAll("item"));
+            let idx = -1;
+
+            // 采用最稳的双向匹配逻辑
+            for (let i = 0; i < items.length; i++) {
+                const link = items[i].querySelector("link").textContent;
+                if (link.indexOf(p) !== -1 || p.indexOf(link) !== -1 || link === u) {
+                    idx = i;
+                    break;
+                }
+            }
+
+            if (idx === -1) return;
+
+            const pub = new Date(items[idx].querySelector("pubDate").textContent);
+            const dt = pub.getFullYear() + '-' + (pub.getMonth() + 1) + '-' + pub.getDate();
+
+            const box = document.createElement('div');
+            // 设置整体容器样式
+            box.style.cssText = "margin-top:30px;padding-top:20px;border-top:1px solid var(--color-border-default);clear:both;font-size:14px;";
+            
+            let h = '<div style="color:var(--color-fg-muted);margin-bottom:15px;">📅 发布日期：' + dt + '</div><div style="display:flex;flex-direction:column;gap:10px;">';
+            
+            // 索引越小越新，索引越大越旧
+            if (idx > 0) {
+                h += '<div><span style="color:var(--color-fg-muted);">← 上一篇：</span><a href="' + items[idx - 1].querySelector("link").textContent + '" style="color:var(--color-accent-fg);text-decoration:none;">' + items[idx - 1].querySelector("title").textContent + '</a></div>';
+            }
+            if (idx < items.length - 1) {
+                h += '<div><span style="color:var(--color-fg-muted);">→ 下一篇：</span><a href="' + items[idx + 1].querySelector("link").textContent + '" style="color:var(--color-accent-fg);text-decoration:none;">' + items[idx + 1].querySelector("title").textContent + '</a></div>';
+            }
+            h += '</div>';
+            box.innerHTML = h;
+            c.before(box);
+
+            // 2. 抓取标签：使用严格后缀匹配，修正个位数 ID 错误
+            const s = (url) => {
+                fetch(url).then(r => r.text()).then(ht => {
+                    const doc = new DOMParser().parseFromString(ht, "text/html");
+                    const pathName = p.split('/').pop();
+                    
+                    // 核心修复：使用 [href$='/3.html'] 这种结尾匹配，防止误抓 33.html
+                    const exactSelector = "a[href$='/" + pathName + "']";
+                    const postEntry = doc.querySelector(exactSelector);
+                    const container = postEntry ? postEntry.closest('.SideNav-item') : null;
+                    
+                    if (container) {
+                        const b = document.createElement('div');
+                        b.id = "customLabels";
+                        // 修正：增加 margin-top: 15px 让标签和上面的链接分开
+                        b.style.cssText = "margin-top:15px;margin-bottom:15px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;";
+                        
+                        // 添加提示文字
+                        b.innerHTML = '<span style="color:var(--color-fg-muted);font-size:14px;">本文标签：</span>';
+
+                        container.querySelectorAll("span[class*='Label']").forEach(l => {
+                            const t = l.innerText.trim();
+                            // 校验标签内容：排除以4位数字（年份）开头的日期标签
+                            if (t && !/^\d{4}/.test(t)) {
+                                const a = document.createElement('a');
+                                a.href = "/tag.html#" + t;
+                                a.innerText = t;
+                                
+                                // 克隆样式获取颜色
+                                const temp = document.body.appendChild(l.cloneNode(true));
+                                temp.style.display = "none";
+                                const bg = window.getComputedStyle(temp).backgroundColor;
+                                document.body.removeChild(temp);
+                                
+                                a.style.cssText = "background-color:" + bg + ";color:#fff;padding:2px 10px;border-radius:20px;font-size:12px;text-decoration:none;display:inline-block;";
+                                b.appendChild(a);
+                            }
+                        });
+                        if (b.children.length > 1) c.before(b);
+                    } else {
+                        // 没找到就翻下一页
+                        const n = doc.querySelector('.pagination a:last-child, a[rel="next"]');
+                        if (n && n.getAttribute('href') && n.getAttribute('href') !== url) s(n.getAttribute('href'));
+                    }
+                });
+            };
+            s("/index.html");
+        });
+    };
+    run();
+})();
+
+```
