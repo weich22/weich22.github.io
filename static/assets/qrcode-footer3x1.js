@@ -470,5 +470,79 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+/*文章里面显示标签和日期和上下一篇文章*/
 
+
+
+(function() {
+    if (window.GmeekFooterDone) return;
+    function initGmeekPlugins() {
+        const c = document.getElementById('cmButton');
+        const h = document.querySelector(".postTitle");
+        if (!c || !h) return;
+
+        clearInterval(footerInterval);
+        window.GmeekFooterDone = true;
+
+        const t = h.innerText.trim();
+        let g = [], ps = [], ci = -1;
+
+        // 异步获取数据
+        Promise.all([
+            fetch("/index.html").then(r => r.text()),
+            fetch("/rss.xml").then(r => r.text())
+        ]).then(([hText, rText]) => {
+            // 1. 处理首页标签（严格过滤日期格式）
+            const d = new DOMParser().parseFromString(hText, "text/html");
+            d.querySelectorAll("a.SideNav-item").forEach(i => {
+                if (i.innerText.includes(t)) {
+                    i.querySelectorAll(".LabelName,.Label").forEach(l => {
+                        const s = l.innerText.replace(/\d+$/, "").trim();
+                        // 过滤掉 2026-03-16 或 2026-3-16 格式
+                        if (!/^\d{4}-\d{1,2}-\d{1,2}$/.test(s)) g.push(s);
+                    });
+                }
+            });
+
+            // 2. 处理 RSS 上下一篇
+            const x = new DOMParser().parseFromString(rText, "text/xml");
+            const is = x.getElementsByTagName("item");
+            const cp = window.location.pathname;
+            for (let i = 0; i < is.length; i++) {
+                const l = is[i].getElementsByTagName("link")[0].textContent;
+                const ti = is[i].getElementsByTagName("title")[0].textContent;
+                const da = is[i].getElementsByTagName("pubDate")[0].textContent;
+                ps.push({ title: ti, link: l, date: da });
+                if (ci === -1 && (l.includes(cp) || cp.includes(l))) ci = i;
+            }
+
+            if (ci === -1) return;
+
+            // 3. 统一渲染
+            const dt = new Date(ps[ci].date);
+            const ds = dt.getFullYear() + '-' + (dt.getMonth() + 1) + '-' + dt.getDate();
+            const f = document.createElement('div');
+            f.style.cssText = "margin:20px 0;padding:15px;border-top:1px solid var(--color-border-default);font-size:14px;";
+
+            let html = `<div style="color:var(--color-fg-muted);margin-bottom:15px;">📅 发布日期：${ds}</div>`;
+            
+            if (g.length > 0) {
+                html += '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:15px;">';
+                [...new Set(g)].forEach(s => {
+                    html += `<a href="/tag.html#${s}" style="background:#0366d6;color:#fff;padding:2px 10px;border-radius:20px;font-size:12px;text-decoration:none;">${s}</a>`;
+                });
+                html += '</div>';
+            }
+
+            html += '<div style="display:flex;flex-direction:column;gap:10px;">';
+            if (ci > 0) html += `<div><span style="color:var(--color-fg-muted);">← 上一篇：</span><a href="${ps[ci-1].link}" style="color:var(--color-accent-fg);text-decoration:none;">${ps[ci-1].title}</a></div>`;
+            if (ci < ps.length - 1) html += `<div><span style="color:var(--color-fg-muted);">→ 下一篇：</span><a href="${ps[ci+1].link}" style="color:var(--color-accent-fg);text-decoration:none;">${ps[ci+1].title}</a></div>`;
+            html += '</div>';
+
+            f.innerHTML = html;
+            c.before(f);
+        }).catch(e => console.error("GmeekPluginError:", e));
+    }
+    var footerInterval = setInterval(initGmeekPlugins, 300);
+})();
 
