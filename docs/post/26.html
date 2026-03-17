@@ -266,6 +266,7 @@ if (!postBody) return;
 <p>·它的作用:当你在首页、标签页(tag.html)或关于页时,脚本虽然会加载,但它发现页面上没有 postBody(正文容器),就会立即停止运行(return)。<br>
 ·性能影响:这种判断在毫秒级就能完成,对非文章页面的性能消耗微乎其微。</p>
 <h3>更新加在文章内显示标签</h3>
+<p>是直接调换原来的全部代码</p>
 <pre lang="dos" class="notranslate"><code class="notranslate">(function() {
     let checkCount = 0;
     const run = () =&gt; {
