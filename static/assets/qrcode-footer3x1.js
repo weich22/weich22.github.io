@@ -487,20 +487,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const t = h.innerText.trim();
         let g = [], ps = [], ci = -1;
 
-        // 异步获取数据
+        // 异步获取数据：改用 tag.html 确保老文章也能抓到标签
         Promise.all([
-            fetch("/index.html").then(r => r.text()),
+            fetch("/tag.html").then(r => r.text()),
             fetch("/rss.xml").then(r => r.text())
-        ]).then(([hText, rText]) => {
-            // 1. 处理首页标签（严格过滤日期格式）
-            const d = new DOMParser().parseFromString(hText, "text/html");
-            d.querySelectorAll("a.SideNav-item").forEach(i => {
+        ]).then(([tText, rText]) => {
+            // 1. 从全站标签页抓取对应文章的标签
+            const d = new DOMParser().parseFromString(tText, "text/html");
+            // 找到包含文章标题的列表项
+            d.querySelectorAll(".SideNav-item").forEach(i => {
                 if (i.innerText.includes(t)) {
-                    i.querySelectorAll(".LabelName,.Label").forEach(l => {
-                        const s = l.innerText.replace(/\d+$/, "").trim();
-                        // 过滤掉 2026-03-16 或 2026-3-16 格式
-                        if (!/^\d{4}-\d{1,2}-\d{1,2}$/.test(s)) g.push(s);
-                    });
+                    const ls = i.querySelectorAll(".LabelName,.Label");
+                    // 将标签存入数组，去掉末尾可能存在的数量数字
+                    ls.forEach(l => g.push(l.innerText.replace(/\d+$/, "").trim()));
+                    // 核心逻辑：日期标签通常在最后。如果标签数大于1，弹出最后一个（日期）
+                    if (g.length > 1) { g.pop(); }
+                    // 备用方案：通过正则再次过滤掉任何带横杠的日期格式 (如 2026-03)
+                    g = g.filter(s => !/^\d{4}-\d{1,2}/.test(s));
                 }
             });
 
@@ -518,10 +521,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (ci === -1) return;
 
-            // 3. 统一渲染
+            // 3. 统一渲染内容
             const dt = new Date(ps[ci].date);
             const ds = dt.getFullYear() + '-' + (dt.getMonth() + 1) + '-' + dt.getDate();
             const f = document.createElement('div');
+            f.id = "gmeek-combined-footer";
             f.style.cssText = "margin:20px 0;padding:15px;border-top:1px solid var(--color-border-default);font-size:14px;";
 
             let html = `<div style="color:var(--color-fg-muted);margin-bottom:15px;">📅 发布日期：${ds}</div>`;
@@ -545,4 +549,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     var footerInterval = setInterval(initGmeekPlugins, 300);
 })();
-
