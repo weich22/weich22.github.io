@@ -472,5 +472,90 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /*文章里面显示标签和日期和上下一篇文章*/
 
+(function() {
+    const c = document.getElementById('cmButton');
+    if (!c || document.getElementById('customLabels')) return;
+
+    const p = window.location.pathname.split('/').pop();
+    const u = window.location.href;
+
+    // 1. 获取 RSS 数据：用于日期和上下篇文章跳转
+    fetch("/rss.xml").then(r => r.text()).then(x => {
+        const d = new DOMParser().parseFromString(x, "text/xml");
+        const is = Array.from(d.querySelectorAll("item"));
+        let idx = -1;
+
+        // 定位当前文章在 RSS 中的位置
+        for (let i = 0; i < is.length; i++) {
+            const l = is[i].querySelector("link").textContent;
+            if (l === u || l.indexOf(p) !== -1) {
+                idx = i;
+                break;
+            }
+        }
+
+        if (idx === -1) return; // 若不在 RSS 中则不执行
+
+        // 2. 生成发布日期与上下篇 (样式参考图 4)
+        const it = is[idx];
+        const pub = new Date(it.querySelector("pubDate").textContent);
+        const dt = pub.getFullYear() + '-' + (pub.getMonth() + 1) + '-' + pub.getDate();
+
+        const box = document.createElement('div');
+        box.style.cssText = "margin-top:30px;padding-top:20px;border-top:1px solid var(--color-border-default);clear:both;font-size:14px;";
+
+        let h = '<div style="color:var(--color-fg-muted);margin-bottom:15px;">📅 发布日期：' + dt + '</div>';
+        h += '<div style="display:flex;flex-direction:column;gap:10px;">';
+
+        // 上一篇：索引更小的文章 (更新)
+        if (idx > 0) {
+            h += '<div><span style="color:var(--color-fg-muted);">← 上一篇：</span><a href="' + is[idx - 1].querySelector("link").textContent + '" style="color:var(--color-accent-fg);text-decoration:none;">' + is[idx - 1].querySelector("title").textContent + '</a></div>';
+        }
+        // 下一篇：索引更大的文章 (更旧)
+        if (idx < is.length - 1) {
+            h += '<div><span style="color:var(--color-fg-muted);">→ 下一篇：</span><a href="' + is[idx + 1].querySelector("link").textContent + '" style="color:var(--color-accent-fg);text-decoration:none;">' + is[idx + 1].querySelector("title").textContent + '</a></div>';
+        }
+        h += '</div>';
+        box.innerHTML = h;
+        c.before(box);
+
+        // 3. 翻页抓取首页标签及背景颜色
+        function s(url) {
+            fetch(url).then(r => r.text()).then(h => {
+                const d = new DOMParser().parseFromString(h, "text/html");
+                const ps = d.querySelector("a.SideNav-item[href*='" + p + "']");
+                
+                if (ps) {
+                    const b = document.createElement('div');
+                    b.id = "customLabels";
+                    b.style.cssText = "margin-bottom:15px;display:flex;flex-wrap:wrap;gap:8px;";
+                    
+                    ps.querySelectorAll(".LabelName,.Label").forEach(l => {
+                        const t = l.innerText.trim();
+                        if (t && !/^\d{4}/.test(t)) {
+                            const a = document.createElement('a');
+                            a.href = "/tag.html#" + t;
+                            a.innerText = t;
+
+                            // 关键：隐身克隆获取 computedStyle 颜色
+                            const temp = document.body.appendChild(l.cloneNode(true));
+                            temp.style.display = "none";
+                            const bg = window.getComputedStyle(temp).backgroundColor;
+                            document.body.removeChild(temp);
+
+                            a.style.cssText = "background-color:" + bg + ";color:#fff;padding:2px 10px;border-radius:20px;font-size:12px;text-decoration:none;display:inline-block;";
+                            b.appendChild(a);
+                        }
+                    });
+                    if (b.children.length > 0) c.before(b);
+                } else {
+                    const n = d.querySelector('.pagination a:last-child, a[rel="next"], .next_page');
+                    if (n && n.getAttribute('href') && n.getAttribute('href') !== url) s(n.getAttribute('href'));
+                }
+            });
+        }
+        s("/index.html");
+    });
+})();
 
 
