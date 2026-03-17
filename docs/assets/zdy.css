@@ -188,7 +188,7 @@ pre[class*="language-"] code * {
 .Label[style*="padding: 0"],
 .Label[style*="padding:0"],
 .Label[style*="padding: 0px"] {
-    animation: tagBreath 2s linear infinite !important;
+    animation: tagBreath 1.5s linear infinite !important;
     display: inline-block !important;
     position: relative;
     z-index: 10;
