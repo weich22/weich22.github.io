@@ -327,81 +327,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-/*文章页面显示上下文章链接和发布文章日期*/
-/*
-
-(function() {
-    if (window.GmeekFooterDone) return;
-
-    function initGmeekPlugins() {
-        var postBody = document.getElementById('postBody');
-        if (!postBody) return;
-
-        clearInterval(footerInterval);
-        window.GmeekFooterDone = true;
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/rss.xml', true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                try {
-                    var xml = xhr.responseXML || new DOMParser().parseFromString(xhr.responseText, "text/xml");
-                    var items = xml.getElementsByTagName("item");
-                    var posts = [];
-                    var curPath = window.location.pathname;
-                    var currentIndex = -1;
-
-                    for (var i = 0; i < items.length; i++) {
-                        var link = items[i].getElementsByTagName("link")[0].textContent;
-                        var title = items[i].getElementsByTagName("title")[0].textContent;
-                        var date = items[i].getElementsByTagName("pubDate")[0].textContent;
-                        posts.push({title: title, link: link, date: date});
-                        
-                        if (currentIndex === -1 && (link.indexOf(curPath) !== -1 || curPath.indexOf(link) !== -1)) {
-                            currentIndex = i;
-                        }
-                    }
-
-                    if (currentIndex === -1) return;
-
-                    var d = new Date(posts[currentIndex].date);
-                    var dateStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-                    
-                    var footerDiv = document.createElement('div');
-                    footerDiv.style.cssText = "margin-top:30px; padding-top:20px; border-top:1px solid var(--color-border-default); clear:both; font-size:14px;";
-
-                    var html = '<div style="color:var(--color-fg-muted); margin-bottom:15px;">📅 发布日期：' + dateStr + '</div>';
-                    html += '<div style="display:flex; flex-direction:column; gap:10px;">';
-                    
-                    // 索引较小 (currentIndex - 1) 的是更新的文章，即“上一篇”
-                    if (currentIndex > 0) {
-                        html += '<div><span style="color:var(--color-fg-muted);">← 上一篇：</span><a href="' + posts[currentIndex - 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">' + posts[currentIndex - 1].title + '</a></div>';
-                    }
-                    // 索引较大 (currentIndex + 1) 的是更旧的文章，即“下一篇”
-                    if (currentIndex < posts.length - 1) {
-                        html += '<div><span style="color:var(--color-fg-muted);">→ 下一篇：</span><a href="' + posts[currentIndex + 1].link + '" style="color:var(--color-accent-fg); text-decoration:none;">' + posts[currentIndex + 1].title + '</a></div>';
-                    }
-                    
-                    html += '</div>';
-                    footerDiv.innerHTML = html;
-
-                    var target = postBody.nextElementSibling;
-                    if (target && target.innerText && target.innerText.indexOf('转载') !== -1) {
-                        target.parentNode.insertBefore(footerDiv, target.nextSibling);
-                    } else {
-                        postBody.parentNode.insertBefore(footerDiv, postBody.nextSibling);
-                    }
-
-                } catch (e) { console.error("Footer Mini Error:", e); }
-            }
-        };
-        xhr.send();
-    }
-
-    var footerInterval = setInterval(initGmeekPlugins, 300);
-})();
-
-*/
 
 
 /*根据标签背景颜色更改标签字体颜色*/
@@ -476,6 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let checkCount = 0;
     const run = () => {
         const c = document.getElementById('cmButton');
+        // 等待评论按钮出现，最多尝试 10 秒
         if (!c) {
             if (checkCount++ < 20) setTimeout(run, 500); 
             return;
@@ -485,11 +411,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const p = window.location.pathname;
         const u = window.location.href;
 
+        // 1. 抓取 RSS：日期与上下篇
         fetch("/rss.xml").then(r => r.text()).then(x => {
             const d = new DOMParser().parseFromString(x, "text/xml");
             const items = Array.from(d.querySelectorAll("item"));
             let idx = -1;
 
+            // 采用最稳的双向匹配逻辑
             for (let i = 0; i < items.length; i++) {
                 const link = items[i].querySelector("link").textContent;
                 if (link.indexOf(p) !== -1 || p.indexOf(link) !== -1 || link === u) {
@@ -504,10 +432,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const dt = pub.getFullYear() + '-' + (pub.getMonth() + 1) + '-' + pub.getDate();
 
             const box = document.createElement('div');
+            // 设置整体容器样式
             box.style.cssText = "margin-top:30px;padding-top:20px;border-top:1px solid var(--color-border-default);clear:both;font-size:14px;";
             
             let h = '<div style="color:var(--color-fg-muted);margin-bottom:15px;">📅 发布日期：' + dt + '</div><div style="display:flex;flex-direction:column;gap:10px;">';
             
+            // 索引越小越新，索引越大越旧
             if (idx > 0) {
                 h += '<div><span style="color:var(--color-fg-muted);">← 上一篇：</span><a href="' + items[idx - 1].querySelector("link").textContent + '" style="color:var(--color-accent-fg);text-decoration:none;">' + items[idx - 1].querySelector("title").textContent + '</a></div>';
             }
@@ -518,12 +448,13 @@ document.addEventListener('DOMContentLoaded', () => {
             box.innerHTML = h;
             c.before(box);
 
+            // 2. 抓取标签：使用严格后缀匹配，修正个位数 ID 错误
             const s = (url) => {
                 fetch(url).then(r => r.text()).then(ht => {
                     const doc = new DOMParser().parseFromString(ht, "text/html");
                     const pathName = p.split('/').pop();
                     
-                    // 核心修复：使用 [href$='/3.html'] 这种结尾匹配，防止匹配到 33.html
+                    // 核心修复：使用 [href$='/3.html'] 这种结尾匹配，防止误抓 33.html
                     const exactSelector = "a[href$='/" + pathName + "']";
                     const postEntry = doc.querySelector(exactSelector);
                     const container = postEntry ? postEntry.closest('.SideNav-item') : null;
@@ -531,7 +462,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (container) {
                         const b = document.createElement('div');
                         b.id = "customLabels";
-                        b.style.cssText = "margin-bottom:15px;display:flex;flex-wrap:wrap;gap:8px;";
+                        // 修正：增加 margin-top: 15px 让标签和上面的链接分开
+                        b.style.cssText = "margin-top:15px;margin-bottom:15px;display:flex;flex-wrap:wrap;gap:8px;";
                         
                         container.querySelectorAll("span[class*='Label']").forEach(l => {
                             const t = l.innerText.trim();
@@ -539,16 +471,20 @@ document.addEventListener('DOMContentLoaded', () => {
                                 const a = document.createElement('a');
                                 a.href = "/tag.html#" + t;
                                 a.innerText = t;
+                                
+                                // 克隆样式获取颜色
                                 const temp = document.body.appendChild(l.cloneNode(true));
                                 temp.style.display = "none";
                                 const bg = window.getComputedStyle(temp).backgroundColor;
                                 document.body.removeChild(temp);
+                                
                                 a.style.cssText = "background-color:" + bg + ";color:#fff;padding:2px 10px;border-radius:20px;font-size:12px;text-decoration:none;display:inline-block;";
                                 b.appendChild(a);
                             }
                         });
                         if (b.children.length > 0) c.before(b);
                     } else {
+                        // 没找到就翻下一页
                         const n = doc.querySelector('.pagination a:last-child, a[rel="next"]');
                         if (n && n.getAttribute('href') && n.getAttribute('href') !== url) s(n.getAttribute('href'));
                     }
