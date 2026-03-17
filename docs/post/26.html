@@ -384,7 +384,9 @@ if (!postBody) return;
 ​性能开销：<br>
 ​无需担心。目前的脚本带有 checkCount &lt; 20 的自毁机制。如果在 10 秒内没找到位置，它会自动停止运行，不会持续消耗设备的 CPU 或电池。<br>
 ​间距调整：<br>
-​如果以后觉得标签和上面的链接还是太近或太远，搜索代码中的 margin-top:15px;。调大数字（如 25px）间距就会变大。</p></span></span></div></div>
+​如果以后觉得标签和上面的链接还是太近或太远，搜索代码中的 margin-top:15px;。调大数字（如 25px）间距就会变大。</p>
+<p>如果发现某些新标签颜色没变怎么办？<br>
+​修改点：在自适应字体脚本中，找到 const l = '...' 这一行，在后面添加该标签的 CSS 类名（用逗号隔开）。</p></span></span></div></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
