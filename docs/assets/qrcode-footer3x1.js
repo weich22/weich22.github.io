@@ -487,27 +487,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const t = h.innerText.trim();
         let g = [], ps = [], ci = -1;
 
-        // 异步获取数据：改用 tag.html 确保老文章也能抓到标签
-        Promise.all([
-            fetch("/tag.html").then(r => r.text()),
-            fetch("/rss.xml").then(r => r.text())
-        ]).then(([tText, rText]) => {
-            // 1. 从全站标签页抓取对应文章的标签
-            const d = new DOMParser().parseFromString(tText, "text/html");
-            // 找到包含文章标题的列表项
-            d.querySelectorAll(".SideNav-item").forEach(i => {
-                if (i.innerText.includes(t)) {
-                    const ls = i.querySelectorAll(".LabelName,.Label");
-                    // 将标签存入数组，去掉末尾可能存在的数量数字
-                    ls.forEach(l => g.push(l.innerText.replace(/\d+$/, "").trim()));
-                    // 核心逻辑：日期标签通常在最后。如果标签数大于1，弹出最后一个（日期）
-                    if (g.length > 1) { g.pop(); }
-                    // 备用方案：通过正则再次过滤掉任何带横杠的日期格式 (如 2026-03)
-                    g = g.filter(s => !/^\d{4}-\d{1,2}/.test(s));
-                }
-            });
+        // 1. 尝试从页面现有元素直接提取标签（最快且不影响性能）
+        // Gmeek 默认会在 SideNav 或文章头部渲染标签，我们直接通过类名抓取
+        document.querySelectorAll(".LabelName, .Label").forEach(l => {
+            const s = l.innerText.replace(/\d+$/, "").trim();
+            // 只要不是 2026-03-16 这种日期格式，都存入
+            if (!/^\d{4}-\d{1,2}-\d{1,2}$/.test(s) && s !== "") {
+                g.push(s);
+            }
+        });
 
-            // 2. 处理 RSS 上下一篇
+        // 2. 异步获取 RSS 处理上下一篇
+        fetch("/rss.xml").then(r => r.text()).then(rText => {
             const x = new DOMParser().parseFromString(rText, "text/xml");
             const is = x.getElementsByTagName("item");
             const cp = window.location.pathname;
@@ -521,18 +512,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (ci === -1) return;
 
-            // 3. 统一渲染内容
+            // 3. 渲染
             const dt = new Date(ps[ci].date);
             const ds = dt.getFullYear() + '-' + (dt.getMonth() + 1) + '-' + dt.getDate();
             const f = document.createElement('div');
-            f.id = "gmeek-combined-footer";
-            f.style.cssText = "margin:20px 0;padding:15px;border-top:1px solid var(--color-border-default);font-size:14px;";
+            // 去掉 border-top 避免和“转载请注明”的线条重合，改用 margin 撑开距离
+            f.style.cssText = "margin-top:30px; margin-bottom:20px; padding:0; font-size:14px; border:none;";
 
-            let html = `<div style="color:var(--color-fg-muted);margin-bottom:15px;">📅 发布日期：${ds}</div>`;
+            let html = `<div style="color:var(--color-fg-muted);margin-bottom:12px;">📅 发布日期：${ds}</div>`;
             
-            if (g.length > 0) {
-                html += '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:15px;">';
-                [...new Set(g)].forEach(s => {
+            // 过滤重复标签并显示
+            const finalLabels = [...new Set(g)];
+            if (finalLabels.length > 0) {
+                html += '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">';
+                finalLabels.forEach(s => {
                     html += `<a href="/tag.html#${s}" style="background:#0366d6;color:#fff;padding:2px 10px;border-radius:20px;font-size:12px;text-decoration:none;">${s}</a>`;
                 });
                 html += '</div>';
