@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('hashchange', activateTagByHash);
 })();
 
-*/
+
 
 
 
@@ -392,7 +392,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(syncLabelColors, 3000);
 })();
 
-
+*/
 
 
 /*文章里面显示标签和日期和上下一篇文章*/
@@ -502,4 +502,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+(function() {
+    // 1. 核心算法：根据背景 RGB 计算亮度，决定字体颜色
+    function getAdaptiveColor(bg) {
+        const rgb = bg.match(/\d+/g);
+        if (!rgb || rgb.length < 3) return "#ffffff";
+        const [r, g, b] = rgb.map(Number);
+        // 使用亮度感知算法
+        const l = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        return l > 0.6 ? "#000000" : "#ffffff";
+    }
+
+    // 2. 执行颜色同步
+    function syncLabelColors() {
+        // 覆盖首页、搜索页、标签页、以及文章内注入的所有标签选择器
+        const selectors = '.Label, .LabelName, .post-tag, .listLabels span, .listLabels a, #customLabels a';
+        document.querySelectorAll(selectors).forEach(el => {
+            // 如果已经处理过且没有被标记为需要重算，则跳过
+            if (el.dataset.colorFixed === "true" && !el.dataset.dirty) return;
+            
+            try {
+                let bg = window.getComputedStyle(el).backgroundColor;
+                // 如果当前元素透明，则尝试抓取父元素的背景色
+                if (bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') {
+                    bg = window.getComputedStyle(el.parentElement).backgroundColor;
+                }
+                
+                if (bg && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)') {
+                    const fg = getAdaptiveColor(bg);
+                    const target = (el.tagName === 'A') ? el : (el.querySelector('a') || el);
+                    
+                    if (target && target.style) {
+                        target.style.setProperty('color', fg, 'important');
+                        target.style.setProperty('text-shadow', 'none', 'important');
+                        el.dataset.colorFixed = "true";
+                        delete el.dataset.dirty; 
+                    }
+                }
+            } catch (e) {}
+        });
+    }
+
+    // --- 执行逻辑 ---
+
+    // 初始执行：前 5 秒高频检测，确保内容加载出来后能第一时间变色
+    syncLabelColors();
+    let count = 0;
+    const initTimer = setInterval(() => {
+        syncLabelColors();
+        if (++count > 10) clearInterval(initTimer);
+    }, 500);
+
+    // 模式切换监听：点击“太阳/月亮”切换主题时，强制所有标签重新计算
+    if (document.documentElement) {
+        new MutationObserver(() => {
+            document.querySelectorAll('.Label, .LabelName, .post-tag, .listLabels span, #customLabels a').forEach(el => {
+                el.dataset.dirty = "true";
+            });
+            syncLabelColors();
+        }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-color-mode'] });
+    }
+
+    // 兜底检查：每 3 秒检查一次（处理如翻页、评论区加载等新产生的标签）
+    setInterval(syncLabelColors, 3000);
+})();
 
