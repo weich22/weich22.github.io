@@ -325,13 +325,13 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('hashchange', activateTagByHash);
 })();
 
-
+*/
 
 
 
 /*根据标签背景颜色更改标签字体颜色*/
 
-
+/*
 
 (function() {
     function getAdaptiveColor(bg) {
