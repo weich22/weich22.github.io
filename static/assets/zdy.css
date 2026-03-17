@@ -1,7 +1,7 @@
 body {max-width: initial !important;}/*不限制页面大小*/
 a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客顶部LOGO文字*/
 .d-flex {display: inline-block !important;}/*调节文章标签到文章下*/
-/*.Label, .label {line-height: 12px !important;}/*文章标签背景颜色框缩小一点*/
+/*.Label, .label {line-height: 12px !important;}文章标签背景颜色框缩小一点*/
 .LabelTime {display: inline-block !important;}/*调节文章标签到手机显示不全或者不显示后面的日期*/
 .markdown-body img { height: auto;  width: 50%;}/*文章图片限制大小*/
 .listTitle {white-space: normal !important;}/*修改上面后导致首页文章标题太长手机太小文字会超溢出不会换行*/
