@@ -476,7 +476,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let checkCount = 0;
     const run = () => {
         const c = document.getElementById('cmButton');
-        // 1. 等待评论按钮，如果 10 秒没出来就停止，防止死循环
         if (!c) {
             if (checkCount++ < 20) setTimeout(run, 500); 
             return;
@@ -486,13 +485,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const p = window.location.pathname;
         const u = window.location.href;
 
-        // 2. 抓取 RSS：日期与上下篇
         fetch("/rss.xml").then(r => r.text()).then(x => {
             const d = new DOMParser().parseFromString(x, "text/xml");
             const items = Array.from(d.querySelectorAll("item"));
             let idx = -1;
 
-            // 采用你历史代码中最稳的双向匹配逻辑
             for (let i = 0; i < items.length; i++) {
                 const link = items[i].querySelector("link").textContent;
                 if (link.indexOf(p) !== -1 || p.indexOf(link) !== -1 || link === u) {
@@ -511,7 +508,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             let h = '<div style="color:var(--color-fg-muted);margin-bottom:15px;">📅 发布日期：' + dt + '</div><div style="display:flex;flex-direction:column;gap:10px;">';
             
-            // 索引较小 (idx - 1) 是更新的，索引较大 (idx + 1) 是更旧的
             if (idx > 0) {
                 h += '<div><span style="color:var(--color-fg-muted);">← 上一篇：</span><a href="' + items[idx - 1].querySelector("link").textContent + '" style="color:var(--color-accent-fg);text-decoration:none;">' + items[idx - 1].querySelector("title").textContent + '</a></div>';
             }
@@ -522,13 +518,14 @@ document.addEventListener('DOMContentLoaded', () => {
             box.innerHTML = h;
             c.before(box);
 
-            // 3. 抓取标签：增强型选择器，确保抓全
             const s = (url) => {
                 fetch(url).then(r => r.text()).then(ht => {
                     const doc = new DOMParser().parseFromString(ht, "text/html");
                     const pathName = p.split('/').pop();
-                    // 准确定位首页文章条目
-                    const postEntry = doc.querySelector("a[href*='" + pathName + "']");
+                    
+                    // 核心修复：使用 [href$='/3.html'] 这种结尾匹配，防止匹配到 33.html
+                    const exactSelector = "a[href$='/" + pathName + "']";
+                    const postEntry = doc.querySelector(exactSelector);
                     const container = postEntry ? postEntry.closest('.SideNav-item') : null;
                     
                     if (container) {
@@ -536,28 +533,22 @@ document.addEventListener('DOMContentLoaded', () => {
                         b.id = "customLabels";
                         b.style.cssText = "margin-bottom:15px;display:flex;flex-wrap:wrap;gap:8px;";
                         
-                        // 抓取容器内所有包含 Label 字样的 span (Gmeek 标准标签结构)
                         container.querySelectorAll("span[class*='Label']").forEach(l => {
                             const t = l.innerText.trim();
-                            // 排除日期标签 (如 2026-03-17)
                             if (t && !/^\d{4}/.test(t)) {
                                 const a = document.createElement('a');
                                 a.href = "/tag.html#" + t;
                                 a.innerText = t;
-                                
-                                // 克隆样式获取颜色
                                 const temp = document.body.appendChild(l.cloneNode(true));
                                 temp.style.display = "none";
                                 const bg = window.getComputedStyle(temp).backgroundColor;
                                 document.body.removeChild(temp);
-                                
                                 a.style.cssText = "background-color:" + bg + ";color:#fff;padding:2px 10px;border-radius:20px;font-size:12px;text-decoration:none;display:inline-block;";
                                 b.appendChild(a);
                             }
                         });
                         if (b.children.length > 0) c.before(b);
                     } else {
-                        // 没找到就翻页
                         const n = doc.querySelector('.pagination a:last-child, a[rel="next"]');
                         if (n && n.getAttribute('href') && n.getAttribute('href') !== url) s(n.getAttribute('href'));
                     }
