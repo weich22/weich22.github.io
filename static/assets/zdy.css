@@ -238,7 +238,7 @@ pre[class*="language-"] code * {
 }
 
 .Label, .LabelName, .LabelTime {
-    margin-bottom: -8px !important; /* 给换行后的标签留一点上下间距 */
+    margin-bottom: 1px !important; /* 给换行后的标签留一点上下间距 */
 }
 
 
