@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Wed, 18 Mar 2026 01:41:15 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>github的APK无法登陆</title><link>https://g.weich.ee/post/34.html</link><description>### 解决办法
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功！weich22.github.io</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Wed, 18 Mar 2026 01:43:00 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>github的APK无法登陆</title><link>https://g.weich.ee/post/34.html</link><description>### 解决办法
 将手机默认浏览器临时改为 Edge ，就这么简单…
 
 ### 症状
-由于之前我的手机默认浏览器是via浏览器，每次点击github的客户端，然后打开到via浏览器之后登陆，提示外部应用打开再再跳转到github客户端就没有反应了。</description><guid isPermaLink="true">https://g.weich.ee/post/34.html</guid><pubDate>Wed, 18 Mar 2026 01:40:43 +0000</pubDate></item><item><title>华强北手表s100更新后蓝牙无媒体声音</title><link>https://g.weich.ee/post/33.html</link><description>更新的版本：
+由于之前我的手机默认浏览器是via浏览器，每次点击github的客户端，然后打开到via浏览器之后登陆，提示外部应用打开再再跳转到github客户端就没有反应了，总之就是跳转的浏览器有问题，实在不行，就换别的大厂浏览器设置为默认浏览器之后再试试。</description><guid isPermaLink="true">https://g.weich.ee/post/34.html</guid><pubDate>Wed, 18 Mar 2026 01:40:43 +0000</pubDate></item><item><title>华强北手表s100更新后蓝牙无媒体声音</title><link>https://g.weich.ee/post/33.html</link><description>更新的版本：
 DW_W527_FW13FBAV35_XTQ_S100_J0_GB_CN
 ZX_W4.0T_4.4V_256X24B_CN_480X480_V02_20260310_0319_20260310-0321
 
