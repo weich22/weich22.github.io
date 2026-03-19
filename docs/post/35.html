@@ -10,9 +10,11 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="Gmeek 框架将 subTitle 的内容直接渲染在了一个带有 style='margin-bottom: 16px;' 的 <div> 标签内。">
+<meta name="description" content="
+config.json是Gmeek的配置文件，用的json格式，json格式非常严格，多一个或者少一个标点符号都会报错，然后Actions编译报错红色×。">
 <meta property="og:title" content="Gmeek的config.json换行/n格式无效">
-<meta property="og:description" content="Gmeek 框架将 subTitle 的内容直接渲染在了一个带有 style='margin-bottom: 16px;' 的 <div> 标签内。">
+<meta property="og:description" content="
+config.json是Gmeek的配置文件，用的json格式，json格式非常严格，多一个或者少一个标点符号都会报错，然后Actions编译报错红色×。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://g.weich.ee/post/35.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
@@ -67,7 +69,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>Gmeek 框架将 subTitle 的内容直接渲染在了一个带有 style="margin-bottom: 16px;" 的 </p><div> 标签内。<br>
+<div class="markdown-body" id="postBody"><p>config.json是Gmeek的配置文件，用的json格式，json格式非常严格，多一个或者少一个标点符号都会报错，然后Actions编译报错红色×。</p>
+<p>Gmeek 框架将 subTitle 的内容直接渲染在了一个带有 style="margin-bottom: 16px;" 的 </p><div> 标签内。<br>
 在 HTML 中，普通 <div> 会忽略文本里的换行符（回车），所以 \n 会被解析成一个普通的空格，导致所有文字挤在一起。<br>
 要解决这个问题，最简单的办法是在 zdy.css（自定义 CSS 文件）中添加一行样式规则。<br>
 解决方案：修改 CSS<br>

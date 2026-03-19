@@ -1,3 +1,7 @@
+
+config.json是Gmeek的配置文件，用的json格式，json格式非常严格，多一个或者少一个标点符号都会报错，然后Actions编译报错红色×。
+
+
 Gmeek 框架将 subTitle 的内容直接渲染在了一个带有 style="margin-bottom: 16px;" 的 <div> 标签内。
 在 HTML 中，普通 <div> 会忽略文本里的换行符（回车），所以 \n 会被解析成一个普通的空格，导致所有文字挤在一起。
 要解决这个问题，最简单的办法是在 zdy.css（自定义 CSS 文件）中添加一行样式规则。
