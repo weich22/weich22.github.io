@@ -13,7 +13,6 @@ Gmeek 框架将 subTitle 的内容直接渲染在了一个带有 style="margin-b
 #content > div[style*="margin-bottom: 16px"] {
     white-space: pre-wrap !important;
 }
-
 ```
 }
 
@@ -22,7 +21,11 @@ Gmeek 框架将 subTitle 的内容直接渲染在了一个带有 style="margin-b
  * !important：确保这个样式优先级最高，不会被框架默认样式覆盖。
 操作建议：
  * 保持 JSON 不变：在 config.json 中继续使用 \n，例如：
+
+
+  ```+json
    "subTitle": "没有用功努力,不做没用的功!\nweich22.github.io\nGmeek群: 308721893"
+```
  * 更新 CSS：将上面的代码加入 zdy.css 并提交到 GitHub。
  * 强制刷新：网页更新后，在浏览器按 Ctrl + F5 强制刷新即可看到效果。
 这样处理的好处是：你不需要破坏 JSON 的结构，也不需要尝试不确定的 HTML 标签（br或者直接回车，实测直接回车报错），直接通过样式控制显示效果。
