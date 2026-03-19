@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', function() {
 `,
     3: `
 <div>
-<img src="/img/zfbskn.jpg" style="width:160px; height:160px; object-fit:cover;">
-<div style="font-size:14px; margin-top:6px;">↑支付宝打赏↑</div>
+<img src="/img/qqqewm.webp" style="width:160px; height:160px; object-fit:cover;">
+<div style="font-size:14px; margin-top:6px;">↑Gmeek群↑</div>
 </div>
 `
   };
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <div class="qrcode-btn" style="background:#f74023;/* border:1px solid #eee;*/ border-radius:4px;/* padding:10px 14px;*/ box-shadow:0 2px 10px rgba(0,0,0,0.1);cursor:pointer;">
 
-扫码打开/赏
+扫码打开/赏/群
 
 </div>
 
