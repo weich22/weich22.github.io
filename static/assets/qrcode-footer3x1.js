@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <div class="qrcode-btn" style="background:#f74023;/* border:1px solid #eee;*/ border-radius:4px;/* padding:10px 14px;*/ box-shadow:0 2px 10px rgba(0,0,0,0.1);cursor:pointer;">
 
-扫码打开/赏/群
+扫码打开/赏/加群
 
 </div>
 
