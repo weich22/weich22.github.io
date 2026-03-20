@@ -348,7 +348,7 @@ pre[class*="language-"] code * {
 
 /*代码高亮块歪一点加底部阴影*/
 
-pre.notranslate.line-numbers.language-cpp {
-    transform: rotate(-2deg); !important
+.code-toolbar {
+    transform: rotate(-0deg); !important
 }
 
