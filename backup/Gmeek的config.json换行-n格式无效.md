@@ -14,7 +14,7 @@ Gmeek 框架将 subTitle 的内容直接渲染在了一个带有 style="margin-b
     white-space: pre-wrap !important;
 }
 ```
-}
+
 
 原理说明：
  * white-space: pre-wrap：这个属性的作用是让浏览器“保留”文本中的换行符。这样你在 JSON 里写的 \n 就会生效，文字会自动换行。
