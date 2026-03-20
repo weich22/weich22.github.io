@@ -349,6 +349,6 @@ pre[class*="language-"] code * {
 /*代码高亮块歪一点加底部阴影*/
 
 .code-toolbar {
-    transform: rotate(-2deg); !important
+    transform: rotate(-0deg); !important
 }
 
