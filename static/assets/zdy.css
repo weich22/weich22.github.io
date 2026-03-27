@@ -321,7 +321,7 @@ pre[class*="language-"] code * {
     line-height: 1.3 !important;
     margin: 0 !important;
     flex: 1 !important;
-    padding-right: 15px !important;
+    /*padding-right: 15px !important;*/
 }
 
 [data-color-mode='dark'] .blogTitle, [data-color-mode='dark'] .postTitle {
