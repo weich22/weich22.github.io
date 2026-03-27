@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功!
 永久真实地址：weich22.github.io
-Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Wed, 25 Mar 2026 18:40:06 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek的config.json换行/n格式无效</title><link>https://g.weich.ee/post/35.html</link><description>
+Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Fri, 27 Mar 2026 11:58:44 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek的config.json换行/n格式无效</title><link>https://g.weich.ee/post/35.html</link><description>
 config.json是Gmeek的配置文件，用的json格式，json格式非常严格，多一个或者少一个标点符号都会报错，然后Actions编译报错红色×。</description><guid isPermaLink="true">https://g.weich.ee/post/35.html</guid><pubDate>Thu, 19 Mar 2026 19:27:54 +0000</pubDate></item><item><title>github的APK无法登陆</title><link>https://g.weich.ee/post/34.html</link><description>### 解决办法
 将手机默认浏览器临时改为 Edge ，就这么简单…
 
@@ -272,7 +272,8 @@ observer.observe(document.documentElement, { attributes: true, attributeFilter: 
 47.最爱 周慧敏
 48.你的柔情我永远不懂 陈琳
 49.风中有朵雨做的云 孟庭苇
-50.小芳 李春波 四大村花。</description><guid isPermaLink="true">https://g.weich.ee/post/29.html</guid><pubDate>Fri, 13 Mar 2026 19:02:42 +0000</pubDate></item><item><title>90后时代火爆全网的歌单</title><link>https://g.weich.ee/post/28.html</link><description>丁香花
+50.小芳 李春波 四大村花。</description><guid isPermaLink="true">https://g.weich.ee/post/29.html</guid><pubDate>Fri, 13 Mar 2026 19:02:42 +0000</pubDate></item><item><title>90后时代火爆全网的歌单</title><link>https://g.weich.ee/post/28.html</link><description>天下～张杰
+丁香花
 秋天不回来
 老鼠爱大米
 两只蝴蝶
