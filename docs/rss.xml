@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功!
 永久真实地址：weich22.github.io
-Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Fri, 27 Mar 2026 11:58:44 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek的config.json换行/n格式无效</title><link>https://g.weich.ee/post/35.html</link><description>
+Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Sat, 28 Mar 2026 04:55:40 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>s100偷梁换柱隐藏后台任务卡片显示</title><link>https://g.weich.ee/post/36.html</link><description>S100（或其他华强北 Android 9 手表）特有的双任务管理器冲突 Bug！
+你说得对，这种“双重锁定”确实是一个非常精妙的逻辑漏洞。</description><guid isPermaLink="true">https://g.weich.ee/post/36.html</guid><pubDate>Sat, 28 Mar 2026 04:55:12 +0000</pubDate></item><item><title>Gmeek的config.json换行/n格式无效</title><link>https://g.weich.ee/post/35.html</link><description>
 config.json是Gmeek的配置文件，用的json格式，json格式非常严格，多一个或者少一个标点符号都会报错，然后Actions编译报错红色×。</description><guid isPermaLink="true">https://g.weich.ee/post/35.html</guid><pubDate>Thu, 19 Mar 2026 19:27:54 +0000</pubDate></item><item><title>github的APK无法登陆</title><link>https://g.weich.ee/post/34.html</link><description>### 解决办法
 将手机默认浏览器临时改为 Edge ，就这么简单…
 
