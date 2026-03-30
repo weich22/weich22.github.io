@@ -630,7 +630,12 @@ b.innerHTML = '&lt;span ...&gt;本文标签：';<br>
     run();
 })();
 
-</code></pre></span></span></div></div>
+</code></pre>
+<p>​这次优化的核心提升点：<br>
+​减少 DOM 遍历：querySelectorAll("span.LabelName") 在浏览器底层是经过高度优化的，比带属性选择器的 [class*='Label'] 快得多。<br>
+​砍掉正则判断：之前要用正则去匹配日期、匹配纯数字，现在这些计算开销全部归零。<br>
+​减少节点操作：不再需要克隆那些无用的“评论数”节点去计算样式，内存占用更低。<br>
+​这就好比之前是去一堆人里通过“长得像”来找人，还得查身份证排查；现在是直接对着工牌（Class Name）领人，当然快准狠。</p></span></span></div></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
