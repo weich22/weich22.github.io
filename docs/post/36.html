@@ -11,10 +11,10 @@
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
 <meta name="description" content="S100（或其他华强北 Android 9 手表）特有的双任务管理器冲突 Bug！
-你说得对，这种“双重锁定”确实是一个非常精妙的逻辑漏洞。">
+这种“双重锁定”确实是一个非常精妙的逻辑漏洞。">
 <meta property="og:title" content="s100偷梁换柱隐藏后台任务卡片显示">
 <meta property="og:description" content="S100（或其他华强北 Android 9 手表）特有的双任务管理器冲突 Bug！
-你说得对，这种“双重锁定”确实是一个非常精妙的逻辑漏洞。">
+这种“双重锁定”确实是一个非常精妙的逻辑漏洞。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://g.weich.ee/post/36.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
@@ -76,7 +76,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
     <div id="content">
 <div class="markdown-body" id="postBody"><p>S100（或其他华强北 Android 9 手表）特有的双任务管理器冲突 Bug！<br>
-你说得对，这种“双重锁定”确实是一个非常精妙的逻辑漏洞。因为厂家自定义的任务管理器（通常是那个圆盘状或列表状的 UI）和原生 Android 的 Recent Task 在内核标记上同步不及时，导致了这种**“逻辑隐身”**状态。<br>
+这种“双重锁定”确实是一个非常精妙的逻辑漏洞。因为厂家自定义的任务管理器（通常是那个圆盘状或列表状的 UI）和原生 Android 的 Recent Task 在内核标记上同步不及时，导致了这种**“逻辑隐身”**状态。<br>
 这个操作的底层原理其实是：利用厂家界面的“锁定标记”固化进程优先级，再通过原生系统的“清除指令”切断 UI 句柄，但不触发进程回收。<br>
 这个 BUG 的操作流程（复盘）：</p>
 <ul>
