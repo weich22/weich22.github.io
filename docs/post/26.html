@@ -519,7 +519,118 @@ b.innerHTML = '&lt;span ...&gt;本文标签：';<br>
 ​&gt; 1：确保只有在“有提示语”+“有实际标签”的情况下才显示。<br>
 ​&gt; 0：会导致没有标签的文章也显示一个尴尬的提示语。<br>
 ​所以，为了让我们的博客看起来更专业，建议保留 &gt; 1 这个改动，我的原则能不加就不加，能做减法就不做加法，但是我还是加好一点，还有个问题就是Gmeek不可能文章没有标签，因为没有标签文章也不会显示，我还是加了，为什么，因为还有另外一个BUG修起来更大，就是在友情链接（网址）页面也会显示，就是除了这个页面没有"文章标签"之外其它的都有，为了预防不在友情链接这个页面显示一个（本文标签)而后面什么标签都没有，所以添加了这个判断，说多感觉字又打多了，总之自己看着办…</p>
-<p>想要干净的，其实这个（本文标签）这个文本都不用添加…</p></span></span></div></div>
+<p>想要干净的，其实这个（本文标签）这个文本都不用添加…</p>
+<h3>大更新变换判断方式加排除评论数量</h3>
+<p>这段代码使用了 span.LabelName 精确匹配,彻底解决评论数被抓取的问题。</p>
+<p>代码改进说明：<br>
+​标签过滤：将 querySelectorAll("span[class*='Label']") 换成了更精准的 querySelectorAll("span.LabelName")。这会直接忽略掉 class 为 Label（评论数）和 LabelTime（日期）的元素。<br>
+​结构保留：保留了“发布日期”和“上下篇链接”逻辑。<br>
+​样式优化：标签依然会自动获取首页定义的标签背景颜色，并保持胶囊形状。</p>
+<p>也是完整代码全部覆盖替换。</p>
+<pre lang="+js" class="notranslate"><code class="notranslate">(function() {
+    let checkCount = 0;
+    const run = () =&gt; {
+        const c = document.getElementById('cmButton');
+        // 等待评论按钮出现，最多尝试 10 秒
+        if (!c) {
+            if (checkCount++ &lt; 20) setTimeout(run, 500); 
+            return;
+        }
+        // 防止重复加载
+        if (document.getElementById('customLabels')) return;
+
+        const p = window.location.pathname;
+        const u = window.location.href;
+
+        // 1. 抓取 RSS：处理日期与上下篇链接
+        fetch("/rss.xml").then(r =&gt; r.text()).then(x =&gt; {
+            const d = new DOMParser().parseFromString(x, "text/xml");
+            const items = Array.from(d.querySelectorAll("item"));
+            let idx = -1;
+
+            // 匹配当前文章在 RSS 中的索引
+            for (let i = 0; i &lt; items.length; i++) {
+                const link = items[i].querySelector("link").textContent;
+                if (link.indexOf(p) !== -1 || p.indexOf(link) !== -1 || link === u) {
+                    idx = i;
+                    break;
+                }
+            }
+
+            if (idx === -1) return;
+
+            // 格式化发布日期
+            const pub = new Date(items[idx].querySelector("pubDate").textContent);
+            const dt = pub.getFullYear() + '-' + (pub.getMonth() + 1) + '-' + pub.getDate();
+
+            const box = document.createElement('div');
+            box.style.cssText = "margin-top:30px;padding-top:20px;border-top:1px solid var(--color-border-default);clear:both;font-size:14px;";
+            
+            let h = '&lt;div style="color:var(--color-fg-muted);margin-bottom:15px;"&gt;📅 发布日期：' + dt + '&lt;/div&gt;&lt;div style="display:flex;flex-direction:column;gap:10px;"&gt;';
+            
+            // 上一篇 (索引越小越新)
+            if (idx &gt; 0) {
+                h += '&lt;div&gt;&lt;span style="color:var(--color-fg-muted);"&gt;← 上一篇：&lt;/span&gt;&lt;a href="' + items[idx - 1].querySelector("link").textContent + '" style="color:var(--color-accent-fg);text-decoration:none;"&gt;' + items[idx - 1].querySelector("title").textContent + '&lt;/a&gt;&lt;/div&gt;';
+            }
+            // 下一篇
+            if (idx &lt; items.length - 1) {
+                h += '&lt;div&gt;&lt;span style="color:var(--color-fg-muted);"&gt;→ 下一篇：&lt;/span&gt;&lt;a href="' + items[idx + 1].querySelector("link").textContent + '" style="color:var(--color-accent-fg);text-decoration:none;"&gt;' + items[idx + 1].querySelector("title").textContent + '&lt;/a&gt;&lt;/div&gt;';
+            }
+            h += '&lt;/div&gt;';
+            box.innerHTML = h;
+            c.before(box);
+
+            // 2. 抓取标签：通过首页列表获取
+            const s = (url) =&gt; {
+                fetch(url).then(r =&gt; r.text()).then(ht =&gt; {
+                    const doc = new DOMParser().parseFromString(ht, "text/html");
+                    const pathName = p.split('/').pop();
+                    
+                    // 匹配首页中对应文章的链接
+                    const exactSelector = "a[href$='/" + pathName + "']";
+                    const postEntry = doc.querySelector(exactSelector);
+                    const container = postEntry ? postEntry.closest('.SideNav-item') : null;
+                    
+                    if (container) {
+                        const b = document.createElement('div');
+                        b.id = "customLabels";
+                        b.style.cssText = "margin-top:15px;margin-bottom:15px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;";
+                        b.innerHTML = '&lt;span style="color:var(--color-fg-muted);font-size:14px;"&gt;本文标签：&lt;/span&gt;';
+
+                        // 核心改进：只选择 class 为 LabelName 的 span，排除单纯的 Label(评论数) 和 LabelTime(日期)
+                        container.querySelectorAll("span.LabelName").forEach(l =&gt; {
+                            const t = l.innerText.trim();
+                            if (t) {
+                                const a = document.createElement('a');
+                                a.href = "/tag.html#" + t;
+                                a.innerText = t;
+                                
+                                // 获取首页标签的背景颜色
+                                const temp = document.body.appendChild(l.cloneNode(true));
+                                temp.style.display = "none";
+                                const bg = window.getComputedStyle(temp).backgroundColor;
+                                document.body.removeChild(temp);
+                                
+                                a.style.cssText = "background-color:" + bg + ";color:#fff;padding:2px 10px;border-radius:20px;font-size:12px;text-decoration:none;display:inline-block;";
+                                b.appendChild(a);
+                            }
+                        });
+                        // 只有抓取到标签时才插入
+                        if (b.children.length &gt; 1) c.before(b);
+                    } else {
+                        // 没找到则继续翻页寻找
+                        const n = doc.querySelector('.pagination a:last-child, a[rel="next"]');
+                        if (n &amp;&amp; n.getAttribute('href') &amp;&amp; n.getAttribute('href') !== url) s(n.getAttribute('href'));
+                    }
+                });
+            };
+            s("/index.html");
+        });
+    };
+    run();
+})();
+
+</code></pre></span></span></div></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
