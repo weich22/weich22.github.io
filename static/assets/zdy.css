@@ -338,7 +338,7 @@ pre[class*="language-"] code * {
 
 /* 正文避让间距 */
 #content, .main {
-    margin: 50px auto 0 auto !important;
+    margin: 55px auto 0 auto !important;
     /*padding: 0 20px !important;正文空白两边边距太大了*/
     width: auto !important;
     max-width: none !important;
