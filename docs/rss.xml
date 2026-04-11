@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功!
 永久真实地址：weich22.github.io
-Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Sat, 11 Apr 2026 10:31:46 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>s100偷梁换柱隐藏后台任务卡片显示</title><link>https://g.weich.ee/post/36.html</link><description>S100（或其他华强北 Android 9 手表）特有的双任务管理器冲突 Bug！
+Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Sat, 11 Apr 2026 10:37:18 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>s100偷梁换柱隐藏后台任务卡片显示</title><link>https://g.weich.ee/post/36.html</link><description>S100（或其他华强北 Android 9 手表）特有的双任务管理器冲突 Bug！
 这种“双重锁定”确实是一个非常精妙的逻辑漏洞。</description><guid isPermaLink="true">https://g.weich.ee/post/36.html</guid><pubDate>Sat, 28 Mar 2026 04:55:12 +0000</pubDate></item><item><title>Gmeek的config.json换行/n格式无效</title><link>https://g.weich.ee/post/35.html</link><description>
 config.json是Gmeek的配置文件，用的json格式，json格式非常严格，多一个或者少一个标点符号都会报错，然后Actions编译报错红色×。</description><guid isPermaLink="true">https://g.weich.ee/post/35.html</guid><pubDate>Thu, 19 Mar 2026 19:27:54 +0000</pubDate></item><item><title>github的APK无法登陆</title><link>https://g.weich.ee/post/34.html</link><description>### 解决办法
 将手机默认浏览器临时改为 Edge ，就这么简单…
@@ -345,7 +345,7 @@ noEmie os手表（糯米系统），w527处理器。</description><guid isPermaL
 * **特点**：安卓开发的“常青树”。</description><guid isPermaLink="true">https://g.weich.ee/post/20.html</guid><pubDate>Wed, 11 Mar 2026 22:44:37 +0000</pubDate></item><item><title>中文编程语言全生态汇总（2026 完整版）</title><link>https://g.weich.ee/post/19.html</link><description>
 中文编程语言全生态汇总（2026 完整版）
 本汇总涵盖了目前活跃在移动端、桌面端、物联网及教育领域的中文编程工具，旨在为开发者提供全方位的参考。</description><guid isPermaLink="true">https://g.weich.ee/post/19.html</guid><pubDate>Wed, 11 Mar 2026 22:06:05 +0000</pubDate></item><item><title>闪念微语之关键词</title><link>https://g.weich.ee/post/18.html</link><description>### 编程开发
-蓝鸟 微鸟 易安卓 E4A Gmeek iApp AIDE Fusion app ALua 结绳 Kotlin GDScript  VcnStudio scrcpy
+蓝鸟 微鸟 易安卓 E4A Gmeek iApp AIDE Fusionapp ALua 结绳 Kotlin GDScript  VcnStudio scrcpy
 
 ### 电影
 铁罗汉 海王的游戏。</description><guid isPermaLink="true">https://g.weich.ee/post/18.html</guid><pubDate>Wed, 11 Mar 2026 21:27:36 +0000</pubDate></item><item><title>华强北s100手表各种代码和打开开发者选项</title><link>https://g.weich.ee/post/17.html</link><description>鑫泰奇S100华强北插卡阔屏手表处理器是紫光展锐w527。</description><guid isPermaLink="true">https://g.weich.ee/post/17.html</guid><pubDate>Wed, 11 Mar 2026 18:39:01 +0000</pubDate></item><item><title>华强北带红外遥控智能手表s100</title><link>https://g.weich.ee/post/16.html</link><description>### 配置功能：
