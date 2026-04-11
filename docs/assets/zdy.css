@@ -338,8 +338,8 @@ pre[class*="language-"] code * {
 
 /* 正文避让间距 */
 #content, .main {
-    /*顶部到内容之间预留空白太大了margin: 95px auto 0 auto !important;
-    padding: 0 20px !important;正文两边空白太大了*/
+    margin: 95px auto 0 auto !important;
+    padding: 0 20px !important;
     width: auto !important;
     max-width: none !important;
     background: transparent !important;
