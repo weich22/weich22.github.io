@@ -295,7 +295,7 @@ pre[class*="language-"] code * {
     background: -webkit-linear-gradient(#498545, #0fc7fe);
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    padding: 10px !important;
+    padding-left: 8px !important;
     /* 分割线提亮：由 0.03 上调至 0.06，增强悬浮边界感 */
     /*border-bottom: 1px solid rgba(0, 0, 0, 0.15) !important;去除顶部导航栏下面细线条*/
     z-index: 9999 !important;
