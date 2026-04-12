@@ -25,3 +25,8 @@ adb shell pm list packages -d
 ```dos
 adb shell pm list packages -d | ForEach-Object { adb shell pm enable ($_ -replace 'package:','') }
 ```
+
+准备adb操作过程:
+1.将adb.exe 复制到C:\Windows文件夹。
+2.在任意文件夹中,按住Shift键并右键单击空白处,选择“在此处打开命令窗口（需要管理权限）”。
+3.在打开的CMD中直接输入adb 命令即可使用。

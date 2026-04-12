@@ -125,7 +125,11 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <h3>解除所有禁用应用</h3>
 <p>也是等它重启之后到图片中的rec，重试之后重启了，先把adb命令复制进去，手表到第二屏动画界面，听到电脑响了就按回车执行。</p>
 <pre lang="dos" class="notranslate"><code class="notranslate">adb shell pm list packages -d | ForEach-Object { adb shell pm enable ($_ -replace 'package:','') }
-</code></pre></div>
+</code></pre>
+<p>准备adb操作过程:<br>
+1.将adb.exe 复制到C:\Windows文件夹。<br>
+2.在任意文件夹中,按住Shift键并右键单击空白处,选择“在此处打开命令窗口（需要管理权限）”。<br>
+3.在打开的CMD中直接输入adb 命令即可使用。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
