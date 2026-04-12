@@ -57,7 +57,12 @@ package:com.dw.school
 package:com.dw.family.contact
 package:com.timuen.divo.weardialmarket
 ```
-然后你可以想一下有怀疑禁用之后导致不开机的，单独恢复它就可以了，我比较懒，想直接全部恢复之后手表好了能开机进桌面了再次去禁用就好了，最后我发现应该是禁用（人脸解锁）导致的。">
+然后你可以想一下有怀疑禁用之后导致不开机的，单独恢复它就可以了，我比较懒，想直接全部恢复之后手表好了能开机进桌面了再次去禁用就好了，最后我发现应该是禁用（人脸解锁）导致的，也有可能是第18条代码高亮的（package:com.android.settings），因为禁用人脸解锁的时候跳转到系统输入密码界面去了…
+
+
+### 解除所有禁用应用
+
+也是等它重启之后到图片中的rec，重试之后重启了，先把adb命令复制进去，手表到第二屏动画界面，听到电脑响了就按回车执行。">
 <meta property="og:title" content="s100手表adb禁用应用后无法进入桌面">
 <meta property="og:description" content="### 问题说明
 昨晚去网吧通宵打游戏了，然后回来用电脑一通操作用adb禁用了很多应用，然后看到有个（人脸解锁）我也禁用了，脑子抽在想，这个手表又没有直接的人脸解锁，我要他干嘛？干就完了，然后重启显示第一屏（以前有3屏来算这是2屏），再显示开机动画，再到锁屏界面就是无法解锁输入密码，也进不去桌面，然后闪屏几次就再重启就会进下面的图片的rec，这个rec可选的只有两个（Try again，重试）和（Factory data reset，恢复出厂），我是拍照手机识屏的可能有的字母会错，我又不想恢复出厂…
@@ -106,7 +111,12 @@ package:com.dw.school
 package:com.dw.family.contact
 package:com.timuen.divo.weardialmarket
 ```
-然后你可以想一下有怀疑禁用之后导致不开机的，单独恢复它就可以了，我比较懒，想直接全部恢复之后手表好了能开机进桌面了再次去禁用就好了，最后我发现应该是禁用（人脸解锁）导致的。">
+然后你可以想一下有怀疑禁用之后导致不开机的，单独恢复它就可以了，我比较懒，想直接全部恢复之后手表好了能开机进桌面了再次去禁用就好了，最后我发现应该是禁用（人脸解锁）导致的，也有可能是第18条代码高亮的（package:com.android.settings），因为禁用人脸解锁的时候跳转到系统输入密码界面去了…
+
+
+### 解除所有禁用应用
+
+也是等它重启之后到图片中的rec，重试之后重启了，先把adb命令复制进去，手表到第二屏动画界面，听到电脑响了就按回车执行。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://g.weich.ee/post/37.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
@@ -203,7 +213,7 @@ package:com.dw.school
 package:com.dw.family.contact
 package:com.timuen.divo.weardialmarket
 </code></pre>
-<p>然后你可以想一下有怀疑禁用之后导致不开机的，单独恢复它就可以了，我比较懒，想直接全部恢复之后手表好了能开机进桌面了再次去禁用就好了，最后我发现应该是禁用（人脸解锁）导致的。</p>
+<p>然后你可以想一下有怀疑禁用之后导致不开机的，单独恢复它就可以了，我比较懒，想直接全部恢复之后手表好了能开机进桌面了再次去禁用就好了，最后我发现应该是禁用（人脸解锁）导致的，也有可能是第18条代码高亮的（package:com.android.settings），因为禁用人脸解锁的时候跳转到系统输入密码界面去了…</p>
 <h3>解除所有禁用应用</h3>
 <p>也是等它重启之后到图片中的rec，重试之后重启了，先把adb命令复制进去，手表到第二屏动画界面，听到电脑响了就按回车执行。</p>
 <pre lang="dos" class="notranslate"><code class="notranslate">adb shell pm list packages -d | ForEach-Object { adb shell pm enable ($_ -replace 'package:','') }
