@@ -1,7 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功!
 永久真实地址：weich22.github.io
-Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Sat, 11 Apr 2026 11:39:51 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>s100偷梁换柱隐藏后台任务卡片显示</title><link>https://g.weich.ee/post/36.html</link><description>S100（或其他华强北 Android 9 手表）特有的双任务管理器冲突 Bug！
+Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Sun, 12 Apr 2026 02:41:49 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>s100手表adb禁用应用后无法进入桌面</title><link>https://g.weich.ee/post/37.html</link><description>昨晚去网吧通宵打游戏了，然后回来用电脑一通操作用adb禁用了很多应用，然后看到有个（人脸解锁）我也禁用了，脑子抽在想，这个手表又没有直接的人脸解锁，我要他干嘛？干就完了，然后重启显示第一屏（以前有3屏来算这是2屏），再显示开机动画，再到锁屏界面就是无法解锁输入密码，也进不去桌面，然后闪屏几次就再重启就会进下面的图片的rec，这个rec可选的只有两个（Try again，重试）和（Factory data reset，恢复出厂），我是拍照手机识屏的可能有的字母会错，我又不想恢复出厂…
+
+解决办法
+就是按电源按键确认点击重试，重启到第二屏动画吧，电脑会叮咚响一下，就输输入如下adb命令
+```dos
+adb version
+```
+如果显示的是一段数字后面另外显示device，恭喜你不用恢复出厂设置，其实还有别的办法，但是这种手表和正常手机按键不一样，我不知道按哪一个…
+
+过一下会再次自己重启到图片中的rec模式，
+就输入下面的代码查看已经禁用的列表
+```dos
+adb shell pm list packages -d
+```
+然后你可以想一下有怀疑禁用之后导致不开机的，单独恢复它就可以了，我比较懒，想直接全部恢复之后手表好了能开机进桌面了再次去禁用就好了，最后我发现应该是禁用（人脸解锁）导致的。</description><guid isPermaLink="true">https://g.weich.ee/post/37.html</guid><pubDate>Sun, 12 Apr 2026 02:41:16 +0000</pubDate></item><item><title>s100偷梁换柱隐藏后台任务卡片显示</title><link>https://g.weich.ee/post/36.html</link><description>S100（或其他华强北 Android 9 手表）特有的双任务管理器冲突 Bug！
 这种“双重锁定”确实是一个非常精妙的逻辑漏洞。</description><guid isPermaLink="true">https://g.weich.ee/post/36.html</guid><pubDate>Sat, 28 Mar 2026 04:55:12 +0000</pubDate></item><item><title>Gmeek的config.json换行/n格式无效</title><link>https://g.weich.ee/post/35.html</link><description>
 config.json是Gmeek的配置文件，用的json格式，json格式非常严格，多一个或者少一个标点符号都会报错，然后Actions编译报错红色×。</description><guid isPermaLink="true">https://g.weich.ee/post/35.html</guid><pubDate>Thu, 19 Mar 2026 19:27:54 +0000</pubDate></item><item><title>github的APK无法登陆</title><link>https://g.weich.ee/post/34.html</link><description>### 解决办法
 将手机默认浏览器临时改为 Edge ，就这么简单…
