@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function() {
 .markdown-body h4,
 .markdown-body h5,
 .markdown-body h6 {
-  scroll-margin-top: 60px;
+  scroll-margin-top: 70px;
 }
         /*添加距离结束*/
     `;
