@@ -1,6 +1,9 @@
 ### 问题说明
 昨晚去网吧通宵打游戏了，然后回来用电脑一通操作用adb禁用了很多应用，然后看到有个（人脸解锁）我也禁用了，脑子抽在想，这个手表又没有直接的人脸解锁，我要他干嘛？干就完了，然后重启显示第一屏（以前有3屏来算这是2屏），再显示开机动画，再到锁屏界面就是无法解锁输入密码，也进不去桌面，然后闪屏几次就再重启就会进下面的图片的rec，这个rec可选的只有两个（Try again，重试）和（Factory data reset，恢复出厂），我是拍照手机识屏的可能有的字母会错，我又不想恢复出厂…
 
+![s100用adb禁用应用无法进入桌面重启或者开机之后到rec](https://weich22.github.io/imagesw/S6041210252881commeizumediaallery.webp)
+
+
 ### 解决办法
 就是按电源按键确认点击重试，重启到第二屏动画吧，电脑会叮咚响一下，就输入如下adb命令,验证一下你的adb，可不可以用，不输入也可以，直接下一步，我建议还是要试一下…
 
@@ -26,7 +29,7 @@ adb shell pm list packages -d
 adb shell pm list packages -d | ForEach-Object { adb shell pm enable ($_ -replace 'package:','') }
 ```
 
-准备adb操作过程:
+### 准备adb操作过程
 1.将adb.exe 复制到C:\Windows文件夹。
 2.在任意文件夹中,按住Shift键并右键单击空白处,选择“在此处打开命令窗口（需要管理权限）”。
 3.在打开的CMD中直接输入adb 命令即可使用。
