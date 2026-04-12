@@ -19,6 +19,32 @@ adb version
 ```dos
 adb shell pm list packages -d
 ```
+
+比如我的输出禁用列表如下
+
+```dos
+package:com.divoiot.breathe
+package:com.dw.launcher
+package:com.watch.iotfriend.bind
+package:com.watch.iotfriend.make
+package:com.dw.music
+package:com.dw.sleep
+package:com.tmoon.divo.app_market_app
+package:com.divoiot.ble
+package:com.divoiot.sport
+package:com.watch.iotchat
+package:com.divoiot.sedentary
+package:com.sprd.powersavemodelauncher
+package:com.juphoon.cloud.vchat
+package:com.dw.wifip2p
+package:com.divo.clear
+package:com.dwiot.dwstep
+package:com.dw.iotcode
+package:com.android.settings
+package:com.dw.school
+package:com.dw.family.contact
+package:com.timuen.divo.weardialmarket
+```
 然后你可以想一下有怀疑禁用之后导致不开机的，单独恢复它就可以了，我比较懒，想直接全部恢复之后手表好了能开机进桌面了再次去禁用就好了，最后我发现应该是禁用（人脸解锁）导致的。
 
 
@@ -28,6 +54,8 @@ adb shell pm list packages -d
 ```dos
 adb shell pm list packages -d | ForEach-Object { adb shell pm enable ($_ -replace 'package:','') }
 ```
+
+上面命令很简单就先输出所有已经禁用的应用列表，再启动就好了，列表排除字段（package:），就是告诉系统说，前面那些不是应用的包名…
 
 ### 准备adb操作过程
 1.将adb.exe 复制到C:\Windows文件夹。
