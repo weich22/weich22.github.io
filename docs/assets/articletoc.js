@@ -137,6 +137,17 @@ document.addEventListener("DOMContentLoaded", function() {
             border-color: var(--toc-icon-active-bg);
             transform: rotate(90deg);
         }
+        /*添加点击之后内容距离顶部多远*/
+        /* 锚点跳转时标题离顶部远一点 */
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  scroll-margin-top: 60px;
+}
+        /*添加距离结束*/
     `;
     loadResource('style', {css: css});
 
