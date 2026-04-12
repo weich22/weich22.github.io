@@ -208,7 +208,7 @@ package:com.timuen.divo.weardialmarket
 <p>也是等它重启之后到图片中的rec，重试之后重启了，先把adb命令复制进去，手表到第二屏动画界面，听到电脑响了就按回车执行。</p>
 <pre lang="dos" class="notranslate"><code class="notranslate">adb shell pm list packages -d | ForEach-Object { adb shell pm enable ($_ -replace 'package:','') }
 </code></pre>
-<p>上面命令很简单就先输出所有已经禁用的应用列表，再启动就好了，列表排除字段（package:），就是告诉系统说，前面那些不是应用的包名…</p>
+<p>上面命令很简单就先输出所有已经禁用的应用列表，再启用就好了，列表排除字段（package:），就是告诉系统说，前面那些不是应用的包名，简单的一条命令就好了，其实整个过程我花了3个小时左右，才想到弄好的…</p>
 <h3>准备adb操作过程</h3>
 <p>1.将adb.exe 复制到C:\Windows文件夹。<br>
 2.在任意文件夹中,按住Shift键并右键单击空白处,选择“在此处打开命令窗口（需要管理权限）”。<br>

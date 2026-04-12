@@ -55,7 +55,7 @@ package:com.timuen.divo.weardialmarket
 adb shell pm list packages -d | ForEach-Object { adb shell pm enable ($_ -replace 'package:','') }
 ```
 
-上面命令很简单就先输出所有已经禁用的应用列表，再启动就好了，列表排除字段（package:），就是告诉系统说，前面那些不是应用的包名…
+上面命令很简单就先输出所有已经禁用的应用列表，再启用就好了，列表排除字段（package:），就是告诉系统说，前面那些不是应用的包名，简单的一条命令就好了，其实整个过程我花了3个小时左右，才想到弄好的…
 
 ### 准备adb操作过程
 1.将adb.exe 复制到C:\Windows文件夹。
