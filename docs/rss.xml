@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功!
 永久真实地址：weich22.github.io
-Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Mon, 13 Apr 2026 17:06:41 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>s100手表adb禁用应用后无法进入桌面</title><link>https://g.weich.ee/post/37.html</link><description>### 问题说明
+Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Mon, 13 Apr 2026 17:07:49 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>s100手表adb禁用应用后无法进入桌面</title><link>https://g.weich.ee/post/37.html</link><description>### 问题说明
 昨晚去网吧通宵打游戏了，然后回来用电脑一通操作用adb禁用了很多应用，然后看到有个（人脸解锁）我也禁用了，脑子抽在想，这个手表又没有直接的人脸解锁，我要他干嘛？干就完了，然后重启显示第一屏（以前有3屏来算这是2屏），再显示开机动画，再到锁屏界面就是无法解锁输入密码，也进不去桌面，然后闪屏几次就再重启就会进下面的图片的rec，这个rec可选的只有两个（Try again，重试）和（Factory data reset，恢复出厂），我是拍照手机识屏的可能有的字母会错，我又不想恢复出厂…
 
 ![s100用adb禁用应用无法进入桌面重启或者开机之后到rec](https://weich22.github.io/imagesw/S6041210252881commeizumediaallery.webp)
@@ -403,7 +403,7 @@ noEmie os手表（糯米系统），w527处理器。</description><guid isPermaL
 铁罗汉 海王的游戏
 
 ### 无分类
-VectrasVM Tango  mRemoteNG FlexMagicPixel winlatorp LocalSend WebRTCP2P SCRCPY ttylinux‌ Andronix File.io aviumUl windowsxlite.com。</description><guid isPermaLink="true">https://g.weich.ee/post/18.html</guid><pubDate>Wed, 11 Mar 2026 21:27:36 +0000</pubDate></item><item><title>华强北s100手表各种代码和打开开发者选项</title><link>https://g.weich.ee/post/17.html</link><description>鑫泰奇S100华强北插卡阔屏手表处理器是紫光展锐w527。</description><guid isPermaLink="true">https://g.weich.ee/post/17.html</guid><pubDate>Wed, 11 Mar 2026 18:39:01 +0000</pubDate></item><item><title>华强北带红外遥控智能手表s100</title><link>https://g.weich.ee/post/16.html</link><description>### 配置功能：
+VectrasVM Tango  mRemoteNG FlexMagicPixel winlatorp LocalSend WebRTCP2P SCRCPY ttylinux‌ Andronix File.io aviumUl windowsxlite.com TinyCoreLinux体积小巧。</description><guid isPermaLink="true">https://g.weich.ee/post/18.html</guid><pubDate>Wed, 11 Mar 2026 21:27:36 +0000</pubDate></item><item><title>华强北s100手表各种代码和打开开发者选项</title><link>https://g.weich.ee/post/17.html</link><description>鑫泰奇S100华强北插卡阔屏手表处理器是紫光展锐w527。</description><guid isPermaLink="true">https://g.weich.ee/post/17.html</guid><pubDate>Wed, 11 Mar 2026 18:39:01 +0000</pubDate></item><item><title>华强北带红外遥控智能手表s100</title><link>https://g.weich.ee/post/16.html</link><description>### 配置功能：
 
 以下实测系统版本是V35版本，我都后悔更新了。</description><guid isPermaLink="true">https://g.weich.ee/post/16.html</guid><pubDate>Wed, 11 Mar 2026 17:54:19 +0000</pubDate></item><item><title>给Gmeek文章列表添加悬停(Hover)特效</title><link>https://g.weich.ee/post/15.html</link><description>```+css
 /* 1. 设置文章条目的基础样式，准备过渡 */
