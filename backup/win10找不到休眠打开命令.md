@@ -1,6 +1,6 @@
 按住键盘win+x，打开“命令提示符(管理员)"。
 
-
+![打开命令提示符(管理员)](https://weich22.github.io/imagesw/S6041902153493markvia.webp)
 
 打开后输入"powercfg -h on"并按下回车运行,运行后就能开启休眠按钮。
 
