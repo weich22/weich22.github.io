@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>P2P 快传 - 点对点文件/文本传输（支持公网）</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f5f7fc 0%, #eef2f6 100%);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(8px);
+            border-radius: 48px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+            padding: 28px 32px;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 0.25rem;
+            background: linear-gradient(135deg, #1e2b3c, #2c4c6e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .sub {
+            color: #4a627a;
+            border-left: 3px solid #3b82f6;
+            padding-left: 12px;
+            margin-bottom: 28px;
+            font-weight: 500;
+        }
+
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+        }
+
+        .card {
+            flex: 1;
+            min-width: 280px;
+            background: white;
+            border-radius: 32px;
+            padding: 24px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 28px -12px rgba(0,0,0,0.15);
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #1e293b;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #2c3e50;
+        }
+
+        textarea, input[type="text"], input[type="file"] {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 24px;
+            border: 1px solid #cbd5e1;
+            background: #fefefe;
+            font-size: 0.95rem;
+            transition: 0.2s;
+        }
+
+        textarea:focus, input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+        }
+
+        button {
+            background: #1e293b;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-right: 8px;
+            margin-top: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        button.primary {
+            background: #2563eb;
+            box-shadow: 0 4px 10px rgba(37,99,235,0.2);
+        }
+
+        button.primary:hover {
+            background: #1d4ed8;
+            transform: scale(0.98);
+        }
+
+        button.danger {
+            background: #dc2626;
+        }
+
+        button.danger:hover {
+            background: #b91c1c;
+        }
+
+        button.secondary {
+            background: #475569;
+        }
+
+        button:active {
+            transform: scale(0.96);
+        }
+
+        .mode-switch {
+            background: #f1f5f9;
+            border-radius: 60px;
+            padding: 6px;
+            display: inline-flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .mode-option {
+            padding: 6px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: 0.1s;
+            background: transparent;
+            color: #334155;
+        }
+
+        .mode-option.active {
+            background: white;
+            color: #0f172a;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .pickup-code {
+            background: #f8fafc;
+            border-radius: 28px;
+            padding: 16px;
+            text-align: center;
+            margin: 16px 0;
+            font-family: monospace;
+            font-size: 1.8rem;
+            letter-spacing: 4px;
+            font-weight: bold;
+            border: 1px dashed #94a3b8;
+        }
+
+        .status {
+            background: #eef2ff;
+            border-radius: 28px;
+            padding: 12px 16px;
+            font-size: 0.85rem;
+            margin-top: 18px;
+            color: #1e293b;
+            word-break: break-all;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            border-radius: 40px;
+            height: 8px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: #3b82f6;
+            border-radius: 40px;
+            transition: width 0.2s;
+        }
+
+        hr {
+            margin: 18px 0;
+            border: none;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .file-info {
+            font-size: 0.8rem;
+            color: #475569;
+            margin-top: 8px;
+        }
+
+        .warning-tip {
+            font-size: 0.7rem;
+            color: #e67e22;
+            margin-top: 6px;
+            text-align: center;
+        }
+
+        @media (max-width: 780px) {
+            .container { padding: 20px; }
+            .card-title { font-size: 1.3rem; }
+            .mode-option { padding: 4px 12px; font-size: 0.7rem; }
+        }
+    </style>
+    <!-- 引入 Gun.js 去中心化信令库 和 simple-peer -->
+    <script src="https://cdn.jsdelivr.net/npm/gun@0.2020.1240/gun.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-peer@9.11.1/simplepeer.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>⚡ P2P 快传</h1>
+    <div class="sub">点对点 · 文件 & 文字 · 取件码配对 · 支持公网跨网络</div>
+
+    <div class="dashboard">
+        <!-- 左侧：发送区 -->
+        <div class="card">
+            <div class="card-title">📤 发送</div>
+            <div class="input-group">
+                <label>📁 文件 (可选)</label>
+                <input type="file" id="fileInput">
+                <div class="file-info" id="fileInfo"></div>
+            </div>
+            <div class="input-group">
+                <label>✍️ 或 文字消息</label>
+                <textarea rows="3" id="textMessage" placeholder="输入要发送的文字..."></textarea>
+            </div>
+            <div class="mode-switch" id="senderModeSwitch">
+                <span class="mode-option active" data-mode="lan_first">🌐 局域网优先</span>
+                <span class="mode-option" data-mode="lan_only">🏠 仅局域网</span>
+                <span class="mode-option" data-mode="public">🌍 公网P2P</span>
+            </div>
+            <button class="primary" id="generateCodeBtn">🔑 生成取件码并开始发送</button>
+            <div id="senderPickupArea" style="display:none;">
+                <div class="pickup-code" id="pickupCodeDisplay"></div>
+                <div class="status" id="senderStatus">⏳ 等待接收方连接...</div>
+                <div class="progress-bar"><div class="progress-fill" id="senderProgress"></div></div>
+                <button id="cancelSenderBtn" class="danger" style="width:100%">取消传输</button>
+            </div>
+        </div>
+
+        <!-- 右侧：接收区 -->
+        <div class="card">
+            <div class="card-title">📥 接收</div>
+            <div class="input-group">
+                <label>🔢 输入取件码</label>
+                <input type="text" id="pickupCodeInput" placeholder="例如: X9K-3M7">
+            </div>
+            <div class="mode-switch" id="receiverModeSwitch">
+                <span class="mode-option active" data-mode="lan_first">🌐 局域网优先</span>
+                <span class="mode-option" data-mode="lan_only">🏠 仅局域网</span>
+                <span class="mode-option" data-mode="public">🌍 公网P2P</span>
+            </div>
+            <button class="primary" id="connectBtn">🔗 配对并接收</button>
+            <div id="receiverStatusArea">
+                <div class="status" id="receiverStatus">✨ 输入取件码，点击配对</div>
+                <div class="progress-bar"><div class="progress-fill" id="receiverProgress"></div></div>
+                <div id="receivedContent"></div>
+                <button id="resetReceiverBtn" class="secondary" style="margin-top:12px;">重置 / 新传输</button>
+            </div>
+        </div>
+    </div>
+    <div class="warning-tip">
+        ⚡ 公网P2P模式依赖STUN打洞，部分网络环境可能失败，此时可尝试“局域网优先”模式。
+    </div>
+    <div style="text-align:center; margin-top:10px; font-size:0.7rem; opacity:0.6;">
+        💡 所有传输均为点对点直连 | 取件码仅用于握手 | 关闭页面即清理
+    </div>
+</div>
+
+<script>
+    // ---------- 全局变量 ----------
+    let gun = null;                // Gun 实例
+    let currentPeer = null;       // SimplePeer 实例
+    let currentRoomRef = null;     // gun 中对应取件码的引用
+    let currentRole = null;        // 'sender' or 'receiver'
+    let currentPickup = null;      // 当前取件码
+    let isTransferring = false;
+    let receivedData = null;       // 存储收到的数据 (Blob 或 string)
+
+    // 进度更新DOM
+    const senderProgressFill = document.getElementById('senderProgress');
+    const receiverProgressFill = document.getElementById('receiverProgress');
+    const senderStatusDiv = document.getElementById('senderStatus');
+    const receiverStatusDiv = document.getElementById('receiverStatus');
+    const senderPickupArea = document.getElementById('senderPickupArea');
+    const pickupCodeDisplay = document.getElementById('pickupCodeDisplay');
+    const receivedContentDiv = document.getElementById('receivedContent');
+    const fileInput = document.getElementById('fileInput');
+    const textMessage = document.getElementById('textMessage');
+    const generateBtn = document.getElementById('generateCodeBtn');
+    const connectBtn = document.getElementById('connectBtn');
+    const cancelSenderBtn = document.getElementById('cancelSenderBtn');
+    const resetReceiverBtn = document.getElementById('resetReceiverBtn');
+    const pickupCodeInput = document.getElementById('pickupCodeInput');
+    const fileInfoSpan = document.getElementById('fileInfo');
+
+    // 获取当前发送方/接收方的传输模式
+    function getSenderMode() {
+        const active = document.querySelector('#senderModeSwitch .mode-option.active');
+        return active ? active.dataset.mode : 'lan_first';
+    }
+    function getReceiverMode() {
+        const active = document.querySelector('#receiverModeSwitch .mode-option.active');
+        return active ? active.dataset.mode : 'lan_first';
+    }
+
+    // 根据模式生成 peer 配置
+    function getPeerConfig(mode) {
+        if (mode === 'lan_only') {
+            // 仅局域网: 只允许 host 候选
+            return { iceServers: [] };
+        } else if (mode === 'public') {
+            // 公网P2P: 使用多个公共STUN服务器，尽量提高打洞成功率
+            return {
+                iceServers: [
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:stun1.l.google.com:19302' },
+                    { urls: 'stun:stun2.l.google.com:19302' },
+                    { urls: 'stun:stun.stunprotocol.org:3478' },
+                    { urls: 'stun:stun.voipstunt.com:3478' }
+                ],
+                iceTransportPolicy: 'all'   // 允许所有候选类型
+            };
+        } else {
+            // 默认局域网优先: 包含STUN，但ICE会优先尝试host
+            return {
+                iceServers: [
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:stun1.l.google.com:19302' }
+                ]
+            };
+        }
+    }
+
+    // 生成随机取件码 (6位 字母+数字)
+    function generatePickupCode() {
+        return Math.random().toString(36).substring(2, 8).toUpperCase();
+    }
+
+    // 清理当前连接 (关 peer, 取消 gun 监听)
+    function cleanupConnection(resetUI = true) {
+        if (currentPeer) {
+            try { currentPeer.destroy(); } catch(e) {}
+            currentPeer = null;
+        }
+        if (currentRoomRef) {
+            try { currentRoomRef.off(); } catch(e) {}
+            currentRoomRef = null;
+        }
+        isTransferring = false;
+        if (resetUI) {
+            if (currentRole === 'sender') {
+                senderProgressFill.style.width = '0%';
+                senderStatusDiv.innerText = '❌ 连接已关闭或取消';
+                setTimeout(() => {
+                    if (currentRole === 'sender' && !currentPeer) {
+                        senderStatusDiv.innerText = '已取消，可重新生成取件码';
+                    }
+                }, 1500);
+            } else if (currentRole === 'receiver') {
+                receiverProgressFill.style.width = '0%';
+                receiverStatusDiv.innerText = '⚡ 已断开，可重新配对';
+            }
+        }
+        currentRole = null;
+        currentPickup = null;
+    }
+
+    // 重置接收区 UI 状态
+    function resetReceiverUI() {
+        if (currentPeer) cleanupConnection(true);
+        receivedContentDiv.innerHTML = '';
+        receiverProgressFill.style.width = '0%';
+        receiverStatusDiv.innerText = '✨ 输入取件码，点击配对';
+        currentRole = null;
+        currentPickup = null;
+    }
+
+    // 发送数据 (文件或文本)
+    async function startSendData(peer, hasFile, fileBlob, textStr) {
+        if (!peer) return;
+        if (hasFile && fileBlob) {
+            const metadata = {
+                type: 'file',
+                name: fileInput.files[0].name,
+                size: fileBlob.size,
+                mime: fileInput.files[0].type || 'application/octet-stream'
+            };
+            peer.send(JSON.stringify(metadata));
+            const chunkSize = 16384; // 16KB
+            let offset = 0;
+            const total = fileBlob.size;
+            const reader = new FileReader();
+            const sendNextChunk = () => {
+                if (!peer || peer.destroyed) return;
+                const slice = fileBlob.slice(offset, offset + chunkSize);
+                reader.onload = (e) => {
+                    const buffer = e.target.result;
+                    peer.send(buffer);
+                    offset += chunkSize;
+                    const percent = (offset / total) * 100;
+                    if (currentRole === 'sender') senderProgressFill.style.width = percent + '%';
+                    if (offset < total) {
+                        setTimeout(sendNextChunk, 5);
+                    } else {
+                        peer.send(JSON.stringify({ type: 'end', role: 'file' }));
+                        if (currentRole === 'sender') senderStatusDiv.innerText = '✅ 文件发送完成！';
+                    }
+                };
+                reader.readAsArrayBuffer(slice);
+            };
+            sendNextChunk();
+        } else if (textStr && textStr.trim() !== '') {
+            const msgData = {
+                type: 'text',
+                content: textStr.trim()
+            };
+            peer.send(JSON.stringify(msgData));
+            if (currentRole === 'sender') senderStatusDiv.innerText = '📝 文字已发送';
+            senderProgressFill.style.width = '100%';
+            setTimeout(() => { if(currentRole==='sender') senderProgressFill.style.width = '0%'; }, 2000);
+        } else {
+            if (currentRole === 'sender') senderStatusDiv.innerText = '⚠️ 没有文件或文字可发送';
+        }
+    }
+
+    // 接收数据处理
+    function handleReceiveData(data, peerInstance) {
+        if (!peerInstance) return;
+        if (typeof data === 'string') {
+            try {
+                const obj = JSON.parse(data);
+                if (obj.type === 'file') {
+                    receivedData = { type: 'file', name: obj.name, size: obj.size, mime: obj.mime, chunks: [], receivedSize: 0 };
+                    receiverStatusDiv.innerText = `📁 接收文件: ${obj.name} (${(obj.size/1024).toFixed(1)} KB)`;
+                    if (currentRole === 'receiver') receiverProgressFill.style.width = '0%';
+                    return;
+                } else if (obj.type === 'text') {
+                    const textDiv = document.createElement('div');
+                    textDiv.className = 'status';
+                    textDiv.style.marginTop = '8px';
+                    textDiv.innerHTML = `💬 收到文字: <strong>${escapeHtml(obj.content)}</strong>`;
+                    receivedContentDiv.appendChild(textDiv);
+                    receiverStatusDiv.innerText = '✅ 文字接收完毕';
+                    return;
+                } else if (obj.type === 'end') {
+                    if (receivedData && receivedData.type === 'file') {
+                        const blob = new Blob(receivedData.chunks, { type: receivedData.mime });
+                        const url = URL.createObjectURL(blob);
+                        const downloadLink = document.createElement('a');
+                        downloadLink.href = url;
+                        downloadLink.download = receivedData.name;
+                        downloadLink.innerText = `📎 点击下载 ${receivedData.name}`;
+                        downloadLink.style.display = 'block';
+                        downloadLink.style.margin = '8px 0';
+                        receivedContentDiv.innerHTML = '';
+                        receivedContentDiv.appendChild(downloadLink);
+                        receiverStatusDiv.innerText = `✅ 文件接收完成: ${receivedData.name}`;
+                        URL.revokeObjectURL(url);
+                        receivedData = null;
+                        receiverProgressFill.style.width = '100%';
+                    }
+                    return;
+                }
+            } catch(e) { /* 不是json，当作二进制处理 */ }
+        }
+        if (data instanceof ArrayBuffer || (typeof Buffer !== 'undefined' && Buffer.isBuffer(data))) {
+            if (receivedData && receivedData.type === 'file') {
+                const chunk = new Uint8Array(data);
+                receivedData.chunks.push(chunk);
+                receivedData.receivedSize += chunk.byteLength;
+                const percent = (receivedData.receivedSize / receivedData.size) * 100;
+                if (currentRole === 'receiver') receiverProgressFill.style.width = percent + '%';
+                if (receivedData.receivedSize >= receivedData.size) {
+                    const blob = new Blob(receivedData.chunks, { type: receivedData.mime });
+                    const url = URL.createObjectURL(blob);
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = url;
+                    downloadLink.download = receivedData.name;
+                    downloadLink.innerText = `📎 下载 ${receivedData.name}`;
+                    receivedContentDiv.innerHTML = '';
+                    receivedContentDiv.appendChild(downloadLink);
+                    receiverStatusDiv.innerText = `✅ 文件接收完成: ${receivedData.name}`;
+                    receivedData = null;
+                    receiverProgressFill.style.width = '100%';
+                }
+            }
+        }
+    }
+
+    // 建立 peer 连接 (通过 gun 信令)
+    async function createPeerConnection(role, pickupCode, mode, onReady) {
+        cleanupConnection(false);
+        currentRole = role;
+        currentPickup = pickupCode;
+        const config = getPeerConfig(mode);
+        const peer = new SimplePeer({ initiator: (role === 'sender'), trickle: true, config: config });
+        currentPeer = peer;
+
+        if (!gun) gun = Gun();
+        const roomRef = gun.get('p2p-transfer').get(pickupCode);
+        currentRoomRef = roomRef;
+
+        peer.on('signal', signal => {
+            roomRef.put({ signal: signal, from: role, time: Date.now() });
+        });
+
+        roomRef.on((val, key) => {
+            if (val && val.signal && val.from !== role) {
+                try {
+                    peer.signal(val.signal);
+                } catch(e) { console.warn('signal error', e); }
+            }
+        });
+
+        peer.on('connect', () => {
+            if (role === 'sender') {
+                senderStatusDiv.innerText = '🔗 已配对！开始传输...';
+                const file = fileInput.files[0];
+                const text = textMessage.value;
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const blob = new Blob([e.target.result], { type: file.type });
+                        startSendData(peer, true, blob, null);
+                    };
+                    reader.readAsArrayBuffer(file);
+                } else if (text && text.trim() !== '') {
+                    startSendData(peer, false, null, text);
+                } else {
+                    senderStatusDiv.innerText = '⚠️ 请选择文件或输入文字';
+                    cleanupConnection(true);
+                }
+            } else if (role === 'receiver') {
+                receiverStatusDiv.innerText = '🔗 配对成功，等待数据...';
+                peer.on('data', data => {
+                    handleReceiveData(data, peer);
+                });
+                if (onReady) onReady();
+            }
+        });
+
+        peer.on('error', err => {
+            console.error(err);
+            if (role === 'sender') senderStatusDiv.innerText = '❌ 连接出错，请重试（可能NAT限制，换其他模式试试）';
+            else receiverStatusDiv.innerText = '❌ 连接出错，请检查取件码或网络（可尝试其他模式）';
+            cleanupConnection(true);
+        });
+
+        peer.on('close', () => {
+            if (role === 'sender') senderStatusDiv.innerText = '🔌 连接已关闭';
+            else receiverStatusDiv.innerText = '🔌 连接已关闭';
+            cleanupConnection(true);
+        });
+        return peer;
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // ---------- 事件绑定 ----------
+    generateBtn.addEventListener('click', async () => {
+        if (currentPeer && currentRole === 'sender') {
+            if (confirm('已有进行中的传输，是否取消并重新开始？')) cleanupConnection(true);
+            else return;
+        }
+        const hasFile = fileInput.files.length > 0;
+        const hasText = textMessage.value.trim() !== '';
+        if (!hasFile && !hasText) {
+            alert('请选择文件或输入文字');
+            return;
+        }
+        const mode = getSenderMode();
+        const code = generatePickupCode();
+        pickupCodeDisplay.innerText = code;
+        senderPickupArea.style.display = 'block';
+        generateBtn.disabled = true;
+        senderStatusDiv.innerText = '⏳ 正在创建连接，等待对方输入取件码...';
+        try {
+            await createPeerConnection('sender', code, mode);
+        } catch(e) {
+            senderStatusDiv.innerText = '创建失败，请重试';
+            generateBtn.disabled = false;
+            senderPickupArea.style.display = 'none';
+        }
+    });
+
+    cancelSenderBtn.addEventListener('click', () => {
+        cleanupConnection(true);
+        senderPickupArea.style.display = 'none';
+        generateBtn.disabled = false;
+        senderProgressFill.style.width = '0%';
+    });
+
+    connectBtn.addEventListener('click', async () => {
+        const code = pickupCodeInput.value.trim().toUpperCase();
+        if (!code) {
+            alert('请输入取件码');
+            return;
+        }
+        if (currentPeer && currentRole === 'receiver') {
+            cleanupConnection(true);
+        }
+        const mode = getReceiverMode();
+        receiverStatusDiv.innerText = `🔄 尝试配对 ${code} ...`;
+        receiverProgressFill.style.width = '0%';
+        receivedContentDiv.innerHTML = '';
+        try {
+            await createPeerConnection('receiver', code, mode, () => {});
+        } catch(e) {
+            receiverStatusDiv.innerText = '配对失败，请检查取件码或网络';
+        }
+    });
+
+    resetReceiverBtn.addEventListener('click', () => {
+        resetReceiverUI();
+        pickupCodeInput.value = '';
+    });
+
+    // 模式切换UI
+    document.querySelectorAll('#senderModeSwitch .mode-option').forEach(opt => {
+        opt.addEventListener('click', function() {
+            document.querySelectorAll('#senderModeSwitch .mode-option').forEach(o => o.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+    document.querySelectorAll('#receiverModeSwitch .mode-option').forEach(opt => {
+        opt.addEventListener('click', function() {
+            document.querySelectorAll('#receiverModeSwitch .mode-option').forEach(o => o.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length) {
+            const f = e.target.files[0];
+            fileInfoSpan.innerText = `📄 ${f.name} (${(f.size/1024).toFixed(1)} KB)`;
+        } else {
+            fileInfoSpan.innerText = '';
+        }
+    });
+</script>
+</body>
+</html>
