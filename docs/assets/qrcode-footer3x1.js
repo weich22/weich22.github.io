@@ -516,7 +516,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /*友情链接link.html页面链接背景*/
 
 document.addEventListener('DOMContentLoaded', function() {
-    if (location.pathname !== '/link.html' && location.pathname !== 'link.html') return;
+    if (location.pathname !== '/link.html') return;
     try {
         const s = document.createElement('style');
         s.textContent = '.card-wrap{display:inline-flex;align-items:center;gap:8px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:40px;padding:6px 18px 6px 14px;transition:.2s;margin:0 4px 8px 0}.card-wrap:hover{background:#0969da}.card-wrap:hover a,.card-wrap:hover .card-icon{color:#fff}.card-icon{font-size:1.2rem;line-height:1}.card-wrap a{text-decoration:none;color:#0969da;font-size:.9rem;font-weight:500}@media(prefers-color-scheme:dark){.card-wrap{background:#21262d;border-color:#30363d}.card-wrap a{color:#4493f8}}.card-container{display:flex;flex-wrap:wrap;gap:12px;margin:1rem 0}';
