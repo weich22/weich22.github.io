@@ -2,7 +2,7 @@
 
 这个是新添加进去的
 
-```js
+```+js
 /**
  * Gmeek 链接卡片化脚本（无额外容器版）
  * 作用：将 /link.html 页面中 #content 内的链接（及前面的图标）用圆角卡片框起来
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 ### 并修正标注文字显示右边溢出
 
-```css
+```+css
    /*友情链接获取焦点显示标题*/
 
 /* 让 .card-wrap 作为定位祖先（用于限制提示框宽度） */
