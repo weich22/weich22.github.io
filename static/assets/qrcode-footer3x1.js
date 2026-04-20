@@ -515,158 +515,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /*友情链接link.html页面链接背景*/
 
-(function() {
-    // ==================== 页面限定 ====================
-    // 仅在 /link.html 页面执行，避免影响其他文章页面
-    if (location.pathname !== '/link.html') return;
-
+document.addEventListener('DOMContentLoaded', function() {
+    if (location.pathname !== '/link.html' && location.pathname !== 'link.html') return;
     try {
-        // ==================== 注入卡片样式 ====================
-        const style = document.createElement('style');
-        style.textContent = `
-            /* 卡片容器：用于包裹图标和链接 */
-            .card-wrap {
-                display: inline-flex;
-                align-items: center;
-                gap: 8px;
-                background: #f6f8fa;
-                border: 1px solid #d0d7de;
-                border-radius: 40px;
-                padding: 6px 18px 6px 14px;
-                transition: .2s;
-                margin: 0 4px 8px 0;
-            }
-            .card-wrap:hover {
-                background: #0969da;
-            }
-            .card-wrap:hover a,
-            .card-wrap:hover .card-icon {
-                color: #fff;
-            }
-            /* 图标样式 */
-            .card-icon {
-                font-size: 1.2rem;
-                line-height: 1;
-            }
-            /* 链接文字样式 */
-            .card-wrap a {
-                text-decoration: none;
-                color: #0969da;
-                font-size: .9rem;
-                font-weight: 500;
-            }
-            /* 深色模式适配 */
-            @media (prefers-color-scheme: dark) {
-                .card-wrap {
-                    background: #21262d;
-                    border-color: #30363d;
-                }
-                .card-wrap a {
-                    color: #4493f8;
+        const s = document.createElement('style');
+        s.textContent = '.card-wrap{display:inline-flex;align-items:center;gap:8px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:40px;padding:6px 18px 6px 14px;transition:.2s;margin:0 4px 8px 0}.card-wrap:hover{background:#0969da}.card-wrap:hover a,.card-wrap:hover .card-icon{color:#fff}.card-icon{font-size:1.2rem;line-height:1}.card-wrap a{text-decoration:none;color:#0969da;font-size:.9rem;font-weight:500}@media(prefers-color-scheme:dark){.card-wrap{background:#21262d;border-color:#30363d}.card-wrap a{color:#4493f8}}.card-container{display:flex;flex-wrap:wrap;gap:12px;margin:1rem 0}';
+        document.head.appendChild(s);
+        const r = /[\u{1F300}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}]/u;
+        document.querySelectorAll('a').forEach(l => {
+            if (l.parentElement?.classList?.contains('card-wrap')) return;
+            let i = null, p = l.previousSibling;
+            while (p && p.nodeType === 3 && (!p.textContent || p.textContent.trim() === '')) { const n = p; p = p.previousSibling; n.remove(); }
+            if (p && p.nodeType === 3 && p.textContent) {
+                const m = p.textContent.match(new RegExp('^[\\s]*' + r.source, 'u'));
+                if (m) {
+                    i = m[0].trim();
+                    const t = p.textContent.replace(m[0], '').trim();
+                    if (t && !/^[\d\s\W]+$/.test(t)) p.textContent = t;
+                    else p.remove();
                 }
             }
-            /* 卡片网格容器：自动换行布局 */
-            .card-container {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 12px;
-                margin: 1rem 0;
-            }
-        `;
-        document.head.appendChild(style);
-
-        // ==================== 工具函数 ====================
-        // 匹配常见 emoji 的正则表达式（U+1F300 到 U+1F6FF 等）
-        const emojiRegex = /[\u{1F300}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}]/u;
-
-        // ==================== 处理所有链接 ====================
-        document.querySelectorAll('a').forEach(link => {
-            // 避免重复处理已经被包裹过的链接
-            if (link.parentElement?.classList?.contains('card-wrap')) return;
-
-            let icon = null;
-
-            // 1. 检查链接前面的文本节点（可能包含图标）
-            let prev = link.previousSibling;
-            // 跳过空白的文本节点
-            while (prev && prev.nodeType === 3 && (!prev.textContent || prev.textContent.trim() === '')) {
-                const toRemove = prev;
-                prev = prev.previousSibling;
-                toRemove.remove(); // 删除空白文本节点，避免页面显示多余内容
-            }
-
-            if (prev && prev.nodeType === 3 && prev.textContent) {
-                // 尝试匹配文本开头的 emoji
-                const match = prev.textContent.match(new RegExp('^[\\s]*' + emojiRegex.source, 'u'));
-                if (match) {
-                    icon = match[0].trim(); // 提取到的图标
-                    const rest = prev.textContent.replace(match[0], '').trim();
-                    if (rest && !/^[\d\s\W]+$/.test(rest)) {
-                        // 保留有意义的剩余文本（不是纯数字/符号）
-                        prev.textContent = rest;
-                    } else {
-                        // 剩余内容无意义，直接删除该文本节点
-                        prev.remove();
-                    }
+            if (!i) {
+                const pe = l.previousElementSibling;
+                if (pe && pe.textContent && r.test(pe.textContent.trim())) {
+                    i = pe.textContent.trim();
+                    pe.remove();
                 }
             }
-
-            // 2. 如果前面没有文本节点图标，检查前面的元素节点（比如 <span>📖</span>）
-            if (!icon) {
-                const prevEl = link.previousElementSibling;
-                if (prevEl && prevEl.textContent && emojiRegex.test(prevEl.textContent.trim())) {
-                    icon = prevEl.textContent.trim();
-                    prevEl.remove(); // 删除原来的图标元素
-                }
+            const w = document.createElement('span');
+            w.className = 'card-wrap';
+            if (i) {
+                const is = document.createElement('span');
+                is.className = 'card-icon';
+                is.textContent = i;
+                w.appendChild(is);
             }
-
-            // 3. 创建卡片容器，将图标和链接一起框起来
-            const wrapper = document.createElement('span');
-            wrapper.className = 'card-wrap';
-
-            if (icon) {
-                const iconSpan = document.createElement('span');
-                iconSpan.className = 'card-icon';
-                iconSpan.textContent = icon;
-                wrapper.appendChild(iconSpan);
-            }
-
-            // 将原链接移动到卡片容器内
-            link.parentNode.insertBefore(wrapper, link);
-            wrapper.appendChild(link);
+            l.parentNode.insertBefore(w, l);
+            w.appendChild(l);
         });
-
-        // ==================== 清理可能残留的空白文本节点 ====================
-        document.querySelectorAll('.card-wrap').forEach(wrapper => {
-            const parent = wrapper.parentNode;
-            // 如果父级内只有一个子节点（卡片本身）且没有其他文本节点，则不需要处理
-            if (parent.children.length === 1 && parent.childNodes.length === 1) return;
-
-            let prev = parent.previousSibling;
+        document.querySelectorAll('.card-wrap').forEach(w => {
+            const p = w.parentNode;
+            if (p.children.length === 1 && p.childNodes.length === 1) return;
+            let prev = p.previousSibling;
             while (prev && prev.nodeType === 3 && (!prev.textContent || prev.textContent.trim() === '')) {
-                const toRemove = prev;
+                const n = prev;
                 prev = prev.previousSibling;
-                toRemove.remove();
+                n.remove();
             }
         });
-
-        // ==================== 将相邻卡片放入网格容器 ====================
-        const wrappers = document.querySelectorAll('.card-wrap');
-        if (wrappers.length) {
-            let container = null;
-            wrappers.forEach(wrapper => {
-                // 判断是否需要新建一个网格容器（根据前一个兄弟元素是否变化）
-                if (!container || container.previousElementSibling !== wrapper.previousElementSibling) {
-                    container = document.createElement('div');
-                    container.className = 'card-container';
-                    wrapper.parentNode.insertBefore(container, wrapper);
-                    container.appendChild(wrapper);
+        const ws = document.querySelectorAll('.card-wrap');
+        if (ws.length) {
+            let c = null;
+            ws.forEach(w => {
+                if (!c || c.previousElementSibling !== w.previousElementSibling) {
+                    c = document.createElement('div');
+                    c.className = 'card-container';
+                    w.parentNode.insertBefore(c, w);
+                    c.appendChild(w);
                 } else {
-                    container.appendChild(wrapper);
+                    c.appendChild(w);
                 }
             });
         }
-    } catch(e) {
-        // 静默失败，不输出任何错误到控制台
-    }
-})();
+    } catch(e) {}
+});
