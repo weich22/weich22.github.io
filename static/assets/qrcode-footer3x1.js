@@ -518,7 +518,7 @@ document.addEventListener('DOMContentLoaded', () => {
 (function() {
     // ==================== 页面限定 ====================
     // 仅在 /link.html 页面执行，避免影响其他文章页面
-    if (location.pathname !== 'link.html') return;
+    if (location.pathname !== '/link.html') return;
 
     try {
         // ==================== 注入卡片样式 ====================
