@@ -1,5 +1,7 @@
 ### 友情链接加背景颜色框
 
+这个是新添加进去的
+
 ```js
 /**
  * Gmeek 链接卡片化脚本（无额外容器版）
@@ -194,6 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 ```
 
+这个如果有了原文章的代码的话，就直接全部替换进去
 
 [原文章在这](https://g.weich.ee/post/9.html)
 为什么要在这更新？因为添加背景颜色框添加了一个锚点（.card-wrap）修正的时候根据这个锚点定位的。

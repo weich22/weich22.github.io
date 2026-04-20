@@ -1,7 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功!
 永久真实地址：weich22.github.io
-Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Mon, 20 Apr 2026 23:10:43 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek友情a链接加背景颜色视觉区分</title><link>https://g.weich.ee/post/39.html</link><description>### 友情链接加背景颜色框
+Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Mon, 20 Apr 2026 23:13:45 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek友情a链接加背景颜色视觉区分</title><link>https://g.weich.ee/post/39.html</link><description>### 友情链接加背景颜色框
+
+这个是新添加进去的
 
 ```js
 /**
@@ -197,6 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 ```
 
+这个如果有了原文章的代码的话，就直接全部替换进去
 
 [原文章在这](https://g.weich.ee/post/9.html)
 为什么要在这更新？因为添加背景颜色框添加了一个锚点（.card-wrap）修正的时候根据这个锚点定位的。</description><guid isPermaLink="true">https://g.weich.ee/post/39.html</guid><pubDate>Mon, 20 Apr 2026 22:56:58 +0000</pubDate></item><item><title>win10找不到休眠选项用命令打开</title><link>https://g.weich.ee/post/38.html</link><description>按住键盘win+x，打开“命令提示符(管理员)'。</description><guid isPermaLink="true">https://g.weich.ee/post/38.html</guid><pubDate>Sat, 18 Apr 2026 18:18:04 +0000</pubDate></item><item><title>s100手表adb禁用应用后无法进入桌面</title><link>https://g.weich.ee/post/37.html</link><description>### 问题说明
