@@ -516,19 +516,19 @@ document.addEventListener('DOMContentLoaded', () => {
 /*友情链接link.html页面链接背景*/
 
 /**
- * Gmeek 链接卡片化脚本
+ * Gmeek 链接卡片化脚本（无额外容器版）
  * 作用：将 /link.html 页面中 #content 内的链接（及前面的图标）用圆角卡片框起来
- * 不影响导航栏或其他页面的链接
+ * 不影响导航栏，不添加 .card-container 容器，卡片自然换行
  */
 document.addEventListener('DOMContentLoaded', function() {
     // 只在 /link.html 或 link.html 页面执行
     if (location.pathname !== '/link.html' && location.pathname !== 'link.html') return;
 
     try {
-        // 1. 注入卡片样式
+        // 1. 注入卡片样式（移除了 .card-container 定义）
         const style = document.createElement('style');
         style.textContent = `
-            /* 卡片容器：包裹图标和链接 */
+            /* 卡片样式：包裹图标和链接 */
             .card-wrap {
                 display: inline-flex;
                 align-items: center;
@@ -568,13 +568,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 .card-wrap a {
                     color: #4493f8;
                 }
-            }
-            /* 卡片网格容器：自动换行布局 */
-            .card-container {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 12px;
-                margin: 1rem 0;
             }
         `;
         document.head.appendChild(style);
@@ -640,7 +633,7 @@ document.addEventListener('DOMContentLoaded', function() {
             wrapper.appendChild(link);
         });
 
-        // 4. 清理可能残留的空白文本节点（针对卡片容器所在的父级）
+        // 4. 清理可能残留的空白文本节点（针对卡片父级）
         document.querySelectorAll('.card-wrap').forEach(wrapper => {
             const parent = wrapper.parentNode;
             // 如果父级内只有一个子节点（卡片本身）且没有其他文本节点，则不需要处理
@@ -654,22 +647,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // 5. 将相邻卡片放入网格容器（自动换行）
-        const wrappers = document.querySelectorAll('.card-wrap');
-        if (wrappers.length) {
-            let container = null;
-            wrappers.forEach(wrapper => {
-                // 判断是否需要新建一个网格容器（根据前一个兄弟元素是否变化）
-                if (!container || container.previousElementSibling !== wrapper.previousElementSibling) {
-                    container = document.createElement('div');
-                    container.className = 'card-container';
-                    wrapper.parentNode.insertBefore(container, wrapper);
-                    container.appendChild(wrapper);
-                } else {
-                    container.appendChild(wrapper);
-                }
-            });
-        }
+        // 注意：不再创建 .card-container，卡片直接以 inline-flex 排列，自然换行
     } catch(e) {
         // 静默失败，不干扰页面
     }
