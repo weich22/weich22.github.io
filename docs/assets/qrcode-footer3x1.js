@@ -534,11 +534,11 @@ document.addEventListener('DOMContentLoaded', function() {
             .card-wrap {
                 display: inline-flex;
                 align-items: center;
-                gap: 8px;
+                gap: 4px;
                 background: #f6f8fa;
                 border: 1px solid #d0d7de;
                 border-radius: 40px;
-                padding: 6px 18px 6px 14px;
+                padding: 6px 8px 6px 8px;
                 transition: .2s;
                 margin: 0 4px 8px 0;
             }
