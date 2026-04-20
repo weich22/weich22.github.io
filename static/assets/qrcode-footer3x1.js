@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 500);
 });
 
-/*链接获取焦点显示标题*/
+/*友情链接link.html页面获取焦点显示标题*/
 
 document.addEventListener('DOMContentLoaded', function () {
   // 只在链接页面生效
