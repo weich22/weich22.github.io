@@ -11,10 +11,128 @@
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
 <meta name="description" content="```js
-```。">
+
+```
+代码太长了，先不放占位一下先…
+
+
+并修正标注文字显示右边溢出
+
+```css
+   /*友情链接获取焦点显示标题*/
+
+/* 让 .card-wrap 作为定位祖先（用于限制提示框宽度） */
+.card-wrap {
+    position: relative !important;
+}
+
+/* 移除链接自身的相对定位，让提示框相对于 .card-wrap 定位 */
+#postBody a.tooltip-link {
+  position: static !important;
+}
+
+/* 提示框样式：保留原有视觉效果，但覆盖定位和宽度等关键属性 */
+#postBody a.tooltip-link::after {
+  /* 原有内容与基础样式 */
+  content: attr(data-title);
+  position: absolute;
+  top: 100%;
+  margin-top: 6px;
+  background: #333;
+  color: #fff;
+  padding: 0px 5px;
+  border-radius: 4px;
+  font-size: 13px;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s;
+  line-height: 1.5;
+
+  /* 关键覆盖（来自 F12 有效代码，带 !important） */
+  left: 0 !important;
+  right: auto !important;
+  width: max-content !important;      /* 短文字背景不浪费 */
+  max-width: 100% !important;         /* 最长不超过父卡片宽度，永不右侧溢出 */
+  white-space: normal !important;
+  word-break: break-word !important;
+  box-sizing: border-box !important;
+}
+
+/* 显示提示框 */
+#postBody a.tooltip-link:hover::after,
+#postBody a.tooltip-link:focus::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+```
+
+
+[原文章在这](https://g.weich.ee/post/9.html)
+为什么要在这更新？因为添加背景颜色框添加了一个锚点（.card-wrap）修正的时候根据这个锚点定位的。">
 <meta property="og:title" content="Gmeek友情a链接加背景颜色视觉区分">
 <meta property="og:description" content="```js
-```。">
+
+```
+代码太长了，先不放占位一下先…
+
+
+并修正标注文字显示右边溢出
+
+```css
+   /*友情链接获取焦点显示标题*/
+
+/* 让 .card-wrap 作为定位祖先（用于限制提示框宽度） */
+.card-wrap {
+    position: relative !important;
+}
+
+/* 移除链接自身的相对定位，让提示框相对于 .card-wrap 定位 */
+#postBody a.tooltip-link {
+  position: static !important;
+}
+
+/* 提示框样式：保留原有视觉效果，但覆盖定位和宽度等关键属性 */
+#postBody a.tooltip-link::after {
+  /* 原有内容与基础样式 */
+  content: attr(data-title);
+  position: absolute;
+  top: 100%;
+  margin-top: 6px;
+  background: #333;
+  color: #fff;
+  padding: 0px 5px;
+  border-radius: 4px;
+  font-size: 13px;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s;
+  line-height: 1.5;
+
+  /* 关键覆盖（来自 F12 有效代码，带 !important） */
+  left: 0 !important;
+  right: auto !important;
+  width: max-content !important;      /* 短文字背景不浪费 */
+  max-width: 100% !important;         /* 最长不超过父卡片宽度，永不右侧溢出 */
+  white-space: normal !important;
+  word-break: break-word !important;
+  box-sizing: border-box !important;
+}
+
+/* 显示提示框 */
+#postBody a.tooltip-link:hover::after,
+#postBody a.tooltip-link:focus::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+```
+
+
+[原文章在这](https://g.weich.ee/post/9.html)
+为什么要在这更新？因为添加背景颜色框添加了一个锚点（.card-wrap）修正的时候根据这个锚点定位的。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://g.weich.ee/post/39.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
@@ -85,7 +203,57 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><div class="highlight highlight-source-js"><pre class="notranslate"></pre></div></div>
+<div class="markdown-body" id="postBody"><div class="highlight highlight-source-js"><pre class="notranslate"></pre></div>
+<p>代码太长了，先不放占位一下先…</p>
+<p>并修正标注文字显示右边溢出</p>
+<div class="highlight highlight-source-css"><pre class="notranslate">   <span class="pl-c">/*友情链接获取焦点显示标题*/</span>
+
+<span class="pl-c">/* 让 .card-wrap 作为定位祖先（用于限制提示框宽度） */</span>
+.<span class="pl-c1">card-wrap</span> {
+    <span class="pl-c1">position</span><span class="pl-kos">:</span> relative <span class="pl-k">!important</span>;
+}
+
+<span class="pl-c">/* 移除链接自身的相对定位，让提示框相对于 .card-wrap 定位 */</span>
+<span class="pl-kos">#</span><span class="pl-c1">postBody</span> <span class="pl-ent">a</span>.<span class="pl-c1">tooltip-link</span> {
+  <span class="pl-c1">position</span><span class="pl-kos">:</span> static <span class="pl-k">!important</span>;
+}
+
+<span class="pl-c">/* 提示框样式：保留原有视觉效果，但覆盖定位和宽度等关键属性 */</span>
+<span class="pl-kos">#</span><span class="pl-c1">postBody</span> <span class="pl-ent">a</span>.<span class="pl-c1">tooltip-link</span>::<span class="pl-c1">after</span> {
+  <span class="pl-c">/* 原有内容与基础样式 */</span>
+  <span class="pl-c1">content</span><span class="pl-kos">:</span> <span class="pl-en">attr</span>(data-title);
+  <span class="pl-c1">position</span><span class="pl-kos">:</span> absolute;
+  <span class="pl-c1">top</span><span class="pl-kos">:</span> <span class="pl-c1">100<span class="pl-smi">%</span></span>;
+  <span class="pl-c1">margin-top</span><span class="pl-kos">:</span> <span class="pl-c1">6<span class="pl-smi">px</span></span>;
+  <span class="pl-c1">background</span><span class="pl-kos">:</span> <span class="pl-pds"><span class="pl-kos">#</span>333</span>;
+  <span class="pl-c1">color</span><span class="pl-kos">:</span> <span class="pl-pds"><span class="pl-kos">#</span>fff</span>;
+  <span class="pl-c1">padding</span><span class="pl-kos">:</span> <span class="pl-c1">0<span class="pl-smi">px</span></span> <span class="pl-c1">5<span class="pl-smi">px</span></span>;
+  <span class="pl-c1">border-radius</span><span class="pl-kos">:</span> <span class="pl-c1">4<span class="pl-smi">px</span></span>;
+  <span class="pl-c1">font-size</span><span class="pl-kos">:</span> <span class="pl-c1">13<span class="pl-smi">px</span></span>;
+  <span class="pl-c1">z-index</span><span class="pl-kos">:</span> <span class="pl-c1">999</span>;
+  <span class="pl-c1">opacity</span><span class="pl-kos">:</span> <span class="pl-c1">0</span>;
+  <span class="pl-c1">visibility</span><span class="pl-kos">:</span> hidden;
+  <span class="pl-c1">transition</span><span class="pl-kos">:</span> opacity <span class="pl-c1">0.2<span class="pl-smi">s</span></span>;
+  <span class="pl-c1">line-height</span><span class="pl-kos">:</span> <span class="pl-c1">1.5</span>;
+
+  <span class="pl-c">/* 关键覆盖（来自 F12 有效代码，带 !important） */</span>
+  <span class="pl-c1">left</span><span class="pl-kos">:</span> <span class="pl-c1">0</span> <span class="pl-k">!important</span>;
+  <span class="pl-c1">right</span><span class="pl-kos">:</span> auto <span class="pl-k">!important</span>;
+  <span class="pl-c1">width</span><span class="pl-kos">:</span> max-content <span class="pl-k">!important</span>;      <span class="pl-c">/* 短文字背景不浪费 */</span>
+  <span class="pl-c1">max-width</span><span class="pl-kos">:</span> <span class="pl-c1">100<span class="pl-smi">%</span></span> <span class="pl-k">!important</span>;         <span class="pl-c">/* 最长不超过父卡片宽度，永不右侧溢出 */</span>
+  <span class="pl-c1">white-space</span><span class="pl-kos">:</span> normal <span class="pl-k">!important</span>;
+  <span class="pl-c1">word-break</span><span class="pl-kos">:</span> break-word <span class="pl-k">!important</span>;
+  <span class="pl-c1">box-sizing</span><span class="pl-kos">:</span> border-box <span class="pl-k">!important</span>;
+}
+
+<span class="pl-c">/* 显示提示框 */</span>
+<span class="pl-kos">#</span><span class="pl-c1">postBody</span> <span class="pl-ent">a</span>.<span class="pl-c1">tooltip-link</span><span class="pl-kos">:</span><span class="pl-c1">hover</span>::<span class="pl-c1">after</span><span class="pl-kos">,</span>
+<span class="pl-kos">#</span><span class="pl-c1">postBody</span> <span class="pl-ent">a</span>.<span class="pl-c1">tooltip-link</span><span class="pl-kos">:</span><span class="pl-c1">focus</span>::<span class="pl-c1">after</span> {
+  <span class="pl-c1">opacity</span><span class="pl-kos">:</span> <span class="pl-c1">1</span>;
+  <span class="pl-c1">visibility</span><span class="pl-kos">:</span> visible;
+}</pre></div>
+<p><a href="https://g.weich.ee/post/9.html" rel="nofollow">原文章在这</a><br>
+为什么要在这更新？因为添加背景颜色框添加了一个锚点（.card-wrap）修正的时候根据这个锚点定位的。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
