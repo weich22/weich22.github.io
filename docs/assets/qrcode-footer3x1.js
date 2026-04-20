@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /*链接获取焦点显示标题*/
-
+/*
 document.addEventListener('DOMContentLoaded', function () {
   // 只在链接页面生效
   if (window.location.pathname !== '/link.html') return;
@@ -139,6 +139,38 @@ document.addEventListener('DOMContentLoaded', function () {
     // 让手机 a 标签能真正获得焦点（关键！）
     link.setAttribute('tabindex', '0');
   });
+});
+*/
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  // 只在链接页面生效
+  if (window.location.pathname !== '/link.html') return;
+
+  const postBody = document.getElementById('postBody');
+  if (!postBody) return;
+
+  // 为每个带 title 的链接添加 tooltip-link 类
+  postBody.querySelectorAll('a[title]').forEach(link => {
+    link.classList.add('tooltip-link');
+    link.dataset.title = link.title;
+    link.removeAttribute('title');
+    link.setAttribute('tabindex', '0');
+  });
+
+  // 动态设置每个链接的 --card-max-width 为父级 .card-wrap 的宽度
+  function setCardWidth() {
+    document.querySelectorAll('.card-wrap').forEach(card => {
+      const link = card.querySelector('a.tooltip-link');
+      if (link) {
+        const cardWidth = card.offsetWidth;
+        link.style.setProperty('--card-max-width', cardWidth + 'px');
+      }
+    });
+  }
+  setCardWidth();
+  window.addEventListener('resize', setCardWidth);
 });
 
 
