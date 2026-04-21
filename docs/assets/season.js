@@ -325,29 +325,59 @@
 })();
 
 
-/*修复gmeek顶部导航栏的切换暗亮图标错误空白问题*/
-// === 主题持久化 + 按钮修复（保留原生图标） ===
-(function() {
-    const STORAGE_KEY = 'meek theme';
 
-    function getIconPath(mode) {
-        // 尝试使用 Gmeek 原生的 IconList
-        if (window.IconList) {
-            return mode === 'dark' ? (window.IconList.moon || window.IconList.dark) : (window.IconList.sun || window.IconList.light);
+
+
+/*修复gmeek顶部导航栏的切换暗亮图标错误空白问题*/
+// === 升级版主题持久化 + 按钮修复（支持 auto 模式，保留原生图标） ===
+(function() {
+    const STORAGE_KEY = 'meek theme'; // 与原生 Gmeek 保持一致
+
+    // 获取原生图标映射，并补充 auto 模式图标（可自定义）
+    const nativeIcons = window.IconList || {
+        // 如果原生图标对象不存在，提供一套默认值以防报错
+        light: 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8z',
+        dark: 'M17.5 9.5a6 6 0 011.5 4 6.5 6.5 0 11-7-7 6 6 0 015.5 3z',
+        auto: 'M12 8v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM2 2v20h20v-20h-20z' // 可替换成你喜欢的图标
+    };
+
+    // 核心：获取当前有效主题（根据系统或用户选择）
+    function getEffectiveTheme(mode) {
+        if (mode === 'auto') {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         }
-        // 后备图标（与原风格一致）
-        return mode === 'dark' 
-            ? 'M17.5 9.5a6 6 0 011.5 4 6.5 6.5 0 11-7-7 6 6 0 015.5 3z'
-            : 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8z';
+        return mode === 'dark' ? 'dark' : 'light';
     }
 
-    function setTheme(mode, btn) {
-        mode = mode === 'dark' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-color-mode', mode);
-        localStorage.setItem(STORAGE_KEY, mode);
+    // 应用主题到根元素，并更新按钮样式
+    function applyTheme(themeMode, btn) {
+        const effectiveTheme = getEffectiveTheme(themeMode);
+        document.documentElement.setAttribute('data-color-mode', effectiveTheme);
+        localStorage.setItem(STORAGE_KEY, themeMode);
         if (btn) {
-            btn.setAttribute('d', getIconPath(mode));
-            btn.parentNode.style.color = mode === 'dark' ? '#00ff00' : '#ff5000';
+            const iconPath = nativeIcons[themeMode] || nativeIcons.light;
+            btn.setAttribute('d', iconPath);
+            btn.parentNode.style.color = effectiveTheme === 'dark' ? '#00ff00' : '#ff5000';
+            // 为按钮父元素添加一个自定义属性，方便 CSS 识别 auto 状态
+            btn.parentNode.setAttribute('data-theme-mode', themeMode);
+        }
+    }
+
+    // 监听系统主题变化（仅在 auto 模式下生效）
+    function watchSystemThemeChange(btn) {
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        const handler = () => {
+            const currentMode = localStorage.getItem(STORAGE_KEY);
+            if (currentMode === 'auto') {
+                // 重新应用 auto 模式，这会触发系统主题的重新判断
+                applyTheme('auto', btn);
+            }
+        };
+        // 兼容旧浏览器的监听方式
+        if (mediaQuery.addEventListener) {
+            mediaQuery.addEventListener('change', handler);
+        } else {
+            mediaQuery.addListener(handler);
         }
     }
 
@@ -358,19 +388,31 @@
             return;
         }
 
-        // 读取保存的主题，优先 localStorage
+        // 读取保存的主题，优先 localStorage，若没有则根据 config.json 的配置来决定默认值
         let savedMode = localStorage.getItem(STORAGE_KEY);
-        let currentMode = savedMode || document.documentElement.getAttribute('data-color-mode') || 'light';
-        
-        // 强制应用正确的主题
-        setTheme(currentMode, btn);
+        if (!savedMode) {
+            // 如果没有保存过，则读取 config.json 的 themeMode 设置，默认为 manual（即 light/dark 二选一）
+            // 这里简化处理：若 config.json 未设置或为 manual，则默认 light；否则认为期望 auto
+            const configThemeMode = document.documentElement.getAttribute('data-theme-mode') || 'manual';
+            savedMode = (configThemeMode === 'auto') ? 'auto' : 'light';
+        }
 
-        // 绑定切换事件（覆盖原生）
+        // 应用主题（auto 模式会自动转换为系统实际主题）
+        applyTheme(savedMode, btn);
+
+        // 绑定切换事件，实现 light -> dark -> auto -> light 循环
         btn.parentNode.onclick = (e) => {
             e.stopPropagation();
-            let newMode = document.documentElement.getAttribute('data-color-mode') === 'light' ? 'dark' : 'light';
-            setTheme(newMode, btn);
+            let currentMode = localStorage.getItem(STORAGE_KEY) || 'light';
+            let newMode;
+            if (currentMode === 'light') newMode = 'dark';
+            else if (currentMode === 'dark') newMode = 'auto';
+            else newMode = 'light';
+            applyTheme(newMode, btn);
         };
+
+        // 监听系统主题变化
+        watchSystemThemeChange(btn);
     }
 
     if (document.readyState === 'loading') {
@@ -378,6 +420,4 @@
     } else {
         initTheme();
     }
-    window.themeSettings = window.themeSettings || { dark: [], light: [], auto: [] };
-window.theme = window.theme || 'light';
 })();
