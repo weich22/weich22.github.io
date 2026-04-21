@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    <link rel="stylesheet" href='/assets/zdy.css'><link rel="stylesheet" href='/assets/coy.css'><script src='/assets/clipboard.min.js'></script><script src='/assets/prism.full.js'></script><script src='/assets/qrcode-footer3x1.js'></script><script src='/assets/season.js'><meta http-equiv="Cache-Control" content="public, max-age=2592000">
+    <link rel="icon" href="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="网站背景根据季节改变，比如春天下雨细雨，夏天太阳很大，秋天落叶，冬天下雨
+
+
+```+js
+(function() {
+    // 等待页面加载完成
+    window.addEventListener('DOMContentLoaded', function() {
+        // ---------- 季节判断 ----------
+        function getSeason() {
+            const month = new Date().getMonth(); // 0-11
+            if (month >= 2 && month <= 4) return 'spring';  // 3,4,5月
+            if (month >= 5 && month <= 7) return 'summer';  // 6,7,8月
+            if (month >= 8 && month <= 10) return 'autumn'; // 9,10,11月
+            return 'winter'; // 12,1,2月
+        }
+        const SEASON = getSeason();
+
+        // ---------- Canvas 设置 ----------
+        const canvas = document.createElement('canvas');
+        canvas.id = 'season-canvas';
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = '-1';  // 置于最底层
+        canvas.style.pointerEvents = 'none'; // 让点击穿透
+        document.body.appendChild(canvas);
+
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let animationId = null;
+        let particles = [];
+
+        // 更新画布尺寸
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            // 重新初始化粒子（避免位置错位）
+            initParticles();
+        });
+
+        // ---------- 各季节的参数 ----------
+        let particleCount = 0;
+        let particleColor = '';
+        let particleSpeed = 1;
+        let particleSize = 2;
+        let customDraw = null; // 自定义绘制函数（用于落叶、太阳等）
+
+        // 春天：斜向细雨
+        function springDraw(particle) {
+            ctx.beginPath();
+            ctx.moveTo(particle.x, particle.y);
+            ctx.lineTo(particle.x - particle.vx * 2, particle.y + particle.vy * 2);
+            ctx.strokeStyle = particle.color;
+            ctx.lineWidth = particle.size;
+            ctx.stroke();
+        }
+        function initSpring() {
+            particleCount = 250;
+            particleColor = 'rgba(100, 150, 255, 0.6)';
+            particleSpeed = 5;
+            particleSize = 1.5;
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 1.5,  // 水平飘移
+                    vy: 2 + Math.random() * 4,
+                    size: 1 + Math.random() * 2,
+                    color: `rgba(100, 150, 255, ${0.3 + Math.random() * 0.5})`
+                });
+            }
+        }
+
+        // 夏天：烈日 + 热浪光点
+        let sunAngle = 0;
+        function summerDraw(particle) {
+            // 粒子是闪烁的光点
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            ctx.fillStyle = particle.color;
+            ctx.fill();
+        }
+        function drawSun() {
+            // 绘制太阳（固定左上角或右上角，这里放右上角）
+            const sunX = width - 80;
+            const sunY = 80;
+            // 外光晕
+            const gradient = ctx.createRadialGradient(sunX, sunY, 10, sunX, sunY, 50);
+            gradient.addColorStop(0, 'rgba(255, 200, 50, 0.9)');
+            gradient.addColorStop(1, 'rgba(255, 100, 0, 0)');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(sunX, sunY, 50, 0, Math.PI * 2);
+            ctx.fill();
+            // 核心
+            ctx.fillStyle = '#FFD700';
+            ctx.beginPath();
+            ctx.arc(sunX, sunY, 20, 0, Math.PI * 2);
+            ctx.fill();
+            // 光线旋转
+            sunAngle += 0.02;
+            for (let i = 0; i < 12; i++) {
+                const angle = sunAngle + (i * Math.PI * 2 / 12);
+                const dx = Math.cos(angle) * 35;
+                const dy = Math.sin(angle) * 35;
+                ctx.beginPath();
+                ctx.moveTo(sunX + dx * 0.5, sunY + dy * 0.5);
+                ctx.lineTo(sunX + dx, sunY + dy);
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = `rgba(255, 200, 0, ${0.5 + Math.sin(angle * 3) * 0.3})`;
+                ctx.stroke();
+            }
+        }
+        function initSummer() {
+            particleCount = 180;
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: 0.2 + Math.random() * 0.8,
+                    size: 2 + Math.random() * 4,
+                    color: `rgba(255, 180, 50, ${0.4 + Math.random() * 0.5})`
+                });
+            }
+        }
+
+        // 秋天：落叶（旋转的椭圆）
+        function autumnDraw(particle) {
+            ctx.save();
+            ctx.translate(particle.x, particle.y);
+            ctx.rotate(particle.angle);
+            ctx.beginPath();
+            ctx.ellipse(0, 0, particle.sizeX, particle.sizeY, 0, 0, Math.PI * 2);
+            ctx.fillStyle = particle.color;
+            ctx.fill();
+            ctx.restore();
+        }
+        function initAutumn() {
+            particleCount = 120;
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.8,
+                    vy: 1 + Math.random() * 2,
+                    sizeX: 6 + Math.random() * 6,
+                    sizeY: 3 + Math.random() * 4,
+                    angle: Math.random() * Math.PI * 2,
+                    angleSpeed: (Math.random() - 0.5) * 0.05,
+                    color: `rgba(${150 + Math.random() * 80}, ${60 + Math.random() * 40}, ${20 + Math.random() * 30}, ${0.7 + Math.random() * 0.3})`
+                });
+            }
+        }
+
+        // 冬天：雪花
+        function winterDraw(particle) {
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            ctx.fillStyle = particle.color;
+            ctx.fill();
+            // 偶尔加一点六角星的感觉（简化）
+            if (particle.size > 2) {
+                ctx.beginPath();
+                for (let i = 0; i < 6; i++) {
+                    const angle = (i * Math.PI * 2 / 6) + particle.angle;
+                    const x2 = particle.x + Math.cos(angle) * particle.size * 0.8;
+                    const y2 = particle.y + Math.sin(angle) * particle.size * 0.8;
+                    ctx.lineTo(x2, y2);
+                }
+                ctx.closePath();
+                ctx.fillStyle = 'rgba(255,255,255,0.9)';
+                ctx.fill();
+            }
+        }
+        function initWinter() {
+            particleCount = 300;
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.6,
+                    vy: 1 + Math.random() * 2.5,
+                    size: 2 + Math.random() * 4,
+                    angle: Math.random() * Math.PI * 2,
+                    color: `rgba(255, 255, 255, ${0.6 + Math.random() * 0.4})`
+                });
+            }
+        }
+
+        // 根据季节选择初始化函数和绘制逻辑
+        let updateParticle = null;
+        let drawExtra = null;
+
+        switch (SEASON) {
+            case 'spring':
+                initSpring();
+                updateParticle = function(p) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < -20) p.x = width + 20;
+                    if (p.x > width + 20) p.x = -20;
+                    if (p.y > height + 20) {
+                        p.y = -20;
+                        p.x = Math.random() * width;
+                    }
+                    if (p.y < -20) p.y = height + 20;
+                };
+                customDraw = springDraw;
+                drawExtra = null;
+                break;
+            case 'summer':
+                initSummer();
+                updateParticle = function(p) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < -20) p.x = width + 20;
+                    if (p.x > width + 20) p.x = -20;
+                    if (p.y > height + 20) {
+                        p.y = -20;
+                        p.x = Math.random() * width;
+                    }
+                    if (p.y < -20) p.y = height + 20;
+                };
+                customDraw = summerDraw;
+                drawExtra = drawSun;
+                break;
+            case 'autumn':
+                initAutumn();
+                updateParticle = function(p) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.angle += p.angleSpeed;
+                    if (p.x < -30) p.x = width + 30;
+                    if (p.x > width + 30) p.x = -30;
+                    if (p.y > height + 30) {
+                        p.y = -30;
+                        p.x = Math.random() * width;
+                    }
+                    if (p.y < -30) p.y = height + 30;
+                };
+                customDraw = autumnDraw;
+                drawExtra = null;
+                break;
+            case 'winter':
+                initWinter();
+                updateParticle = function(p) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.angle += 0.02;
+                    if (p.x < -10) p.x = width + 10;
+                    if (p.x > width + 10) p.x = -10;
+                    if (p.y > height + 10) {
+                        p.y = -10;
+                        p.x = Math.random() * width;
+                    }
+                    if (p.y < -10) p.y = height + 10;
+                };
+                customDraw = winterDraw;
+                drawExtra = null;
+                break;
+        }
+
+        // 动画循环
+        function animate() {
+            if (!canvas.isConnected) return; // 防止画布被移除后继续
+            ctx.clearRect(0, 0, width, height);
+            
+            // 根据不同季节添加半透明背景拖尾效果（制造动态模糊）
+            if (SEASON === 'summer') {
+                ctx.fillStyle = 'rgba(255, 200, 100, 0.05)';
+                ctx.fillRect(0, 0, width, height);
+            } else if (SEASON === 'winter') {
+                ctx.fillStyle = 'rgba(100, 150, 200, 0.08)';
+                ctx.fillRect(0, 0, width, height);
+            } else {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, width, height);
+            }
+
+            for (let p of particles) {
+                updateParticle(p);
+                if (customDraw) customDraw(p);
+                else {
+                    // fallback
+                    ctx.fillStyle = particleColor;
+                    ctx.fillRect(p.x, p.y, particleSize, particleSize);
+                }
+            }
+            if (drawExtra) drawExtra();
+            animationId = requestAnimationFrame(animate);
+        }
+
+        function initParticles() {
+            // 重新初始化所有粒子（适应新尺寸）
+            switch (SEASON) {
+                case 'spring': initSpring(); break;
+                case 'summer': initSummer(); break;
+                case 'autumn': initAutumn(); break;
+                case 'winter': initWinter(); break;
+            }
+        }
+
+        resizeCanvas();
+        initParticles();
+        animate();
+
+        // 页面可见性变化时暂停/恢复动画（节省资源）
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                if (animationId) cancelAnimationFrame(animationId);
+                animationId = null;
+            } else {
+                if (!animationId) animate();
+            }
+        });
+    });
+})();
+```。">
+<meta property="og:title" content="网站背景根据季节改变">
+<meta property="og:description" content="网站背景根据季节改变，比如春天下雨细雨，夏天太阳很大，秋天落叶，冬天下雨
+
+
+```+js
+(function() {
+    // 等待页面加载完成
+    window.addEventListener('DOMContentLoaded', function() {
+        // ---------- 季节判断 ----------
+        function getSeason() {
+            const month = new Date().getMonth(); // 0-11
+            if (month >= 2 && month <= 4) return 'spring';  // 3,4,5月
+            if (month >= 5 && month <= 7) return 'summer';  // 6,7,8月
+            if (month >= 8 && month <= 10) return 'autumn'; // 9,10,11月
+            return 'winter'; // 12,1,2月
+        }
+        const SEASON = getSeason();
+
+        // ---------- Canvas 设置 ----------
+        const canvas = document.createElement('canvas');
+        canvas.id = 'season-canvas';
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = '-1';  // 置于最底层
+        canvas.style.pointerEvents = 'none'; // 让点击穿透
+        document.body.appendChild(canvas);
+
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let animationId = null;
+        let particles = [];
+
+        // 更新画布尺寸
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            // 重新初始化粒子（避免位置错位）
+            initParticles();
+        });
+
+        // ---------- 各季节的参数 ----------
+        let particleCount = 0;
+        let particleColor = '';
+        let particleSpeed = 1;
+        let particleSize = 2;
+        let customDraw = null; // 自定义绘制函数（用于落叶、太阳等）
+
+        // 春天：斜向细雨
+        function springDraw(particle) {
+            ctx.beginPath();
+            ctx.moveTo(particle.x, particle.y);
+            ctx.lineTo(particle.x - particle.vx * 2, particle.y + particle.vy * 2);
+            ctx.strokeStyle = particle.color;
+            ctx.lineWidth = particle.size;
+            ctx.stroke();
+        }
+        function initSpring() {
+            particleCount = 250;
+            particleColor = 'rgba(100, 150, 255, 0.6)';
+            particleSpeed = 5;
+            particleSize = 1.5;
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 1.5,  // 水平飘移
+                    vy: 2 + Math.random() * 4,
+                    size: 1 + Math.random() * 2,
+                    color: `rgba(100, 150, 255, ${0.3 + Math.random() * 0.5})`
+                });
+            }
+        }
+
+        // 夏天：烈日 + 热浪光点
+        let sunAngle = 0;
+        function summerDraw(particle) {
+            // 粒子是闪烁的光点
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            ctx.fillStyle = particle.color;
+            ctx.fill();
+        }
+        function drawSun() {
+            // 绘制太阳（固定左上角或右上角，这里放右上角）
+            const sunX = width - 80;
+            const sunY = 80;
+            // 外光晕
+            const gradient = ctx.createRadialGradient(sunX, sunY, 10, sunX, sunY, 50);
+            gradient.addColorStop(0, 'rgba(255, 200, 50, 0.9)');
+            gradient.addColorStop(1, 'rgba(255, 100, 0, 0)');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(sunX, sunY, 50, 0, Math.PI * 2);
+            ctx.fill();
+            // 核心
+            ctx.fillStyle = '#FFD700';
+            ctx.beginPath();
+            ctx.arc(sunX, sunY, 20, 0, Math.PI * 2);
+            ctx.fill();
+            // 光线旋转
+            sunAngle += 0.02;
+            for (let i = 0; i < 12; i++) {
+                const angle = sunAngle + (i * Math.PI * 2 / 12);
+                const dx = Math.cos(angle) * 35;
+                const dy = Math.sin(angle) * 35;
+                ctx.beginPath();
+                ctx.moveTo(sunX + dx * 0.5, sunY + dy * 0.5);
+                ctx.lineTo(sunX + dx, sunY + dy);
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = `rgba(255, 200, 0, ${0.5 + Math.sin(angle * 3) * 0.3})`;
+                ctx.stroke();
+            }
+        }
+        function initSummer() {
+            particleCount = 180;
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: 0.2 + Math.random() * 0.8,
+                    size: 2 + Math.random() * 4,
+                    color: `rgba(255, 180, 50, ${0.4 + Math.random() * 0.5})`
+                });
+            }
+        }
+
+        // 秋天：落叶（旋转的椭圆）
+        function autumnDraw(particle) {
+            ctx.save();
+            ctx.translate(particle.x, particle.y);
+            ctx.rotate(particle.angle);
+            ctx.beginPath();
+            ctx.ellipse(0, 0, particle.sizeX, particle.sizeY, 0, 0, Math.PI * 2);
+            ctx.fillStyle = particle.color;
+            ctx.fill();
+            ctx.restore();
+        }
+        function initAutumn() {
+            particleCount = 120;
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.8,
+                    vy: 1 + Math.random() * 2,
+                    sizeX: 6 + Math.random() * 6,
+                    sizeY: 3 + Math.random() * 4,
+                    angle: Math.random() * Math.PI * 2,
+                    angleSpeed: (Math.random() - 0.5) * 0.05,
+                    color: `rgba(${150 + Math.random() * 80}, ${60 + Math.random() * 40}, ${20 + Math.random() * 30}, ${0.7 + Math.random() * 0.3})`
+                });
+            }
+        }
+
+        // 冬天：雪花
+        function winterDraw(particle) {
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            ctx.fillStyle = particle.color;
+            ctx.fill();
+            // 偶尔加一点六角星的感觉（简化）
+            if (particle.size > 2) {
+                ctx.beginPath();
+                for (let i = 0; i < 6; i++) {
+                    const angle = (i * Math.PI * 2 / 6) + particle.angle;
+                    const x2 = particle.x + Math.cos(angle) * particle.size * 0.8;
+                    const y2 = particle.y + Math.sin(angle) * particle.size * 0.8;
+                    ctx.lineTo(x2, y2);
+                }
+                ctx.closePath();
+                ctx.fillStyle = 'rgba(255,255,255,0.9)';
+                ctx.fill();
+            }
+        }
+        function initWinter() {
+            particleCount = 300;
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.6,
+                    vy: 1 + Math.random() * 2.5,
+                    size: 2 + Math.random() * 4,
+                    angle: Math.random() * Math.PI * 2,
+                    color: `rgba(255, 255, 255, ${0.6 + Math.random() * 0.4})`
+                });
+            }
+        }
+
+        // 根据季节选择初始化函数和绘制逻辑
+        let updateParticle = null;
+        let drawExtra = null;
+
+        switch (SEASON) {
+            case 'spring':
+                initSpring();
+                updateParticle = function(p) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < -20) p.x = width + 20;
+                    if (p.x > width + 20) p.x = -20;
+                    if (p.y > height + 20) {
+                        p.y = -20;
+                        p.x = Math.random() * width;
+                    }
+                    if (p.y < -20) p.y = height + 20;
+                };
+                customDraw = springDraw;
+                drawExtra = null;
+                break;
+            case 'summer':
+                initSummer();
+                updateParticle = function(p) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < -20) p.x = width + 20;
+                    if (p.x > width + 20) p.x = -20;
+                    if (p.y > height + 20) {
+                        p.y = -20;
+                        p.x = Math.random() * width;
+                    }
+                    if (p.y < -20) p.y = height + 20;
+                };
+                customDraw = summerDraw;
+                drawExtra = drawSun;
+                break;
+            case 'autumn':
+                initAutumn();
+                updateParticle = function(p) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.angle += p.angleSpeed;
+                    if (p.x < -30) p.x = width + 30;
+                    if (p.x > width + 30) p.x = -30;
+                    if (p.y > height + 30) {
+                        p.y = -30;
+                        p.x = Math.random() * width;
+                    }
+                    if (p.y < -30) p.y = height + 30;
+                };
+                customDraw = autumnDraw;
+                drawExtra = null;
+                break;
+            case 'winter':
+                initWinter();
+                updateParticle = function(p) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.angle += 0.02;
+                    if (p.x < -10) p.x = width + 10;
+                    if (p.x > width + 10) p.x = -10;
+                    if (p.y > height + 10) {
+                        p.y = -10;
+                        p.x = Math.random() * width;
+                    }
+                    if (p.y < -10) p.y = height + 10;
+                };
+                customDraw = winterDraw;
+                drawExtra = null;
+                break;
+        }
+
+        // 动画循环
+        function animate() {
+            if (!canvas.isConnected) return; // 防止画布被移除后继续
+            ctx.clearRect(0, 0, width, height);
+            
+            // 根据不同季节添加半透明背景拖尾效果（制造动态模糊）
+            if (SEASON === 'summer') {
+                ctx.fillStyle = 'rgba(255, 200, 100, 0.05)';
+                ctx.fillRect(0, 0, width, height);
+            } else if (SEASON === 'winter') {
+                ctx.fillStyle = 'rgba(100, 150, 200, 0.08)';
+                ctx.fillRect(0, 0, width, height);
+            } else {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, width, height);
+            }
+
+            for (let p of particles) {
+                updateParticle(p);
+                if (customDraw) customDraw(p);
+                else {
+                    // fallback
+                    ctx.fillStyle = particleColor;
+                    ctx.fillRect(p.x, p.y, particleSize, particleSize);
+                }
+            }
+            if (drawExtra) drawExtra();
+            animationId = requestAnimationFrame(animate);
+        }
+
+        function initParticles() {
+            // 重新初始化所有粒子（适应新尺寸）
+            switch (SEASON) {
+                case 'spring': initSpring(); break;
+                case 'summer': initSummer(); break;
+                case 'autumn': initAutumn(); break;
+                case 'winter': initWinter(); break;
+            }
+        }
+
+        resizeCanvas();
+        initParticles();
+        animate();
+
+        // 页面可见性变化时暂停/恢复动画（节省资源）
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                if (animationId) cancelAnimationFrame(animationId);
+                animationId = null;
+            } else {
+                if (!animationId) animate();
+            }
+        });
+    });
+})();
+```。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://g.weich.ee/post/40.html">
+<meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
+<title>网站背景根据季节改变</title>
+
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">网站背景根据季节改变</h1>
+<div class="title-right">
+    <a href="https://g.weich.ee" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/weich22/weich22.github.io/issues/40" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><p>网站背景根据季节改变，比如春天下雨细雨，夏天太阳很大，秋天落叶，冬天下雨</p>
+<pre lang="+js" class="notranslate"><code class="notranslate">(function() {
+    // 等待页面加载完成
+    window.addEventListener('DOMContentLoaded', function() {
+        // ---------- 季节判断 ----------
+        function getSeason() {
+            const month = new Date().getMonth(); // 0-11
+            if (month &gt;= 2 &amp;&amp; month &lt;= 4) return 'spring';  // 3,4,5月
+            if (month &gt;= 5 &amp;&amp; month &lt;= 7) return 'summer';  // 6,7,8月
+            if (month &gt;= 8 &amp;&amp; month &lt;= 10) return 'autumn'; // 9,10,11月
+            return 'winter'; // 12,1,2月
+        }
+        const SEASON = getSeason();
+
+        // ---------- Canvas 设置 ----------
+        const canvas = document.createElement('canvas');
+        canvas.id = 'season-canvas';
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = '-1';  // 置于最底层
+        canvas.style.pointerEvents = 'none'; // 让点击穿透
+        document.body.appendChild(canvas);
+
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let animationId = null;
+        let particles = [];
+
+        // 更新画布尺寸
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        window.addEventListener('resize', () =&gt; {
+            resizeCanvas();
+            // 重新初始化粒子（避免位置错位）
+            initParticles();
+        });
+
+        // ---------- 各季节的参数 ----------
+        let particleCount = 0;
+        let particleColor = '';
+        let particleSpeed = 1;
+        let particleSize = 2;
+        let customDraw = null; // 自定义绘制函数（用于落叶、太阳等）
+
+        // 春天：斜向细雨
+        function springDraw(particle) {
+            ctx.beginPath();
+            ctx.moveTo(particle.x, particle.y);
+            ctx.lineTo(particle.x - particle.vx * 2, particle.y + particle.vy * 2);
+            ctx.strokeStyle = particle.color;
+            ctx.lineWidth = particle.size;
+            ctx.stroke();
+        }
+        function initSpring() {
+            particleCount = 250;
+            particleColor = 'rgba(100, 150, 255, 0.6)';
+            particleSpeed = 5;
+            particleSize = 1.5;
+            particles = [];
+            for (let i = 0; i &lt; particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 1.5,  // 水平飘移
+                    vy: 2 + Math.random() * 4,
+                    size: 1 + Math.random() * 2,
+                    color: `rgba(100, 150, 255, ${0.3 + Math.random() * 0.5})`
+                });
+            }
+        }
+
+        // 夏天：烈日 + 热浪光点
+        let sunAngle = 0;
+        function summerDraw(particle) {
+            // 粒子是闪烁的光点
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            ctx.fillStyle = particle.color;
+            ctx.fill();
+        }
+        function drawSun() {
+            // 绘制太阳（固定左上角或右上角，这里放右上角）
+            const sunX = width - 80;
+            const sunY = 80;
+            // 外光晕
+            const gradient = ctx.createRadialGradient(sunX, sunY, 10, sunX, sunY, 50);
+            gradient.addColorStop(0, 'rgba(255, 200, 50, 0.9)');
+            gradient.addColorStop(1, 'rgba(255, 100, 0, 0)');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(sunX, sunY, 50, 0, Math.PI * 2);
+            ctx.fill();
+            // 核心
+            ctx.fillStyle = '#FFD700';
+            ctx.beginPath();
+            ctx.arc(sunX, sunY, 20, 0, Math.PI * 2);
+            ctx.fill();
+            // 光线旋转
+            sunAngle += 0.02;
+            for (let i = 0; i &lt; 12; i++) {
+                const angle = sunAngle + (i * Math.PI * 2 / 12);
+                const dx = Math.cos(angle) * 35;
+                const dy = Math.sin(angle) * 35;
+                ctx.beginPath();
+                ctx.moveTo(sunX + dx * 0.5, sunY + dy * 0.5);
+                ctx.lineTo(sunX + dx, sunY + dy);
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = `rgba(255, 200, 0, ${0.5 + Math.sin(angle * 3) * 0.3})`;
+                ctx.stroke();
+            }
+        }
+        function initSummer() {
+            particleCount = 180;
+            particles = [];
+            for (let i = 0; i &lt; particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: 0.2 + Math.random() * 0.8,
+                    size: 2 + Math.random() * 4,
+                    color: `rgba(255, 180, 50, ${0.4 + Math.random() * 0.5})`
+                });
+            }
+        }
+
+        // 秋天：落叶（旋转的椭圆）
+        function autumnDraw(particle) {
+            ctx.save();
+            ctx.translate(particle.x, particle.y);
+            ctx.rotate(particle.angle);
+            ctx.beginPath();
+            ctx.ellipse(0, 0, particle.sizeX, particle.sizeY, 0, 0, Math.PI * 2);
+            ctx.fillStyle = particle.color;
+            ctx.fill();
+            ctx.restore();
+        }
+        function initAutumn() {
+            particleCount = 120;
+            particles = [];
+            for (let i = 0; i &lt; particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.8,
+                    vy: 1 + Math.random() * 2,
+                    sizeX: 6 + Math.random() * 6,
+                    sizeY: 3 + Math.random() * 4,
+                    angle: Math.random() * Math.PI * 2,
+                    angleSpeed: (Math.random() - 0.5) * 0.05,
+                    color: `rgba(${150 + Math.random() * 80}, ${60 + Math.random() * 40}, ${20 + Math.random() * 30}, ${0.7 + Math.random() * 0.3})`
+                });
+            }
+        }
+
+        // 冬天：雪花
+        function winterDraw(particle) {
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            ctx.fillStyle = particle.color;
+            ctx.fill();
+            // 偶尔加一点六角星的感觉（简化）
+            if (particle.size &gt; 2) {
+                ctx.beginPath();
+                for (let i = 0; i &lt; 6; i++) {
+                    const angle = (i * Math.PI * 2 / 6) + particle.angle;
+                    const x2 = particle.x + Math.cos(angle) * particle.size * 0.8;
+                    const y2 = particle.y + Math.sin(angle) * particle.size * 0.8;
+                    ctx.lineTo(x2, y2);
+                }
+                ctx.closePath();
+                ctx.fillStyle = 'rgba(255,255,255,0.9)';
+                ctx.fill();
+            }
+        }
+        function initWinter() {
+            particleCount = 300;
+            particles = [];
+            for (let i = 0; i &lt; particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.6,
+                    vy: 1 + Math.random() * 2.5,
+                    size: 2 + Math.random() * 4,
+                    angle: Math.random() * Math.PI * 2,
+                    color: `rgba(255, 255, 255, ${0.6 + Math.random() * 0.4})`
+                });
+            }
+        }
+
+        // 根据季节选择初始化函数和绘制逻辑
+        let updateParticle = null;
+        let drawExtra = null;
+
+        switch (SEASON) {
+            case 'spring':
+                initSpring();
+                updateParticle = function(p) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x &lt; -20) p.x = width + 20;
+                    if (p.x &gt; width + 20) p.x = -20;
+                    if (p.y &gt; height + 20) {
+                        p.y = -20;
+                        p.x = Math.random() * width;
+                    }
+                    if (p.y &lt; -20) p.y = height + 20;
+                };
+                customDraw = springDraw;
+                drawExtra = null;
+                break;
+            case 'summer':
+                initSummer();
+                updateParticle = function(p) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x &lt; -20) p.x = width + 20;
+                    if (p.x &gt; width + 20) p.x = -20;
+                    if (p.y &gt; height + 20) {
+                        p.y = -20;
+                        p.x = Math.random() * width;
+                    }
+                    if (p.y &lt; -20) p.y = height + 20;
+                };
+                customDraw = summerDraw;
+                drawExtra = drawSun;
+                break;
+            case 'autumn':
+                initAutumn();
+                updateParticle = function(p) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.angle += p.angleSpeed;
+                    if (p.x &lt; -30) p.x = width + 30;
+                    if (p.x &gt; width + 30) p.x = -30;
+                    if (p.y &gt; height + 30) {
+                        p.y = -30;
+                        p.x = Math.random() * width;
+                    }
+                    if (p.y &lt; -30) p.y = height + 30;
+                };
+                customDraw = autumnDraw;
+                drawExtra = null;
+                break;
+            case 'winter':
+                initWinter();
+                updateParticle = function(p) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.angle += 0.02;
+                    if (p.x &lt; -10) p.x = width + 10;
+                    if (p.x &gt; width + 10) p.x = -10;
+                    if (p.y &gt; height + 10) {
+                        p.y = -10;
+                        p.x = Math.random() * width;
+                    }
+                    if (p.y &lt; -10) p.y = height + 10;
+                };
+                customDraw = winterDraw;
+                drawExtra = null;
+                break;
+        }
+
+        // 动画循环
+        function animate() {
+            if (!canvas.isConnected) return; // 防止画布被移除后继续
+            ctx.clearRect(0, 0, width, height);
+            
+            // 根据不同季节添加半透明背景拖尾效果（制造动态模糊）
+            if (SEASON === 'summer') {
+                ctx.fillStyle = 'rgba(255, 200, 100, 0.05)';
+                ctx.fillRect(0, 0, width, height);
+            } else if (SEASON === 'winter') {
+                ctx.fillStyle = 'rgba(100, 150, 200, 0.08)';
+                ctx.fillRect(0, 0, width, height);
+            } else {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, width, height);
+            }
+
+            for (let p of particles) {
+                updateParticle(p);
+                if (customDraw) customDraw(p);
+                else {
+                    // fallback
+                    ctx.fillStyle = particleColor;
+                    ctx.fillRect(p.x, p.y, particleSize, particleSize);
+                }
+            }
+            if (drawExtra) drawExtra();
+            animationId = requestAnimationFrame(animate);
+        }
+
+        function initParticles() {
+            // 重新初始化所有粒子（适应新尺寸）
+            switch (SEASON) {
+                case 'spring': initSpring(); break;
+                case 'summer': initSummer(); break;
+                case 'autumn': initAutumn(); break;
+                case 'winter': initWinter(); break;
+            }
+        }
+
+        resizeCanvas();
+        initParticles();
+        animate();
+
+        // 页面可见性变化时暂停/恢复动画（节省资源）
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                if (animationId) cancelAnimationFrame(animationId);
+                animationId = null;
+            } else {
+                if (!animationId) animate();
+            }
+        });
+    });
+})();
+</code></pre></div>
+<div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://g.weich.ee">无用功</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if("02/6/2026"!=""){
+    var startSite=new Date("02/6/2026");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","weich22/weich22.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+
+
+</script>
+<script src='/assets/articletoc.js'></script><script src='/assets/backtop.js'></script><script src='/assets/lightbox.js'></script>
+
+</html>
