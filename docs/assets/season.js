@@ -338,7 +338,7 @@
         if (window.IconList) {
             if (mode === 'dark') return window.IconList.moon || window.IconList.dark;
             if (mode === 'light') return window.IconList.sun || window.IconList.light;
-            if (mode === 'auto') return window.IconList.autoZ;//优先使用原生,若不存在则走下面的后备
+            if (mode === 'auto') return window.IconList.auto;//优先使用原生,若不存在则走下面的后备
         }
         // 后备图标
         if (mode === 'dark') return 'M17.5 9.5a6 6 0 011.5 4 6.5 6.5 0 11-7-7 6 6 0 015.5 3z';
