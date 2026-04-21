@@ -10,16 +10,20 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="网站背景根据季节改变，比如春天下雨细雨，夏天太阳很大，秋天落叶，冬天下雨
+<meta name="description" content="
+### 大纲
+网站背景根据季节改变，比如春天下雨细雨，夏天太阳很大，秋天落叶，冬天下雨
 
 
-
+### 简述
 将整个季节背景切换功能整合成一段独立的JS代码,可以直接在Gmeek的config.json中通过allHeadI用,不需要额外创建多个文件。">
 <meta property="og:title" content="网站背景根据季节改变">
-<meta property="og:description" content="网站背景根据季节改变，比如春天下雨细雨，夏天太阳很大，秋天落叶，冬天下雨
+<meta property="og:description" content="
+### 大纲
+网站背景根据季节改变，比如春天下雨细雨，夏天太阳很大，秋天落叶，冬天下雨
 
 
-
+### 简述
 将整个季节背景切换功能整合成一段独立的JS代码,可以直接在Gmeek的config.json中通过allHeadI用,不需要额外创建多个文件。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://g.weich.ee/post/40.html">
@@ -81,7 +85,9 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>网站背景根据季节改变，比如春天下雨细雨，夏天太阳很大，秋天落叶，冬天下雨</p>
+<div class="markdown-body" id="postBody"><h3>大纲</h3>
+<p>网站背景根据季节改变，比如春天下雨细雨，夏天太阳很大，秋天落叶，冬天下雨</p>
+<h3>简述</h3>
 <p>将整个季节背景切换功能整合成一段独立的JS代码,可以直接在Gmeek的config.json中通过allHeadI用,不需要额外创建多个文件。做法是春天下雨、夏天太阳、秋天落叶、冬天下雪。我们需要提供一个单一的JS文件,它自己判断季节,然后动态创建canvas并绘制相应特效。但注意,夏天太阳效果可能需要不同实现(比如光晕或静态图片),落叶需要复杂的粒子系统。我们可以提供一个精简但有效的实现:使用canvas粒子系统,根据季节改变粒子的外观和行为(春雨用蓝色斜线,夏日用黄色圆形加光晕效果或太阳射线,秋叶用橙色/棕色旋转叶片,冬雪用白色圆形飘落)。这样只需一个JS文件,不侬赖外部库。<br>
 考處代码长度,需要确保可读性和完整性。将编写一个自执行的匿名函数,监听DOMContentLoaded,创建全屏canvas,设置z-index为-1(背景),并根据季节启动不同的动画循环。</p>
 <h3>实现细节:</h3>
