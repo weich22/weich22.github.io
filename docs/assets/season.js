@@ -326,25 +326,56 @@
 
 
 /*修复gmeek顶部导航栏的切换暗亮图标错误空白问题*/
-// 等待按钮出现后修复
-function fixThemeButton() {
-    let btn = document.getElementById('themeSwitch');
-    if (!btn) { setTimeout(fixThemeButton, 50); return; }
-    let mode = document.documentElement.getAttribute('data-color-mode') || 'light';
-    let icons = {light:'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8z', dark:'M17.5 9.5a6 6 0 011.5 4 6.5 6.5 0 11-7-7 6 6 0 015.5 3z'};
-    btn.setAttribute('d', icons[mode]);
-    btn.parentNode.style.color = mode === 'dark' ? '#00ff00' : '#ff5000';
-    btn.parentNode.onclick = (e) => {
-        e.stopPropagation();
-        mode = mode === 'light' ? 'dark' : 'light';
+// === 主题持久化 + 按钮修复（保留原生图标） ===
+(function() {
+    const STORAGE_KEY = 'meek theme';
+
+    function getIconPath(mode) {
+        // 尝试使用 Gmeek 原生的 IconList
+        if (window.IconList) {
+            return mode === 'dark' ? (window.IconList.moon || window.IconList.dark) : (window.IconList.sun || window.IconList.light);
+        }
+        // 后备图标（与原风格一致）
+        return mode === 'dark' 
+            ? 'M17.5 9.5a6 6 0 011.5 4 6.5 6.5 0 11-7-7 6 6 0 015.5 3z'
+            : 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8z';
+    }
+
+    function setTheme(mode, btn) {
+        mode = mode === 'dark' ? 'dark' : 'light';
         document.documentElement.setAttribute('data-color-mode', mode);
-        localStorage.setItem('meek theme', mode);
-        btn.setAttribute('d', icons[mode]);
-        btn.parentNode.style.color = mode === 'dark' ? '#00ff00' : '#ff5000';
-    };
-}
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', fixThemeButton);
-} else {
-    fixThemeButton();
-}
+        localStorage.setItem(STORAGE_KEY, mode);
+        if (btn) {
+            btn.setAttribute('d', getIconPath(mode));
+            btn.parentNode.style.color = mode === 'dark' ? '#00ff00' : '#ff5000';
+        }
+    }
+
+    function initTheme() {
+        let btn = document.getElementById('themeSwitch');
+        if (!btn) {
+            setTimeout(initTheme, 50);
+            return;
+        }
+
+        // 读取保存的主题，优先 localStorage
+        let savedMode = localStorage.getItem(STORAGE_KEY);
+        let currentMode = savedMode || document.documentElement.getAttribute('data-color-mode') || 'light';
+        
+        // 强制应用正确的主题
+        setTheme(currentMode, btn);
+
+        // 绑定切换事件（覆盖原生）
+        btn.parentNode.onclick = (e) => {
+            e.stopPropagation();
+            let newMode = document.documentElement.getAttribute('data-color-mode') === 'light' ? 'dark' : 'light';
+            setTheme(newMode, btn);
+        };
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initTheme);
+    } else {
+        initTheme();
+    }
+})();
