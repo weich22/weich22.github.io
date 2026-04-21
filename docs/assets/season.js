@@ -19,7 +19,7 @@
         canvas.style.left = '0';
         canvas.style.width = '100%';
         canvas.style.height = '100%';
-        canvas.style.zIndex = '-1';  // 置于最底层
+        canvas.style.zIndex = '999';  // 置于最底层
         canvas.style.pointerEvents = 'none'; // 让点击穿透
         document.body.appendChild(canvas);
 
