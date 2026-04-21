@@ -378,4 +378,6 @@
     } else {
         initTheme();
     }
+    window.themeSettings = window.themeSettings || { dark: [], light: [], auto: [] };
+window.theme = window.theme || 'light';
 })();
