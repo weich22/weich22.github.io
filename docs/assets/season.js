@@ -58,7 +58,7 @@
             ctx.stroke();
         }
         function initSpring() {
-            particleCount = 250;
+            particleCount = 140;
             particleColor = 'rgba(100, 150, 255, 0.6)';
             particleSpeed = 5;
             particleSize = 1.5;
@@ -116,7 +116,7 @@
             }
         }
         function initSummer() {
-            particleCount = 180;
+            particleCount = 90;
             particles = [];
             for (let i = 0; i < particleCount; i++) {
                 particles.push({
@@ -142,7 +142,7 @@
             ctx.restore();
         }
         function initAutumn() {
-            particleCount = 120;
+            particleCount = 60;
             particles = [];
             for (let i = 0; i < particleCount; i++) {
                 particles.push({
@@ -180,7 +180,7 @@
             }
         }
         function initWinter() {
-            particleCount = 300;
+            particleCount = 150;
             particles = [];
             for (let i = 0; i < particleCount; i++) {
                 particles.push({
