@@ -326,9 +326,10 @@
 
 
 /*修复gmeek顶部导航栏的切换暗亮图标错误空白问题*/
-(function() {
+// 等待按钮出现后修复
+function fixThemeButton() {
     let btn = document.getElementById('themeSwitch');
-    if (!btn) return;
+    if (!btn) { setTimeout(fixThemeButton, 50); return; }
     let mode = document.documentElement.getAttribute('data-color-mode') || 'light';
     let icons = {light:'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8z', dark:'M17.5 9.5a6 6 0 011.5 4 6.5 6.5 0 11-7-7 6 6 0 015.5 3z'};
     btn.setAttribute('d', icons[mode]);
@@ -341,4 +342,9 @@
         btn.setAttribute('d', icons[mode]);
         btn.parentNode.style.color = mode === 'dark' ? '#00ff00' : '#ff5000';
     };
-})();
+}
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', fixThemeButton);
+} else {
+    fixThemeButton();
+}
