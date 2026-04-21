@@ -329,51 +329,82 @@
 
 
 /*修复gmeek顶部导航栏的切换暗亮图标错误空白问题*/
-// === 主题持久化 + 按钮修复（保留原生图标） ===
+// === 主题持久化 + 按钮修复（支持 light / dark / auto，保留原生图标） ===
 (function() {
     const STORAGE_KEY = 'meek theme';
 
-    function getIconPath(mode) {
-        // 尝试使用 Gmeek 原生的 IconList
+    // 获取原生图标映射（优先使用 Gmeek 的 IconList，auto 使用原生灰色箭头圆环）
+    const getIcon = (mode) => {
         if (window.IconList) {
-            return mode === 'dark' ? (window.IconList.moon || window.IconList.dark) : (window.IconList.sun || window.IconList.light);
+            if (mode === 'dark') return window.IconList.moon || window.IconList.dark;
+            if (mode === 'light') return window.IconList.sun || window.IconList.light;
+            if (mode === 'auto') return window.IconList.auto || 'M12 4v2.5c-3.59.7-6 3.8-6 7.5 0 2.5 1.2 4.7 3 6.1l1.5-1.5C9.6 17.2 9 15.6 9 14c0-2.8 1.6-5.2 4-6.3V10l4-4-4-4v2.3c-3.3.7-6 3.4-6 6.7 0 2.9 1.8 5.4 4.3 6.5l.7-1.8C11.1 15.1 10 13.1 10 11c0-2.4 1.4-4.5 3.5-5.5V4h2z';
         }
-        // 后备图标（与原风格一致）
-        return mode === 'dark' 
-            ? 'M17.5 9.5a6 6 0 011.5 4 6.5 6.5 0 11-7-7 6 6 0 015.5 3z'
-            : 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8z';
-    }
+        // 后备图标
+        if (mode === 'dark') return 'M17.5 9.5a6 6 0 011.5 4 6.5 6.5 0 11-7-7 6 6 0 015.5 3z';
+        if (mode === 'light') return 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8z';
+        return 'M12 4v2.5c-3.59.7-6 3.8-6 7.5 0 2.5 1.2 4.7 3 6.1l1.5-1.5C9.6 17.2 9 15.6 9 14c0-2.8 1.6-5.2 4-6.3V10l4-4-4-4v2.3c-3.3.7-6 3.4-6 6.7 0 2.9 1.8 5.4 4.3 6.5l.7-1.8C11.1 15.1 10 13.1 10 11c0-2.4 1.4-4.5 3.5-5.5V4h2z';
+    };
 
-    function setTheme(mode, btn) {
-        mode = mode === 'dark' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-color-mode', mode);
+    // 根据 mode 获取实际显示的主题（auto 时跟随系统）
+    const getEffectiveTheme = (mode) => {
+        if (mode === 'auto') {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        return mode === 'dark' ? 'dark' : 'light';
+    };
+
+    // 应用主题
+    function applyTheme(mode, btn) {
+        const effective = getEffectiveTheme(mode);
+        document.documentElement.setAttribute('data-color-mode', effective);
         localStorage.setItem(STORAGE_KEY, mode);
         if (btn) {
-            btn.setAttribute('d', getIconPath(mode));
-            btn.parentNode.style.color = mode === 'dark' ? '#00ff00' : '#ff5000';
+            btn.setAttribute('d', getIcon(mode));
+            if (mode === 'auto') {
+                btn.parentNode.style.color = '#6c757d';   // auto 固定灰色
+            } else {
+                btn.parentNode.style.color = effective === 'dark' ? '#00ff00' : '#ff5000';
+            }
         }
     }
 
+    // 监听系统主题变化（仅在 auto 模式下需要重新应用根元素属性）
+    let systemWatcher = null;
+    function watchSystemTheme(btn) {
+        if (systemWatcher) return;
+        const media = window.matchMedia('(prefers-color-scheme: dark)');
+        const handler = () => {
+            const currentMode = localStorage.getItem(STORAGE_KEY);
+            if (currentMode === 'auto') {
+                const effective = getEffectiveTheme('auto');
+                document.documentElement.setAttribute('data-color-mode', effective);
+                // 按钮颜色不变（始终灰色），图标不变
+            }
+        };
+        media.addEventListener('change', handler);
+        systemWatcher = handler;
+    }
+
+    // 初始化
     function initTheme() {
         let btn = document.getElementById('themeSwitch');
         if (!btn) {
             setTimeout(initTheme, 50);
             return;
         }
-
-        // 读取保存的主题，优先 localStorage
         let savedMode = localStorage.getItem(STORAGE_KEY);
-        let currentMode = savedMode || document.documentElement.getAttribute('data-color-mode') || 'light';
-        
-        // 强制应用正确的主题
-        setTheme(currentMode, btn);
-
-        // 绑定切换事件（覆盖原生）
+        if (!savedMode) {
+            savedMode = document.documentElement.getAttribute('data-color-mode') === 'auto' ? 'auto' : 'light';
+        }
+        applyTheme(savedMode, btn);
         btn.parentNode.onclick = (e) => {
             e.stopPropagation();
-            let newMode = document.documentElement.getAttribute('data-color-mode') === 'light' ? 'dark' : 'light';
-            setTheme(newMode, btn);
+            let current = localStorage.getItem(STORAGE_KEY) || 'light';
+            let next = current === 'light' ? 'dark' : (current === 'dark' ? 'auto' : 'light');
+            applyTheme(next, btn);
         };
+        watchSystemTheme(btn);
     }
 
     if (document.readyState === 'loading') {
@@ -381,6 +412,8 @@
     } else {
         initTheme();
     }
-window.themeSettings = window.themeSettings || { dark: [], light: [], auto: [] };
-window.theme = window.theme || 'light';
+
+    // 修补原生 Gmeek 脚本的缺失变量（避免控制台报错）
+    window.themeSettings = window.themeSettings || { dark: [], light: [], auto: [] };
+    window.theme = window.theme || 'light';
 })();
