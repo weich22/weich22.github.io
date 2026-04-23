@@ -540,7 +540,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 background: #f6f8fa;
                 border: 1px solid #d0d7de;
                 border-radius: 40px;
-                padding: 6px 8px 6px 8px;
+                padding: 3px 6px 3px 3px;
                 transition: .2s;
                 margin: 0 4px 8px 0;
             }
