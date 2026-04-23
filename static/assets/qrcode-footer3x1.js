@@ -532,7 +532,9 @@ document.addEventListener('DOMContentLoaded', function() {
         style.textContent = `
             /* 卡片样式：包裹图标和链接 */
             .card-wrap {
-                display: inline-flex;
+                /*友情卡片之间太小display: inline-flex;*/
+                display: inline-block;
+                box-shadow: 3px 3px 5px #aaa;
                 align-items: center;
                 gap: 4px;
                 background: #f6f8fa;
