@@ -1,4 +1,646 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功!
 永久真实地址：weich22.github.io
-Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Mon, 27 Apr 2026 17:15:32 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster></channel></rss>
+Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Mon, 27 Apr 2026 18:54:23 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>华强北s100电话打不进可以打出</title><link>https://g.weich.ee/post/41.html</link><description>### 接不到电话
+
+然后在拨号通话界面设置打开看不到有任何拦截的电话号码，之后我进到手表-设置-拉到最底部-更多设置-拦截陌生来电，关闭就好了，他说明的：（开启后,只有亲情号的联系人才能拨通手表陌生人无法拨通手表）。</description><guid isPermaLink="true">https://g.weich.ee/post/41.html</guid><pubDate>Fri, 24 Apr 2026 05:55:04 +0000</pubDate></item><item><title>网站背景根据季节改变</title><link>https://g.weich.ee/post/40.html</link><description>
+### 大纲
+网站背景根据季节改变，比如春天下雨细雨，夏天太阳很大，秋天落叶，冬天下雨
+
+
+### 简述
+将整个季节背景切换功能整合成一段独立的JS代码,可以直接在Gmeek的config.json中通过allHeadI用,不需要额外创建多个文件。</description><guid isPermaLink="true">https://g.weich.ee/post/40.html</guid><pubDate>Tue, 21 Apr 2026 04:01:40 +0000</pubDate></item><item><title>Gmeek友情a链接加背景颜色视觉区分</title><link>https://g.weich.ee/post/39.html</link><description>### 友情链接加背景颜色框
+
+这个是新添加进去的
+
+```+js
+/**
+ * Gmeek 链接卡片化脚本（无额外容器版）
+ * 作用：将 /link.html 页面中 #content 内的链接（及前面的图标）用圆角卡片框起来
+ * 不影响导航栏，不添加 .card-container 容器，卡片自然换行
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    // 只在 /link.html 或 link.html 页面执行
+    if (location.pathname !== '/link.html' &amp;&amp; location.pathname !== 'link.html') return;
+
+    try {
+        // 1. 注入卡片样式（移除了 .card-container 定义）
+        const style = document.createElement('style');
+        style.textContent = `
+            /* 卡片样式：包裹图标和链接 */
+            .card-wrap {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: #f6f8fa;
+                border: 1px solid #d0d7de;
+                border-radius: 40px;
+                padding: 6px 18px 6px 14px;
+                transition: .2s;
+                margin: 0 4px 8px 0;
+            }
+            .card-wrap:hover {
+                background: #0969da;
+            }
+            .card-wrap:hover a,
+            .card-wrap:hover .card-icon {
+                color: #fff;
+            }
+            /* 图标样式 */
+            .card-icon {
+                font-size: 1.2rem;
+                line-height: 1;
+            }
+            /* 链接文字样式 */
+            .card-wrap a {
+                text-decoration: none;
+                color: #0969da;
+                font-size: .9rem;
+                font-weight: 500;
+            }
+            /* 深色模式适配 */
+            @media (prefers-color-scheme: dark) {
+                .card-wrap {
+                    background: #21262d;
+                    border-color: #30363d;
+                }
+                .card-wrap a {
+                    color: #4493f8;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 2. 匹配常见 emoji 的正则表达式
+        const emojiRegex = /[\u{1F300}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1E0}-\u{1F1FF}]/u;
+
+        // 3. 只处理 #content 区域内的所有链接（避免影响导航栏）
+        const contentLinks = document.querySelectorAll('#content a');
+        contentLinks.forEach(link =&gt; {
+            // 避免重复处理已经被包裹过的链接
+            if (link.parentElement?.classList?.contains('card-wrap')) return;
+
+            let icon = null;
+
+            // 3.1 检查链接前面的文本节点（可能包含图标）
+            let prev = link.previousSibling;
+            // 跳过空白的文本节点并删除它们
+            while (prev &amp;&amp; prev.nodeType === 3 &amp;&amp; (!prev.textContent || prev.textContent.trim() === '')) {
+                const toRemove = prev;
+                prev = prev.previousSibling;
+                toRemove.remove();
+            }
+
+            if (prev &amp;&amp; prev.nodeType === 3 &amp;&amp; prev.textContent) {
+                // 尝试匹配文本开头的 emoji
+                const match = prev.textContent.match(new RegExp('^[\\s]*' + emojiRegex.source, 'u'));
+                if (match) {
+                    icon = match[0].trim(); // 提取到的图标
+                    const rest = prev.textContent.replace(match[0], '').trim();
+                    if (rest &amp;&amp; !/^[\d\s\W]+$/.test(rest)) {
+                        // 保留有意义的剩余文本（不是纯数字/符号）
+                        prev.textContent = rest;
+                    } else {
+                        // 剩余内容无意义，直接删除该文本节点
+                        prev.remove();
+                    }
+                }
+            }
+
+            // 3.2 如果前面没有文本节点图标，检查前面的元素节点（比如 &lt;span&gt;📖&lt;/span&gt;）
+            if (!icon) {
+                const prevEl = link.previousElementSibling;
+                if (prevEl &amp;&amp; prevEl.textContent &amp;&amp; emojiRegex.test(prevEl.textContent.trim())) {
+                    icon = prevEl.textContent.trim();
+                    prevEl.remove(); // 删除原来的图标元素
+                }
+            }
+
+            // 3.3 创建卡片容器，将图标和链接一起框起来
+            const wrapper = document.createElement('span');
+            wrapper.className = 'card-wrap';
+
+            if (icon) {
+                const iconSpan = document.createElement('span');
+                iconSpan.className = 'card-icon';
+                iconSpan.textContent = icon;
+                wrapper.appendChild(iconSpan);
+            }
+
+            // 将原链接移动到卡片容器内
+            link.parentNode.insertBefore(wrapper, link);
+            wrapper.appendChild(link);
+        });
+
+        // 4. 清理可能残留的空白文本节点（针对卡片父级）
+        document.querySelectorAll('.card-wrap').forEach(wrapper =&gt; {
+            const parent = wrapper.parentNode;
+            // 如果父级内只有一个子节点（卡片本身）且没有其他文本节点，则不需要处理
+            if (parent.children.length === 1 &amp;&amp; parent.childNodes.length === 1) return;
+
+            let prev = parent.previousSibling;
+            while (prev &amp;&amp; prev.nodeType === 3 &amp;&amp; (!prev.textContent || prev.textContent.trim() === '')) {
+                const toRemove = prev;
+                prev = prev.previousSibling;
+                toRemove.remove();
+            }
+        });
+
+        // 注意：不再创建 .card-container，卡片直接以 inline-flex 排列，自然换行
+    } catch(e) {
+        // 静默失败，不干扰页面
+    }
+});
+```
+
+
+
+### 并修正标注文字显示右边溢出
+
+```+css
+   /*友情链接获取焦点显示标题*/
+
+/* 让 .card-wrap 作为定位祖先（用于限制提示框宽度） */
+.card-wrap {
+    position: relative !important;
+}
+
+/* 移除链接自身的相对定位，让提示框相对于 .card-wrap 定位 */
+#postBody a.tooltip-link {
+  position: static !important;
+}
+
+/* 提示框样式：保留原有视觉效果，但覆盖定位和宽度等关键属性 */
+#postBody a.tooltip-link::after {
+  /* 原有内容与基础样式 */
+  content: attr(data-title);
+  position: absolute;
+  top: 100%;
+  margin-top: 6px;
+  background: #333;
+  color: #fff;
+  padding: 0px 5px;
+  border-radius: 4px;
+  font-size: 13px;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s;
+  line-height: 1.5;
+
+  /* 关键覆盖（来自 F12 有效代码，带 !important） */
+  left: 0 !important;
+  right: auto !important;
+  width: max-content !important;      /* 短文字背景不浪费 */
+  max-width: 100% !important;         /* 最长不超过父卡片宽度，永不右侧溢出 */
+  white-space: normal !important;
+  word-break: break-word !important;
+  box-sizing: border-box !important;
+}
+
+/* 显示提示框 */
+#postBody a.tooltip-link:hover::after,
+#postBody a.tooltip-link:focus::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+```
+
+这个如果有了原文章的代码的话，就直接全部替换进去
+
+[原文章在这](https://g.weich.ee/post/9.html)
+为什么要在这更新？因为添加背景颜色框添加了一个锚点（.card-wrap）修正的时候根据这个锚点定位的。</description><guid isPermaLink="true">https://g.weich.ee/post/39.html</guid><pubDate>Mon, 20 Apr 2026 22:56:58 +0000</pubDate></item><item><title>win10找不到休眠选项用命令打开</title><link>https://g.weich.ee/post/38.html</link><description>按住键盘win+x，打开“命令提示符(管理员)'。</description><guid isPermaLink="true">https://g.weich.ee/post/38.html</guid><pubDate>Sat, 18 Apr 2026 18:18:04 +0000</pubDate></item><item><title>s100手表adb禁用应用后无法进入桌面</title><link>https://g.weich.ee/post/37.html</link><description>### 问题说明
+昨晚去网吧通宵打游戏了，然后回来用电脑一通操作用adb禁用了很多应用，然后看到有个（人脸解锁）我也禁用了，脑子抽在想，这个手表又没有直接的人脸解锁，我要他干嘛？干就完了，然后重启显示第一屏（以前有3屏来算这是2屏），再显示开机动画，再到锁屏界面就是无法解锁输入密码，也进不去桌面，然后闪屏几次就再重启就会进下面的图片的rec，这个rec可选的只有两个（Try again，重试）和（Factory data reset，恢复出厂），我是拍照手机识屏的可能有的字母会错，我又不想恢复出厂…
+
+![s100用adb禁用应用无法进入桌面重启或者开机之后到rec](https://weich22.github.io/imagesw/S6041210252881commeizumediaallery.webp)
+
+
+### 解决办法
+就是按电源按键确认点击重试，重启到第二屏动画吧，电脑会叮咚响一下，就输入如下adb命令,验证一下你的adb，可不可以用，不输入也可以，直接下一步，我建议还是要试一下…
+
+```dos
+adb version
+```
+如果显示的是一段数字后面另外显示device，恭喜你不用恢复出厂设置，其实还有别的办法，但是这种手表和正常手机按键不一样，我不知道按哪一个…
+
+
+### 查看已禁用列表
+过一下会再次自己重启到图片中的rec模式，
+就输入下面的代码查看已经禁用的列表
+```dos
+adb shell pm list packages -d
+```
+
+比如我的输出禁用列表如下
+
+```dos
+package:com.divoiot.breathe
+package:com.dw.launcher
+package:com.watch.iotfriend.bind
+package:com.watch.iotfriend.make
+package:com.dw.music
+package:com.dw.sleep
+package:com.tmoon.divo.app_market_app
+package:com.divoiot.ble
+package:com.divoiot.sport
+package:com.watch.iotchat
+package:com.divoiot.sedentary
+package:com.sprd.powersavemodelauncher
+package:com.juphoon.cloud.vchat
+package:com.dw.wifip2p
+package:com.divo.clear
+package:com.dwiot.dwstep
+package:com.dw.iotcode
+package:com.android.settings
+package:com.dw.school
+package:com.dw.family.contact
+package:com.timuen.divo.weardialmarket
+```
+然后你可以想一下有怀疑禁用之后导致不开机的，单独恢复它就可以了，我比较懒，想直接全部恢复之后手表好了能开机进桌面了再次去禁用就好了，最后我发现应该是禁用（人脸解锁）导致的，也有可能是第18条代码高亮的（package:com.android.settings），因为禁用人脸解锁的时候跳转到系统输入密码界面去了…
+
+
+### 解除所有禁用应用
+
+也是等它重启之后到图片中的rec，重试之后重启了，先把adb命令复制进去，手表到第二屏动画界面，听到电脑响了就按回车执行。</description><guid isPermaLink="true">https://g.weich.ee/post/37.html</guid><pubDate>Sun, 12 Apr 2026 02:41:16 +0000</pubDate></item><item><title>s100偷梁换柱隐藏后台任务卡片显示</title><link>https://g.weich.ee/post/36.html</link><description>S100（或其他华强北 Android 9 手表）特有的双任务管理器冲突 Bug！
+这种“双重锁定”确实是一个非常精妙的逻辑漏洞。</description><guid isPermaLink="true">https://g.weich.ee/post/36.html</guid><pubDate>Sat, 28 Mar 2026 04:55:12 +0000</pubDate></item><item><title>Gmeek的config.json换行/n格式无效</title><link>https://g.weich.ee/post/35.html</link><description>
+config.json是Gmeek的配置文件，用的json格式，json格式非常严格，多一个或者少一个标点符号都会报错，然后Actions编译报错红色×。</description><guid isPermaLink="true">https://g.weich.ee/post/35.html</guid><pubDate>Thu, 19 Mar 2026 19:27:54 +0000</pubDate></item><item><title>github的APK无法登陆</title><link>https://g.weich.ee/post/34.html</link><description>### 解决办法
+将手机默认浏览器临时改为 Edge ，就这么简单…
+
+### 症状
+由于之前我的手机默认浏览器是via浏览器，每次点击github的客户端，然后打开到via浏览器之后登陆，提示外部应用打开再再跳转到github客户端就没有反应了，总之就是跳转的浏览器有问题，实在不行，就换别的大厂浏览器设置为默认浏览器之后再试试。</description><guid isPermaLink="true">https://g.weich.ee/post/34.html</guid><pubDate>Wed, 18 Mar 2026 01:40:43 +0000</pubDate></item><item><title>华强北手表s100更新后蓝牙无媒体声音</title><link>https://g.weich.ee/post/33.html</link><description>更新的版本：
+DW_W527_FW13FBAV35_XTQ_S100_J0_GB_CN
+ZX_W4.0T_4.4V_256X24B_CN_480X480_V02_20260310_0319_20260310-0321
+
+
+媒体声音是指播放视频或者音乐蓝牙耳机都没有声音，声音从外放播放出来的…
+
+默认的“硬件卸载”解码逻辑和耳机对不上，打开  `“停用蓝牙 A2DP 硬件卸载”`   强制让系统通过软件解码，路径一下就通了。</description><guid isPermaLink="true">https://g.weich.ee/post/33.html</guid><pubDate>Mon, 16 Mar 2026 04:46:36 +0000</pubDate></item><item><title>Gmeek响应式优化布局主题</title><link>https://g.weich.ee/post/32.html</link><description>### 小屏居中
+
+![Gmeek 响应式居中优化布局](https://weich22.github.io/imagesw/S6031609224196.webp)
+
+版本 A：经典居中限宽版 (Max-Width 1000px)
+​特点：保留了 1000px 的最大宽度限制，在大屏上会保持居中长条状，视觉重心更集中，适合文字阅读。</description><guid isPermaLink="true">https://g.weich.ee/post/32.html</guid><pubDate>Sun, 15 Mar 2026 19:27:48 +0000</pubDate></item><item><title>Gmeek顶部适配悬浮毛玻璃自应式黑暗模式</title><link>https://g.weich.ee/post/31.html</link><description>```dos
+/* --- A线程：全屏贯穿+自动适配明暗模式的导航栏 --- */
+#header {
+    /* 1. 基础布局：强制全屏贯穿 */
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 65px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 20px !important;
+    z-index: 9999 !important;
+    box-sizing: border-box !important;
+    transition: all 0.3s ease !important; /* 让颜色切换更丝滑 */
+    
+    /* 2. 默认明亮模式样式 (白色毛玻璃) */
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* --- 3. 核心：黑暗模式适配 --- */
+/* 当 Gmeek 检测到黑暗模式时，会自动给 html 加上这个属性 */
+[data-color-mode='dark'] #header {
+    background: rgba(13, 17, 23, 0.8) !important; /* 深黑色半透明 */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* 黑暗模式下的文字和图标颜色微调 */
+[data-color-mode='dark'] .blogTitle, 
+[data-color-mode='dark'] .title-right {
+    color: #f0f6fc !important;
+}
+
+/* --- 4. 解决遮挡问题 --- */
+/* 确保文章内容向下移动，不被固定的导航栏挡住 */
+#content, .main {
+    margin-top: 85px !important;
+}
+
+```
+
+### 更新修复长标题溢出
+
+替换全部css
+
+```dos
+/* --- A 线程：全屏毛玻璃悬浮 (由 B 线程布局优化) --- */
+#header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    min-height: 65px !important;
+    height: auto !important;
+    /* 核心视觉：A 线程的毛玻璃 */
+    background: rgba(255,255,255,0.7) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    padding: 12px 20px !important;
+    border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+    /* 核心布局：B 线程的 Flex 避让，彻底甩掉 JS */
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    z-index: 9999 !important;
+    box-sizing: border-box !important;
+}
+
+/* 黑暗模式：保持 A 线程的通透感 */
+[data-color-mode='dark'] #header {
+    background: rgba(13,17,23,0.7) !important;
+    border-color: rgba(255,255,255,0.1) !important;
+}
+
+/* 标题逻辑：支持换行且不挤压按钮 */
+.blogTitle, .postTitle {
+    display: block !important;
+    font-size: clamp(18px, 5vw, 24px) !important;
+    font-weight: bold !important;
+    color: #24292f !important;
+    text-decoration: none !important;
+    word-break: break-all !important;
+    line-height: 1.3 !important;
+    margin: 0 !important;
+    flex: 1 !important;
+    padding-right: 15px !important;
+}
+
+[data-color-mode='dark'] .blogTitle, [data-color-mode='dark'] .postTitle {
+    color: #adbac7 !important;
+}
+
+/* 按钮组：靠 CSS 守住右侧，不位移 */
+.title-right {
+    display: flex !important;
+    gap: 12px !important;
+    flex-shrink: 0 !important;
+    z-index: 10000 !important;
+}
+
+/* 内容区：移除所有 B 线程的边框窗口效果，回归纯净布局 */
+#content, .main {
+    margin: 85px auto 0 auto !important;
+    padding: 0 20px !important;
+    width: auto !important;
+    max-width: 900px !important;
+    background: transparent !important; /* 移除 B 的白背景 */
+    border: none !important; /* 彻底移除 B 的边框线 */
+}
+
+.subTitle, .SideNav-icon { display: none !important; }
+
+```
+
+
+第二个版本css要用的话也是全部替换，差不多的，最大区别就是去除了多余宽度限制大小。</description><guid isPermaLink="true">https://g.weich.ee/post/31.html</guid><pubDate>Sun, 15 Mar 2026 16:30:04 +0000</pubDate></item><item><title>Gmeek根据标签背景颜色更改标签字体颜色</title><link>https://g.weich.ee/post/30.html</link><description> ### 全局引用js
+
+```+js
+(function() {
+
+function getAdaptiveColor(bg) {
+
+const rgb = bg.match(/\d+/g);
+
+if (!rgb || rgb.length &lt; 3) return '#ffffff';
+
+const [r, g, b] = rgb.map(Number);
+
+const l = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+return l &gt; 0.6 ? '#000000' : '#ffffff';
+
+}
+
+
+function syncLabelColorsOnly() {
+
+// 仅抓取标签相关的类名
+
+const selectors = '.Label, .LabelName, .post-tag, .listLabels span';
+
+document.querySelectorAll(selectors).forEach(el =&gt; {
+
+try {
+
+// 读取背景
+
+let bg = window.getComputedStyle(el).backgroundColor;
+
+if (bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') {
+
+bg = window.getComputedStyle(el.parentElement).backgroundColor;
+
+}
+
+
+if (bg &amp;&amp; bg !== 'transparent' &amp;&amp; bg !== 'rgba(0, 0, 0, 0)') {
+
+const fg = getAdaptiveColor(bg);
+
+// 精准定位文字容器
+
+const target = (el.tagName === 'A') ? el : (el.querySelector('a') || el);
+
+// 只修改颜色和阴影，不修改任何布局相关的 style 属性
+
+if (target &amp;&amp; target.style) {
+
+target.style.setProperty('color', fg, 'important');
+
+target.style.setProperty('text-shadow', 'none', 'important');
+
+}
+
+}
+
+} catch (e) {}
+
+});
+
+}
+
+
+// 初始与定时执行（定时是为了兼容搜索页动态生成的标签）
+
+syncLabelColorsOnly();
+
+setInterval(syncLabelColorsOnly, 1500);
+
+
+// 监听暗黑模式切换
+
+const observer = new MutationObserver(syncLabelColorsOnly);
+
+observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-color-mode'] });
+
+})();
+```
+
+
+1.这个JS对哪些页面生效?
+由于在 Gmeek 中将其作为'全局引用JS'添加,它理论上会对全站生效。</description><guid isPermaLink="true">https://g.weich.ee/post/30.html</guid><pubDate>Fri, 13 Mar 2026 21:16:02 +0000</pubDate></item><item><title>80后时代火爆歌单</title><link>https://g.weich.ee/post/29.html</link><description>1.一场游戏一场梦 王杰
+2.我只在乎你 邓丽君
+3. 大约在冬季 齐秦
+4. 粉红色的回忆 韩宝仪
+5. 让一切随风 钟镇涛
+6. 倩女幽魂 张国荣
+9. 大地  beyond
+10. 忘了你忘了我 王杰
+11. 恋曲1990 罗大佑
+12.沉默是金 张国荣
+13.祝福 叶倩文
+14. 再回到从前 张镐哲
+15.千千阙歌 陈慧娴
+16.梦醒时分 陈淑桦
+17.谁明浪子心 王杰
+18.再回首 姜育恒
+19.一生不变 李克勤
+20.让我一次爱个够 庾澄庆
+21.难得有情人 关淑怡
+22.真的爱你 beyond
+23.特别的爱给特别的你 伍思凯
+24.追梦人 凤飞飞
+25.相思风雨中 张学友
+26.半点心 草蜢
+27.光辉岁月 beyond
+28.最远的你是我最近的爱 车继铃
+29.沧海一声笑 许冠杰
+30.潇洒走一回 叶倩文
+31.男儿当自强 林子祥
+32.不再犹豫 beyond
+33.今夜你会不会来 黎明
+34.似是故人来 梅艳芳
+35.初恋情人 刘小慧
+36.一起走过的日子 刘德华
+37.爱 小虎队
+38.千年等一回 高胜美
+39.大海 张雨生
+40.水手 郑智化
+41.容易受伤的女人 王靖雯
+42.选择 林子祥 叶倩文
+43.红日 李克勤
+44.当爱已成往事 林忆莲
+45.新鸳鸯蝴蝶梦 黄安
+46.爱如潮水 张信哲
+47.最爱 周慧敏
+48.你的柔情我永远不懂 陈琳
+49.风中有朵雨做的云 孟庭苇
+50.小芳 李春波 四大村花。</description><guid isPermaLink="true">https://g.weich.ee/post/29.html</guid><pubDate>Fri, 13 Mar 2026 19:02:42 +0000</pubDate></item><item><title>90后时代火爆全网的歌单</title><link>https://g.weich.ee/post/28.html</link><description>天下～张杰
+丁香花
+秋天不回来
+老鼠爱大米
+两只蝴蝶
+老人与海
+等一分钟
+一万个理由
+生日礼物
+该死的温柔
+天使的翅膀
+求佛
+放生
+让泪化作相思雨
+香水有毒
+孤单北半球
+I miss you
+QQ爱
+寂寞才说爱
+愚爱
+那一夜
+爱情码头
+三国恋
+放开
+客官不可以
+有一种爱叫做放手
+等你等了那么久
+分手在那个秋天
+回心转意
+被伤过的心还可以爱谁
+断点
+想太多
+我爱他
+曾经最美
+下辈子如果还记得你
+你把爱情给了谁
+你到底爱谁
+爱情买卖
+心痛2009
+飞舞
+犯错
+别说我的眼泪无所谓
+爱死了昨天
+擦肩而过
+感动天感动地
+哥只是个传说
+那女孩对我说
+亲爱的你怎么不在我身边
+最后一次的温柔
+不是因为寂寞才想你
+有点甜
+素颜
+不要用我的爱来伤害我
+一个人的寂寞两个人的错
+痛彻心扉
+爱上你是一个错
+外滩十八号
+有没有人告诉你
+错错错
+2002年的第一场雪。</description><guid isPermaLink="true">https://g.weich.ee/post/28.html</guid><pubDate>Fri, 13 Mar 2026 18:52:42 +0000</pubDate></item><item><title>华强北s100手表关闭解/锁屏声音指纹/解锁屏输入密码振动</title><link>https://g.weich.ee/post/27.html</link><description>
+
+因为华强北s100手表就是安卓9的，差不多通用的，就一些什么魔改太多的系统那些可能用不了这些命令。</description><guid isPermaLink="true">https://g.weich.ee/post/27.html</guid><pubDate>Fri, 13 Mar 2026 14:18:10 +0000</pubDate></item><item><title>Gmeek文章页面显示上下文章链接和日期</title><link>https://g.weich.ee/post/26.html</link><description>### 1.代码的核心作用
+这段代码的主要任务是为你的每一篇文章自动生成'页脚组件”,包含两个功能:
+·发布日期:从系统数据中提取精准的发布时间。</description><guid isPermaLink="true">https://g.weich.ee/post/26.html</guid><pubDate>Fri, 13 Mar 2026 01:46:08 +0000</pubDate></item><item><title>华强北s100手表关闭正在应用上层显示通知</title><link>https://g.weich.ee/post/25.html</link><description>
+noEmie os手表（糯米系统），w527处理器。</description><guid isPermaLink="true">https://g.weich.ee/post/25.html</guid><pubDate>Thu, 12 Mar 2026 22:24:21 +0000</pubDate></item><item><title>华强北s100手表桌面图标拖动排序</title><link>https://g.weich.ee/post/24.html</link><description>打开 ～设置，～个性设置，～桌面切换，选择：～`经典桌面` 就可以回到桌面拖动图标了，然后你已经拖动的图标排序，再次 ～设置桌面 切换 到 ～手机桌面 你拖动调整的图标还是你设置好的布局。</description><guid isPermaLink="true">https://g.weich.ee/post/24.html</guid><pubDate>Thu, 12 Mar 2026 22:22:59 +0000</pubDate></item><item><title>华强北s100手表悬浮呼出应用快捷方式</title><link>https://g.weich.ee/post/23.html</link><description>w527处理器，安卓，noEmie os手表（糯米os）理论上这些是通用。</description><guid isPermaLink="true">https://g.weich.ee/post/23.html</guid><pubDate>Thu, 12 Mar 2026 15:17:04 +0000</pubDate></item><item><title>华强北手表s100无法连接蓝牙耳机</title><link>https://g.weich.ee/post/22.html</link><description>华强北手表s100无法连接蓝牙耳机（从手表里面看蓝牙耳机里面只有 共享联系人），但是可以连接手机（从手表里面查看链接的手机里面共享类和蓝牙耳机一样有 共享媒体 那些），即使手表用新设备方式链接蓝牙耳机，也是和蓝牙耳机秒断开的，死活链接不上蓝牙耳机，去手表设置里面恢复重置网络和蓝牙出厂设置都没用，重启也是没用。</description><guid isPermaLink="true">https://g.weich.ee/post/22.html</guid><pubDate>Thu, 12 Mar 2026 11:54:24 +0000</pubDate></item><item><title>魅族22的EnergyRing配置文件</title><link>https://g.weich.ee/post/21.html</link><description>energyring电量指示环是一款非常火的电量显示类软件，相较于同类型的软件来说更加的智能，在全屏的时候能够主动的为你进行隐藏，在显示之时能够替换掉你手机当中的电量显示图标。</description><guid isPermaLink="true">https://g.weich.ee/post/21.html</guid><pubDate>Thu, 12 Mar 2026 00:16:03 +0000</pubDate></item><item><title>全平台编程语言全生态汇总 (2026 完整版)</title><link>https://g.weich.ee/post/20.html</link><description>### 全平台编程/标记语言全生态汇总 (2026 完整版)
+
+### 一、移动端开发（安卓 / iOS / 跨平台）
+
+#### Java
+* **特点**：安卓开发的“常青树”。</description><guid isPermaLink="true">https://g.weich.ee/post/20.html</guid><pubDate>Wed, 11 Mar 2026 22:44:37 +0000</pubDate></item><item><title>中文编程语言全生态汇总（2026 完整版）</title><link>https://g.weich.ee/post/19.html</link><description>
+中文编程语言全生态汇总（2026 完整版）
+本汇总涵盖了目前活跃在移动端、桌面端、物联网及教育领域的中文编程工具，旨在为开发者提供全方位的参考。</description><guid isPermaLink="true">https://g.weich.ee/post/19.html</guid><pubDate>Wed, 11 Mar 2026 22:06:05 +0000</pubDate></item><item><title>闪念微语之关键词</title><link>https://g.weich.ee/post/18.html</link><description>### 编程开发
+蓝鸟 微鸟 易安卓 E4A Gmeek iApp AIDE Fusionapp ALua 结绳 Kotlin GDScript  VcnStudio scrcpy
+
+### 电影
+铁罗汉 海王的游戏
+
+### 无分类
+VectrasVM Tango  mRemoteNG FlexMagicPixel winlatorp LocalSend WebRTCP2P SCRCPY ttylinux‌ Andronix File.io aviumUl windowsxlite.com TinyCoreLinux体积小巧。</description><guid isPermaLink="true">https://g.weich.ee/post/18.html</guid><pubDate>Wed, 11 Mar 2026 21:27:36 +0000</pubDate></item><item><title>华强北s100手表各种代码和打开开发者选项</title><link>https://g.weich.ee/post/17.html</link><description>鑫泰奇S100华强北插卡阔屏手表处理器是紫光展锐w527。</description><guid isPermaLink="true">https://g.weich.ee/post/17.html</guid><pubDate>Wed, 11 Mar 2026 18:39:01 +0000</pubDate></item><item><title>华强北带红外遥控智能手表s100</title><link>https://g.weich.ee/post/16.html</link><description>### 配置功能：
+
+以下实测系统版本是V35版本，我都后悔更新了。</description><guid isPermaLink="true">https://g.weich.ee/post/16.html</guid><pubDate>Wed, 11 Mar 2026 17:54:19 +0000</pubDate></item><item><title>给Gmeek文章列表添加悬停(Hover)特效</title><link>https://g.weich.ee/post/15.html</link><description>```+css
+/* 1. 设置文章条目的基础样式，准备过渡 */
+.SideNav-item {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border-left: 3px solid transparent !important; /* 预留左侧边框位 */
+    background-color: transparent !important;
+    border-radius: 6px !important;
+    margin-bottom: 4px !important;
+}
+
+/* 2. 悬停时的浮起效果 */
+.SideNav-item:hover {
+    background-color: rgba(2, 122, 255, 0.05) !important; /* 极淡的蓝色背景 */
+    transform: translateX(5px); /* 向右轻微平移，产生“被点中”的动感 */
+    border-left: 3px solid #027aff !important; /* 左侧亮起主题蓝 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 淡淡的投影，产生浮起感 */
+}
+```
+
+
+·非对称动效:通过translatex(5px)而不是简单的放大,视觉上会有一种'列表项向你招手'的感觉,非常符合阅读习惯。</description><guid isPermaLink="true">https://g.weich.ee/post/15.html</guid><pubDate>Fri, 06 Mar 2026 12:59:55 +0000</pubDate></item><item><title>Github Pages查看已用存储空间</title><link>https://g.weich.ee/post/14.html</link><description>因为每个Github Pages给的空间好像是1g的，拿来写博客难免会有可能满的时候。</description><guid isPermaLink="true">https://g.weich.ee/post/14.html</guid><pubDate>Thu, 05 Mar 2026 05:38:09 +0000</pubDate></item><item><title>壹号本3安装linux之Winux</title><link>https://g.weich.ee/post/13.html</link><description>
+ ### Ventoy启动盘制作
+
+下载Ventoy的win版本
+[Ventoy官网](https:// 'https://www.ventoy.net/cn/download.html')
+
+ u盘用Ventoy 在win系统上面刻录启动，把Winux的系统包放在 Ventoy 的文件夹内。</description><guid isPermaLink="true">https://g.weich.ee/post/13.html</guid><pubDate>Wed, 04 Mar 2026 18:08:01 +0000</pubDate></item><item><title>移植prismjs代码高亮后修改右上角的copy为中文复制</title><link>https://g.weich.ee/post/12.html</link><description>
+### 简约版本
+
+简约版本会生效，但是样式效果不太好而已，比如鼠标划过文字不会变色，文字不居中而已。</description><guid isPermaLink="true">https://g.weich.ee/post/12.html</guid><pubDate>Thu, 26 Feb 2026 14:14:17 +0000</pubDate></item></channel></rss>
