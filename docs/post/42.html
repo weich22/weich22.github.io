@@ -159,6 +159,8 @@ python Gmeek.py 之前,增加一行 mkdir -p backup。修<br>
     if [ -f docs/postList.json ]; then rm docs/postList.json; fi
 </code></pre>
 <p>将这个步骤放在 cp-r./* /opt/Gmeek/ 之前(注意路径,因为此时工作目录是仓库根目录)。这样,每次手动运行时都会先删除缓存,然后执行全量构建。但注意:这会导致每次手动运行都很慢(因为要处理所有文章),如果你文章数量很多,不太建议频繁使用。日常还是依靠自动构建,只在需要同步图片时偶尔手动运行。</p>
+<p>删除缓存postList.json和blogBase.json只在你手动点击 Runworkflow 时才会发生。<br>
+日常写文章不会触发删除,因此不会导致不必要的全量重建(节省时间)。</p>
 <h3>加入的地方示例代码</h3>
 <pre lang="dos" class="notranslate"><code class="notranslate">- name: Remove cache to force full build
   run: |
