@@ -150,7 +150,34 @@ python Gmeek.py 之前,增加一行 mkdir -p backup。修<br>
 <p>有了 mkdir -p backup:你在放文件之前,先看了一眼抽屉。如果没有,你就立刻做一个新的抽屉;如果有,就直接用。这样文件总能顺利放进去。</p>
 <p>md语法表格我感觉太麻烦了，我直接放下面截图说明，压缩了，大致的看一下就行了</p>
 <p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/eadbc012bec9b19f7bf8ba95378145247584d9a038f742376d025a4e5a726dcb/68747470733a2f2f776569636832322e6769746875622e696f2f696d61676573772f5336303432383034313932363839636f6d646565707365656b636861742e77656270"><img src="https://camo.githubusercontent.com/eadbc012bec9b19f7bf8ba95378145247584d9a038f742376d025a4e5a726dcb/68747470733a2f2f776569636832322e6769746875622e696f2f696d61676573772f5336303432383034313932363839636f6d646565707365656b636861742e77656270" alt="添加的修复Gmeek代码说明" data-canonical-src="https://weich22.github.io/imagesw/S6042804192689comdeepseekchat.webp" style="max-width: 100%;"></a></p>
-<p>加上这行命令后,再也不用担心因为 backup 目录丢失而导致文章生成失败的问题了-它会在每次运行时自动“补”上这个目录。</p></div>
+<p>加上这行命令后,再也不用担心因为 backup 目录丢失而导致文章生成失败的问题了-它会在每次运行时自动“补”上这个目录。</p>
+<h3>如何减少操作步骤?</h3>
+<p>如果你希望每次手动运行 workflow_dispatch 时自动删除 blogBase.json和postList.json,可以修改 .github/workflows/Gmeek.yml,在 Generate new html 步骤之前加入:</p>
+<pre lang="dos" class="notranslate"><code class="notranslate">- name: Remove cache to force full build
+  run: |
+    if [ -f blogBase.json ]; then rm blogBase.json; fi
+    if [ -f docs/postList.json ]; then rm docs/postList.json; fi
+</code></pre>
+<p>将这个步骤放在 cp-r./* /opt/Gmeek/ 之前(注意路径,因为此时工作目录是仓库根目录)。这样,每次手动运行时都会先删除缓存,然后执行全量构建。但注意:这会导致每次手动运行都很慢(因为要处理所有文章),如果你文章数量很多,不太建议频繁使用。日常还是依靠自动构建,只在需要同步图片时偶尔手动运行。</p>
+<h3>加入的地方示例代码</h3>
+<pre lang="dos" class="notranslate"><code class="notranslate">- name: Remove cache to force full build
+  run: |
+    if [ -f blogBase.json ]; then rm blogBase.json; fi
+    if [ -f docs/postList.json ]; then rm docs/postList.json; fi
+
+- name: Generate new html
+  run: |
+    cp -r ./* /opt/Gmeek/
+    cd /opt/Gmeek/
+    mkdir -p backup
+    python Gmeek.py ${{ secrets.GITHUB_TOKEN }} ${{ github.repository }} --issue_number '${{ github.event.issue.number }}'
+    cp -a /opt/Gmeek/docs ${{ github.workspace }}
+    cp -a /opt/Gmeek/backup ${{ github.workspace }}
+    cp /opt/Gmeek/blogBase.json ${{ github.workspace }}
+</code></pre>
+<h3>空格缩进混乱</h3>
+<p>如果代码空格缩进混乱的话，就会格式不对，代码就会有下划波浪线〰️，实在不行，就复制下面的代码缩进替换上面我们写入的缩进就好了，下面是缩进错误❌，示例图：</p>
+<p><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/ac04c4ca00cb970aa56852c7c0815973edec442dcf4a914dadd72dfaf302ca4e/68747470733a2f2f776569636832322e6769746875622e696f2f696d61676573772f5336303432383037313130353630616c6f6f6b62726f777365722e504e47"><img src="https://camo.githubusercontent.com/ac04c4ca00cb970aa56852c7c0815973edec442dcf4a914dadd72dfaf302ca4e/68747470733a2f2f776569636832322e6769746875622e696f2f696d61676573772f5336303432383037313130353630616c6f6f6b62726f777365722e504e47" alt="Gmeek.yml代码缩进示例图" data-canonical-src="https://weich22.github.io/imagesw/S6042807110560alookbrowser.PNG" style="max-width: 100%;"></a></p></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

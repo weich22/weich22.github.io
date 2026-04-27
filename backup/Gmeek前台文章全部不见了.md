@@ -108,3 +108,42 @@ md语法表格我感觉太麻烦了，我直接放下面截图说明，压缩了
 
 
 加上这行命令后,再也不用担心因为 backup 目录丢失而导致文章生成失败的问题了-它会在每次运行时自动“补”上这个目录。
+
+
+### 如何减少操作步骤?
+如果你希望每次手动运行 workflow_dispatch 时自动删除 blogBase.json和postList.json,可以修改 .github/workflows/Gmeek.yml,在 Generate new html 步骤之前加入:
+
+```dos
+- name: Remove cache to force full build
+  run: |
+    if [ -f blogBase.json ]; then rm blogBase.json; fi
+    if [ -f docs/postList.json ]; then rm docs/postList.json; fi
+```
+将这个步骤放在 cp-r./* /opt/Gmeek/ 之前(注意路径,因为此时工作目录是仓库根目录)。这样,每次手动运行时都会先删除缓存,然后执行全量构建。但注意:这会导致每次手动运行都很慢(因为要处理所有文章),如果你文章数量很多,不太建议频繁使用。日常还是依靠自动构建,只在需要同步图片时偶尔手动运行。
+
+### 加入的地方示例代码
+
+```dos
+- name: Remove cache to force full build
+  run: |
+    if [ -f blogBase.json ]; then rm blogBase.json; fi
+    if [ -f docs/postList.json ]; then rm docs/postList.json; fi
+
+- name: Generate new html
+  run: |
+    cp -r ./* /opt/Gmeek/
+    cd /opt/Gmeek/
+    mkdir -p backup
+    python Gmeek.py ${{ secrets.GITHUB_TOKEN }} ${{ github.repository }} --issue_number '${{ github.event.issue.number }}'
+    cp -a /opt/Gmeek/docs ${{ github.workspace }}
+    cp -a /opt/Gmeek/backup ${{ github.workspace }}
+    cp /opt/Gmeek/blogBase.json ${{ github.workspace }}
+```
+### 空格缩进混乱
+
+如果代码空格缩进混乱的话，就会格式不对，代码就会有下划波浪线〰️，实在不行，就复制下面的代码缩进替换上面我们写入的缩进就好了，下面是缩进错误❌，示例图：
+
+
+![Gmeek.yml代码缩进示例图](https://weich22.github.io/imagesw/S6042807110560alookbrowser.PNG)
+
+
