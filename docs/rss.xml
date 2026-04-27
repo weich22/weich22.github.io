@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功!
 永久真实地址：weich22.github.io
-Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Mon, 27 Apr 2026 19:18:42 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>华强北s100电话打不进可以打出</title><link>https://g.weich.ee/post/41.html</link><description>### 接不到电话
+Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Mon, 27 Apr 2026 19:44:09 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>华强北s100电话打不进可以打出</title><link>https://g.weich.ee/post/41.html</link><description>### 接不到电话
 
 然后在拨号通话界面设置打开看不到有任何拦截的电话号码，之后我进到手表-设置-拉到最底部-更多设置-拦截陌生来电，关闭就好了，他说明的：（开启后,只有亲情号的联系人才能拨通手表陌生人无法拨通手表）。</description><guid isPermaLink="true">https://g.weich.ee/post/41.html</guid><pubDate>Fri, 24 Apr 2026 05:55:04 +0000</pubDate></item><item><title>网站背景根据季节改变</title><link>https://g.weich.ee/post/40.html</link><description>
 ### 大纲
@@ -643,4 +643,301 @@ VectrasVM Tango  mRemoteNG FlexMagicPixel winlatorp LocalSend WebRTCP2P SCRCPY t
  u盘用Ventoy 在win系统上面刻录启动，把Winux的系统包放在 Ventoy 的文件夹内。</description><guid isPermaLink="true">https://g.weich.ee/post/13.html</guid><pubDate>Wed, 04 Mar 2026 18:08:01 +0000</pubDate></item><item><title>移植prismjs代码高亮后修改右上角的copy为中文复制</title><link>https://g.weich.ee/post/12.html</link><description>
 ### 简约版本
 
-简约版本会生效，但是样式效果不太好而已，比如鼠标划过文字不会变色，文字不居中而已。</description><guid isPermaLink="true">https://g.weich.ee/post/12.html</guid><pubDate>Thu, 26 Feb 2026 14:14:17 +0000</pubDate></item></channel></rss>
+简约版本会生效，但是样式效果不太好而已，比如鼠标划过文字不会变色，文字不居中而已。</description><guid isPermaLink="true">https://g.weich.ee/post/12.html</guid><pubDate>Thu, 26 Feb 2026 14:14:17 +0000</pubDate></item><item><title>给Gmmek标签页面添加选中标签效果</title><link>https://g.weich.ee/post/11.html</link><description>### 标签带有空格无效
+
+```+js
+document.addEventListener('DOMContentLoaded', function() {
+  const tagButtons = document.querySelectorAll('button.Label');
+
+  tagButtons.forEach(button =&gt; {
+    button.addEventListener('click', function() {
+      // 先恢复所有标签的 padding
+      tagButtons.forEach(btn =&gt; {
+        btn.style.padding = '4px';
+      });
+      // 再移除当前点击标签的 padding
+      this.style.padding = '0';
+    });
+  });
+});
+
+```
+### 空格无效版带调试信息
+
+包含f12控制台调试信息输出，因为我发现标签有空格的会没有效果，和上面的差不多，多了调试脚本，未到匹配的…
+
+```+js
+// 页面加载完成后执行
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('脚本已加载');
+
+  // 保存原始函数
+  if (window.updateShowTag) {
+    const originalUpdateShowTag = window.updateShowTag;
+
+    // 重写函数
+    window.updateShowTag = function(tag) {
+      console.log('updateShowTag 被调用，参数：', tag);
+      
+      // 先执行原来的逻辑
+      originalUpdateShowTag(tag);
+
+      // 选择所有标签按钮
+      const tagButtons = document.querySelectorAll('button.Label');
+      console.log('找到的标签数量：', tagButtons.length);
+
+      // 恢复所有标签的 padding
+      tagButtons.forEach(btn =&gt; {
+        btn.style.padding = '4px';
+        console.log('恢复 padding: ', btn.textContent.trim());
+      });
+
+      // 找到当前点击的标签
+      const activeTag = Array.from(tagButtons).find(btn =&gt; {
+        const btnText = btn.textContent.trim().split(/\s+/)[0];
+        return btnText === tag;
+      });
+
+      if (activeTag) {
+        activeTag.style.padding = '0';
+        console.log('设置 padding: 0 给：', activeTag.textContent.trim());
+      } else {
+        console.log('未找到匹配的标签：', tag);
+      }
+    }
+
+    // 页面加载时，根据 URL hash 自动激活对应标签
+    const currentHash = window.location.hash.substring(1);
+    if (currentHash) {
+      console.log('检测到 hash：', currentHash);
+      window.updateShowTag(currentHash);
+    }
+  } else {
+    console.error('未找到 updateShowTag 函数！');
+  }
+});
+
+```
+
+### 全部有效版，空格也有效
+
+这个版本所有页面监听点击事件，就是说你从别的页面点击过来也是有效果的，但是我感觉会不会浪费性能…
+
+```+js
+(function() {
+  'use strict';
+
+  setTimeout(function() {
+    const tagButtons = document.querySelectorAll('button.Label');
+
+    if (tagButtons.length === 0) return;
+
+    tagButtons.forEach(button =&gt; {
+      button.addEventListener('click', function() {
+        tagButtons.forEach(btn =&gt; {
+          btn.style.setProperty('padding', '4px', 'important');
+        });
+        this.style.setProperty('padding', '0', 'important');
+      });
+    });
+
+    const currentHash = decodeURIComponent(window.location.hash.substring(1));
+    if (currentHash) {
+      const activeTag = Array.from(tagButtons).find(btn =&gt; 
+        btn.textContent.trim().includes(currentHash.trim())
+      );
+      if (activeTag) {
+        activeTag.style.setProperty('padding', '0', 'important');
+      }
+    }
+  }, 1000);
+})();
+
+```
+
+
+
+### 全部有效包含调试脚本版
+
+```+js
+// 调试版：带详细日志，用于定位问题
+(function() {
+  'use strict';
+
+  // 延迟执行，确保 DOM 加载完成
+  setTimeout(function() {
+    console.log('=== 标签选中调试脚本开始 ===');
+
+    // 1. 查找所有标签按钮
+    const tagButtons = document.querySelectorAll('button.Label');
+    console.log('找到的标签按钮数量:', tagButtons.length);
+
+    if (tagButtons.length === 0) {
+      console.error('未找到任何 button.Label 元素！');
+      console.log('页面中所有 button 元素:', document.querySelectorAll('button'));
+      return;
+    }
+
+    // 2. 为每个按钮绑定点击事件
+    tagButtons.forEach((button, index) =&gt; {
+      button.addEventListener('click', function() {
+        console.log(`按钮 #${index} 被点击:`, this.textContent.trim());
+
+        // 先恢复所有按钮的 padding
+        tagButtons.forEach((btn, i) =&gt; {
+          btn.style.setProperty('padding', '4px', 'important');
+          console.log(`恢复按钮 #${i} 的 padding`);
+        });
+
+        // 再移除当前按钮的 padding
+        this.style.setProperty('padding', '0', 'important');
+        console.log(`移除按钮 #${index} 的 padding`);
+      });
+    });
+
+    // 3. 页面加载时，根据 URL hash 自动激活对应标签
+    const currentHash = decodeURIComponent(window.location.hash.substring(1));
+    console.log('当前 URL hash:', currentHash);
+
+    if (currentHash) {
+      const activeTag = Array.from(tagButtons).find((btn, i) =&gt; {
+        const btnText = btn.textContent.trim();
+        const match = btnText.includes(currentHash.trim());
+        console.log(`匹配按钮 #${i}: '${btnText}' 包含 '${currentHash}'?`, match);
+        return match;
+      });
+
+      if (activeTag) {
+        activeTag.style.setProperty('padding', '0', 'important');
+        console.log('自动激活标签:', activeTag.textContent.trim());
+      } else {
+        console.warn('未找到与 hash 匹配的标签');
+      }
+    }
+
+    console.log('=== 标签选中调试脚本加载完成 ===');
+  }, 1000); // 延迟1秒，确保所有DOM都加载好
+})();
+
+```
+
+### 最终版本仅tag.html页面
+这个版本从别的页面点击过来也是有效果的，刷新也是有效果的，具体还有什么BUG的话，麻烦提交评论给我。</description><guid isPermaLink="true">https://g.weich.ee/post/11.html</guid><pubDate>Wed, 25 Feb 2026 20:32:12 +0000</pubDate></item><item><title>给win10桌面创建网络连接中心创建桌面快捷方式</title><link>https://g.weich.ee/post/10.html</link><description>其实就是win系统的 `更改适配器选项` 这个选项打开就是 `网络连接` 。</description><guid isPermaLink="true">https://g.weich.ee/post/10.html</guid><pubDate>Wed, 25 Feb 2026 17:04:40 +0000</pubDate></item><item><title>Gmeek友情链接显示备注标题</title><link>https://g.weich.ee/post/9.html</link><description>也就是Markdown超链接的title标题拿来当备注显示…
+链接title是当鼠标悬停在链接上时会出现的文字，这个title是可选的，它放在圆括号中链接地址后面，跟链接地址之间以空格分隔，如下：
+
+```+Markdown
+[无用功](https://weich22.github.io '没有用功努力，不做没用的功')。</description><guid isPermaLink="true">https://g.weich.ee/post/9.html</guid><pubDate>Tue, 24 Feb 2026 14:05:11 +0000</pubDate></item><item><title>Gmeek移植基于prismjs代码语法高亮</title><link>https://g.weich.ee/post/8.html</link><description>Typecho的CodeHighlighter基于 prismjs 的代码语法高亮插件如何移植到基于github用Gmeek做的博客用。</description><guid isPermaLink="true">https://g.weich.ee/post/8.html</guid><pubDate>Sun, 22 Feb 2026 06:43:44 +0000</pubDate></item><item><title>Gmeek图片缓存</title><link>https://g.weich.ee/post/7.html</link><description>原因是Gmeek在Issues里面写文章底部有个可以上传图片的，直接上传的话，文章图片链接是github.com开头的，容易抽风。</description><guid isPermaLink="true">https://g.weich.ee/post/7.html</guid><pubDate>Sat, 21 Feb 2026 18:35:10 +0000</pubDate></item><item><title>Gmeek文章页和友情页外部链接新窗口打开</title><link>https://g.weich.ee/post/6.html</link><description>### 没有排除链接
+```+js
+// ======================================================
+// 外部链接新窗口打开（文章页 post/ + 友情页 link.html）
+// ======================================================
+document.addEventListener('DOMContentLoaded', function () {
+  const currentHost = window.location.host;
+  const path = window.location.pathname;
+  const needPage = path.startsWith('/post/') || path === '/link.html';
+
+  if (needPage) {
+    document.querySelectorAll('a').forEach(link =&gt; {
+      if (!link.href || link.href.startsWith('javascript:')) return;
+      try {
+        const url = new URL(link.href);
+        if (url.host !== currentHost) {
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+        }
+      } catch (e) {}
+    });
+  }
+});
+// ====================== 结束 ==========================
+
+```
+
+### 带排除链接
+
+```+js
+// ======================================================
+// 文章页+友情页：外部链接新窗口打开（排除自己主页）
+// ======================================================
+document.addEventListener('DOMContentLoaded', function () {
+  const currentHost = window.location.host;
+  const path = window.location.pathname;
+  const needPage = path.startsWith('/post/') || path === '/link.html';
+
+  // 只排除【旧GitHub域名】，其他都正常判断
+  const excludeHosts = [
+    'xxxx.github.io'  // 这里只写你原来的 github 域名
+  ];
+
+  if (needPage) {
+    document.querySelectorAll('a').forEach(link =&gt; {
+      if (!link.href || link.href.startsWith('javascript:')) return;
+      try {
+        const url = new URL(link.href);
+        const isExternal = url.host !== currentHost;
+        const isExcluded = excludeHosts.some(h =&gt; url.host.includes(h));
+
+        if (isExternal &amp;&amp; !isExcluded) {
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+        }
+      } catch (e) {}
+    });
+  }
+});
+// ====================== 结束 ==========================
+
+```
+直接放到你的博客已经引用的一个js文件里面去，打开js文件编写，放到最后面去，js文件不用script标签，多个js放到一个js文件里面去会少请求一个链接，网站性能会优化好一点，你可以单独另外创建一个JS文件直接放进去，然后引用链接到Gmeek的config.json配置文件里面去，比如：[Gmeek博客资源文件引用](https://g.weich.ee/post/1.html#资源链接引用方式推荐)。</description><guid isPermaLink="true">https://g.weich.ee/post/6.html</guid><pubDate>Fri, 20 Feb 2026 21:45:57 +0000</pubDate></item><item><title>p40显卡在win系统用amd核显输出游戏卡屏</title><link>https://g.weich.ee/post/5.html</link><description>p40显卡在win系统用amd核显输出游戏卡屏，比如玩LOL一半突然卡屏切换出去别的软件或者桌面，马上切换回来又好了，通过cmd命令限制功耗到160w改善不明显，最后去设置amd显卡面板里面的输入延时关闭后好了很多，但还是没有完全好，LOL游戏无边框模式我也开了。</description><guid isPermaLink="true">https://g.weich.ee/post/5.html</guid><pubDate>Tue, 17 Feb 2026 21:42:47 +0000</pubDate></item><item><title>notepad++如何更改光标模式</title><link>https://g.weich.ee/post/4.html</link><description>Notepad++有两种光标模式,切换和自定义都很简单
+
+快速切换插入/改写模式(最常用)
+键盘Insert键(Ins)：一键切换
+
+### 光标是竖线
+插入模式(INS)：光标是竖线 | 输入文字会向后挤，不覆盖原有内容。</description><guid isPermaLink="true">https://g.weich.ee/post/4.html</guid><pubDate>Thu, 12 Feb 2026 16:17:17 +0000</pubDate></item><item><title>GitHub Pages 绑定自定义域名</title><link>https://g.weich.ee/post/3.html</link><description>### 域名CNAME解析
+在你购买域名的地方（运营商），子域名或者主域名（你用哪个就解析那个）解析做CNAME记录到你原来的Github Pages域名（一般都是你github用户名加.github.io，比如：xxx.github.io，xxx是你的github用户，除非你之前申请的是后面有仓库名，是哪个就绑定那个）。</description><guid isPermaLink="true">https://g.weich.ee/post/3.html</guid><pubDate>Mon, 09 Feb 2026 20:46:06 +0000</pubDate></item><item><title>Gmeek记录篇</title><link>https://g.weich.ee/post/1.html</link><description>
+### Gmeek预览图：
+
+![Gmeek首页预览图](https://weich22.github.io/imagesw/Image1772784593563.jpg)
+
+### 自定义优化首页CSS
+添加代码到config.json，请删除我写的中文和括号
+
+```+css
+'indexStyle':'&lt;style&gt;a.blogTitle {display: inline-block !important;}【优化手机端不显示博客顶部LOGO文字】.d-flex {display: inline-block !important;}【调节文章标签到文章下】.Label, .label {line-height: 12px !important;}【文章标签背景颜色框缩小一点】.LabelTime {display: inline-block !important;}【调节文章标签到手机显示不全或者不显示后面的日期】&lt;/style&gt;',
+```
+
+
+不限制博客首页最大宽度，直接添加在上面的&lt;/style&gt;标签内
+
+```css
+body {max-width: initial !important;}
+```
+
+
+
+不限制文章页面最大宽度
+```css
+'style':'&lt;style&gt;body {max-width: initial !important;}&lt;/style&gt;',
+```
+
+更新：后面我发现我需要是全局修改，于是我直接把代码统一整合写的到一个css文件里面去
+
+```+css
+body {max-width: initial !important;}
+a.blogTitle {display: inline-block !important;}/*优化手机端不显示博客顶部LOGO文字*/
+.d-flex {display: inline-block !important;}/*调节文章标签到文章下*/
+.Label, .label {line-height: 12px !important;}/*文章标签背景颜色框缩小一点*/
+.LabelTime {display: inline-block !important;}/*调节文章标签到手机显示不全或者不显示后面的日期*/
+```
+
+
+
+然后上传到`static/assets/`文件夹内再添加代码到config.json引用就好了。</description><guid isPermaLink="true">https://g.weich.ee/post/1.html</guid><pubDate>Fri, 06 Feb 2026 13:42:55 +0000</pubDate></item><item><title>网址</title><link>https://g.weich.ee/link.html</link><description>### 网站集合：
+🔗[极客日志](http://weich.ee)  🔗[stripchat](http://stripchat.ee) 🔗[萤火虫资源站](https://www.yhcres.top '安卓刷机等资源') 🔗[Mozilla](https://developer.mozilla.org/zh-CN/docs/Web) 🔗[小众软件](https://www.appinn.com) 🔗[gitblog](https://blog.yihong0618.me '在github写博客') 🔗[Loot Drop](https://www.loot-drop.io '创业墓地失败案例') 🔗[凹凸工坊](https://www.autohanding.com '在线生成手写') 🔗[Mathigon](https://mathigon.org '数学互动') 👨‍🍳[食用手册](https://cook.yunyoujun.cn '选一个食材做菜') 👨‍💻[freelancer](https://www.freelancer.cn '全球线上威客工作') 🔗[Wayback Machine](https://web.archive.org '建站历史镜像档案') 🔗[auto catalog archive](https://autocatalogarchive.com '汽车手册') 🔗[BIODIGITAL](https://www.biodigital.com '免费的3D看清全身器官') 🔗[ mRemoteNG](https://mremoteng.org '多协议远程控制') 🔗[Ventoy](https://www.ventoy.net/cn '装系统开机引导') 💫[Electron](https://www.electronjs.org/zh/docs/latest/ '用JsCssHtml跨平台应用框架') ✌️[vscode Web](https://vscode.dev 'vscode网页在线版')
+
+### 在线工具：
+🕸️[二维码解码器](https://cli.im/deqr)  🕸️[三合一收款码生成](https://www.rocschool.com/tool/qr/) 🐳[DeepSeek网页版](https://chat.deepseek.com/) 🔗[Neumorphism](https://neumorphism.io/ '拟态css在线生成') 🦞[ ClawX](https://claw-x.com '龙虾AI助手')
+
+### git项目：
+🕸️[五合一收款码](https://github.com/insoxin/qrpay?tab=readme-ov-file) 🕸️[多合一收款码](https://github.com/jiusanzhou/payone) 🔗[fluentui-system-icons](https://github.com/microsoft/fluentui-system-icons '微软开源的Icons图标库') 🔗[腾飞WebOS](https://github.com/soitun/tenfell-webos '腾飞Webos专注在浏览器端体验Win11的效果') 🔗[CameraFileCopy](https://github.com/sz3/libcimbar '不用联网传输文件') 🔗[TXQR](https://github.com/divan/txqr '不用联网传文件') 🔗[Ggwave](https://github.com/ggerganov/ggwave '用声音传文件') 🔗[VscodeFa](https://github.com/nightmare-space/code_lfa/blob/main/README-ZH.md '安卓版vscode') ♻️[bitchat](https://github.com/deep-soft/bitchat-android/tree/main '去中心化、点对点的消息应用程序,可在蓝牙网状网络上运行。</description><guid isPermaLink="true">https://g.weich.ee/link.html</guid><pubDate>Fri, 06 Feb 2026 16:02:13 +0000</pubDate></item></channel></rss>
