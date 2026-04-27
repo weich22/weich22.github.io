@@ -47,9 +47,9 @@ jobs:
           pip install -r /opt/Gmeek/requirements.txt
 
       - name: Remove cache to force full build
-  run: |
-    if [ -f blogBase.json ]; then rm blogBase.json; fi
-    if [ -f docs/postList.json ]; then rm docs/postList.json; fi
+        run: |
+          if [ -f blogBase.json ]; then rm blogBase.json; fi
+          if [ -f docs/postList.json ]; then rm docs/postList.json; fi
     
       - name: Generate new html
         run: |
