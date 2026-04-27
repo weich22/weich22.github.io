@@ -101,9 +101,10 @@ FileNotFoundError: [Errno 2] No such file or directory: 'backup/xxx.md'
 有了 mkdir -p backup:你在放文件之前,先看了一眼抽屉。如果没有,你就立刻做一个新的抽屉;如果有,就直接用。这样文件总能顺利放进去。
 
 
+md语法表格我感觉太麻烦了，我直接放下面截图说明，压缩了，大致的看一下就行了
 
 
-
+![添加的修复Gmeek代码说明](https://weich22.github.io/imagesw/S6042804192689comdeepseekchat.webp)
 
 
 加上这行命令后,再也不用担心因为 backup 目录丢失而导致文章生成失败的问题了-它会在每次运行时自动“补”上这个目录。
