@@ -110,7 +110,7 @@ md语法表格我感觉太麻烦了，我直接放下面截图说明，压缩了
 加上这行命令后,再也不用担心因为 backup 目录丢失而导致文章生成失败的问题了-它会在每次运行时自动“补”上这个目录。
 
 
-### 如何减少操作步骤?
+### 如何减少手动删除操作步骤?
 如果你希望每次手动运行 workflow_dispatch 时自动删除 blogBase.json和postList.json,可以修改 .github/workflows/Gmeek.yml,在 Generate new html 步骤之前加入:
 
 ```dos
@@ -147,7 +147,7 @@ md语法表格我感觉太麻烦了，我直接放下面截图说明，压缩了
 如果代码空格缩进混乱的话，就会格式不对，代码就会有下划波浪线〰️，实在不行，就复制下面的代码缩进替换上面我们写入的缩进就好了，下面是缩进错误❌，示例图：
 
 
-![Gmeek.yml代码缩进示例图](https://weich22.github.io/imagesw/S6042807110560alookbrowser.PNG)
+![Gmeek.yml代码缩进示例图](https://weich22.github.io/imagesw/S6042807110560alookbrowser.png)
 
 
 ### 话外题发现说明
