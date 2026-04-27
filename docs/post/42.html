@@ -119,7 +119,36 @@ python Gmeek.py 之前,增加一行 mkdir -p backup。修<br>
 <p>1.进入仓库 Actions 页面。<br>
 2.点击左侧 build Gmeek 工作流。<br>
 3.点击右侧 Run workflow→确认分支为 main→绿色按钮运行。<br>
-4.等待约 30-60 秒,状态变为绿色打勾。</p></div>
+4.等待约 30-60 秒,状态变为绿色打勾。</p>
+<h3>总结</h3>
+<p>整个过程的核心就是:<br>
+1.加一行 mkdir -p backup→解决目录缺失问题。<br>
+2.删两个缓存文件→解决旧文章不生成问题。<br>
+这两步操作安全、可逆、不影响文章源数据(Issues)。如果你以后重装或迁移 Gmeek,也可以按这个思路快速恢复。</p>
+<h3>mkdir -p backup 命令详解</h3>
+<h3>mkdir 是什么?</h3>
+<p>mkdir 是 make directory(创建目录)的缩写。它的作用就是创建一个文件夹(在 Linux/macOS/GitHubActions 的虚拟环境里都通用)。<br>
+比如你执行 mkdir myfolder,系统就会在当前路径下新建一个名为 myfolder 的文件夹。</p>
+<h3>-p参数有什么用?</h3>
+<p>是:parent(父级)的缩写,它有两个很重要的功Q能:<br>
+·自动创建中间路径:比如你想创建a/b/c 这个文件夹,如果a或 a/b不存在,普通的 mkdir 会报错,但加上p后,它会自动把缺失的父级文件夹一并创建出来。<br>
+·不报错(如果文件夹已存在):如果 backup 文件夹已经存在,mkdir -p backup 不会报错,也不会覆盖里面的内容,它会静默地什么都不做,直接返回成功。<br>
+所以 -p是一个安全、稳妥的选项,适合在脚本里反复使用。</p>
+<h3>backup 是什么?</h3>
+<p>backup 就是我们要创建的文件夹的名字。它正好是Gmeek 用来存放 .nd 文章文件的那个目录。</p>
+<h3>合起来:mkdir -D backup 的含义</h3>
+<p>“确保在当前工作目录下存在一个名为 backup 的文件夹,如果不存在就创建它;如果已经存在,就什么也不做。</p>
+<p>为什么要加到Gmeek.yml 里?<br>
+在你的工作流中,python Gmeek.py 脚本在生成文章时,会尝试把 .md 文件写入到backup/文件夹里。<br>
+问题在于:Gmeek 脚本本身不会自动创建这个文件夹。如果 backup 目录不存在,Python 的 open()函数就会报错:</p>
+<pre lang="dos" class="notranslate"><code class="notranslate">FileNotFoundError: [Errno 2] No such file or directory: 'backup/xxx.md'
+</code></pre>
+<p>整个Actions任务就会失败,导致前台看不到任何文章。</p>
+<h3>说人话类比理解</h3>
+<p>想象你要往一个抽屉里放文件:<br>
+没有 mkdir -p backup:你直接伸手放文件,但如果抽屉不存在,你就会撞到木板(报错)。</p>
+<p>有了 mkdir -p backup:你在放文件之前,先看了一眼抽屉。如果没有,你就立刻做一个新的抽屉;如果有,就直接用。这样文件总能顺利放进去。</p>
+<p>加上这行命令后,再也不用担心因为 backup 目录丢失而导致文章生成失败的问题了-它会在每次运行时自动“补”上这个目录。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
