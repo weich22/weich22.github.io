@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功!
 永久真实地址：weich22.github.io
-Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Tue, 28 Apr 2026 00:22:17 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek前台文章不见了</title><link>https://g.weich.ee/post/42.html</link><description>### 详细问题说明
+Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Tue, 28 Apr 2026 00:26:03 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>Gmeek前台文章不见了</title><link>https://g.weich.ee/post/42.html</link><description>### 详细问题说明
 
 
 Gmeek前台文章全部不见了
@@ -619,7 +619,9 @@ noEmie os手表（糯米系统），w527处理器。</description><guid isPermaL
 ### 无分类
 VectrasVM Tango  mRemoteNG FlexMagicPixel winlatorp LocalSend WebRTCP2P SCRCPY ttylinux‌ Andronix File.io aviumUl windowsxlite.com TinyCoreLinux体积小巧
 
-（WinToHDD类型开源软件：Dism++ LetRecovery，因为WinToHDD需要激活码，不过有绿色版可用，没有USB设备在win系统里面安装系统用的）。</description><guid isPermaLink="true">https://g.weich.ee/post/18.html</guid><pubDate>Wed, 11 Mar 2026 21:27:36 +0000</pubDate></item><item><title>华强北s100手表各种代码和打开开发者选项</title><link>https://g.weich.ee/post/17.html</link><description>鑫泰奇S100华强北插卡阔屏手表处理器是紫光展锐w527。</description><guid isPermaLink="true">https://g.weich.ee/post/17.html</guid><pubDate>Wed, 11 Mar 2026 18:39:01 +0000</pubDate></item><item><title>华强北带红外遥控智能手表s100</title><link>https://g.weich.ee/post/16.html</link><description>### 配置功能：
+（WinToHDD类型开源软件：Dism++ LetRecovery，因为WinToHDD需要激活码，不过有绿色版可用，没有USB设备在win系统里面安装系统用的）
+
+Menuetos RTOS系统 。</description><guid isPermaLink="true">https://g.weich.ee/post/18.html</guid><pubDate>Wed, 11 Mar 2026 21:27:36 +0000</pubDate></item><item><title>华强北s100手表各种代码和打开开发者选项</title><link>https://g.weich.ee/post/17.html</link><description>鑫泰奇S100华强北插卡阔屏手表处理器是紫光展锐w527。</description><guid isPermaLink="true">https://g.weich.ee/post/17.html</guid><pubDate>Wed, 11 Mar 2026 18:39:01 +0000</pubDate></item><item><title>华强北带红外遥控智能手表s100</title><link>https://g.weich.ee/post/16.html</link><description>### 配置功能：
 
 以下实测系统版本是V35版本，我都后悔更新了。</description><guid isPermaLink="true">https://g.weich.ee/post/16.html</guid><pubDate>Wed, 11 Mar 2026 17:54:19 +0000</pubDate></item><item><title>给Gmeek文章列表添加悬停(Hover)特效</title><link>https://g.weich.ee/post/15.html</link><description>```+css
 /* 1. 设置文章条目的基础样式，准备过渡 */
