@@ -1,76 +1,81 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无用功</title><link>https://g.weich.ee</link><description>没有用功努力,不做没用的功!
 永久真实地址：weich22.github.io
-Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Sat, 09 May 2026 12:17:28 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>华强北安卓智能手表大全2026046</title><link>https://g.weich.ee/post/44.html</link><description>本文档是我转换转发别人的整理发布到网页web共享，大家整理都不容易，我尽量保留原版文字不做修改，由于是线上web有些排版变动而已。</description><guid isPermaLink="true">https://g.weich.ee/post/44.html</guid><pubDate>Thu, 07 May 2026 10:56:42 +0000</pubDate></item><item><title>占位</title><link>https://g.weich.ee/post/43.html</link><description>右下角二维码
-```dos
+Gmeek群: 308721893</description><copyright>无用功</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644</url><title>avatar</title><link>https://g.weich.ee</link></image><lastBuildDate>Sat, 09 May 2026 12:22:56 +0000</lastBuildDate><managingEditor>无用功</managingEditor><ttl>60</ttl><webMaster>无用功</webMaster><item><title>华强北安卓智能手表大全2026046</title><link>https://g.weich.ee/post/44.html</link><description>本文档是我转换转发别人的整理发布到网页web共享，大家整理都不容易，我尽量保留原版文字不做修改，由于是线上web有些排版变动而已。</description><guid isPermaLink="true">https://g.weich.ee/post/44.html</guid><pubDate>Thu, 07 May 2026 10:56:42 +0000</pubDate></item><item><title>占位</title><link>https://g.weich.ee/post/43.html</link><description>```dos
 document.addEventListener('DOMContentLoaded', function() {
 
-for (var num of showCodes) {
+  var pageUrl = window.location.href;
+  var pageQr = 'https://qun.qq.com/qrcode/index?data=' + encodeURIComponent(pageUrl) + '&amp;size=160';
 
-if (codeMap[num]) content += codeMap[num];
+  // ====================== 自由配置 ======================
+  // 1=页面码  2=微信打赏  3=支付宝打赏
+  // 想显示哪个就写哪个数字，任意组合
+  var showCodes = [1,2,3];
+  // ======================================================
 
-}
+  var codeMap = {
+    1: `
+&lt;div style='margin-bottom:12px;'&gt;
+&lt;img src='${pageQr}' style='width:160px; height:160px; object-fit:cover;'&gt;
+&lt;div style='font-size:14px; margin-top:6px;'&gt;↑扫码打开本页面↑&lt;/div&gt;
+&lt;/div&gt;
+`,
+    2: `
+&lt;div style='margin-bottom:12px;'&gt;
+&lt;img src='/img/wxzym.webp' style='width:160px; height:160px; object-fit:cover;'&gt;
+&lt;div style='font-size:14px; margin-top:6px;'&gt;↑微信打赏↑&lt;/div&gt;
+&lt;/div&gt;
+`,
+    3: `
+&lt;div&gt;
+&lt;img src='/img/qqqewm.webp' style='width:160px; height:160px; object-fit:cover;'&gt;
+&lt;div style='font-size:14px; margin-top:6px;'&gt;↑Gmeek群↑&lt;/div&gt;
+&lt;/div&gt;
+`
+  };
 
+  var content = '';
+  for (var num of showCodes) {
+    if (codeMap[num]) content += codeMap[num];
+  }
 
-var html = `
-
+  var html = `
 
 &lt;div class='qrcode-root' style='position:fixed; bottom:58px; right:2px; z-index:9999;'&gt;
 
-
 &lt;div class='qrcode-btn' style='background:#f74023;/* border:1px solid #eee;*/ border-radius:4px;/* padding:10px 14px;*/ box-shadow:0 2px 10px rgba(0,0,0,0.1);cursor:pointer;'&gt;
-
 
 扫码打开/赏/Q群
 
-
 &lt;/div&gt;
-
 
 
 &lt;div class='qrcode-popup' style='display:none; position:absolute; bottom:60px; right:0; background:#f74023;/* border:1px solid #eee;*/ border-radius:10px; padding:8px; width:180px; text-align:center; box-shadow:0 2px 15px rgba(0,0,0,0.1);'&gt;
 
-
 ${content}
 
-
 &lt;/div&gt;
 
-
 &lt;/div&gt;
-
 
 `;
 
+  document.body.insertAdjacentHTML('beforeend', html);
 
-document.body.insertAdjacentHTML('beforeend', html);
+  const root = document.querySelector('.qrcode-root');
+  const btn = document.querySelector('.qrcode-btn');
+  const popup = document.querySelector('.qrcode-popup');
 
+  root.onmouseenter = () =&gt; { popup.style.display = 'block'; };
+  root.onmouseleave = () =&gt; { popup.style.display = 'none'; };
 
-const root = document.querySelector('.qrcode-root');
-
-const btn = document.querySelector('.qrcode-btn');
-
-const popup = document.querySelector('.qrcode-popup');
-
-
-root.onmouseenter = () =&gt; { popup.style.display = 'block'; };
-
-root.onmouseleave = () =&gt; { popup.style.display = 'none'; };
-
-
-document.addEventListener('click', (e) =&gt; {
-
-if (!root.contains(e.target)) {
-
-popup.style.display = 'none';
-
-}
+  document.addEventListener('click', (e) =&gt; {
+    if (!root.contains(e.target)) {
+      popup.style.display = 'none';
+    }
+  });
 
 });
-
-
-});
-
 ```。</description><guid isPermaLink="true">https://g.weich.ee/post/43.html</guid><pubDate>Thu, 07 May 2026 10:37:52 +0000</pubDate></item><item><title>Gmeek前台文章不见了</title><link>https://g.weich.ee/post/42.html</link><description>### 详细问题说明
 
 
