@@ -4,7 +4,80 @@
 /*悬浮二维码*/
 
 
-document.addEventListener('DOMContentLoaded',function(){var a=window.location.href,b="https://qun.qq.com/qrcode/index?data="+encodeURIComponent(a)+"&size=160",c=[1,2,3],d={1:{img:b,text:"↑扫码打开本页面↑",icon:"📄",label:"本页"},2:{img:"/img/wxzym.webp",text:"↑微信打赏↑",icon:"🍻",label:"赏"},3:{img:"/img/qqqewm.webp",text:"↑Gmeek群↑",icon:"💬",label:"群"}},e=[];for(var f=0;f<c.length;f++){var g=c[f];d[g]&&e.push({id:g,img:d[g].img,text:d[g].text,icon:d[g].icon,label:d[g].label})}e.length||e.push({id:0,img:"",text:"无二维码",icon:"❌",label:"无"});var h=0,i=!1,j='<div id="qr-main-area" style="margin-bottom:12px;"><img id="qr-main-img" style="width:160px;height:160px;object-fit:cover;border-radius:8px;"><div id="qr-main-text" style="font-size:14px;margin-top:6px;color:white;"></div></div><div id="qr-switch-bar" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px;"></div>',k='<div class="qrcode-root" style="position:fixed;bottom:58px;right:2px;z-index:9999;"><div class="qrcode-btn" style="background:#f74023;border-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,0.1);cursor:pointer;padding:10px 14px;color:white;font-weight:bold;white-space:nowrap;">扫码打开/赏/Q群</div><div class="qrcode-popup" style="display:none;position:absolute;bottom:60px;right:0;background:#f74023;border-radius:10px;padding:8px;width:220px;text-align:center;box-shadow:0 2px 15px rgba(0,0,0,0.1);">'+j+'</div></div>';document.body.insertAdjacentHTML("beforeend",k);var l=document.querySelector(".qrcode-root"),m=document.querySelector(".qrcode-btn"),n=document.querySelector(".qrcode-popup"),o=document.getElementById("qr-main-img"),p=document.getElementById("qr-main-text"),q=document.getElementById("qr-switch-bar");function r(){var a=e[h];if(a){if(1===a.id){var c=encodeURIComponent(window.location.href),d="https://qun.qq.com/qrcode/index?data="+c+"&size=160";o.src=d,a.img=d}else o.src=a.img;p.innerText=a.text,o.onerror=function(){this.src="https://via.placeholder.com/160x160?text=404"}}}function s(){q.innerHTML="",e.forEach((function(a,b){var c=document.createElement("div");c.style.cssText="cursor:pointer;text-align:center;min-width:50px;padding:6px 8px;border-radius:20px;background:"+(b===h?"rgba(255,255,255,0.3)":"transparent")+";transition:0.2s;";var d=document.createElement("span");d.style.cssText="font-size:20px;display:block;",d.innerText=a.icon;var f=document.createElement("div");f.style.cssText="font-size:12px;color:white;margin-top:2px;",f.innerText=a.label,c.appendChild(d),c.appendChild(f),c.addEventListener("click",(function(c){c.stopPropagation(),b!==h&&(h=b,r(),Array.from(q.children).forEach((function(a,c){a.style.background=c===h?"rgba(255,255,255,0.3)":"transparent"})))}),q.appendChild(c)}))}s(),r(),m.onclick=function(a){a.stopPropagation(),i?(n.style.display="none",i=!1):(n.style.display="block",i=!0)},document.addEventListener("click",(function(a){i&&!l.contains(a.target)&&(n.style.display="none",i=!1)}));function t(){var a=e.find((function(a){return 1===a.id}));if(a){var b=encodeURIComponent(window.location.href),c="https://qun.qq.com/qrcode/index?data="+b+"&size=160";a.img=c,e[h]&&1===e[h].id&&(o.src=c)}}var u=history.pushState;history.pushState=function(){u.apply(this,arguments),t()};var v=history.replaceState;history.replaceState=function(){v.apply(this,arguments),t()};window.addEventListener("popstate",t)});
+document.addEventListener('DOMContentLoaded', function() {
+
+  var pageUrl = window.location.href;
+  var pageQr = "https://qun.qq.com/qrcode/index?data=" + encodeURIComponent(pageUrl) + "&size=160";
+
+  // ====================== 自由配置 ======================
+  // 1=页面码  2=微信打赏  3=支付宝打赏
+  // 想显示哪个就写哪个数字，任意组合
+  var showCodes = [1,2,3];
+  // ======================================================
+
+  var codeMap = {
+    1: `
+<div style="margin-bottom:12px;">
+<img src="${pageQr}" style="width:160px; height:160px; object-fit:cover;">
+<div style="font-size:14px; margin-top:6px;">↑扫码打开本页面↑</div>
+</div>
+`,
+    2: `
+<div style="margin-bottom:12px;">
+<img src="/img/wxzym.webp" style="width:160px; height:160px; object-fit:cover;">
+<div style="font-size:14px; margin-top:6px;">↑微信打赏↑</div>
+</div>
+`,
+    3: `
+<div>
+<img src="/img/qqqewm.webp" style="width:160px; height:160px; object-fit:cover;">
+<div style="font-size:14px; margin-top:6px;">↑Gmeek群↑</div>
+</div>
+`
+  };
+
+  var content = '';
+  for (var num of showCodes) {
+    if (codeMap[num]) content += codeMap[num];
+  }
+
+  var html = `
+
+<div class="qrcode-root" style="position:fixed; bottom:58px; right:2px; z-index:9999;">
+
+<div class="qrcode-btn" style="background:#f74023;/* border:1px solid #eee;*/ border-radius:4px;/* padding:10px 14px;*/ box-shadow:0 2px 10px rgba(0,0,0,0.1);cursor:pointer;">
+
+扫码打开/赏/Q群
+
+</div>
+
+
+<div class="qrcode-popup" style="display:none; position:absolute; bottom:60px; right:0; background:#f74023;/* border:1px solid #eee;*/ border-radius:10px; padding:8px; width:180px; text-align:center; box-shadow:0 2px 15px rgba(0,0,0,0.1);">
+
+${content}
+
+</div>
+
+</div>
+
+`;
+
+  document.body.insertAdjacentHTML('beforeend', html);
+
+  const root = document.querySelector('.qrcode-root');
+  const btn = document.querySelector('.qrcode-btn');
+  const popup = document.querySelector('.qrcode-popup');
+
+  root.onmouseenter = () => { popup.style.display = 'block'; };
+  root.onmouseleave = () => { popup.style.display = 'none'; };
+
+  document.addEventListener('click', (e) => {
+    if (!root.contains(e.target)) {
+      popup.style.display = 'none';
+    }
+  });
+
+});
 
 
   
