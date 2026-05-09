@@ -4,83 +4,153 @@
 /*悬浮二维码*/
 
 
+
+
+/**
+ * 多功能二维码浮窗组件
+ * 单击按钮开关，图标在上，二维码居中，文字在下，外部关闭，按 showCodes 顺序切换
+ */
 document.addEventListener('DOMContentLoaded', function() {
+  // 可配置顺序和内容（1=本页动态码，2=微信，3=群）
+  var showCodes = [1, 2, 3];
 
-  var pageUrl = window.location.href;
-  var pageQr = "https://qun.qq.com/qrcode/index?data=" + encodeURIComponent(pageUrl) + "&size=160";
-
-  // ====================== 自由配置 ======================
-  // 1=页面码  2=微信打赏  3=支付宝打赏
-  // 想显示哪个就写哪个数字，任意组合
-  var showCodes = [1,2,3];
-  // ======================================================
-
-  var codeMap = {
-    1: `
-<div style="margin-bottom:12px;">
-<img src="${pageQr}" style="width:160px; height:160px; object-fit:cover;">
-<div style="font-size:14px; margin-top:6px;">↑扫码打开本页面↑</div>
-</div>
-`,
-    2: `
-<div style="margin-bottom:12px;">
-<img src="/img/wxzym.webp" style="width:160px; height:160px; object-fit:cover;">
-<div style="font-size:14px; margin-top:6px;">↑微信打赏↑</div>
-</div>
-`,
-    3: `
-<div>
-<img src="/img/qqqewm.webp" style="width:160px; height:160px; object-fit:cover;">
-<div style="font-size:14px; margin-top:6px;">↑Gmeek群↑</div>
-</div>
-`
+  var qrData = {
+    1: {
+      img: "https://qun.qq.com/qrcode/index?data=" + encodeURIComponent(location.href) + "&size=160",
+      text: "↑扫码打开本页面↑",
+      icon: "📄",
+      label: "本页"
+    },
+    2: {
+      img: "/img/wxzym.webp",
+      text: "↑微信打赏↑",
+      icon: "🍻",
+      label: "赏"
+    },
+    3: {
+      img: "/img/qqqewm.webp",
+      text: "↑Gmeek群↑",
+      icon: "💬",
+      label: "群"
+    }
   };
 
-  var content = '';
-  for (var num of showCodes) {
-    if (codeMap[num]) content += codeMap[num];
+  // 按顺序构建列表
+  var items = [];
+  for (var i = 0; i < showCodes.length; i++) {
+    var id = showCodes[i];
+    if (qrData[id]) items.push(qrData[id]);
   }
 
+  var currentIdx = 0;
+  var isOpen = false;
+
+  // 移除旧容器
+  var old = document.querySelector('.qrcode-root');
+  if (old) old.remove();
+
+  // 注入DOM（保留原按钮样式）
   var html = `
-
 <div class="qrcode-root" style="position:fixed; bottom:58px; right:2px; z-index:9999;">
-
-<div class="qrcode-btn" style="background:#f74023;/* border:1px solid #eee;*/ border-radius:4px;/* padding:10px 14px;*/ box-shadow:0 2px 10px rgba(0,0,0,0.1);cursor:pointer;">
-
-扫码打开/赏/Q群
-
-</div>
-
-
-<div class="qrcode-popup" style="display:none; position:absolute; bottom:60px; right:0; background:#f74023;/* border:1px solid #eee;*/ border-radius:10px; padding:8px; width:180px; text-align:center; box-shadow:0 2px 15px rgba(0,0,0,0.1);">
-
-${content}
-
-</div>
-
-</div>
-
-`;
-
+  <div class="qrcode-btn" style="background:#f74023; border-radius:4px; box-shadow:0 2px 10px rgba(0,0,0,0.1); cursor:pointer; padding:10px 14px; color:#fff; font-weight:bold; white-space:nowrap;">扫码打开/赏/Q群</div>
+  <div class="qrcode-popup" style="display:none; position:absolute; bottom:60px; right:0; background:#f74023; border-radius:10px; padding:8px; width:220px; text-align:center; box-shadow:0 2px 15px rgba(0,0,0,0.1);">
+    <div id="qr-switch-bar" style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:12px;"></div>
+    <div><img id="qr-main-img" style="width:160px; height:160px; object-fit:cover; border-radius:8px;"><div id="qr-main-caption" style="font-size:14px; margin-top:6px; color:#fff;"></div></div>
+  </div>
+</div>`;
   document.body.insertAdjacentHTML('beforeend', html);
 
-  const root = document.querySelector('.qrcode-root');
-  const btn = document.querySelector('.qrcode-btn');
-  const popup = document.querySelector('.qrcode-popup');
+  var root = document.querySelector('.qrcode-root');
+  var btn = document.querySelector('.qrcode-btn');
+  var popup = document.querySelector('.qrcode-popup');
+  var mainImg = document.getElementById('qr-main-img');
+  var mainCaption = document.getElementById('qr-main-caption');
+  var switchBar = document.getElementById('qr-switch-bar');
 
-  root.onmouseenter = () => { popup.style.display = 'block'; };
-  root.onmouseleave = () => { popup.style.display = 'none'; };
+  function updateMain() {
+    var cur = items[currentIdx];
+    if (cur.id === 1) {
+      var fresh = "https://qun.qq.com/qrcode/index?data=" + encodeURIComponent(location.href) + "&size=160";
+      mainImg.src = fresh;
+      cur.img = fresh;
+    } else {
+      mainImg.src = cur.img;
+    }
+    mainCaption.innerText = cur.text;
+  }
 
-  document.addEventListener('click', (e) => {
-    if (!root.contains(e.target)) {
+  function buildSwitch() {
+    switchBar.innerHTML = '';
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
+      var tab = document.createElement('div');
+      tab.style.cssText = 'cursor:pointer; text-align:center; min-width:50px; padding:6px 8px; border-radius:20px; background:' + (i === currentIdx ? 'rgba(255,255,255,0.3)' : 'transparent') + '; transition:0.2s;';
+      var iconSpan = document.createElement('span');
+      iconSpan.style.cssText = 'font-size:20px; display:block;';
+      iconSpan.innerHTML = item.icon;
+      var labelSpan = document.createElement('div');
+      labelSpan.style.cssText = 'font-size:12px; color:#fff; margin-top:2px;';
+      labelSpan.innerText = item.label;
+      tab.appendChild(iconSpan);
+      tab.appendChild(labelSpan);
+      tab.addEventListener('click', (function(idx) {
+        return function(e) {
+          e.stopPropagation();
+          if (currentIdx === idx) return;
+          currentIdx = idx;
+          updateMain();
+          var tabs = switchBar.children;
+          for (var j = 0; j < tabs.length; j++) {
+            tabs[j].style.background = j === currentIdx ? 'rgba(255,255,255,0.3)' : 'transparent';
+          }
+        };
+      })(i));
+      switchBar.appendChild(tab);
+    }
+  }
+
+  buildSwitch();
+  updateMain();
+  
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (isOpen) {
       popup.style.display = 'none';
+      isOpen = false;
+    } else {
+      popup.style.display = 'block';
+      isOpen = true;
     }
   });
 
+  document.addEventListener('click', function(e) {
+    if (isOpen && !root.contains(e.target)) {
+      popup.style.display = 'none';
+      isOpen = false;
+    }
+  });
+
+  // SPA 路由变化时刷新本页二维码（可选）
+  function refreshPage() {
+    var pageItem = items.find(function(i) { return i.id === 1; });
+    if (pageItem && currentIdx === items.indexOf(pageItem)) {
+      pageItem.img = "https://qun.qq.com/qrcode/index?data=" + encodeURIComponent(location.href) + "&size=160";
+      mainImg.src = pageItem.img;
+    }
+  }
+  var push = history.pushState;
+  history.pushState = function() { push.apply(this, arguments); refreshPage(); };
+  var rep = history.replaceState;
+  history.replaceState = function() { rep.apply(this, arguments); refreshPage(); };
+  window.addEventListener('popstate', refreshPage);
 });
 
 
-  
+
+
+
+
+
 // ======================================================
 // 外部链接新窗口打开（文章页 post/ + 友情页 link.html）
 // ======================================================
