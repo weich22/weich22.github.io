@@ -738,7 +738,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>配置说明<br>
 · showCodes 数组：调整顺序即可改变图标排列顺序（如 [2,1,3] 会显示“赏、本页、群”）。</p>
 <p>· qrData 中的 img 路径：请将 /img/wxzym.webp 和 /img/qqqewm.webp 替换为您实际的二维码图片地址。</p>
-<p>· 图标 icon：目前用的是 Emoji（📄🍻💬），您也可以换成 <a target="_blank" rel="noopener noreferrer" href="..."><img src="..." style="max-width: 100%;"></a> 标签，只需将 iconSpan.innerHTML = item.icon; 保持不变（因为 innerHTML 会解析 HTML 标签）。</p>
+<p>· 图标 icon：目前用的是 Emoji（📄🍻💬），您也可以换成 <code class="notranslate">&lt;img src="..."&gt; </code>标签，只需将 iconSpan.innerHTML = item.icon; 保持不变（因为 innerHTML 会解析 HTML 标签）。</p>
 <p>· 如需增加第四、五个二维码：在 showCodes 中添加新 id，并在 qrData 中对应添加配置项即可，格式与现有保持一致。</p>
 <p>·只处理配置存在的项:若 showCodes 中的id 不存在于qrData 则自动忽略,不会产生多余元素。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
