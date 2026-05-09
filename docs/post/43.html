@@ -10,9 +10,149 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="已删除旧文章为了保留id的占位。">
+<meta name="description" content="右下角二维码
+```dos
+document.addEventListener('DOMContentLoaded', function() {
+
+for (var num of showCodes) {
+
+if (codeMap[num]) content += codeMap[num];
+
+}
+
+
+var html = `
+
+
+<div class='qrcode-root' style='position:fixed; bottom:58px; right:2px; z-index:9999;'>
+
+
+<div class='qrcode-btn' style='background:#f74023;/* border:1px solid #eee;*/ border-radius:4px;/* padding:10px 14px;*/ box-shadow:0 2px 10px rgba(0,0,0,0.1);cursor:pointer;'>
+
+
+扫码打开/赏/Q群
+
+
+</div>
+
+
+
+<div class='qrcode-popup' style='display:none; position:absolute; bottom:60px; right:0; background:#f74023;/* border:1px solid #eee;*/ border-radius:10px; padding:8px; width:180px; text-align:center; box-shadow:0 2px 15px rgba(0,0,0,0.1);'>
+
+
+${content}
+
+
+</div>
+
+
+</div>
+
+
+`;
+
+
+document.body.insertAdjacentHTML('beforeend', html);
+
+
+const root = document.querySelector('.qrcode-root');
+
+const btn = document.querySelector('.qrcode-btn');
+
+const popup = document.querySelector('.qrcode-popup');
+
+
+root.onmouseenter = () => { popup.style.display = 'block'; };
+
+root.onmouseleave = () => { popup.style.display = 'none'; };
+
+
+document.addEventListener('click', (e) => {
+
+if (!root.contains(e.target)) {
+
+popup.style.display = 'none';
+
+}
+
+});
+
+
+});
+
+```。">
 <meta property="og:title" content="占位">
-<meta property="og:description" content="已删除旧文章为了保留id的占位。">
+<meta property="og:description" content="右下角二维码
+```dos
+document.addEventListener('DOMContentLoaded', function() {
+
+for (var num of showCodes) {
+
+if (codeMap[num]) content += codeMap[num];
+
+}
+
+
+var html = `
+
+
+<div class='qrcode-root' style='position:fixed; bottom:58px; right:2px; z-index:9999;'>
+
+
+<div class='qrcode-btn' style='background:#f74023;/* border:1px solid #eee;*/ border-radius:4px;/* padding:10px 14px;*/ box-shadow:0 2px 10px rgba(0,0,0,0.1);cursor:pointer;'>
+
+
+扫码打开/赏/Q群
+
+
+</div>
+
+
+
+<div class='qrcode-popup' style='display:none; position:absolute; bottom:60px; right:0; background:#f74023;/* border:1px solid #eee;*/ border-radius:10px; padding:8px; width:180px; text-align:center; box-shadow:0 2px 15px rgba(0,0,0,0.1);'>
+
+
+${content}
+
+
+</div>
+
+
+</div>
+
+
+`;
+
+
+document.body.insertAdjacentHTML('beforeend', html);
+
+
+const root = document.querySelector('.qrcode-root');
+
+const btn = document.querySelector('.qrcode-btn');
+
+const popup = document.querySelector('.qrcode-popup');
+
+
+root.onmouseenter = () => { popup.style.display = 'block'; };
+
+root.onmouseleave = () => { popup.style.display = 'none'; };
+
+
+document.addEventListener('click', (e) => {
+
+if (!root.contains(e.target)) {
+
+popup.style.display = 'none';
+
+}
+
+});
+
+
+});
+
+```。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://g.weich.ee/post/43.html">
 <meta property="og:image" content="https://cravatar.cn/avatar/07f9694a26b56e006bfd6dc3defef644">
@@ -73,7 +213,76 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>已删除旧文章为了保留id的占位</p></div>
+<div class="markdown-body" id="postBody"><p>右下角二维码</p>
+<pre lang="dos" class="notranslate"><code class="notranslate">document.addEventListener('DOMContentLoaded', function() {
+
+for (var num of showCodes) {
+
+if (codeMap[num]) content += codeMap[num];
+
+}
+
+
+var html = `
+
+
+&lt;div class="qrcode-root" style="position:fixed; bottom:58px; right:2px; z-index:9999;"&gt;
+
+
+&lt;div class="qrcode-btn" style="background:#f74023;/* border:1px solid #eee;*/ border-radius:4px;/* padding:10px 14px;*/ box-shadow:0 2px 10px rgba(0,0,0,0.1);cursor:pointer;"&gt;
+
+
+扫码打开/赏/Q群
+
+
+&lt;/div&gt;
+
+
+
+&lt;div class="qrcode-popup" style="display:none; position:absolute; bottom:60px; right:0; background:#f74023;/* border:1px solid #eee;*/ border-radius:10px; padding:8px; width:180px; text-align:center; box-shadow:0 2px 15px rgba(0,0,0,0.1);"&gt;
+
+
+${content}
+
+
+&lt;/div&gt;
+
+
+&lt;/div&gt;
+
+
+`;
+
+
+document.body.insertAdjacentHTML('beforeend', html);
+
+
+const root = document.querySelector('.qrcode-root');
+
+const btn = document.querySelector('.qrcode-btn');
+
+const popup = document.querySelector('.qrcode-popup');
+
+
+root.onmouseenter = () =&gt; { popup.style.display = 'block'; };
+
+root.onmouseleave = () =&gt; { popup.style.display = 'none'; };
+
+
+document.addEventListener('click', (e) =&gt; {
+
+if (!root.contains(e.target)) {
+
+popup.style.display = 'none';
+
+}
+
+});
+
+
+});
+
+</code></pre></div>
 <div style="font-size:small;margin-top:8px;float:right;">→转载请注明出处←</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
