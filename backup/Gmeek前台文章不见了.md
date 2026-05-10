@@ -3,7 +3,7 @@
 
 Gmeek前台文章全部不见了
 
-可以到Github Pages里面的Code看下是不是没有了backup文件夹，里面有文章的md文件。
+可以到Github Pages里面的Code看下是不是没有了backup文件夹，里面有文章的md文件也没有。
 
 再次去docs/post里面看看是不是也没有生成的文章html或者直接post文件夹也没有？
 
