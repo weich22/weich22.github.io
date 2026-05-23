@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var html = `
 <div class="qrcode-root" style="position:fixed; bottom:58px; right:2px; z-index:9999;">
   <div class="qrcode-btn" style="background:#f74023; border-radius:4px; box-shadow:0 2px 10px rgba(0,0,0,0.1); cursor:pointer; /*padding:10px 14px;打开按钮图标边框太大直接去除*/ color:#fff; font-weight:bold; white-space:nowrap;">扫码打开/赏/Q群</div>
-  <div class="qrcode-popup" style="display:none; position:absolute; bottom:60px; right:0; background:#f74023; border-radius:10px; padding:8px; width:220px; text-align:center; box-shadow:0 2px 15px rgba(0,0,0,0.1);">
+  <div class="qrcode-popup" style="display:none; position:absolute; bottom:60px; right:0; background:#f74023; border-radius:10px; /*padding:8px; 打开的二维码四周太大*/width:220px; text-align:center; box-shadow:0 2px 15px rgba(0,0,0,0.1);">
     <div id="qr-switch-bar" style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:12px;"></div>
     <div><img id="qr-main-img" style="width:160px; height:160px; object-fit:cover; border-radius:8px;"><div id="qr-main-caption" style="font-size:14px; margin-top:6px; color:#fff;"></div></div>
   </div>
