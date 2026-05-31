@@ -116,7 +116,7 @@
             }
         }
         function initSummer() {
-            particleCount = 70;
+            particleCount = 35;
             particles = [];
             for (let i = 0; i < particleCount; i++) {
                 particles.push({
